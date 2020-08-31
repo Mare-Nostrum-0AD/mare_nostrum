@@ -1,0 +1,12 @@
+{
+	"type": "garrisonedUnits",
+	"affects": ["Unit"],
+	"modifications": [
+		{ "value": "Armour/Pierce", "add": 50 },
+		{ "value": "Armour/Hack", "add": 50 },
+		{ "value": "Armour/Crush", "add": 50 },
+		{ "value": "Vision/Range", "add": 20 }
+	],
+	"auraName": "Siege Tower Protection",
+	"auraDescription": "Soldiers in a Siege Tower have +50 armor and higher vision."
+}

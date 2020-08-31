@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_structure_defense_rampart">
+  <Footprint>
+	<Square width="26.5" depth="8.5"/>
+    <Height>1.0</Height>
+  </Footprint>
+  <GarrisonHolder>
+    <Max>5</Max>
+    <VisibleGarrisonPoints>
+      <Archer1>
+        <X>0</X><Y>-0.5</Y><Z>0</Z>
+      </Archer1>
+      <Archer2>
+        <X>4</X><Y>-0.5</Y><Z>0</Z>
+      </Archer2>
+      <Archer3>
+        <X>-4</X><Y>-0.5</Y><Z>0</Z>
+      </Archer3>
+      <Archer4>
+        <X>8</X><Y>-0.5</Y><Z>0</Z>
+      </Archer4>
+      <Archer5>
+        <X>-8</X><Y>-0.5</Y><Z>0</Z>
+      </Archer5>
+    </VisibleGarrisonPoints>
+  </GarrisonHolder>
+  <Health>
+    <SpawnEntityOnDeath>decay|rubble/rubble_stone_wall_medium</SpawnEntityOnDeath>
+  </Health>
+  <RallyPoint/>
+  <VisualActor>
+  	<Actor>structures/destruct_stone_wall_medium.xml</Actor>
+    <FoundationActor>structures/fndn_1x3pal.xml</FoundationActor>
+  </VisualActor>
+  <WallPiece>
+  	<Length>25.0</Length>
+  </WallPiece>
+</Entity>

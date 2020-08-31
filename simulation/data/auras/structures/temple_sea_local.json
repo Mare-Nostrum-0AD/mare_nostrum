@@ -1,0 +1,11 @@
+{
+	"type": "range",
+	"radius": 120,
+	"affects": ["Dock"],
+	"modifications": [
+		{ "value": "ProductionQueue/BatchTimeModifier", "add": -0.3 }
+	],
+	"auraDescription" : "Docks build batches of ships 30% faster.",
+	"auraName": "Local Maritime Blessing",
+	"overlayIcon": "art/textures/ui/session/auras/maritime.png"
+}

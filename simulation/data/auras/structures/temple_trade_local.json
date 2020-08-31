@@ -1,0 +1,11 @@
+{
+	"type": "range",
+	"radius": 120,
+	"affects": ["Market"],
+	"modifications": [
+		{ "value": "Market/InternationalBonus", "multiply": 2.0 }
+	],
+	"auraDescription": "Markets double international bonus",
+	"auraName": "Local Trade Blessing",
+	"overlayIcon": "art/textures/ui/session/auras/trade_bonus.png"
+}

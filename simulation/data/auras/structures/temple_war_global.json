@@ -1,0 +1,15 @@
+{
+	"type": "global",
+	"affects": ["Soldier", "Siege"],
+	"modifications": [
+		{ "value": "Attack/Melee/Hack", "multiply": 1.10 },
+		{ "value": "Attack/Melee/Pierce", "multiply": 1.10 },
+		{ "value": "Attack/Melee/Crush", "multiply": 1.10 },
+		{ "value": "Attack/Ranged/Hack", "multiply": 1.10 },
+		{ "value": "Attack/Ranged/Pierce", "multiply": 1.10 },
+		{ "value": "Attack/Ranged/Crush", "multiply": 1.10 }
+	],
+	"auraDescription": "Land-based military units +10% all attack types.",
+	"auraName": "Global Martial Blessing",
+	"overlayIcon": "art/textures/ui/session/auras/attack_bonus.png"
+}

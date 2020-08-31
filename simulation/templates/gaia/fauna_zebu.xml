@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_unit_fauna_herd_domestic_grazer">
+  <Footprint>
+    <Square width="1.9" depth="3.8"/>
+    <Height>2.0</Height>
+  </Footprint>
+  <Identity>
+    <Civ>gaia</Civ>
+    <SpecificName>Zebu</SpecificName>
+    <Icon>gaia/fauna_zebu.png</Icon>
+  </Identity>
+  <Position>
+    <Anchor>pitch</Anchor>
+  </Position>
+  <ResourceSupply>
+    <Amount>150</Amount>
+    <Type>food.meat</Type>
+  </ResourceSupply>
+  <UnitMotion>
+    <WalkSpeed>6.0</WalkSpeed>
+    <Run>
+      <Speed>15.0</Speed>
+      <Range>600.0</Range>
+      <RangeMin>5.0</RangeMin>
+    </Run>
+  </UnitMotion>
+  <ResourceGatherer>
+    <Rates>
+      <food.milk>1.8</food.milk>
+      <food.fruit>0.8</food.fruit>
+    </Rates>
+	<Capacities>
+	  <food>30</food>
+	</Capacities>
+  </ResourceGatherer>
+  <VisualActor>
+    <Actor>fauna/zebu.xml</Actor>
+  </VisualActor>
+</Entity>

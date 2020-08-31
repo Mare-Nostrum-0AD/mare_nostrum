@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_gaia_flora">
+  <Minimap>
+    <Type>food</Type>
+    <Color r="204" g="155" b="102"/>
+  </Minimap>
+  <ResourceSupply>
+    <Amount>600</Amount>
+    <Type>food.milk</Type>
+  </ResourceSupply>
+  <Sound>
+    <SoundGroups>
+      <select>interface/select/resource/sel_fruit.xml</select>
+    </SoundGroups>
+  </Sound>
+</Entity>

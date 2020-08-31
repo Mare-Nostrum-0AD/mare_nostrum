@@ -1,0 +1,11 @@
+{
+	"settings" : {
+		"Name" : "Western Mediterranean",
+		"Script" : "western_med.js",
+		"Description" : "[color=\"red\"]RECOMMENDED SIZE: Normal or larger[/color]\n\nThe Western Mediterranean, the great frontier to the Greeks and Phoenicians, home to the Romans, Etruscans and many more. Civilization spread here much later than in the Eastern Mediterranean, but once it did it gave rise to some of the greatest civilizations this world has ever seen.",
+		"Keywords": ["Naval"],
+		"Preview" : "western_med.png",
+		"CircularMap" : true
+	}
+}
+

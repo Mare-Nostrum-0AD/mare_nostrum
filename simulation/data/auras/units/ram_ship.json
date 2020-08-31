@@ -1,0 +1,9 @@
+{
+	"type": "garrison",
+	"affects": ["Ship"],
+	"modifications": [
+		{ "value": "Attack/Ranged/MaxRange", "multiply": 0.1 }
+	],
+	"auraName": "Ram Ship",
+	"auraDescription": "Ships with rams onboard attack at close range."
+}

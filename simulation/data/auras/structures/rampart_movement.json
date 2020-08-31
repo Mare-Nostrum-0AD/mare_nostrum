@@ -1,0 +1,12 @@
+{
+	"type": "range",
+	"radius": 8,
+	"affects": ["Unit"],
+	"affectedPlayers": ["Enemy"],
+	"modifications": [
+		{ "value": "UnitMotion/WalkSpeed", "multiply": 0.5 },
+		{ "value": "UnitMotion/Run/Speed", "multiply": 0.5 }
+	],
+	"auraName": "Rampart Movement",
+	"auraDescription": "Enemy units crossing ramparts slow down by 50%."
+}

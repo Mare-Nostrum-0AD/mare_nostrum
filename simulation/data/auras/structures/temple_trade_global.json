@@ -1,0 +1,10 @@
+{
+	"type": "global",
+	"affects": ["Trader"],
+	"modifications": [
+		{ "value": "Trader/GainMultiplier", "add": 0.20 }
+	],
+	"auraDescription" : "Traders +20% gain multiplier.",
+	"auraName": "Global Trade Blessing",
+	"overlayIcon": "art/textures/ui/session/auras/trade_bonus.png"
+}

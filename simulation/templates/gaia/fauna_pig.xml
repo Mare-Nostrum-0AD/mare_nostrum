@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_unit_fauna_herd_domestic_grazer">
+  <Footprint>
+    <Square width="1.4" depth="2.8"/>
+    <Height>1.5</Height>
+  </Footprint>
+  <Identity>
+    <Civ>gaia</Civ>
+    <SpecificName>Pig</SpecificName>
+    <Icon>gaia/fauna_pig.png</Icon>
+  </Identity>
+  <Position>
+    <Anchor>pitch</Anchor>
+  </Position>
+  <Sound>
+    <SoundGroups>
+      <select>actor/fauna/animal/pig_select.xml</select>
+      <order_walk>actor/fauna/animal/pig_order.xml</order_walk>
+      <death>actor/fauna/animal/pig.xml</death>
+      <trained>actor/fauna/animal/pig_trained.xml</trained>
+    </SoundGroups>
+  </Sound>
+  <StatusBars>
+    <HeightOffset>5.0</HeightOffset>
+  </StatusBars>
+  <UnitMotion>
+    <WalkSpeed op="mul">0.9</WalkSpeed>
+    <Run>
+      <Speed op="mul">1.2</Speed>
+    </Run>
+  </UnitMotion>
+  <Upgrade>
+  	<Flame>
+		<Entity>gaia/fauna_pig_flaming</Entity>
+		<Tooltip>Set this pig on fire. Scares enemy elephants, reducing their attack and loyalty.</Tooltip>
+		<Time>1</Time>
+	</Flame>
+  </Upgrade>
+  <VisualActor>
+    <Actor>fauna/pig1.xml</Actor>
+  </VisualActor>
+</Entity>

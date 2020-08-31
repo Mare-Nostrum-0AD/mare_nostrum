@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_structure_defense_wall">
+  <Auras datatype="tokens">
+    structures/wall_garrisoned
+  </Auras>
+  <Cost>
+    <BuildTime>30</BuildTime>
+    <Resources>
+      <stone>22</stone>
+    </Resources>
+  </Cost>
+  <GarrisonHolder>
+    <Max>3</Max>
+    <List datatype="tokens">Ranged+Infantry BoltShooter</List>
+    <EjectHealth>0.1</EjectHealth>
+    <EjectClassesOnDestroy datatype="tokens">Unit</EjectClassesOnDestroy>
+    <BuffHeal>0</BuffHeal>
+    <LoadingRange>2</LoadingRange>
+    <VisibleGarrisonPoints>
+      <Archer1>
+        <X>0</X><Y>11.5</Y><Z>0</Z>
+      </Archer1>
+      <Archer2>
+        <X>4</X><Y>11.5</Y><Z>0</Z>
+      </Archer2>
+      <Archer3>
+        <X>-4</X><Y>11.5</Y><Z>0</Z>
+      </Archer3>
+    </VisibleGarrisonPoints>
+  </GarrisonHolder>
+  <Health>
+    <Max>2000</Max>
+    <SpawnEntityOnDeath>decay|rubble/rubble_stone_wall_medium</SpawnEntityOnDeath>
+  </Health>
+  <RallyPoint/>
+  <Upgrade>
+  	<Wall>
+		<Entity>structures/{civ}_wall_medium_b</Entity>
+		<Tooltip>Double the health of this wall segment.</Tooltip>
+		<Cost>
+			<stone>22</stone>
+		</Cost>
+		<Time>30</Time>
+	</Wall>
+  </Upgrade>
+  <VisualActor>
+    <FoundationActor>structures/fndn_wall_medium.xml</FoundationActor>
+  </VisualActor>
+</Entity>

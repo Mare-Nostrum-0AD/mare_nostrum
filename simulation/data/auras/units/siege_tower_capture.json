@@ -1,0 +1,9 @@
+{
+	"type": "garrison",
+	"affects": ["SiegeTower"],
+	"modifications": [
+		{ "value": "Attack/Capture/Value", "add": 1 }
+	],
+	"auraName": "Siege Tower Capture",
+	"auraDescription": "Each soldier in a Siege Tower adds +1 to its capture attack value."
+}

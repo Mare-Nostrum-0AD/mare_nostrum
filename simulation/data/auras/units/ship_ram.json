@@ -1,0 +1,9 @@
+{
+	"type": "garrisonedUnits",
+	"affects": ["Ram"],
+	"modifications": [
+		{ "value": "Attack/Melee/Range", "multiply": 2.0 }
+	],
+	"auraName": "Ship's Ram",
+	"auraDescription": "Rams onboard ships have double the attack range."
+}

@@ -1,0 +1,11 @@
+{
+	"type": "range",
+	"radius": 120,
+	"affects": ["Military"],
+	"modifications": [
+		{ "value": "ProductionQueue/BatchTimeModifier", "add": -0.3 }
+	],
+	"auraDescription": "Military structures train batches of units 30% faster.",
+	"auraName": "Local Martial Blessing",
+	"overlayIcon": "art/textures/ui/session/auras/attack_bonus.png"
+}

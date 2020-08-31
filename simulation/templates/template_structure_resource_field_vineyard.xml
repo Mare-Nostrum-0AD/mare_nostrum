@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_structure_resource_field">
+	<Cost>
+		<BuildTime>100</BuildTime>
+		<Resources>
+			<wood>200</wood>
+		</Resources>
+	</Cost>
+	<Identity>
+		<GenericName>Vineyard</GenericName>
+		<Tooltip>Harvest grapes for food. Max gatherers: 5.</Tooltip>
+		<RequiredTechnology>phase_town</RequiredTechnology>
+	</Identity>
+	<ResourceSupply>
+		<Type>food.fruit</Type>
+		<MaxGatherers>5</MaxGatherers>
+	</ResourceSupply>
+	<VisualActor>
+		<Actor>structures/plot_vineyard_8x8.xml</Actor>
+	</VisualActor>
+</Entity>

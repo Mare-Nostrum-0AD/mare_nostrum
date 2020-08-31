@@ -1,0 +1,11 @@
+{
+	"type": "garrisonedUnits",
+	"affects": ["Soldier"],
+	"modifications": [
+		{ "value": "Armour/Pierce", "add": 3 },
+		{ "value": "Armour/Hack", "add": 1 },
+		{ "value": "Armour/Crush", "add": 1 }
+	],
+	"auraName": "Rampart Protection",
+	"auraDescription": "Soldiers on ramparts have +3 pierce armour, +1 all other armour."
+}

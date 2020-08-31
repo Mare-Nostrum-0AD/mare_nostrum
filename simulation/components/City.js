@@ -1,0 +1,184 @@
+function City() {}
+
+City.prototype.Schema = "<a:help>Identifies this entity as a city centre.</a:help>" +
+"<optional>" +
+"<element name='Influence' a:help='Modifications to surrounding structures'>" +
+	"<zeroOrMore>" +
+		"<element a:help='One modification'>" +
+			"<anyName />" +
+			"<element name='Attribute' a:help='Attribute to modify'>" +
+				"<text />" +
+			"</element>" +
+			"<element name='List' a:help='Classes to modify'>" +
+				"<attribute name='datatype'>" +
+					"<value>tokens</value>" +
+				"</attribute>" +
+				"<text />" +
+			"</element>" +
+			"<element name='Modifier' a:help='Modification to make'>" +
+				"<element name='Base' a:help='Basic value of modification'>" +
+					"<ref name='decimal' />" +
+				"</element>" +
+				"<element name='PerPop' a:help='Apply bonus per X amount population'>" +
+					"<ref name='nonNegativeDecimal' />" +
+				"</element>" +
+				"<element name='Type' a:help='Add or Multiply'>" +
+					"<choice>" +
+						"<value>add</value>" +
+						"<value>multiply</value>" +
+					"</choice>" +
+				"</element>" +
+				"<element name='Value' a:help='Population bonus value'>" +
+					"<ref name='decimal' />" +
+				"</element>" +
+			"</element>" +
+		"</element>" +
+	"</zeroOrMore>" +
+"</element>" +
+"</optional>" +
+"<element name='Population' a:help='Population of city (does not relate to player population number)'>" +
+	"<element name='Growth' a:help='Population growth rate'>" +
+		"<optional>" +
+			"<element name='AttackMultiplier' a:help='Modify growth rate when city attacked'>" +
+				"<ref name='decimal' />" +
+			"</element>" +
+		"</optional>" +
+		"<element name='Interval' a:help='Interval in milliseconds'>" +
+			"<ref name='nonNegativeDecimal' />" +
+		"</element>" +
+		"<element name='Rate' a:help='Amount to grow population per interval'>" +
+			"<ref name='nonNegativeDecimal' />" +
+		"</element>" +
+	"</element>" +
+	"<element name='Init' a:help='Initial population'>" +
+		"<ref name='nonNegativeDecimal' />" +
+	"</element>" +
+	"<element name='Max' a:help='Maximum population'>" +
+		"<ref name='nonNegativeDecimal' />" +
+	"</element>" +
+"</element>" +
+"<element name='Radius' a:help='Radius in which structures will belong to this city'>" +
+	"<ref name='nonNegativeDecimal' />" +
+"</element>" +
+"<optional>" +
+"<element name='ResourceTrickle' a:help='Resource trickle, modified by population'>" +
+	"<element name='Interval' a:help='Interval to collect resources in milliseconds'>" +
+		"<ref name='nonNegativeDecimal' />" +
+	"</element>" +
+	"<element name='PerPop' a:help='Multiply rates per X number of people'>" +
+		"<ref name='nonNegativeDecimal' />" +
+	"</element>" +
+	"<element name='Rates' a:help='Rates at which to gather resources'>" +
+		Resources.BuildSchema('nonNegativeDecimal') +
+	"</element>" +
+"</element>" +
+"</optional>";
+
+City.prototype.Init = function()
+{
+	this.SetPopulation(this.template.Population.Init);
+	// set timer this.growthTimer to grow population at interval
+	this.ResetGrowthTimer();
+};
+
+City.prototype.ResetGrowthTimer = function()
+{
+	let cmpTimer = Engine.QueryInterface(SYSTEM_ENTITY, IID_Timer);
+	if (this.growthTimer)
+		cmpTimer.CancelTimer(this.growthTimer);
+	let growthTimerInterval = Math.round(this.template.Population.Growth.Interval);
+	this.growthTimer = cmpTimer.SetInterval(this.entity, IID_City, "GrowPopulation", growthTimerInterval, growthTimerInterval, null);
+};
+
+City.prototype.GetPopulation = function()
+{
+	return this.population;
+};
+
+City.prototype.GetMaxPopulation = function()
+{
+	return Math.round(ApplyValueModificationsToEntity("City/Population/Max", this.template.Population.Max, this.entity));
+};
+
+City.prototype.SetPopulation = function(value)
+{
+	let val = Math.round(value);
+	let min = 0;
+	let max = Math.round(this.template.Population.Max);
+	if (value < 0)
+		this.population = 0;
+	if (value > max)
+		this.population = max;
+	this.population = val;
+	Engine.PostMessage(this.entity, MT_CityPopulationChanged, {
+		"to": this.population
+	});
+	return this.population;
+};
+
+City.prototype.GetCityMembers = function()
+{
+	let cmpOwnership = Engine.QueryInterface(this.entity, IID_Ownership);
+	let owner = cmpOwnership.GetOwner();
+	let cmpRangeManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_RangeManager);
+	return cmpRangeManager.ExecuteQuery(
+		this.entity,
+		0,
+		ApplyValueModificationsToEntity("City/Radius", +this.template.Radius, this.entity),
+		[owner],
+		IID_CityMember
+	);
+};
+
+City.prototype.GetPopulationGrowthRate = function()
+{
+	let growthRate = Math.floor(this.template.Population.Growth.Rate);
+	let growthRateMultiplier = 1;
+	for (let cityMember of this.GetCityMembers()) {
+		let cmpCityMember = Engine.QueryInterface(cityMember, IID_CityMember);
+		let mods = cmpCityMember.ModifyGrowthRate({
+			growthRate,
+			growthRateMultiplier
+		});
+		growthRate = mods['growthRate'];
+		growthRateMultiplier = mods['growthRateMultiplier'];
+	}
+	return Math.round(ApplyValueModificationsToEntity("City/Population/Growth/Rate", growthRate * growthRateMultiplier, this.entity));
+};
+
+City.prototype.GetEntitiesByClasses = function(classList)
+{
+	let cmpOwnership = Engine.QueryInterface(this.entity, IID_Ownership);
+	let owner = cmpOwnership.GetOwner();
+	let cmpRangeManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_RangeManager);
+	return cmpRangeManager.ExecuteQuery(
+		this.entity,
+		0,
+		ApplyValueModificationsToEntity("City/Radius", +this.template.Radius, this.entity),
+		[owner],
+		IID_Identity
+	).filter(ent => MatchesClassList(Engine.QueryInterface(ent, IID_Identity).GetClassesList(), classList._string));
+};
+
+City.prototype.GrowPopulation = function()
+{
+	let oldPopulation = this.population;
+	return this.SetPopulation(oldPopulation + this.GetPopulationGrowthRate());
+};
+
+City.prototype.CancelGrowthTimer = function()
+{
+	if (this.growthTimer)
+	{
+		let cmpTimer = Engine.QueryInterface(SYSTEM_ENTITY, IID_Timer);
+		cmpTimer.CancelTimer(this.growthTimer);
+		this.timer = undefined;
+	}
+};
+
+City.prototype.OnDestroy = function()
+{
+	this.CancelGrowthTimer();
+};
+
+Engine.RegisterComponentType(IID_City, "City", City);

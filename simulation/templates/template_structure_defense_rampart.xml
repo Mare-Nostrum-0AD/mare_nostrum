@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_structure_defense">
+  <Auras datatype="tokens">
+    structures/rampart_garrisoned
+    structures/rampart_movement
+  </Auras>
+  <Armour>
+  	<Hack>4.0</Hack>
+	<Pierce>25.0</Pierce>
+	<Crush>20.0</Crush>
+	<Foundation>
+  		<Hack>1.0</Hack>
+		<Pierce>5.0</Pierce>
+		<Crush>1.0</Crush>
+	</Foundation>
+  </Armour>
+  <Cost>
+  	<BuildTime>12</BuildTime>
+    <Resources>
+      <food>0</food>
+      <wood>0</wood>
+      <stone>0</stone>
+      <metal>0</metal>
+    </Resources>
+  </Cost>
+  <BuildRestrictions>
+  	<PlacementType>land</PlacementType>
+  	<Territory>own ally neutral enemy</Territory>
+    <Category>Wall</Category>
+  </BuildRestrictions>
+  <Capturable>
+    <CapturePoints>100</CapturePoints>
+	<GarrisonRegenRate>20.0</GarrisonRegenRate>
+  </Capturable>
+  <Cost>
+    <BuildTime>12</BuildTime>
+  </Cost>
+  <GarrisonHolder>
+    <Max>5</Max>
+    <List datatype="tokens">Infantry</List>
+    <EjectHealth>0.1</EjectHealth>
+    <EjectClassesOnDestroy datatype="tokens">Unit</EjectClassesOnDestroy>
+    <BuffHeal>0</BuffHeal>
+    <LoadingRange>2</LoadingRange>
+  </GarrisonHolder>
+  <Footprint>
+    <Square width="6.0" depth="6.0"/>
+    <Height>1.0</Height>
+  </Footprint>
+  <Health>
+    <Max>1000</Max>
+    <SpawnEntityOnDeath>decay|rubble/rubble_stone_2x2</SpawnEntityOnDeath>
+  </Health>
+  <Identity>
+  	<Civ>gaia</Civ>
+	<SelectionGroupName>other/wallset_rampart</SelectionGroupName>
+    <Classes datatype="tokens">-ConquestCritical Defensive Rampart</Classes>
+    <GenericName>Earth Rampart</GenericName>
+    <Tooltip>Quick free fortification that can be built in any territory. Slows, but does not block, enemy troop movement. Decays when not garrisoned.</Tooltip>
+    <Icon>structures/palisade_wall.png</Icon>
+    <RequiredTechnology>phase_village</RequiredTechnology>
+  </Identity>
+  <Obstruction>
+    <Static width="6.0" depth="6.0"/>
+	<BlockMovement>false</BlockMovement>
+    <BlockPathfinding>false</BlockPathfinding>
+  </Obstruction>
+  <ProductionQueue disable=""/>
+  <RallyPoint disable=""/>
+  <Repairable>
+    <RepairTimeRatio>4.5</RepairTimeRatio>
+  </Repairable>
+  <Sound>
+    <SoundGroups>
+      <select>interface/select/building/sel_wall.xml</select>
+      <constructed>interface/complete/building/complete_wall.xml</constructed>
+      <death>attack/destruction/building_collapse_large.xml</death>
+    </SoundGroups>
+  </Sound>
+  <TerritoryDecay>
+    <DecayRate>5.0</DecayRate>
+  </TerritoryDecay>
+  <TerritoryInfluence>
+    <Root>false</Root>
+    <Radius>8</Radius>
+    <Weight>65535</Weight>
+  </TerritoryInfluence>
+  <Vision>
+    <Range>10</Range>
+  </Vision>
+</Entity>

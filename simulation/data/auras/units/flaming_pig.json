@@ -1,0 +1,17 @@
+{
+	"type": "range",
+	"radius": "20",
+	"affects": ["Elephant"],
+	"affectedPlayers": ["Enemy"],
+	"modifications": [
+		{ "value": "Attack/Melee/Hack", "multiply": 0.9 },
+		{ "value": "Attack/Melee/Pierce", "multiply": 0.9 },
+		{ "value": "Attack/Melee/Crush", "multiply": 0.9 },
+		{ "value": "Attack/Ranged/Hack", "multiply": 0.9 },
+		{ "value": "Attack/Ranged/Pierce", "multiply": 0.9 },
+		{ "value": "Attack/Ranged/Crush", "multiply": 0.9 },
+		{ "value": "Capturable/RegenRate", "add": -10.0 }
+	],
+	"auraName": "Flaming Pig",
+	"auraDescription": "Enemy elephants lose 10% attack and slowly lose loyalty."
+}
