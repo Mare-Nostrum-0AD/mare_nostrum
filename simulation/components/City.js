@@ -47,7 +47,10 @@ City.prototype.Schema = "<a:help>Identifies this entity as a city centre.</a:hel
 			"<ref name='nonNegativeDecimal' />" +
 		"</element>" +
 		"<element name='Rate' a:help='Amount to grow population per interval'>" +
-			"<ref name='nonNegativeDecimal' />" +
+			"<ref name='decimal' />" +
+		"</element>" +
+		"<element name='TradeRate' a:help='Amount to modify population per arriving trader as percentage of trade gain.'>" +
+			"<ref name='decimal' />" +
 		"</element>" +
 	"</element>" +
 	"<element name='Init' a:help='Initial population'>" +
@@ -72,6 +75,11 @@ City.prototype.Schema = "<a:help>Identifies this entity as a city centre.</a:hel
 		Resources.BuildSchema('nonNegativeDecimal') +
 	"</element>" +
 "</element>" +
+"</optional>" + 
+"<optional>" +
+	"<element name='Upgrade' a:help='Entity to upgrade to upon reaching max population.'>" +
+		"<text />" +
+	"</element>" +
 "</optional>";
 
 City.prototype.Init = function()
@@ -103,14 +111,25 @@ City.prototype.GetMaxPopulation = function()
 City.prototype.SetPopulation = function(value)
 {
 	let val = Math.round(value);
+	if (typeof(val) !== 'number')
+		return this.population;
 	let min = 0;
 	let max = Math.round(this.template.Population.Max);
-	if (value < 0)
+	if (value < 0) {
 		this.population = 0;
-	if (value > max)
+	} else if (value > max) {
+		if (this.template.Upgrade) {
+			let replacement = this.Upgrade();
+			let cmpNewCity = Engine.QueryInterface(replacement, IID_City);
+			if (cmpNewCity)
+				return cmpNewCity.SetPopulation(value);
+		}
 		this.population = max;
-	this.population = val;
+	} else {
+		this.population = val;
+	}
 	Engine.PostMessage(this.entity, MT_CityPopulationChanged, {
+		"entity": this.entity,
 		"to": this.population
 	});
 	return this.population;
@@ -146,6 +165,11 @@ City.prototype.GetPopulationGrowthRate = function()
 	return Math.round(ApplyValueModificationsToEntity("City/Population/Growth/Rate", growthRate * growthRateMultiplier, this.entity));
 };
 
+City.prototype.GetTradeGrowthRate = function()
+{
+	return ApplyValueModificationsToEntity('City/Population/Growth/TradeRate', this.template.Population.Growth.TradeRate, this.entity);
+};
+
 City.prototype.GetEntitiesByClasses = function(classList)
 {
 	let cmpOwnership = Engine.QueryInterface(this.entity, IID_Ownership);
@@ -157,13 +181,48 @@ City.prototype.GetEntitiesByClasses = function(classList)
 		ApplyValueModificationsToEntity("City/Radius", +this.template.Radius, this.entity),
 		[owner],
 		IID_Identity
-	).filter(ent => MatchesClassList(Engine.QueryInterface(ent, IID_Identity).GetClassesList(), classList._string));
+	).filter(ent => MatchesClassList(Engine.QueryInterface(ent, IID_Identity).GetClassesList(), classList.join(' ')));
 };
 
 City.prototype.GrowPopulation = function()
 {
+	// first, set market trade listeners
+	let target = this;
+	let markets = this.GetEntitiesByClasses(['Market']);
+	for (let market of markets) {
+		let cmpMarket = Engine.QueryInterface(market, IID_Market);
+		if (!cmpMarket)
+			continue;
+		cmpMarket.SetCity(this.entity);
+	}
+	// get base growth rate + modifiers
 	let oldPopulation = this.population;
 	return this.SetPopulation(oldPopulation + this.GetPopulationGrowthRate());
+};
+
+City.prototype.GetUpgradeTemplate = function()
+{
+	if (!this.template.Upgrade)
+		return null;
+	let cmpPlayer = QueryOwnerInterface(this.entity);
+	let cmpIdentity = Entine.QueryInterface(this.entity, IID_Identity);
+	return this.template.Upgrade.replace('/\{civ\}/g', cmpPlayer.GetCiv()).replace('/\{native\}/g', cmpIdentity.GetCiv());
+};
+
+City.prototype.Upgrade = function()
+{
+	if (!this.template.Upgrade)
+		return null;
+	
+	let upgradeTemplate = this.GetUpgradeTemplate();
+	if (!upgradeTemplate)
+		return null;
+	
+	let newEntity = ChangeEntityTemplate(this.entity, upgradeTemplate);
+	if (newEntity)
+		PlaySound('upgraded', newEntity);
+	
+	return newEntity;
 };
 
 City.prototype.CancelGrowthTimer = function()
@@ -176,7 +235,7 @@ City.prototype.CancelGrowthTimer = function()
 	}
 };
 
-City.prototype.OnDestroy = function()
+City.prototype.OnDestroy = function(msg)
 {
 	this.CancelGrowthTimer();
 };

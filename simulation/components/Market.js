@@ -22,6 +22,7 @@ Market.prototype.Init = function()
 {
 	this.traders = new Set();	// list of traders with a route on this market
 	this.tradeType = new Set(this.template.TradeType.split(/\s+/));
+	this.tradeListeners = new Map();
 };
 
 Market.prototype.AddTrader = function(ent)
@@ -80,6 +81,45 @@ Market.prototype.UpdateTraders = function(onDestruction)
 		this.RemoveTrader(trader);
 		cmpTrader.RemoveMarket(this.entity);
 	}
+};
+
+Market.prototype.SetTradeListener = function(name, func)
+{
+	this.tradeListeners[name] = func;
+};
+
+Market.prototype.HasTradeListener = function(name)
+{
+	return this.tradeListeners.has(name);
+};
+
+Market.prototype.RemoveTradeListener = function(name)
+{
+	this.tradeListeners.delete(name);
+};
+
+Market.prototype.RegisterTrade = function(goods)
+{
+	if (!this.cityEntity)
+		return;
+	let cmpOwnership = Engine.QueryInterface(this.entity, IID_Ownership);
+	let marketOwner = cmpOwnership.GetOwner();
+	cmpOwnership = Engine.QueryInterface(this.cityEntity, IID_Ownership);
+	let cityOwner = cmpOwnership.GetOwner();
+	if (marketOwner !== cityOwner)
+		return;
+	let cmpCity = Engine.QueryInterface(this.cityEntity, IID_City);
+	if (!cmpCity)
+		return;
+	let tradeGrowthRate = cmpCity.GetTradeGrowthRate();
+	let tradeGrowthAmount = goods.amount.traderGain * tradeGrowthRate;
+	let oldPopulation = cmpCity.GetPopulation();
+	cmpCity.SetPopulation(oldPopulation + tradeGrowthAmount);
+}
+
+Market.prototype.SetCity = function(cityEntity)
+{
+	this.cityEntity = cityEntity;
 };
 
 Market.prototype.OnDiplomacyChanged = function(msg)

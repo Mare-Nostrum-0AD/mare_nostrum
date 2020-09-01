@@ -57,6 +57,7 @@
 		<Growth>
 			<AttackMultiplier>0</AttackMultiplier>
 			<Rate>5</Rate>
+			<TradeRate>2.0</TradeRate>
 			<Interval>10000</Interval>
 		</Growth>
 		<Init>100</Init>

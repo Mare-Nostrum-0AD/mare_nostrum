@@ -186,6 +186,11 @@ Trader.prototype.GenerateResources = function(currentMarket, nextMarket)
 
 Trader.prototype.PerformTrade = function(currentMarket)
 {
+	if (this.goods && this.goods.amount)
+	{
+		let cmpMarket = Engine.QueryInterface(currentMarket, IID_Market);
+		cmpMarket.RegisterTrade(this.goods);
+	}
 	let previousMarket = this.markets[this.index];
 	if (previousMarket != currentMarket)  // Inconsistent markets
 	{
