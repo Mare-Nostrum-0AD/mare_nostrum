@@ -31,7 +31,7 @@
 	  other/vineyard
       structures/{civ}_temple
       structures/{civ}_market
-      structures/{civ}_civil_centre
+	  other/village_generic
       structures/{civ}_temple_special_fertility
       structures/{civ}_temple_special_war
       structures/{civ}_temple_special_trade

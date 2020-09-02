@@ -103,8 +103,12 @@ Market.prototype.RegisterTrade = function(goods)
 	if (!this.cityEntity)
 		return;
 	let cmpOwnership = Engine.QueryInterface(this.entity, IID_Ownership);
+	if (!cmpOwnership)
+		return;
 	let marketOwner = cmpOwnership.GetOwner();
 	cmpOwnership = Engine.QueryInterface(this.cityEntity, IID_Ownership);
+	if (!cmpOwnership)
+		return;
 	let cityOwner = cmpOwnership.GetOwner();
 	if (marketOwner !== cityOwner)
 		return;

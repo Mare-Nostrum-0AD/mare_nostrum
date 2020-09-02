@@ -205,8 +205,8 @@ City.prototype.GetUpgradeTemplate = function()
 	if (!this.template.Upgrade)
 		return null;
 	let cmpPlayer = QueryOwnerInterface(this.entity);
-	let cmpIdentity = Entine.QueryInterface(this.entity, IID_Identity);
-	return this.template.Upgrade.replace('/\{civ\}/g', cmpPlayer.GetCiv()).replace('/\{native\}/g', cmpIdentity.GetCiv());
+	let cmpIdentity = Engine.QueryInterface(this.entity, IID_Identity);
+	return this.template.Upgrade.replace(/\{civ\}/g, cmpPlayer.GetCiv()).replace(/\{native\}/g, cmpIdentity.GetCiv());
 };
 
 City.prototype.Upgrade = function()
