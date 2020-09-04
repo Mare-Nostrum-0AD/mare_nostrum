@@ -11,6 +11,9 @@
 	<Radius>100</Radius>
   	<Upgrade>structures/{native}_metro_centre</Upgrade>
   </City>
+  <GarrisonHolder merge="">
+    <Max op="mul">3.0</Max>
+  </GarrisonHolder>
   <Health merge="">
   	<Max op="mul">3.0</Max>
   </Health>

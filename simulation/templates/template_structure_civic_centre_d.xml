@@ -10,6 +10,9 @@
 	</Population>
 	<Radius>120</Radius>
   </City>
+  <GarrisonHolder merge="">
+    <Max op="mul">4.0</Max>
+  </GarrisonHolder>
   <Health merge="">
   	<Max op="mul">4.0</Max>
   </Health>

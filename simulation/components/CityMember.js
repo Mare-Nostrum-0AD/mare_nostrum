@@ -16,7 +16,7 @@ CityMember.prototype.Schema = "<a:help>Identifies this entity as a potential mem
 CityMember.prototype.Init = function()
 {
 	const modifier = this.template.GrowthContrib.Operation;
-	const growthVal = Math.floor(this.template.GrowthContrib.Value);
+	const growthVal = Number(this.template.GrowthContrib.Value);
 	this.growthRateModifier = modifier === 'add' ?
 		({growthRate, growthRateMultiplier}) => ({
 			'growthRate': growthRate + growthVal,
