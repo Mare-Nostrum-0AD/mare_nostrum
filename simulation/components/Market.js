@@ -22,7 +22,6 @@ Market.prototype.Init = function()
 {
 	this.traders = new Set();	// list of traders with a route on this market
 	this.tradeType = new Set(this.template.TradeType.split(/\s+/));
-	this.tradeListeners = new Map();
 };
 
 Market.prototype.AddTrader = function(ent)
@@ -81,21 +80,6 @@ Market.prototype.UpdateTraders = function(onDestruction)
 		this.RemoveTrader(trader);
 		cmpTrader.RemoveMarket(this.entity);
 	}
-};
-
-Market.prototype.SetTradeListener = function(name, func)
-{
-	this.tradeListeners[name] = func;
-};
-
-Market.prototype.HasTradeListener = function(name)
-{
-	return this.tradeListeners.has(name);
-};
-
-Market.prototype.RemoveTradeListener = function(name)
-{
-	this.tradeListeners.delete(name);
 };
 
 Market.prototype.RegisterTrade = function(goods)

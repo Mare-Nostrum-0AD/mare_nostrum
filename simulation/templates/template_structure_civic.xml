@@ -10,6 +10,13 @@
       <Crush>1</Crush>
     </Foundation>
   </Armour>
+  <BuildRestrictions>
+    <Category>Civic</Category>
+    <Distance>
+      <FromClass>CivilCentre</FromClass>
+      <MaxDistance>90</MaxDistance>
+    </Distance>
+  </BuildRestrictions>
   <CityMember>
   	<GrowthContrib>
 		<Operation>add</Operation>

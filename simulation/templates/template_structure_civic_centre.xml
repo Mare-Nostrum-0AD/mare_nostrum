@@ -46,10 +46,11 @@
     <Distance>
       <FromClass>CivilCentre</FromClass>
       <MinDistance>200</MinDistance>
+      <MaxDistance disable="" />
     </Distance>
   </BuildRestrictions>
   <Capturable>
-    <CapturePoints>1000</CapturePoints>
+    <CapturePoints>500</CapturePoints>
     <RegenRate>5.0</RegenRate>
     <GarrisonRegenRate>1.0</GarrisonRegenRate>
   </Capturable>
@@ -116,6 +117,10 @@
     <Entities datatype="tokens">
       units/{civ}_support_female_citizen
     </Entities>
+    <Technologies datatype="tokens">
+      phase_town_{civ}
+      phase_city_{civ}
+    </Technologies>
   </ProductionQueue>
   <ResourceDropsite>
     <Types>food wood stone metal</Types>

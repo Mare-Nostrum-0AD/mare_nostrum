@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_structure_civic_centre">
+  <Capturable merge="">
+	<CapturePoints op="mul">3.0</CapturePoints>
+  </Capturable>
+  <City merge="">
+  	<Population>
+		<Init>5000</Init>
+		<Max>50000</Max>
+	</Population>
+  </City>
+  <Health merge="">
+  	<Max op="mul">3.0</Max>
+  </Health>
+  <Identity>
+    <GenericName>City</GenericName>
+    <Tooltip>Build to acquire large tracts of territory. Train citizens.</Tooltip>
+    <Classes datatype="tokens">VillageCentre TownCentre CityCentre</Classes>
+  </Identity>
+</Entity>

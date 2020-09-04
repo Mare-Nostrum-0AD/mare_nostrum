@@ -15,7 +15,6 @@ CityMember.prototype.Schema = "<a:help>Identifies this entity as a potential mem
 
 CityMember.prototype.Init = function()
 {
-	this.destroyListeners = new Map();
 	const modifier = this.template.GrowthContrib.Operation;
 	const growthVal = Math.floor(this.template.GrowthContrib.Value);
 	this.growthRateModifier = modifier === 'add' ?
@@ -34,40 +33,4 @@ CityMember.prototype.ModifyGrowthRate = function({growthRate, growthRateMultipli
 	return this.growthRateModifier({growthRate, growthRateMultiplier});
 };
 
-CityMember.prototype.AddDestroyListener = function(name, func)
-{
-	if (this.destroyListeners.has(name)) {
-		return false;
-	}
-	this.destroyListeners[name] = func;
-	return true;
-};
-
-CityMember.prototype.ChangeDestroyListener = function(name, newFunc)
-{
-	if (!this.destroyListeners.has(name)) {
-		return false;
-	}
-	this.destroyListeners[name] = newFunc;
-	return true;
-};
-
-CityMember.prototype.RemoveDestroyListener = function(name)
-{
-	if (!this.destroyListeners.has(name)) {
-		return false
-	}
-	this.destroyListeners.delete(name);
-	return true;
-};
-
-CityMember.prototype.OnDestroy = function()
-{
-	for (let [name, listener] of this.destroyListeners)
-	{
-		listener();
-	}
-};
-
-// TODO: create CityMember interface
 Engine.RegisterComponentType(IID_CityMember, "CityMember", CityMember);

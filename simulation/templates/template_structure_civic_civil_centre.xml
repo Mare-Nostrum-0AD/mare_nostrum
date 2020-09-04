@@ -46,6 +46,7 @@
     <Distance>
       <FromClass>CivilCentre</FromClass>
       <MinDistance>200</MinDistance>
+	  <MaxDistance disable="" />
     </Distance>
   </BuildRestrictions>
   <Capturable>
@@ -82,7 +83,7 @@
   </Footprint>
   <GarrisonHolder>
     <Max>20</Max>
-    <EjectHealth>0.1</EjectHealth>
+    <EjectHealth>0.4</EjectHealth>
     <EjectClassesOnDestroy datatype="tokens">Unit</EjectClassesOnDestroy>
     <List datatype="tokens">Support Infantry Cavalry</List>
     <BuffHeal>1</BuffHeal>
@@ -95,7 +96,7 @@
   <Identity>
     <GenericName>Civic Center</GenericName>
     <Tooltip>Build to acquire large tracts of territory. Train citizens.</Tooltip>
-    <Classes datatype="tokens">Defensive CivCentre</Classes>
+    <Classes datatype="tokens">Defensive CivCentre TownCentre</Classes>
     <VisibleClasses datatype="tokens">CivilCentre</VisibleClasses>
     <Icon>structures/civic_centre.png</Icon>
   </Identity>

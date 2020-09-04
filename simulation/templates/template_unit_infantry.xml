@@ -38,7 +38,7 @@
       structures/{civ}_market
       structures/{civ}_defense_tower
       structures/{civ}_wallset_stone
-	  other/village_generic
+      structures/{civ}_civil_centre
       structures/{civ}_fortress
       structures/{civ}_wonder
     </Entities>
