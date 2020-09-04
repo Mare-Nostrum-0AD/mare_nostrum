@@ -64,6 +64,15 @@ City.prototype.Schema = "<a:help>Identifies this entity as a city centre.</a:hel
 	"<ref name='nonNegativeDecimal' />" +
 "</element>" +
 "<optional>" +
+"<element name='RangeOverlay'>" +
+	"<interleave>" +
+		"<element name='LineTexture'><text/></element>" +
+		"<element name='LineTextureMask'><text/></element>" +
+		"<element name='LineThickness'><ref name='nonNegativeDecimal'/></element>" +
+	"</interleave>" +
+"</element>" +
+"</optional>" +
+"<optional>" +
 "<element name='ResourceTrickle' a:help='Resource trickle, modified by population'>" +
 	"<element name='Interval' a:help='Interval to collect resources in milliseconds'>" +
 		"<ref name='nonNegativeDecimal' />" +
@@ -223,6 +232,21 @@ City.prototype.Upgrade = function()
 		PlaySound('upgraded', newEntity);
 	
 	return newEntity;
+};
+
+City.prototype.GetRangeOverlays = function()
+{
+	if (!this.template.RangeOverlay)
+		return [];
+	
+	let radius = ApplyValueModificationsToEntity("City/Radius", this.template.Radius, this.entity);
+	let rangeOverlay = {
+		"radius": radius,
+		"texture": this.template.RangeOverlay.LineTexture,
+		"textureMask": this.template.RangeOverlay.LineTextureMask,
+		"thickness": +this.template.RangeOverlay.LineThickness,
+	};
+	return [rangeOverlay];
 };
 
 City.prototype.CancelGrowthTimer = function()
