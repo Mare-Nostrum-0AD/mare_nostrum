@@ -240,4 +240,17 @@ City.prototype.OnDestroy = function(msg)
 	this.CancelGrowthTimer();
 };
 
+City.prototype.Serialize = function()
+{
+	return {
+		"population": this.population
+	};
+};
+
+City.prototype.Deserialize = function(data)
+{
+	this.Init();
+	this.population = data.population;
+};
+
 Engine.RegisterComponentType(IID_City, "City", City);

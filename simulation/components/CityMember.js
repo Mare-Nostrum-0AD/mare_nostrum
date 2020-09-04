@@ -33,4 +33,12 @@ CityMember.prototype.ModifyGrowthRate = function({growthRate, growthRateMultipli
 	return this.growthRateModifier({growthRate, growthRateMultiplier});
 };
 
+// no dynamic state to save
+CityMember.prototype.Serialize = null;
+
+CityMember.prototype.Deserialize = function()
+{
+	this.Init();
+};
+
 Engine.RegisterComponentType(IID_CityMember, "CityMember", CityMember);
