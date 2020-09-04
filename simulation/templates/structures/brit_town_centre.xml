@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Entity parent="template_structure_civic_centre_a">
+<Entity parent="template_structure_civic_centre_b">
   <City merge="">
 	<Upgrade>structures/{native}_city_centre</Upgrade>
   </City>
@@ -12,7 +12,6 @@
   </Health>
   <Identity>
     <Civ>brit</Civ>
-    <GenericName>Village</GenericName>
   </Identity>
   <Obstruction>
     <Static width="37.0" depth="37.0"/>
