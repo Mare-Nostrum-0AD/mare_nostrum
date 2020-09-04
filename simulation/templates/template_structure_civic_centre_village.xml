@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Entity parent="template_structure_civic_centre">
-  <Identity>
-    <GenericName>Village</GenericName>
-    <Tooltip>Build to acquire new tracts of territory. Train citizens.</Tooltip>
-    <Classes datatype="tokens">VillageCentre</Classes>
-  </Identity>
-</Entity>

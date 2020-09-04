@@ -1,33 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Entity parent="template_structure_civic_centre_a">
+<Entity parent="template_structure_civic_centre_c">
   <City merge="">
-	<Upgrade>structures/{native}_civil_centre_b</Upgrade>
+	<Upgrade>structures/{native}_metro_centre</Upgrade>
   </City>
   <Footprint>
-    <Square width="40.0" depth="40.0"/>
+    <Square width="41" depth="33"/>
     <Height>8.0</Height>
   </Footprint>
-  <Health>
-    <SpawnEntityOnDeath>decay|rubble/rubble_rome_cc</SpawnEntityOnDeath>
-  </Health>
   <Identity>
     <Civ>ptol</Civ>
-    <GenericName>Village</GenericName>
+    <SpecificName>pr-'a</SpecificName>
   </Identity>
   <Obstruction>
-    <Static width="37.0" depth="37.0"/>
+    <Static width="39" depth="31"/>
   </Obstruction>
   <ProductionQueue>
     <Entities datatype="tokens">
-	  units/{civ}_infantry_pikeman_b
+      units/{civ}_infantry_pikeman_b
       units/{civ}_infantry_javelinist_b
+      units/{civ}_cavalry_archer_b
       units/{civ}_hero_ptolemy_I
       units/{civ}_hero_ptolemy_IV
       units/{civ}_hero_cleopatra
     </Entities>
   </ProductionQueue>
   <VisualActor>
-    <Actor>structures/ptolemies/village.xml</Actor>
-    <FoundationActor>structures/fndn_8x8.xml</FoundationActor>
+    <Actor>structures/ptolemies/civic_centre.xml</Actor>
   </VisualActor>
 </Entity>

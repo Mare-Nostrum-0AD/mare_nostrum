@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_structure_civic_centre">
+  <Capturable merge="">
+	<CapturePoints op="mul">4.0</CapturePoints>
+  </Capturable>
+  <City merge="">
+  	<Population>
+		<Init>50000</Init>
+		<Max>1000000</Max>
+	</Population>
+	<Radius>120</Radius>
+  </City>
+  <Health merge="">
+  	<Max op="mul">4.0</Max>
+  </Health>
+  <Identity>
+    <GenericName>Metropolis</GenericName>
+    <Tooltip>Build to acquire large tracts of territory. Train citizens.</Tooltip>
+    <Classes datatype="tokens">VillageCentre TownCentre CityCentre MetroCentre</Classes>
+  </Identity>
+</Entity>

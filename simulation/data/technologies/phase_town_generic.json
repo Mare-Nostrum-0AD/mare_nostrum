@@ -8,11 +8,11 @@
 	"cost": { "food": 0, "wood": 0, "stone": 0, "metal": 0 },
 	"requirements": { "entity": { "class": "TownCentre", "number": 1 } },
 	"autoResearch": true,
-	"requirementsTooltip": "Requires 1 Town Centre.",
+	"requirementsTooltip": "Requires 1 Town Centre).",
 	"supersedes": "phase_village",
 	"replaces": ["phase_town"],
 	"icon": "town_phase.png",
-	"researchTime": 0,
+	"researchTime": 30,
 	"tooltip": "Advance to Town Phase, which unlocks more structures and units. Territory radius for Civic Centers increased by +30%. Citizen soldiers max health increased by +20%. All structures +7 garrisoned regeneration rate.",
 	"modifications": [
 		{ "value": "TerritoryInfluence/Radius", "multiply": 1.30, "affects": "CivCentre" },
