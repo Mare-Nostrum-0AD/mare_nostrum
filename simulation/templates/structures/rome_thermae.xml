@@ -4,30 +4,36 @@
     <BuildTime>200</BuildTime>
     <Resources>
       <wood>0</wood>
-      <stone>400</stone>
-      <metal>200</metal>
+      <stone>600</stone>
+      <metal>100</metal>
     </Resources>
   </Cost>
   <Footprint>
-    <Square width="20.0" depth="11.0"/>
+    <Square width="30.0" depth="30.0"/>
     <Height>8.0</Height>
   </Footprint>
-  <GarrisonHolder disable=""/>
+  <GarrisonHolder>
+    <Max>20</Max>
+  </GarrisonHolder>
   <Health>
     <Max>2000</Max>
-    <SpawnEntityOnDeath>decay|rubble/rubble_stone_4x4</SpawnEntityOnDeath>
+    <SpawnEntityOnDeath>decay|rubble/rubble_stone_6x6</SpawnEntityOnDeath>
   </Health>
   <Identity>
     <Civ>rome</Civ>
-    <SpecificName>Triumphal Arch</SpecificName>
-    <Tooltip>Special Roman Monument. Increases growth rate of nearby city.</Tooltip>
-    <Icon>structures/arch.png</Icon>
+    <SpecificName>Thermae</SpecificName>
+    <GenericName>Public Bath</GenericName>
+    <Tooltip>Special Roman building. Increases city growth rate. Decreases cost of units in nearby buildings.</Tooltip>
+    <Icon>structures/gymnasion.png</Icon>
   </Identity>
+  <Loot>
+    <stone>100</stone>
+    <metal>50</metal>
+  </Loot>
   <Obstruction>
-    <Static width="18.0" depth="9.0"/>
+    <Static width="28.0" depth="28.0"/>
   </Obstruction>
   <ProductionQueue disable=""/>
-  <RallyPoint disable=""/>
   <Sound>
     <SoundGroups>
       <select>interface/select/building/sel_theater.xml</select>
@@ -35,11 +41,8 @@
       <death>attack/destruction/building_collapse_large.xml</death>
     </SoundGroups>
   </Sound>
-  <TerritoryInfluence>
-    <Root>true</Root>
-  </TerritoryInfluence>
   <VisualActor>
-    <Actor>structures/romans/triumphal_arch.xml</Actor>
-    <FoundationActor>structures/fndn_4x4.xml</FoundationActor>
+    <Actor>structures/romans/thermae.xml</Actor>
+    <FoundationActor>structures/fndn_6x6.xml</FoundationActor>
   </VisualActor>
 </Entity>
