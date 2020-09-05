@@ -21,4 +21,7 @@
     <Tooltip>Build to acquire large tracts of territory. Train citizens.</Tooltip>
     <Classes datatype="tokens">VillageCentre TownCentre CityCentre MetroCentre</Classes>
   </Identity>
+  <TerritoryInfluence merge="">
+    <Radius op="mul">2.5</Radius>
+  </TerritoryInfluence>
 </Entity>

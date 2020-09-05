@@ -22,4 +22,7 @@
     <Tooltip>Build to acquire new tracts of territory. Train citizens.</Tooltip>
     <Classes datatype="tokens">VillageCentre TownCentre</Classes>
   </Identity>
+  <TerritoryInfluence merge="">
+    <Radius op="mul">1.5</Radius>
+  </TerritoryInfluence>
 </Entity>
