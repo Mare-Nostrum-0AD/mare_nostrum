@@ -3,8 +3,8 @@
   <BuildRestrictions>
     <Category>Monument</Category>
     <Distance>
-      <FromClass>Monument</FromClass>
-      <MinDistance>150</MinDistance>
+      <FromClass>CityCentre</FromClass>
+      <MaxDistance>100</MaxDistance>
     </Distance>
   </BuildRestrictions>
   <Cost>
