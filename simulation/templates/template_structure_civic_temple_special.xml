@@ -6,6 +6,11 @@
   <BuildRestrictions>
     <Category>TempleSpecial</Category>
   </BuildRestrictions>
+  <CityMember>
+  	<GrowthContrib>
+		<Value>1.5</Value>
+	</GrowthContrib>
+  </CityMember>
   <Cost>
     <PopulationBonus>10</PopulationBonus>
     <BuildTime>400</BuildTime>

@@ -1,0 +1,12 @@
+{
+	"type": "range",
+	"radius": 100,
+	"affects": ["CivilCentre"],
+	"modifications": [
+		{ "value": "City/Population/Growth/Rate", "multiply": 2.0 },
+		{ "value": "City/Population/Growth/TradeRate", "multiply": 2.0 }
+	],
+	"auraDescription": "City +100% increased population growth rate and trade growth rate.",
+	"auraName": "Monumental City",
+	"stackable": true
+}
