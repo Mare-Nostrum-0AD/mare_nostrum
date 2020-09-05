@@ -10,7 +10,7 @@
       <Crush>3</Crush>
     </Foundation>
   </Armour>
-  <Auras>
+  <Auras datatype="tokens">
   	structures/monument_population
   </Auras>
   <BuildRestrictions>
