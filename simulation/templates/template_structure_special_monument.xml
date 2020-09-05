@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_structure_special">
+  <Auras datatype="tokens">
+  	structures/monument_population
+  </Auras>
+  <BuildRestrictions>
+    <Category>Monument</Category>
+    <Distance>
+      <FromClass>CityCentre</FromClass>
+      <MaxDistance>100</MaxDistance>
+    </Distance>
+  </BuildRestrictions>
+  <Identity>
+    <GenericName>Monument</GenericName>
+    <Tooltip>This is a monument unique to a particular civilization. It aids in the growth of cities.</Tooltip>
+    <VisibleClasses datatype="tokens">Monument</VisibleClasses>
+  </Identity>
+</Entity>
