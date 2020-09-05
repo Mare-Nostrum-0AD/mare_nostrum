@@ -15,6 +15,10 @@
   </Auras>
   <BuildRestrictions>
     <Category>Special</Category>
+    <Distance>
+      <FromClass>CityCentre</FromClass>
+      <MaxDistance>100</MaxDistance>
+    </Distance>
   </BuildRestrictions>
   <Cost>
     <BuildTime>200</BuildTime>
