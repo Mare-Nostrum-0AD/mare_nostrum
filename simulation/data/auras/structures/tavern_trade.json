@@ -1,0 +1,11 @@
+{
+	"type": "range",
+	"radius": 80,
+	"affects": ["Trader"],
+	"modifications": [
+		{ "value": "Trader/GainMultiplier", "multiply": 1.1 }
+	],
+	"auraDescription": "Increase trader gain multiplier by 10%.",
+	"auraName": "Tavern Hospitality",
+	"stackable": true
+}
