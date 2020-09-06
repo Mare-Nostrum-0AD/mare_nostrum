@@ -10,7 +10,7 @@
       <Value>2</Value>
       <MaxRange>4</MaxRange>
       <RepeatTime>1000</RepeatTime>
-      <RestrictedClasses datatype="tokens">Elephant Field Palisade SiegeWall StoneWall</RestrictedClasses>
+      <RestrictedClasses datatype="tokens">Field Palisade SiegeWall StoneWall Elephant</RestrictedClasses>
     </Capture>
     <Slaughter>
       <Hack>50.0</Hack>
@@ -28,7 +28,6 @@
       structures/{civ}_field
       structures/{civ}_corral
       structures/{civ}_outpost
-	  other/wallset_rampart
       other/wallset_palisade
       structures/{civ}_sentry_tower
       structures/{civ}_dock

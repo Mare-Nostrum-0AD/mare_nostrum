@@ -9,7 +9,7 @@
       <PrepareTime>500</PrepareTime>
       <RepeatTime>1000</RepeatTime>
       <PreferredClasses datatype="tokens">Human</PreferredClasses>
-      <RestrictedClasses datatype="tokens">StoneWall</RestrictedClasses>
+      <RestrictedClasses datatype="tokens">Sturdy</RestrictedClasses>
     </Melee>
   </Attack>
   <Health>

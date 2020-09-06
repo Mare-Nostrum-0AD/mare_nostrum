@@ -13,7 +13,7 @@
       <PrepareTime>375</PrepareTime>
       <RepeatTime>750</RepeatTime>
       <PreferredClasses datatype="tokens">Human Siege</PreferredClasses>
-      <RestrictedClasses datatype="tokens">StoneWall</RestrictedClasses>
+      <RestrictedClasses datatype="tokens">Sturdy</RestrictedClasses>
     </Melee>
   </Attack>
   <Cost>

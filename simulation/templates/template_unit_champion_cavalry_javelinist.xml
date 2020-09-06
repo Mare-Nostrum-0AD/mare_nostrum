@@ -14,7 +14,7 @@
       <Spread>1.0</Spread>
       <Delay>0</Delay>
       <PreferredClasses datatype="tokens">Human</PreferredClasses>
-      <RestrictedClasses datatype="tokens">StoneWall</RestrictedClasses>
+      <RestrictedClasses datatype="tokens">Sturdy</RestrictedClasses>
     </Ranged>
   </Attack>
   <Cost>

@@ -1,48 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Entity parent="template_unit_champion">
+<Entity parent="template_unit_hero">
   <Armour>
     <Hack>10</Hack>
     <Pierce>10</Pierce>
     <Crush>25</Crush>
   </Armour>
-  <Capturable>
-  	<CapturePoints>50</CapturePoints>
-	<RegenRate>2.0</RegenRate>
-	<GarrisonRegenRate>0</GarrisonRegenRate>
-  </Capturable>
+  <Attack replace="">
+    <Melee>
+      <Hack>20.0</Hack>
+      <Pierce>0</Pierce>
+      <Crush>50.0</Crush>
+      <MaxRange>8.0</MaxRange>
+      <PrepareTime>500</PrepareTime>
+      <RepeatTime>1000</RepeatTime>
+      <PreferredClasses datatype="tokens">Infantry+Melee Siege Structure</PreferredClasses>
+      <RestrictedClasses datatype="tokens">Sturdy</RestrictedClasses>
+    </Melee>
+  </Attack>
   <Cost>
     <Population>3</Population>
-    <BuildTime>30</BuildTime>
+    <BuildTime>60</BuildTime>
     <Resources>
-      <food>250</food>
-      <wood>0</wood>
-      <stone>0</stone>
-      <metal>250</metal>
+      <food>500</food>
+      <metal>500</metal>
     </Resources>
   </Cost>
   <Footprint>
-    <Circle radius="3.5"/>
-    <Height>6.0</Height>
+    <Circle radius="3.0"/>
+    <Height>9.0</Height>
   </Footprint>
   <Health>
-    <Max>750</Max>
+    <Max>2000</Max>
   </Health>
   <Identity>
-    <GenericName>War Elephant</GenericName>
-    <VisibleClasses datatype="tokens">Elephant</VisibleClasses>
-    <Icon>gaia/fauna_elephant.png</Icon>
+    <VisibleClasses datatype="tokens">Elephant Melee</VisibleClasses>
   </Identity>
-  <Position>
-    <Anchor>pitch</Anchor>
-  </Position>
-  <Selectable>
-    <Overlay>
-      <Texture>
-        <MainTexture>arrow/256x256.png</MainTexture>
-        <MainTextureMask>arrow/256x256_mask.png</MainTextureMask>
-      </Texture>
-    </Overlay>
-  </Selectable>
   <Sound>
     <SoundGroups>
       <select>actor/fauna/animal/elephant_select.xml</select>
@@ -57,9 +49,6 @@
       <trained>actor/fauna/animal/elephant_trained.xml</trained>
     </SoundGroups>
   </Sound>
-  <StatusBars>
-    <HeightOffset>6.5</HeightOffset>
-  </StatusBars>
   <UnitMotion>
     <PassabilityClass>large</PassabilityClass>
     <WalkSpeed op="mul">0.95</WalkSpeed>
@@ -68,9 +57,6 @@
     </Run>
   </UnitMotion>
   <Vision>
-    <Range>100</Range>
+    <Range>80</Range>
   </Vision>
-  <VisualActor>
-    <Actor>units/mauryans/champion_elephant.xml</Actor>
-  </VisualActor>
 </Entity>

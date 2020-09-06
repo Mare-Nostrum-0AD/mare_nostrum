@@ -22,6 +22,7 @@
         <Crush>35.0</Crush>
       </Splash>
       <PreferredClasses datatype="tokens">Ship Structure</PreferredClasses>
+      <RestrictedClasses datatype="tokens">Sturdy</RestrictedClasses>
     </Ranged>
   </Attack>
   <Cost>

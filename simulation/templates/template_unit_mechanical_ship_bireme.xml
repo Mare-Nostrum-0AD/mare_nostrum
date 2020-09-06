@@ -5,7 +5,7 @@
       <Hack>0.0</Hack>
       <Pierce>35.0</Pierce>
       <Crush>0.0</Crush>
-      <MaxRange>55.0</MaxRange>
+      <MaxRange>45.0</MaxRange>
       <MinRange>0.0</MinRange>
       <ProjectileSpeed>75.0</ProjectileSpeed>
       <Gravity>9.81</Gravity>
@@ -17,54 +17,46 @@
       <RestrictedClasses datatype="tokens">Sturdy</RestrictedClasses>
     </Ranged>
   </Attack>
-  <Auras datatype="tokens">
-	units/ship_ram
-  </Auras>
   <BuildingAI>
-    <DefaultArrowCount>3</DefaultArrowCount>
-    <MaxArrowCount>13</MaxArrowCount>
+    <DefaultArrowCount>2</DefaultArrowCount>
+    <MaxArrowCount>10</MaxArrowCount>
     <GarrisonArrowMultiplier>1</GarrisonArrowMultiplier>
     <GarrisonArrowClasses>Infantry Cavalry</GarrisonArrowClasses>
   </BuildingAI>
   <Cost>
-    <Population>3</Population>
-    <BuildTime>25</BuildTime>
+    <Population>2</Population>
+    <BuildTime>20</BuildTime>
     <Resources>
-      <wood>150</wood>
-      <metal>150</metal>
+      <wood>125</wood>
+      <metal>50</metal>
     </Resources>
   </Cost>
   <Footprint>
-    <Square width="10.0" depth="40.0"/>
-    <Height>8.0</Height>
+    <Square width="8.0" depth="33.0"/>
+    <Height>10.0</Height>
   </Footprint>
   <GarrisonHolder>
-    <Max>30</Max>
+    <Max>20</Max>
     <EjectHealth>0</EjectHealth>
     <EjectClassesOnDestroy datatype="tokens">FemaleCitizen Infantry Healer Dog</EjectClassesOnDestroy>
-    <List datatype="tokens">Support Infantry Cavalry Dog Siege Elephant</List>
+    <List datatype="tokens">Support Infantry Cavalry Dog</List>
     <BuffHeal>0</BuffHeal>
     <LoadingRange>10</LoadingRange>
     <Pickup>true</Pickup>
-	<VisibleGarrisonPoints>
-		<Siege1>
-			<X>0</X><Y>4.5</Y><Z>10</Z><List datatype="tokens">BoltShooter Siege+Ram</List>
-		</Siege1>
-	</VisibleGarrisonPoints>
   </GarrisonHolder>
   <Health>
-    <Max>1400</Max>
+    <Max>800</Max>
   </Health>
   <Identity>
-    <GenericName>Medium Warship</GenericName>
+    <GenericName>Light Warship</GenericName>
     <VisibleClasses datatype="tokens">Ranged Warship</VisibleClasses>
     <RequiredTechnology>phase_town</RequiredTechnology>
     <Tooltip>Garrison units for transport and to increase firepower.</Tooltip>
   </Identity>
   <Loot>
-    <xp>100</xp>
-    <wood>30</wood>
-    <metal>20</metal>
+    <xp>75</xp>
+    <wood>25</wood>
+    <metal>15</metal>
   </Loot>
   <ResourceGatherer disable=""/>
   <Sound>
@@ -79,9 +71,9 @@
     <HeightOffset>6.0</HeightOffset>
   </StatusBars>
   <UnitMotion>
-    <WalkSpeed op="mul">1.8</WalkSpeed>
+    <WalkSpeed op="mul">1.55</WalkSpeed>
     <Run>
-      <Speed op="mul">1.8</Speed>
+      <Speed op="mul">1.55</Speed>
     </Run>
   </UnitMotion>
 </Entity>
