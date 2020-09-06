@@ -6,6 +6,6 @@
   <Identity>
     <GenericName>Village</GenericName>
     <Tooltip>Build to acquire new tracts of territory. Train citizens.</Tooltip>
-    <Classes datatype="tokens">VillageCentre</Classes>
+    <VisibleClasses datatype="tokens">VillageCentre</VisibleClasses>
   </Identity>
 </Entity>

@@ -20,7 +20,8 @@
   <Identity>
     <GenericName>City</GenericName>
     <Tooltip>Build to acquire large tracts of territory. Train citizens.</Tooltip>
-    <Classes datatype="tokens">VillageCentre TownCentre CityCentre</Classes>
+    <Classes datatype="tokens">Sturdy VillageCentre TownCentre</Classes>
+    <VisibleClasses datatype="tokens">CityCentre</VisibleClasses>
   </Identity>
   <TerritoryInfluence merge="">
     <Radius op="mul">2.0</Radius>

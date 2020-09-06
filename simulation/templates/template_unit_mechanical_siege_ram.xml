@@ -8,7 +8,7 @@
       <MaxRange>6.5</MaxRange>
       <PrepareTime>750</PrepareTime>
       <RepeatTime>1500</RepeatTime>
-      <PreferredClasses datatype="tokens">Gates CivilCentre Fortress Tower</PreferredClasses>
+      <PreferredClasses datatype="tokens">Gates CivilCentre Fortress Tower-StoneWall</PreferredClasses>
 	  <RestrictedClasses datatype="tokens">Organic</RestrictedClasses>
     </Melee>
   </Attack>
