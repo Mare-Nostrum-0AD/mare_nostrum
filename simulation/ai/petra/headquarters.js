@@ -2490,7 +2490,10 @@ m.HQ.prototype.isUnderEnemyFire = function(gameState, pos, radius = 0)
 	for (let ent of this.turnCache.firingStructures.values())
 	{
 		let range = radius + ent.attackRange("Ranged").max;
-		if (API3.SquareVectorDistance(ent.position(), pos) < range*range)
+		let entPos = ent.position();
+		if (!entPos || !pos)
+			continue;
+		if (API3.SquareVectorDistance(entPos, pos) < range*range)
 			return true;
 	}
 	return false;
