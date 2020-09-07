@@ -8,11 +8,12 @@
 	</Cost>
 	<Identity>
 		<GenericName>Vineyard</GenericName>
-		<Tooltip>Harvest grapes for food. Max gatherers: 5.</Tooltip>
+		<Tooltip>Harvest grapes for wealth. Max gatherers: 5.</Tooltip>
+		<Icon>gaia/flora_bush_grapes.png</Icon>
 		<RequiredTechnology>phase_town</RequiredTechnology>
 	</Identity>
 	<ResourceSupply>
-		<Type>food.fruit</Type>
+		<Type>wealth.crops</Type>
 		<MaxGatherers>5</MaxGatherers>
 	</ResourceSupply>
 	<VisualActor>

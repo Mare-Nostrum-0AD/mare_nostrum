@@ -1,0 +1,14 @@
+{
+	"code": "wealth",
+	"name": "Wealth",
+	"description": "Wealth from trade and rare resources.",
+	"order": 5,
+	"subtypes": {
+		"gold": "Gold",
+		"silver": "Silver",
+		"crops": "Crops",
+		"wares": "Wares"
+	},
+	"truePrice": 200,
+	"aiAnalysisInfluenceGroup": "sparse"
+}
