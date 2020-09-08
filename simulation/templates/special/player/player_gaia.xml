@@ -10,14 +10,14 @@
         <wood>1.0</wood>
         <stone>1.0</stone>
         <metal>1.0</metal>
-      	<wealth>2.0</wealth>
+      	<wealth>1.0</wealth>
       </Buy>
       <Sell>
         <food>1.0</food>
         <wood>1.0</wood>
         <stone>1.0</stone>
         <metal>1.0</metal>
-      	<wealth>2.0</wealth>
+      	<wealth>1.0</wealth>
       </Sell>
     </BarterMultiplier>
   </Player>

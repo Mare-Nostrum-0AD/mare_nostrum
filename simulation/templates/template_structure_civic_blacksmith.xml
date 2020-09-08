@@ -58,6 +58,13 @@
       armor_hero_01
     </Technologies>
   </ProductionQueue>
+  <ResourceSupply>
+    <KillBeforeGather>false</KillBeforeGather>
+    <Amount>Infinity</Amount>
+    <Type>wealth.wares</Type>
+    <MaxGatherers>5</MaxGatherers>
+    <DiminishingReturns>1.0</DiminishingReturns>
+  </ResourceSupply>
   <Sound>
     <SoundGroups>
       <select>interface/select/building/sel_blacksmith.xml</select>

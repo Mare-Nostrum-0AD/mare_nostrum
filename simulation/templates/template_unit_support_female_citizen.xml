@@ -68,7 +68,7 @@
       <metal.ore>0.35</metal.ore>
 	  <wealth.gold>1</wealth.gold>
 	  <wealth.silver>0.7</wealth.silver>
-	  <wealth.wares>0.3</wealth.wares>
+	  <wealth.wares>0.2</wealth.wares>
 	  <wealth.crops>0.15</wealth.crops>
     </Rates>
   </ResourceGatherer>
@@ -91,6 +91,10 @@
       <gather_rock>resource/mining/pickaxe.xml</gather_rock>
       <gather_ore>resource/mining/mining.xml</gather_ore>
       <gather_ruins>resource/mining/mining.xml</gather_ruins>
+      <gather_crops>resource/foraging/forage_leaves.xml</gather_crops>
+      <gather_gold>resource/mining/mining.xml</gather_gold>
+      <gather_silver>resource/mining/mining.xml</gather_silver>
+      <gather_wares>resource/mining/mining.xml</gather_wares>
     </SoundGroups>
   </Sound>
   <UnitAI>
