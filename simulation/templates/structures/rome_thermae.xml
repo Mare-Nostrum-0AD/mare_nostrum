@@ -5,7 +5,7 @@
     <Resources>
       <wood>0</wood>
       <stone>600</stone>
-      <metal>100</metal>
+      <wealth>600</wealth>
     </Resources>
   </Cost>
   <Footprint>
