@@ -64,7 +64,7 @@
     <LinePassabilityClass>ship</LinePassabilityClass>
   </RallyPointRenderer>
   <ResourceDropsite>
-    <Types>food wood stone metal</Types>
+    <Types>food wood stone metal wealth</Types>
     <Sharable>true</Sharable>
   </ResourceDropsite>
   <Sound>

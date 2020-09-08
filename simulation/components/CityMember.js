@@ -30,6 +30,8 @@ CityMember.prototype.Init = function()
 
 CityMember.prototype.ModifyGrowthRate = function({growthRate, growthRateMultiplier})
 {
+	if (!this.growthRateModifier)
+		return ({growthRate, growthRateMultiplier})
 	return this.growthRateModifier({growthRate, growthRateMultiplier});
 };
 

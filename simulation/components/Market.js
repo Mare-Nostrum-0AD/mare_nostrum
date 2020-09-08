@@ -102,6 +102,8 @@ Market.prototype.RegisterTrade = function(goods)
 	let tradeGrowthRate = cmpCity.GetTradeGrowthRate();
 	let tradeGrowthAmount = goods.amount.traderGain * tradeGrowthRate;
 	let oldPopulation = cmpCity.GetPopulation();
+	if (!tradeGrowthAmount || !oldPopulation)
+		return;
 	cmpCity.SetPopulation(oldPopulation + tradeGrowthAmount);
 }
 

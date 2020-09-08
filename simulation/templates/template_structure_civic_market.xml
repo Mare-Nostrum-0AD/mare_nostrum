@@ -24,7 +24,7 @@
     <SpawnEntityOnDeath>decay|rubble/rubble_stone_5x5</SpawnEntityOnDeath>
   </Health>
   <Identity>
-    <Classes datatype="tokens">BarterMarket</Classes>
+    <Classes datatype="tokens">BarterMarket DropsiteWealth</Classes>
     <GenericName>Market</GenericName>
     <Icon>structures/market.png</Icon>
     <RequiredTechnology>phase_town</RequiredTechnology>
@@ -36,6 +36,7 @@
     <wood>25</wood>
     <stone>25</stone>
     <metal>25</metal>
+    <wealth>25</wealth>
   </Loot>
   <Market>
     <TradeType>land</TradeType>
@@ -60,6 +61,10 @@
       units/{civ}_support_trader
     </Entities>
   </ProductionQueue>
+  <ResourceDropsite>
+    <Types>wealth</Types>
+    <Sharable>true</Sharable>
+  </ResourceDropsite>
   <Sound>
     <SoundGroups>
       <select>interface/select/building/sel_market.xml</select>
