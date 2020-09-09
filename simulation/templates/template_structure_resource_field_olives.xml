@@ -9,6 +9,7 @@
 	<Identity>
 		<GenericName>Olive Grove</GenericName>
 		<Tooltip>Harvest olives for food. Max gatherers: 10.</Tooltip>
+		<Icon>technologies/olives.png</Icon>
 		<RequiredTechnology>phase_town</RequiredTechnology>
 	</Identity>
 	<ResourceSupply>

@@ -57,7 +57,7 @@
   <library_visual_scenes>
     <visual_scene id="Scene" name="Scene">
       <node id="wrld_anvil" layer="L1" name="wrld_anvil">
-        <translate sid="location">0 -2 0</translate>
+        <translate sid="location">-0.5 -2 0</translate>
         <scale sid="scale">0.5 0.5 0.5</scale>
         <instance_geometry url="#wrld_anvil-Geometry"/>
       </node>
