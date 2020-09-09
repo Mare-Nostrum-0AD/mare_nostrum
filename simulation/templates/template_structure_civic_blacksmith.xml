@@ -38,7 +38,7 @@
     <metal>25</metal>
   </Loot>
   <Obstruction>
-    <Static width="25.0" depth="25.0"/>
+    <Static width="23.0" depth="23.0"/>
   </Obstruction>
   <ProductionQueue>
     <BatchTimeModifier>0.8</BatchTimeModifier>
