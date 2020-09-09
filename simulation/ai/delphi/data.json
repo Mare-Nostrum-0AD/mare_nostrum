@@ -1,0 +1,7 @@
+{
+  "name": "Delphi Bot",
+  "description": "Delphi is a clone of Petra Bot, the default 0ad AI.",
+  "moduleName" : "DELPHI",
+  "constructor": "DelphiBot",
+  "useShared": true
+}
