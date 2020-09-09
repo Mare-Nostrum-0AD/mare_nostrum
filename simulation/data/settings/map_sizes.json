@@ -37,6 +37,21 @@
 			"Name": "Giant",
 			"Tooltip": "Very large maps are not recommended as it takes very long to reach the enemy and the game performance can be reduced.",
 			"Tiles": 512
+		},
+		{
+			"Name": "Mega I",
+			"Tooltip": "Very large maps are not recommended as it takes very long to reach the enemy and the game performance can be reduced.",
+			"Tiles": 576
+		},
+		{
+			"Name": "Mega II",
+			"Tooltip": "Very large maps are not recommended as it takes very long to reach the enemy and the game performance can be reduced.",
+			"Tiles": 640
+		},
+		{
+			"Name": "Mega III",
+			"Tooltip": "Very large maps are not recommended as it takes very long to reach the enemy and the game performance can be reduced.",
+			"Tiles": 704
 		}
 	]
 }
