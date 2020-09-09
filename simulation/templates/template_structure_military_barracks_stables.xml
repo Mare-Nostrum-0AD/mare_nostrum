@@ -6,7 +6,7 @@
   <Identity>
     <GenericName>Stables</GenericName>
     <Tooltip>Train citizen-soldier cavalry. Research training improvements.</Tooltip>
-    <Icon>structures/barracks.png</Icon>
+    <Icon>structures/stable.png</Icon>
     <RequiredTechnology>phase_town</RequiredTechnology>
     <Classes datatype="tokens">Town Stables</Classes>
   </Identity>
