@@ -13,7 +13,7 @@
 		<RequiredTechnology>phase_town</RequiredTechnology>
 	</Identity>
 	<ResourceSupply>
-		<Type>food.fruit</Type>
+		<Type>wealth.crops</Type>
 		<MaxGatherers>5</MaxGatherers>
 	</ResourceSupply>
 	<VisualActor>
