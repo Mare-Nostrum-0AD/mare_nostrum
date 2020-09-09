@@ -88,7 +88,7 @@ function tilesToFraction(t)
 	return t / g_MapSettings.Size;
 }
 
-function scaleByMapSize(min, max, minMapSize = 128, maxMapSize = 512)
+function scaleByMapSize(min, max, minMapSize = 128, maxMapSize = 704)
 {
 	return min + (max - min) * (g_MapSettings.Size - minMapSize) / (maxMapSize - minMapSize);
 }
