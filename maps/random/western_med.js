@@ -32,19 +32,19 @@ const heightScale = num => num * g_MapSettings.Size / 320;
 const heightSeaGround = heightScale(-6);
 const heightWaterLevel = heightScale(0);
 const heightShoreline = heightScale(0.5);
-const heightSnow = heightScale(10);
+const heightSnow = heightScale(15);
 
 var g_Map = new RandomMap(heightWaterLevel, g_Terrains.mainTerrain);
 var mapSize = g_Map.getSize();
 var mapCenter = g_Map.getCenter();
 var mapBounds = g_Map.getBounds();
 
-g_Map.LoadHeightmapImage("western_med.png", 0, 60);
+g_Map.LoadHeightmapImage("western_med_2.png", 0, 40);
 Engine.SetProgress(15);
 
 initTileClasses(["autumn", "desert", "medit", "polar", "steppe", "temp", "shoreline", "africa", "northern_europe", "southern_europe", "western_europe", "eastern_europe"]);
 
-var africaTop = fractionToTiles(0.22);
+var africaTop = fractionToTiles(0.20);
 var southernEuroTop = fractionToTiles(0.65);
 
 var climateZones = [
