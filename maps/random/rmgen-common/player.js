@@ -486,6 +486,8 @@ function placePlayersNomad(playerClass, constraints)
 		for (let resourceType in ccCost)
 		{
 			let treasureTemplate = g_NomadTreasureTemplates[resourceType];
+			if (!treasureTemplate)
+				continue;
 
 			let count = Math.max(0, Math.ceil(
 				(ccCost[resourceType] - (g_MapSettings.StartingResources || 0)) /

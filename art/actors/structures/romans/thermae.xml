@@ -9,7 +9,7 @@
         <prop actor="particle/smoke_light.xml" attachpoint="root"/>
         <prop actor="props/structures/athenians/gym_props.xml" attachpoint="root"/>
         <prop actor="props/structures/athenians/gym_tiles.xml" attachpoint="root"/>
-        <prop actor="props/structures/decals/dirt_5x5.xml" attachpoint="root"/>
+        <prop actor="props/structures/decals/mosaic_bathhouse_5x5.xml" attachpoint="root"/>
         <prop actor="props/structures/athenians/gym_trees.xml" attachpoint="root"/>
         <prop actor="props/structures/athenians/gym_decor.xml" attachpoint="root"/>
       </props>

@@ -53,21 +53,45 @@ var climateZones = [
 		"position1": new Vector2D(mapBounds.left, mapBounds.top),
 		"position2": new Vector2D(mapBounds.right, southernEuroTop),
 		"biome": "generic/temperate",
-		"constraint": new NullConstraint()
+		"constraint": new NullConstraint(),
+		"amounts": {
+			"berries": ["normal"],
+			"pastures": ["normal"],
+			"animals": ["many"],
+			"forests": ["many"],
+			"stone": ["few", "normal"],
+			"metal": ["few", "normal"]
+		}
 	},
 	{
 		"tileClass": g_TileClasses.southern_europe,
 		"position1": new Vector2D(mapBounds.left, southernEuroTop),
 		"position2": new Vector2D(mapBounds.right, africaTop),
 		"biome": "generic/mediterranean",
-		"constraint": new NullConstraint()
+		"constraint": new NullConstraint(),
+		"amounts": {
+			"berries": ["few"],
+			"pastures": ["many"],
+			"animals": ["many"],
+			"forests": ["normal"],
+			"stone": ["normal", "many"],
+			"metal": ["normal", "many"]
+		}
 	},
 	{
 		"tileClass": g_TileClasses.africa,
 		"position1": new Vector2D(mapBounds.left, africaTop),
 		"position2": new Vector2D(mapBounds.right, mapBounds.bottom),
 		"biome": "generic/desert",
-		"constraint": new NullConstraint()
+		"constraint": new NullConstraint(),
+		"amounts": {
+			"berries": ["scarce"],
+			"pastures": ["few"],
+			"animals": ["normal"],
+			"forests": ["scarce"],
+			"stone": ["normal"],
+			"metal": ["normal"]
+		}
 	}
 ];
 
@@ -205,6 +229,7 @@ for (let zone of climateZones)
 			"func": addMetal,
 			"avoid": [
 				g_TileClasses.berries, 5,
+				g_TileClasses.pasture, 5,
 				g_TileClasses.forest, 3,
 				g_TileClasses.mountain, 2,
 				g_TileClasses.player, 30,
@@ -215,12 +240,13 @@ for (let zone of climateZones)
 			"stay": [zone.tileClass, 0],
 			"sizes": ["normal"],
 			"mixes": ["same"],
-			"amounts": ["many"]
+			"amounts": zone.amounts.metal ? zone.amounts.metal : ["normal"]
 		},
 		{
 			"func": addStone,
 			"avoid": [
 				g_TileClasses.berries, 5,
+				g_TileClasses.pasture, 5,
 				g_TileClasses.forest, 3,
 				g_TileClasses.mountain, 2,
 				g_TileClasses.player, 30,
@@ -231,12 +257,13 @@ for (let zone of climateZones)
 			"stay": [zone.tileClass, 0],
 			"sizes": ["normal"],
 			"mixes": ["same"],
-			"amounts": ["many"]
+			"amounts": zone.amounts.stone ? zone.amounts.stone : ["normal"]
 		},
 		{
 			"func": addForests,
 			"avoid": [
 				g_TileClasses.berries, 3,
+				g_TileClasses.pasture, 5,
 				g_TileClasses.forest, 15,
 				g_TileClasses.metal, 3,
 				g_TileClasses.mountain, 2,
@@ -247,12 +274,13 @@ for (let zone of climateZones)
 			"stay": [zone.tileClass, 0],
 			"sizes": ["normal"],
 			"mixes": ["normal"],
-			"amounts": ["normal"]
+			"amounts": zone.amounts.forests ? zone.amounts.forests : ["normal"]
 		},
 		{
 			"func": addSmallMetal,
 			"avoid": [
 				g_TileClasses.berries, 5,
+				g_TileClasses.pasture, 5,
 				g_TileClasses.forest, 3,
 				g_TileClasses.mountain, 2,
 				g_TileClasses.player, 30,
@@ -263,12 +291,13 @@ for (let zone of climateZones)
 			"stay": [zone.tileClass, 0],
 			"sizes": ["normal"],
 			"mixes": ["same"],
-			"amounts": ["few", "normal", "many"]
+			"amounts": zone.amounts.metal ? zone.amounts.metal : ["normal"]
 		},
 		{
 			"func": addBerries,
 			"avoid": [
 				g_TileClasses.berries, 30,
+				g_TileClasses.pasture, 10,
 				g_TileClasses.forest, 2,
 				g_TileClasses.metal, 4,
 				g_TileClasses.mountain, 2,
@@ -279,7 +308,24 @@ for (let zone of climateZones)
 			"stay": [zone.tileClass, 0],
 			"sizes": ["normal"],
 			"mixes": ["normal"],
-			"amounts": ["many"]
+			"amounts": zone.amounts.berries ? zone.amounts.berries : ["normal"]
+		},
+		{
+			"func": addPastures,
+			"avoid": [
+				g_TileClasses.berries, 10,
+				g_TileClasses.pasture, 30,
+				g_TileClasses.forest, 2,
+				g_TileClasses.metal, 4,
+				g_TileClasses.mountain, 2,
+				g_TileClasses.player, 20,
+				g_TileClasses.rock, 4,
+				g_TileClasses.water, 2
+			],
+			"stay": [zone.tileClass, 0],
+			"sizes": ["normal"],
+			"mixes": ["normal"],
+			"amounts": zone.amounts.pastures ? zone.amounts.pastures : ["normal"]
 		},
 		{
 			"func": addAnimals,
@@ -295,7 +341,7 @@ for (let zone of climateZones)
 			"stay": [zone.tileClass, 0],
 			"sizes": ["normal"],
 			"mixes": ["normal"],
-			"amounts": ["many"]
+			"amounts": zone.amounts.animals ? zone.amounts.animals : ["normal"]
 		},
 				{
 			"func": addAnimals,
@@ -311,12 +357,13 @@ for (let zone of climateZones)
 			"stay": [zone.tileClass, 0],
 			"sizes": ["small"],
 			"mixes": ["normal"],
-			"amounts": ["tons"]
+			"amounts": zone.amounts.berries ? zone.amounts.berries : ["normal"]
 		},
 		{
 			"func": addStragglerTrees,
 			"avoid": [
 				g_TileClasses.berries, 5,
+				g_TileClasses.pasture, 5,
 				g_TileClasses.forest, 5,
 				g_TileClasses.metal, 2,
 				g_TileClasses.mountain, 1,
@@ -346,6 +393,7 @@ for (let zone of climateZones)
 		{
 			"func": addDecoration,
 			"avoid": [
+				g_TileClasses.pasture, 5,
 				g_TileClasses.forest, 2,
 				g_TileClasses.mountain, 2,
 				g_TileClasses.player, 12,
