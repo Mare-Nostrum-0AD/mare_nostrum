@@ -6,10 +6,12 @@
   <BuildRestrictions>
     <Territory>own neutral</Territory>
     <Category>Colony</Category>
-    <Distance>
-      <FromClass>CivilCentre</FromClass>
-      <MinDistance>120</MinDistance>
-    </Distance>
+    <DistancesExclusive>
+	  <CivilCentre>
+      	<FromClass>CivilCentre</FromClass>
+      	<MinDistance>200</MinDistance>
+	  </CivilCentre>
+    </DistancesExclusive>
   </BuildRestrictions>
   <Cost>
     <BuildTime>300</BuildTime>

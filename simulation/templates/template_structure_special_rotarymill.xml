@@ -4,10 +4,12 @@
     structures/rotary_mill
   </Auras>
   <BuildRestrictions>
-    <Distance>
+    <DistancesExclusive>
+	  <Field>
 		<FromClass>Field</FromClass>
 		<MaxDistance>20</MaxDistance>
-    </Distance>
+	  </Field>
+    </DistancesExclusive>
   </BuildRestrictions>
   <Cost>
     <BuildTime>100</BuildTime>

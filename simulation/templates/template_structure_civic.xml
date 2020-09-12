@@ -12,10 +12,24 @@
   </Armour>
   <BuildRestrictions>
     <Category>Civic</Category>
-    <Distance>
-      <FromClass>CivilCentre</FromClass>
-      <MaxDistance>60</MaxDistance>
-    </Distance>
+    <DistancesInclusive>
+	  <VillageCentre>
+      	<FromClass>VillageCentre</FromClass>
+      	<MaxDistance>60</MaxDistance>
+	  </VillageCentre>
+	  <TownCentre>
+      	<FromClass>TownCentre</FromClass>
+      	<MaxDistance>90</MaxDistance>
+	  </TownCentre>
+	  <CityCentre>
+      	<FromClass>CityCentre</FromClass>
+      	<MaxDistance>120</MaxDistance>
+	  </CityCentre>
+	  <MetroCentre>
+      	<FromClass>MetroCentre</FromClass>
+      	<MaxDistance>150</MaxDistance>
+	  </MetroCentre>
+    </DistancesInclusive>
   </BuildRestrictions>
   <CityMember>
   	<GrowthContrib>

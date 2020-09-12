@@ -32,10 +32,12 @@
   </BuildingAI>
   <BuildRestrictions>
     <Category>Fortress</Category>
-    <Distance>
-      <FromClass>Fortress</FromClass>
-      <MinDistance>80</MinDistance>
-    </Distance>
+    <DistancesExclusive>
+	  <Fortress>
+      	<FromClass>Fortress</FromClass>
+      	<MinDistance>80</MinDistance>
+	  </Fortress>
+    </DistancesExclusive>
   </BuildRestrictions>
   <Capturable>
     <CapturePoints>4000</CapturePoints>

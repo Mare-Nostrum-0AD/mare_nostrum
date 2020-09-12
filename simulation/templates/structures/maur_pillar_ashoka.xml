@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Entity parent="template_structure_special">
   <Auras datatype="tokens">
-    structures/iber_monument
+    structures/maur_pillar
   </Auras>
   <BuildRestrictions>
-    <Category>Monument</Category>
+    <Category>Pillar</Category>
     <DistancesExclusive>
-	  <Monument>
-      	<FromClass>Monument</FromClass>
-      	<MinDistance>150</MinDistance>
-	  </Monument>
+	  <Pillar>
+      	<FromClass>Pillar</FromClass>
+      	<MinDistance>75</MinDistance>
+	  </Pillar>
     </DistancesExclusive>
   </BuildRestrictions>
   <Capturable disable=""/>
   <Cost>
-    <BuildTime>120</BuildTime>
+    <BuildTime>80</BuildTime>
     <Resources>
       <food>0</food>
       <wood>0</wood>
@@ -22,22 +22,22 @@
       <metal>100</metal>
     </Resources>
   </Cost>
-  <Footprint>
-    <Square width="10.0" depth="10.0"/>
-    <Height>8.0</Height>
+  <Footprint replace="">
+    <Square width="7.0" depth="7.0"/>
+    <Height>5.0</Height>
   </Footprint>
   <GarrisonHolder disable=""/>
   <Health>
-    <Max>1200</Max>
+    <Max>1000</Max>
     <SpawnEntityOnDeath>decay|rubble/rubble_stone_2x2</SpawnEntityOnDeath>
   </Health>
   <Identity>
-    <Civ>iber</Civ>
-    <GenericName>Revered Monument</GenericName>
-    <SpecificName>Gur Oroigarri</SpecificName>
-    <Classes datatype="tokens">Monument -ConquestCritical</Classes>
-    <Icon>structures/iberian_bull.png</Icon>
-    <Tooltip>All units within vision of this monument will fight harder. Buildings in the territory of the monument do not decay.</Tooltip>
+    <Civ>maur</Civ>
+    <GenericName>Edict Pillar of Ashoka</GenericName>
+    <SpecificName>Śāsana Stambha Aśokā</SpecificName>
+    <Classes datatype="tokens">Pillar -ConquestCritical</Classes>
+    <Icon>structures/ashoka_pillar.png</Icon>
+    <Tooltip>The famous pillar of Ashoka. Increases the walk speed of traders. Buildings in the territory of the monument do not decay.</Tooltip>
   </Identity>
   <Loot>
     <wood>0</wood>
@@ -45,7 +45,7 @@
     <metal>25</metal>
   </Loot>
   <Obstruction>
-    <Static width="10.0" depth="10.0"/>
+    <Static width="4" depth="4"/>
   </Obstruction>
   <ProductionQueue disable=""/>
   <RallyPoint disable=""/>
@@ -59,11 +59,8 @@
   <TerritoryInfluence>
     <Root>true</Root>
   </TerritoryInfluence>
-  <Vision>
-    <Range>60</Range>
-  </Vision>
   <VisualActor>
-    <Actor>structures/iberians/sb_1.xml</Actor>
+    <Actor>props/structures/mauryans/ashoka_pillar.xml</Actor>
     <FoundationActor>structures/fndn_2x2.xml</FoundationActor>
   </VisualActor>
 </Entity>

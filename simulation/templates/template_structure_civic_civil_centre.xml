@@ -43,11 +43,13 @@
   <BuildRestrictions>
     <Territory>own neutral</Territory>
     <Category>CivilCentre</Category>
-    <Distance>
-      <FromClass>CivilCentre</FromClass>
-      <MinDistance>200</MinDistance>
-	  <MaxDistance disable="" />
-    </Distance>
+    <DistancesExclusive>
+	  <CivilCentre>
+      	<FromClass>CivilCentre</FromClass>
+      	<MinDistance>200</MinDistance>
+		<MaxDistance disable="" />
+	  </CivilCentre>
+    </DistancesExclusive>
   </BuildRestrictions>
   <Capturable>
     <CapturePoints>2500</CapturePoints>

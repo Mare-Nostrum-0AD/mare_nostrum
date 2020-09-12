@@ -36,14 +36,35 @@ BuildRestrictions.prototype.Schema =
 		"<text/>" +
 	"</element>" +
 	"<optional>" +
-		"<element name='Distance' a:help='Specifies distance restrictions on this building, relative to buildings from the given category.'>" +
-			"<interleave>" +
-				"<element name='FromClass'>" +
-					"<text/>" +
+		"<element name='DistancesExclusive' a:help='Specifies distance restrictions on this building, relative to buildings from the given categories. All restrictions must be satisfied.'>" +
+			"<oneOrMore>" +
+				"<element a:help='One distance restriction'>" +
+					"<anyName />" +
+					"<interleave>" +
+						"<element name='FromClass'>" +
+							"<text/>" +
+						"</element>" +
+						"<optional><element name='MinDistance'><data type='positiveInteger'/></element></optional>" +
+						"<optional><element name='MaxDistance'><data type='positiveInteger'/></element></optional>" +
+					"</interleave>" +
 				"</element>" +
-				"<optional><element name='MinDistance'><data type='positiveInteger'/></element></optional>" +
-				"<optional><element name='MaxDistance'><data type='positiveInteger'/></element></optional>" +
-			"</interleave>" +
+			"</oneOrMore>" +
+		"</element>" +
+	"</optional>" +
+	"<optional>" +
+		"<element name='DistancesInclusive' a:help='Specifies distance restrictions on this building, relative to buildings from the given categories. Only one restriction need be satisfied.'>" +
+			"<oneOrMore>" +
+				"<element a:help='One distance restriction'>" +
+					"<anyName />" +
+					"<interleave>" +
+						"<element name='FromClass'>" +
+							"<text/>" +
+						"</element>" +
+						"<optional><element name='MinDistance'><data type='positiveInteger'/></element></optional>" +
+						"<optional><element name='MaxDistance'><data type='positiveInteger'/></element></optional>" +
+					"</interleave>" +
+				"</element>" +
+			"</oneOrMore>" +
 		"</element>" +
 	"</optional>";
 
@@ -236,28 +257,27 @@ BuildRestrictions.prototype.CheckPlacement = function()
 	let template = cmpTemplateManager.GetTemplate(removeFiltersFromTemplateName(templateName));
 
 	// Check distance restriction
-	if (this.template.Distance)
+	let target = this;
+	let checkDist = function(dist)
 	{
 		var cmpRangeManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_RangeManager);
-		var cmpPlayer = QueryOwnerInterface(this.entity, IID_Player);
-		var cat = this.template.Distance.FromClass;
+		var cmpPlayer = QueryOwnerInterface(target.entity, IID_Player);
+		var cat = dist.FromClass;
 
 		var filter = function(id)
 		{
 			var cmpIdentity = Engine.QueryInterface(id, IID_Identity);
 			return cmpIdentity.GetClassesList().indexOf(cat) > -1;
 		};
-
-		if (this.template.Distance.MinDistance !== undefined)
+		if (dist.MinDistance !== undefined)
 		{
-			let minDistance = ApplyValueModificationsToEntity("BuildRestrictions/Distance/MinDistance", +this.template.Distance.MinDistance, this.entity);
-			if (cmpRangeManager.ExecuteQuery(this.entity, 0, minDistance, [cmpPlayer.GetPlayerID()], IID_BuildRestrictions).some(filter))
+			let minDistance = ApplyValueModificationsToEntity("BuildRestrictions/Distance/MinDistance", +dist.MinDistance, target.entity);
+			if (cmpRangeManager.ExecuteQuery(target.entity, 0, minDistance, [cmpPlayer.GetPlayerID()], IID_BuildRestrictions).some(filter))
 			{
 				let result = markForPluralTranslation(
 					"%(name)s too close to a %(category)s, must be at least %(distance)s meter away",
 					"%(name)s too close to a %(category)s, must be at least %(distance)s meters away",
 					minDistance);
-
 				result.success = false;
 				result.translateMessage = true;
 				result.parameters = {
@@ -269,10 +289,10 @@ BuildRestrictions.prototype.CheckPlacement = function()
 				return result;  // Fail
 			}
 		}
-		if (this.template.Distance.MaxDistance !== undefined)
+		if (dist.MaxDistance !== undefined)
 		{
-			let maxDistance = ApplyValueModificationsToEntity("BuildRestrictions/Distance/MaxDistance", +this.template.Distance.MaxDistance, this.entity);
-			if (!cmpRangeManager.ExecuteQuery(this.entity, 0, maxDistance, [cmpPlayer.GetPlayerID()], IID_BuildRestrictions).some(filter))
+			let maxDistance = ApplyValueModificationsToEntity("BuildRestrictions/Distance/MaxDistance", +dist.MaxDistance, target.entity);
+			if (!cmpRangeManager.ExecuteQuery(target.entity, 0, maxDistance, [cmpPlayer.GetPlayerID()], IID_BuildRestrictions).some(filter))
 			{
 				let result = markForPluralTranslation(
 					"%(name)s too far from a %(category)s, must be within %(distance)s meter",
@@ -290,6 +310,32 @@ BuildRestrictions.prototype.CheckPlacement = function()
 				return result;	// Fail
 			}
 		}
+		return null;
+	};// end func checkDist
+
+	if (this.template.DistancesExclusive)
+	{
+		for (let d in this.template.DistancesExclusive)
+		{
+			let dist = this.template.DistancesExclusive[d];
+			let res = checkDist(dist);
+			if (res)
+				return res;
+		}// and for dist of this.template.DistancesExclusive
+	}
+
+	if (this.template.DistancesInclusive)
+	{
+		let res = null;
+		for (let d in this.template.DistancesInclusive)
+		{
+			let dist = this.template.DistancesInclusive[d];
+			res = checkDist(dist);
+			if (!res)
+				break;
+		}// end for dist of this.template.DistancesInclusive
+		if (res)
+			return res;
 	}
 
 	// Success
