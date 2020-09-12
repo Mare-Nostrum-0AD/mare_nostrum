@@ -14,7 +14,7 @@
     <Category>Civic</Category>
     <Distance>
       <FromClass>CivilCentre</FromClass>
-      <MaxDistance>90</MaxDistance>
+      <MaxDistance>60</MaxDistance>
     </Distance>
   </BuildRestrictions>
   <CityMember>

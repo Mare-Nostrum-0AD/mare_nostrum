@@ -1,0 +1,10 @@
+{
+	"type": "range",
+	"radius": 90,
+	"affects": ["Structure Civic !CivilCentre"],
+	"modifications": [
+		{ "value": "BuildRestrictions/Distance/MaxDistance", "add": 30 }
+	],
+	"auraName": "Town Radius",
+	"auraDescription": "Towns have +30 radius compared to villages."
+}
