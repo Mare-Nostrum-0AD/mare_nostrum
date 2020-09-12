@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Entity parent="template_structure_civic_centre">
+  <Auras datatype="tokens">
+  	structures/city_radius
+  </Auras>
   <Capturable merge="">
 	<CapturePoints op="mul">4.0</CapturePoints>
   </Capturable>
@@ -8,7 +11,7 @@
 		<Init>50000</Init>
 		<Max>1000000</Max>
 	</Population>
-	<Radius>120</Radius>
+	<Radius>150</Radius>
   </City>
   <GarrisonHolder merge="">
     <Max op="mul">4.0</Max>
