@@ -1550,16 +1550,16 @@ m.HQ.prototype.buildTemple = function(gameState, queues)
 	queues.economicBuilding.addPlan(new m.ConstructionPlan(gameState, templateName));
 };
 
-m.HQ.prototype.buildTempleSpecial = function(gameState, queues)
+m.HQ.prototype.buildTemplePatron = function(gameState, queues)
 {
 	// at least one market (which have the same queue) should be build before any temple
 	if (queues.economicBuilding.hasQueuedUnits() ||
-		gameState.getOwnEntitiesByClass("TempleSpecial", true).hasEntities() ||
+		gameState.getOwnEntitiesByClass("TemplePatron", true).hasEntities() ||
 		!gameState.getOwnEntitiesByClass("BarterMarket", true).hasEntities())
 		return;
 	let templeNames = ["fertility", "war", "trade", "sea"];
 	let chosenTemple = templeNames[randIntExclusive(0, templeNames.length)];
-	let templateName = "structures/{civ}_temple_special_" + chosenTemple;
+	let templateName = "structures/{civ}_temple_patron_" + chosenTemple;
 	if (!this.canBuild(gameState, templateName))
 		return;
 	queues.economicBuilding.addPlan(new m.ConstructionPlan(gameState, templateName));
@@ -2751,7 +2751,7 @@ m.HQ.prototype.update = function(gameState, queues, events)
 		{
 			this.buildBlacksmith(gameState, queues);
 			this.buildTemple(gameState, queues);
-			this.buildTempleSpecial(gameState, queues);
+			this.buildTemplePatron(gameState, queues);
 		}
 
 		if (gameState.ai.playedTurn % 30 == 0 &&

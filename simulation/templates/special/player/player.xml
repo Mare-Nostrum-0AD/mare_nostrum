@@ -36,7 +36,7 @@
       <Kennel>5</Kennel>
       <PyramidSmall>4</PyramidSmall>
       <PyramidLarge>2</PyramidLarge>
-      <TempleSpecial>1</TempleSpecial>
+      <TemplePatron>1</TemplePatron>
       <TempleOfAmun>1</TempleOfAmun>
     </Limits>
     <LimitChangers>

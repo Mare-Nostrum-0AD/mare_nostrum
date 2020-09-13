@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_structure_civic_temple_patron">
+  <Auras datatype="tokens">
+    structures/temple_heal
+	structures/temple_sea_local
+	structures/temple_sea_global
+  </Auras>
+  <Identity>
+    <GenericName>Maritime Temple</GenericName>
+    <SelectionGroupName>template_structure_temple_patron_fertility</SelectionGroupName>
+    <Tooltip>Train Healers and research healing technologies. Gain ship-related bonuses.</Tooltip>
+    <Icon>structures/temple_sea.png</Icon>
+  </Identity>
+</Entity>

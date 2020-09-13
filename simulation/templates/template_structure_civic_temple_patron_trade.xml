@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_structure_civic_temple_patron">
+  <Auras datatype="tokens">
+	structures/temple_trade_local
+	structures/temple_trade_global
+  </Auras>
+  <Identity>
+    <GenericName>Merchant Temple</GenericName>
+    <SelectionGroupName>template_structure_temple_patron_trade</SelectionGroupName>
+    <Tooltip>Train Healers and research healing technologies. Gain trade bonuses.</Tooltip>
+    <Icon>structures/temple_trade.png</Icon>
+  </Identity>
+</Entity>

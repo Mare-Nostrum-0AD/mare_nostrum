@@ -1,0 +1,11 @@
+{
+	"type": "range",
+	"radius": 120,
+	"affects": ["Stable"],
+	"modifications": [
+		{ "value": "ProductionQueue/BatchTimeModifier", "add": -0.3 }
+	],
+	"auraDescription" : "Stables train batches of units 30% faster.",
+	"auraName": "Local Equine Blessing",
+	"overlayIcon": "art/textures/ui/session/auras/horseshoe.png"
+}
