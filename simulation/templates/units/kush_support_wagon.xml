@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_unit_support_wagon">
+  <Identity>
+	<Civ>kush</Civ>
+  </Identity>
+  <VisualActor>
+    <Actor>units/kushites/supply_wagon.xml</Actor>
+  </VisualActor>
+</Entity>

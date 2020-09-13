@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_unit_support">
+  <Armour>
+    <Hack>5</Hack>
+    <Pierce>8</Pierce>
+    <Crush>10</Crush>
+  </Armour>
+  <Cost>
+    <BuildTime>20</BuildTime>
+    <Resources>
+      <food>150</food>
+    </Resources>
+  </Cost>
+  <Footprint>
+    <Circle radius="4.0"/>
+    <Height>6.0</Height>
+  </Footprint>
+  <Health>
+    <Max>300</Max>
+  </Health>
+  <Identity>
+    <VisibleClasses datatype="tokens">DropsiteFood DropsiteWood DropsiteStone DropsiteMetal</VisibleClasses>
+    <GenericName>Supply Wagon</GenericName>
+    <Icon>units/supply_wagon.png</Icon>
+    <Tooltip>Mobile dropsite.</Tooltip>
+    <Formations disable=""/>
+  </Identity>
+  <Loot>
+    <xp>50</xp>
+    <food>25</food>
+    <wood>10</wood>
+    <stone>10</stone>
+    <metal>10</metal>
+  </Loot>
+  <Position>
+    <Anchor>pitch</Anchor>
+  </Position>
+  <ResourceDropsite>
+    <Types>food wood stone metal</Types>
+    <Sharable>false</Sharable>
+  </ResourceDropsite>
+  <Selectable>
+    <Overlay>
+      <Texture>
+        <MainTexture>circle/256x256.png</MainTexture>
+        <MainTextureMask>circle/256x256_mask.png</MainTextureMask>
+      </Texture>
+    </Overlay>
+  </Selectable>
+  <Sound>
+    <SoundGroups>
+      <select>voice/{lang}/civ/civ_{gender}_select.xml</select>
+      <order_walk>voice/{lang}/civ/civ_{gender}_walk.xml</order_walk>
+      <order_attack>voice/{lang}/civ/civ_{gender}_attack.xml</order_attack>
+      <walk>actor/human/movement/walk.xml</walk>
+      <run>actor/human/movement/run.xml</run>
+      <attack_melee>attack/weapon/sword.xml</attack_melee>
+      <death>actor/human/death/{gender}_death.xml</death>
+    </SoundGroups>
+  </Sound>
+  <UnitAI>
+    <CanPatrol>false</CanPatrol>
+  </UnitAI>
+  <UnitMotion>
+    <PassabilityClass>large</PassabilityClass>
+    <WalkSpeed op="mul">0.6</WalkSpeed>
+    <Run>
+      <Speed op="mul">0.6</Speed>
+    </Run>
+  </UnitMotion>
+  <Vision>
+    <Range>50</Range>
+  </Vision>
+  <VisualActor>
+    <Actor>units/hellenes/supply_wagon.xml</Actor>
+  </VisualActor>
+</Entity>
