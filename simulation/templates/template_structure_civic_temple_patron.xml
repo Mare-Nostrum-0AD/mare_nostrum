@@ -39,7 +39,7 @@
     <GenericName>Patron Temple</GenericName>
     <SelectionGroupName>template_structure_civic_temple_patron</SelectionGroupName>
     <Tooltip>Train Healers and research healing technologies. Gain special bonuses.</Tooltip>
-    <VisibleClasses datatype="tokens">City Temple</VisibleClasses>
+    <VisibleClasses datatype="tokens">-Town City Temple</VisibleClasses>
     <Icon>structures/colony.png</Icon>
     <RequiredTechnology>phase_city</RequiredTechnology>
   </Identity>
