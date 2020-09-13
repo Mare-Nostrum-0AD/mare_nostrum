@@ -46,7 +46,7 @@
     <DistancesExclusive>
 	  <CivilCentre>
       	<FromClass>CivilCentre</FromClass>
-      	<MinDistance>300</MinDistance>
+      	<MinDistance>240</MinDistance>
 	  </CivilCentre>
     </DistancesExclusive>
 	<DistancesInclusive disable="" />

@@ -6,8 +6,14 @@
     <EndOfAlertRange>-1</EndOfAlertRange>
     <SearchRange>100</SearchRange>
   </AlertRaiser>
-  <BuildRestrictions>
+  <BuildRestrictions merge="">
     <Category>Market</Category>
+	<DistancesExclusive>
+		<Market>
+			<FromClass>BarterMarket</FromClass>
+			<MinDistance>120</MinDistance>
+		</Market>
+	</DistancesExclusive>
   </BuildRestrictions>
   <Cost>
     <BuildTime>150</BuildTime>
