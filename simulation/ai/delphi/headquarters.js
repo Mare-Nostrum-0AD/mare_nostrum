@@ -1557,7 +1557,7 @@ m.HQ.prototype.buildTemplePatron = function(gameState, queues)
 		gameState.getOwnEntitiesByClass("TemplePatron", true).hasEntities() ||
 		!gameState.getOwnEntitiesByClass("BarterMarket", true).hasEntities())
 		return;
-	let templeNames = ["fertility", "war", "trade", "sea"];
+	let templeNames = ["fertility", "war", "trade", "sea", "horse"];
 	let chosenTemple = templeNames[randIntExclusive(0, templeNames.length)];
 	let templateName = "structures/{civ}_temple_patron_" + chosenTemple;
 	if (!this.canBuild(gameState, templateName))
