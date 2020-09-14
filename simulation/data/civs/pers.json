@@ -130,6 +130,9 @@
 		},
 		{
 			"Template": "units/pers_cavalry_javelinist_b"
+		},
+		{
+			"Template": "units/pers_support_wagon"
 		}
 	],
 	"Formations":

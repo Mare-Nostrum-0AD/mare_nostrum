@@ -125,6 +125,9 @@
 		},
 		{
 			"Template": "units/kush_cavalry_javelinist_b"
+		},
+		{
+			"Template": "units/kush_support_wagon"
 		}
 	],
 	"WallSets":

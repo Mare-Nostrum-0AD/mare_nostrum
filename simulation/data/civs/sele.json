@@ -138,6 +138,9 @@
 		},
 		{
 			"Template": "units/sele_cavalry_javelinist_b"
+		},
+		{
+			"Template": "units/sele_support_wagon"
 		}
 	],
 	"Formations":

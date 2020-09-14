@@ -138,6 +138,9 @@
 		},
 		{
 			"Template": "units/cart_cavalry_javelinist_b"
+		},
+		{
+			"Template": "units/cart_support_wagon"
 		}
 	],
 	"Formations":

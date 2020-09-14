@@ -115,6 +115,9 @@
 		},
 		{
 			"Template": "units/rome_cavalry_spearman_b"
+		},
+		{
+			"Template": "units/rome_support_wagon"
 		}
 	],
 	"Formations":

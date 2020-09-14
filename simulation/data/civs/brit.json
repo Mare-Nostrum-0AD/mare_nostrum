@@ -116,6 +116,9 @@
 		},
 		{
 			"Template": "units/brit_war_dog_e"
+		},
+		{
+			"Template": "units/brit_support_wagon"
 		}
 	],
 	"Formations":

@@ -148,6 +148,9 @@
 		},
 		{
 			"Template": "units/athen_cavalry_javelinist_b"
+		},
+		{
+			"Template": "units/athen_support_wagon"
 		}
 	],
 	"Formations":
