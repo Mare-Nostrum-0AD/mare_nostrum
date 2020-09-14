@@ -10,8 +10,8 @@
       </animations>
       <mesh>props/special/wagon_four_wheel_empty.dae</mesh>
       <props>
-        <prop actor="units/iberians/trader_h.xml" attachpoint="horse_l"/>
-        <prop actor="units/iberians/trader_h.xml" attachpoint="horse_r"/>
+        <prop actor="units/celts/trader_h.xml" attachpoint="horse_l"/>
+        <prop actor="units/celts/trader_h.xml" attachpoint="horse_r"/>
         <prop actor="units/iberians/trader_r.xml" attachpoint="driver"/>
         <prop actor="props/special/eyecandy/Box_Pile.xml" attachpoint="cargo"/>
       </props>

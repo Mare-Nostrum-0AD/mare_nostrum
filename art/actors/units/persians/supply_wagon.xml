@@ -10,9 +10,9 @@
       </animations>
       <mesh>props/special/wagon_four_wheel_empty.dae</mesh>
       <props>
-        <prop actor="units/persians/trader_h.xml" attachpoint="horse_l"/>
-        <prop actor="units/persians/trader_h.xml" attachpoint="horse_r"/>
-        <prop actor="units/persians/trader_r.xml" attachpoint="driver"/>
+        <prop actor="units/hellenes/trader_h.xml" attachpoint="horse_l"/>
+        <prop actor="units/hellenes/trader_h.xml" attachpoint="horse_r"/>
+        <prop actor="units/hellenes/trader_r.xml" attachpoint="driver"/>
         <prop actor="props/special/eyecandy/Box_Pile.xml" attachpoint="cargo"/>
       </props>
       <textures><texture file="props/wooden_wagon.png" name="baseTex"/></textures>
