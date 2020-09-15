@@ -36,6 +36,7 @@
       structures/{civ}_temple_patron_war
       structures/{civ}_temple_patron_trade
       structures/{civ}_temple_patron_sea
+      structures/{civ}_temple_patron_horse
       structures/{civ}_wonder
     </Entities>
   </Builder>
