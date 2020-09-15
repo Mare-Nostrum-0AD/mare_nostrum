@@ -22,7 +22,7 @@
       <Hero>1</Hero>
       <Apadana>1</Apadana>
       <Embassy>2</Embassy>
-      <Monument>5</Monument>
+      <Monument>0</Monument>
       <Pillar>0</Pillar>
       <WarDog>0</WarDog>
       <Theater>1</Theater>
@@ -49,6 +49,9 @@
       <Juggernaut>
         <PtolemyIV>4</PtolemyIV>
       </Juggernaut>
+	  <Monument>
+	  	<CityCentre>1</CityCentre>
+	  </Monument>
     </LimitChangers>
     <LimitRemovers>
       <CivilCentre>
