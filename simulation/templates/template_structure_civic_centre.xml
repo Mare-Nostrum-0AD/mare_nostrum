@@ -127,6 +127,8 @@
     <Technologies datatype="tokens">
       phase_town_{civ}
       phase_city_{civ}
+      phase_hegemon_{civ}
+      phase_empire_{civ}
     </Technologies>
   </ProductionQueue>
   <ResourceDropsite>
