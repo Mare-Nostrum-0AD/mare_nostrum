@@ -1,6 +1,6 @@
 {
 	"type": "range",
-	"radius": 100,
+	"radius": 150,
 	"affects": ["CivilCentre"],
 	"modifications": [
 		{ "value": "City/Population/Growth/Rate", "multiply": 2.0 },

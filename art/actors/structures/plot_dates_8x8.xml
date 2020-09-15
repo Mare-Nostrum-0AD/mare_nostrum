@@ -5,12 +5,12 @@
     <variant>
 	<mesh>structural/field_propped_8x8.dae</mesh>
 	  	  <props>
-        <prop actor="flora/trees/palm_cretan_date.xml" attachpoint="patch" minheight="-20" maxheight="20"/>
-		<prop actor="flora/trees/palm_cretan_date.xml" attachpoint="patch_012" minheight="-20" maxheight="20"/>
-		<prop actor="flora/trees/palm_cretan_date.xml" attachpoint="patch_024" minheight="-20" maxheight="20"/>
-		<prop actor="flora/trees/palm_cretan_date.xml" attachpoint="patch_036" minheight="-20" maxheight="20"/>
-		<prop actor="flora/trees/palm_cretan_date.xml" attachpoint="patch_048" minheight="-20" maxheight="20"/>
-		<prop actor="flora/trees/palm_cretan_date.xml" attachpoint="patch_060" minheight="-20" maxheight="20"/>
+        <prop actor="flora/trees/palm_cretan_date_patch.xml" attachpoint="patch" minheight="-20" maxheight="20"/>
+		<prop actor="flora/trees/palm_cretan_date_patch.xml" attachpoint="patch_012" minheight="-20" maxheight="20"/>
+		<prop actor="flora/trees/palm_cretan_date_patch.xml" attachpoint="patch_024" minheight="-20" maxheight="20"/>
+		<prop actor="flora/trees/palm_cretan_date_patch.xml" attachpoint="patch_036" minheight="-20" maxheight="20"/>
+		<prop actor="flora/trees/palm_cretan_date_patch.xml" attachpoint="patch_048" minheight="-20" maxheight="20"/>
+		<prop actor="flora/trees/palm_cretan_date_patch.xml" attachpoint="patch_060" minheight="-20" maxheight="20"/>
 		<prop actor="props/structures/decals/field_new_5x5.xml" attachpoint="root"/>
       </props>
       <textures>

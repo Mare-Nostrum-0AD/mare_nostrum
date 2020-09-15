@@ -3,8 +3,5 @@
 	<Identity merge="">
 		<Civ>gaia</Civ>
 	</Identity>
-	<VisualActor>
-		<Actor>structures/plot_olives_8x8.xml</Actor>
-	</VisualActor>
 </Entity>
 
