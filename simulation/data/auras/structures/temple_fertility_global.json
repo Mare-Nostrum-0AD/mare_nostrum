@@ -2,10 +2,14 @@
 	"type": "global",
 	"affects": ["FemaleCitizen", "FishingBoat"],
 	"modifications": [
-		{ "value": "ResourceGatherer/Rates/food", "multiply": 1.10 },
-		{ "value": "ResourceGatherer/Rates/wood", "multiply": 1.10 },
-		{ "value": "ResourceGatherer/Rates/stone", "multiply": 1.10 },
-		{ "value": "ResourceGatherer/Rates/metal", "multiply": 1.10 }
+		{ "value": "ResourceGatherer/Rates/food.grain", "multiply": 1.10 },
+		{ "value": "ResourceGatherer/Rates/food.fruit", "multiply": 1.10 },
+		{ "value": "ResourceGatherer/Rates/food.meat", "multiply": 1.10 },
+		{ "value": "ResourceGatherer/Rates/stone.rock", "multiply": 1.10 },
+		{ "value": "ResourceGatherer/Rates/stone.ruins", "multiply": 1.10 },
+		{ "value": "ResourceGatherer/Rates/metal.ore", "multiply": 1.10 },
+		{ "value": "ResourceGatherer/Rates/wealth.crops", "multiply": 1.10 },
+		{ "value": "ResourceGatherer/Rates/wealth.wares", "multiply": 1.10 }
 	],
 	"auraDescription" : "Female Citizens and Fishermen +10% gather rate for all resources.",
 	"auraName": "Global Fertility Blessing",

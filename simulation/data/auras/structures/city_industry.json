@@ -1,0 +1,18 @@
+{
+	"type": "range",
+	"radius": 120,
+	"affects": ["Worker", "Trader"],
+	"modifications": [
+		{ "value": "ResourceGatherer/Rates/food.grain", "multiply": 1.25 },
+		{ "value": "ResourceGatherer/Rates/food.fruit", "multiply": 1.25 },
+		{ "value": "ResourceGatherer/Rates/food.meat", "multiply": 1.25 },
+		{ "value": "ResourceGatherer/Rates/stone.rock", "multiply": 1.25 },
+		{ "value": "ResourceGatherer/Rates/stone.ruins", "multiply": 1.25 },
+		{ "value": "ResourceGatherer/Rates/metal.ore", "multiply": 1.25 },
+		{ "value": "ResourceGatherer/Rates/wealth.crops", "multiply": 1.25 },
+		{ "value": "ResourceGatherer/Rates/wealth.wares", "multiply": 1.25 },
+		{ "value": "Trader/GainMultiplier", "add": 0.10 }
+	],
+	"auraDescription" : "Workers in the vicinity of a city gather resources 25% faster. Traders +10% gain multiplier.",
+	"auraName": "City Industry"
+}
