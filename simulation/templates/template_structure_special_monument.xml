@@ -16,6 +16,16 @@
 	  </MetroCentre>
 	</DistancesInclusive>
   </BuildRestrictions>
+  <Cost>
+    <BuildTime>100</BuildTime>
+    <PopulationBonus>2</PopulationBonus>
+    <Resources>
+      <food>0</food>
+      <wood>0</wood>
+      <stone>1000</stone>
+      <wealth>1000</wealth>
+    </Resources>
+  </Cost>
   <Identity>
     <GenericName>Monument</GenericName>
     <Tooltip>This is a monument unique to a particular civilization. It aids in the growth of cities.</Tooltip>

@@ -8,11 +8,6 @@
   </BuildRestrictions>
   <Cost>
     <BuildTime>500</BuildTime>
-    <Resources>
-      <wood>0</wood>
-      <stone>500</stone>
-      <metal>500</metal>
-    </Resources>
   </Cost>
   <Footprint replace="">
     <Circle radius="25"/>

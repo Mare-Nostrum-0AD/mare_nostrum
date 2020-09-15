@@ -22,6 +22,7 @@
     <Resources>
       <food>100</food>
       <metal>250</metal>
+      <wealth>500</wealth>
     </Resources>
   </Cost>
   <Health>

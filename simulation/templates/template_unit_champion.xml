@@ -8,6 +8,11 @@
       <RestrictedClasses datatype="tokens">Field Palisade SiegeWall StoneWall Elephant</RestrictedClasses>
     </Capture>
   </Attack>
+  <Cost>
+    <Resources>
+      <wealth>200</wealth>
+    </Resources>
+  </Cost>
   <Identity>
     <GenericName>Champion Unit</GenericName>
     <Classes datatype="tokens">Organic Human</Classes>
