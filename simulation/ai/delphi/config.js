@@ -66,7 +66,7 @@ m.Config = function(difficulty, behavior)
 		"ptol": ["structures/{civ}_library"],
 		"rome": ["structures/{civ}_army_camp", "structures/{civ}_arch",
 			"structures/{civ}_thermae"],
-		"sele": ["structures/{civ}_library"],
+		"sele": ["structures/{civ}_library", "structures/{civ}_theatron"],
 		"spart": ["structures/{civ}_syssiton", "structures/{civ}_theatron",
 		          "structures/{civ}_royal_stoa"]
 	};
