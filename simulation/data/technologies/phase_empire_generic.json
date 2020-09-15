@@ -1,0 +1,25 @@
+{
+	"genericName": "Empire Phase",
+	"specificName": {
+		"athen": "Autokratória",
+		"mace": "Autokratória",
+		"spart": "Autokratória"
+	},
+	"description": "Your power extends beyond a single great city, you now control many great cities and peoples.",
+	"cost": { "food": 0, "wood": 0, "stone": 0, "metal": 0 },
+	"requirements": { "all": [{ "entity": {"class": "MetroCentre", "number": 3} }, { "entity": {"class": "Wonder", "number": 1} }] },
+	"autoResearch": true,
+	"requirementsTooltip": "Requires 3 Metropoli and a Wonder.",
+	"supersedes": "phase_hegemon_generic",
+	"replaces": ["phase_empire"],
+	"icon": "empire_phase.png",
+	"researchTime": 60,
+	"tooltip": "Advance to Empire Phase, which unlocks a population cap bonus. All units move 20% faster. All structures +3 garrisoned regeneration rate.",
+	"modifications": [
+		{ "value": "Player/MaxPopulation", "add": 40, "affects": "Player" },
+		{ "value": "UnitMotion/WalkSpeed", "multiply": 1.2, "affects": "Unit" },
+		{ "value": "UnitMotion/RunSpeed", "multiply": 1.2, "affects": "Unit" },
+		{ "value": "Capturable/GarrisonRegenRate", "add": 3.0, "affects": "Structure" }
+	],
+	"soundComplete": "interface/alarm/alarm_phase.xml"
+}
