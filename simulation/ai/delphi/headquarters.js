@@ -1619,6 +1619,17 @@ m.HQ.prototype.buildFarmstead = function(gameState, queues)
 	queues.economicBuilding.addPlan(new m.ConstructionPlan(gameState, "structures/{civ}_farmstead"));
 };
 
+m.HQ.prototype.buildPalace = function(gameState, queues)
+{
+	if (queues.economicBuilding.hasQueuedUnits() ||
+		gameState.getOwnEntitiesByClass("Palace", true).hasEntities())
+		return;
+	let templateName = "structures/{civ}_palace";
+	if (!this.canBuild(gameState, templateName))
+		return;
+	queues.economicBuilding.addPlan(new m.ConstructionPlan(gameState, templateName));
+};
+
 /**
  * Try to build a wonder when required
  * force = true when called from the victoryManager in case of Wonder victory condition.
@@ -2752,6 +2763,7 @@ m.HQ.prototype.update = function(gameState, queues, events)
 			this.buildBlacksmith(gameState, queues);
 			this.buildTemple(gameState, queues);
 			this.buildTemplePatron(gameState, queues);
+			this.buildPalace(gameState, queues);
 		}
 
 		if (gameState.ai.playedTurn % 30 == 0 &&
