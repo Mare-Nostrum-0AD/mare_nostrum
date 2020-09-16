@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_structure_special_palace">
+  <Cost>
+    <BuildTime>200</BuildTime>
+    <Resources>
+      <wood op="mul">0.5</wood>
+      <stone op="mul">0.5</stone>
+      <wealth op="mul">0.5</wealth>
+    </Resources>
+  </Cost>
+  <Footprint>
+    <Square width="20.0" depth="30.0"/>
+    <Height>8.0</Height>
+  </Footprint>
+  <Health>
+    <Max>2000</Max>
+  </Health>
+  <Identity>
+    <Civ>rome</Civ>
+    <GenericName>Senate House</GenericName>
+    <SpecificName>Curia</SpecificName>
+    <Tooltip>Train heroes. Research special technologies.</Tooltip>
+    <Icon>structures/tholos.png</Icon>
+  </Identity>
+  <Loot>
+    <wood>0</wood>
+    <stone>25</stone>
+    <metal>50</metal>
+  </Loot>
+  <Obstruction>
+    <Static width="24.0" depth="30.0"/>
+  </Obstruction>
+  <ProductionQueue>
+    <BatchTimeModifier>0.7</BatchTimeModifier>
+    <Entities datatype="tokens">
+      units/{civ}_hero_marcellus
+      units/{civ}_hero_maximus
+      units/{civ}_hero_scipio
+    </Entities>
+  </ProductionQueue>
+  <Sound>
+    <SoundGroups>
+      <select>interface/select/building/sel_tholos.xml</select>
+      <constructed>interface/complete/building/complete_tholos.xml</constructed>
+      <death>attack/destruction/building_collapse_large.xml</death>
+    </SoundGroups>
+  </Sound>
+  <VisualActor>
+    <Actor>structures/romans/curia.xml</Actor>
+  </VisualActor>
+</Entity>
