@@ -3,9 +3,6 @@
   <Auras datatype="tokens">
     structures/theatron
   </Auras>
-  <BuildRestrictions>
-    <Category>Theater</Category>
-  </BuildRestrictions>
   <Cost>
     <BuildTime>500</BuildTime>
   </Cost>

@@ -11,6 +11,6 @@
 			"scripts/ConquestStructures.js"
 		],
 		"DisabledWhenChecked": ["conquest"],
-		"GUIOrder": 1
+		"GUIOrder": 2
 	}
 }

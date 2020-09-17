@@ -32,6 +32,7 @@
       <wood>350</wood>
       <metal>200</metal>
       <stone>350</stone>
+      <wealth>500</wealth>
     </Resources>
   </Cost>
   <Footprint>
@@ -62,12 +63,13 @@
     <GenericName>Heavy Warship</GenericName>
     <Tooltip>Garrison units for transport and to increase firepower.</Tooltip>
     <VisibleClasses datatype="tokens">Ranged Warship</VisibleClasses>
-    <RequiredTechnology>phase_city</RequiredTechnology>
+    <RequiredTechnology>phase_hegemon</RequiredTechnology>
   </Identity>
   <Loot>
     <xp>150</xp>
     <wood>40</wood>
     <metal>30</metal>
+    <wealth>30</wealth>
   </Loot>
   <ResourceGatherer disable=""/>
   <Sound>

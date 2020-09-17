@@ -155,6 +155,8 @@ m.AttackPlan = function(gameState, Config, uniqueID, type, data)
 			"interests": [["strength", 3]] };
 		this.unitStat.ChampMeleeCavalry   = { "priority": 1, "minSize": 3, "targetSize": 15, "batchSize": 3, "classes": ["Cavalry", "Melee", "Champion"],
 			"interests": [["strength", 2]] };
+		this.unitStat.ChampMeleeElephant   = { "priority": 1, "minSize": 0, "targetSize": 5, "batchSize": 1, "classes": ["Elephant", "Melee", "Champion"],
+			"interests": [["strength", 2]] };
 		this.unitStat.Hero                = { "priority": 1, "minSize": 0, "targetSize":  1, "batchSize": 1, "classes": ["Hero"],
 			"interests": [["strength", 2]] };
 		this.neededShips = 5;
@@ -348,7 +350,7 @@ m.AttackPlan.prototype.addSiegeUnits = function(gameState)
 		return false;
 
 	let civ = gameState.getPlayerCiv();
-	let classes = [[ "Siege", "Melee"], ["Siege", "Ranged"], ["Elephant", "Melee", "Champion"]];
+	let classes = [[ "Siege", "Melee"], ["Siege", "Ranged"]];
 	let hasTrainer = [false, false, false];
 	for (let ent of gameState.getOwnTrainingFacilities().values())
 	{
@@ -613,8 +615,7 @@ m.AttackPlan.prototype.trainMoreUnits = function(gameState)
 	{
 		// find the actual queue we want
 		let queue = this.queue;
-		if (firstOrder[3].classes.indexOf("Siege") != -1 || firstOrder[3].classes.indexOf("Elephant") != -1 &&
-		    firstOrder[3].classes.indexOf("Melee") != -1 && firstOrder[3].classes.indexOf("Champion") != -1)
+		if (firstOrder[3].classes.indexOf("Siege") != -1)
 			queue = this.queueSiege;
 		else if (firstOrder[3].classes.indexOf("Hero") != -1)
 			queue = this.queueSiege;

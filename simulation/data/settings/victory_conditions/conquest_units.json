@@ -11,6 +11,6 @@
 			"scripts/ConquestUnits.js"
 		],
 		"DisabledWhenChecked": ["conquest"],
-		"GUIOrder": 1
+		"GUIOrder": 2
 	}
 }

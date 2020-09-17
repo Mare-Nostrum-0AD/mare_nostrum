@@ -58,7 +58,7 @@
   <Identity>
     <GenericName>Medium Warship</GenericName>
     <VisibleClasses datatype="tokens">Ranged Warship</VisibleClasses>
-    <RequiredTechnology>phase_town</RequiredTechnology>
+    <RequiredTechnology>phase_city</RequiredTechnology>
     <Tooltip>Garrison units for transport and to increase firepower.</Tooltip>
   </Identity>
   <Loot>

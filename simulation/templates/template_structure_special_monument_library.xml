@@ -3,9 +3,6 @@
   <Auras datatype="tokens">
     structures/library
   </Auras>
-  <BuildRestrictions>
-    <Category>Library</Category>
-  </BuildRestrictions>
   <Footprint>
     <Square width="29.0" depth="34.0"/>
     <Height>9.0</Height>
