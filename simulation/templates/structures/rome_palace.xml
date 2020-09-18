@@ -17,7 +17,7 @@
   </Health>
   <Identity>
     <Civ>rome</Civ>
-    <GenericName>Senate House</GenericName>
+    <GenericName>Roman Senate</GenericName>
     <SpecificName>Curia</SpecificName>
     <Tooltip>Train heroes. Research special technologies.</Tooltip>
     <Icon>structures/tholos.png</Icon>

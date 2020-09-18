@@ -6,7 +6,7 @@
   </Footprint>
   <Identity>
     <Civ>spart</Civ>
-    <SpecificName>Temple of Ares</SpecificName>
+    <SpecificName>Ναός Ares</SpecificName>
   </Identity>
   <Obstruction>
     <Static width="17.5" depth="35.5"/>
