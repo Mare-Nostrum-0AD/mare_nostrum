@@ -34,6 +34,8 @@
     <BatchTimeModifier>0.7</BatchTimeModifier>
     <Entities datatype="tokens">
       units/{civ}_hero_leonidas
+      units/{civ}_hero_brasidas
+      units/{civ}_hero_agis
     </Entities>
   </ProductionQueue>
   <Sound>

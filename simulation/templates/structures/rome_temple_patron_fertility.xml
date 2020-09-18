@@ -6,7 +6,7 @@
   </Footprint>
   <Identity>
     <Civ>rome</Civ>
-    <SpecificName>Temple of Ceres</SpecificName>
+    <SpecificName>Aedes Cereris</SpecificName>
   </Identity>
   <Obstruction>
     <Static width="20.0" depth="40.0"/>
