@@ -3,7 +3,7 @@
   <Builder>
     <Entities datatype="tokens">
 		-other/vineyard
-		other/olive_grove
+		other/date_grove
     </Entities>
   </Builder>
   <Identity>
