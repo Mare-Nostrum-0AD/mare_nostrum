@@ -1,0 +1,14 @@
+{
+	"code": "wood",
+	"name": "Wood",
+	"description": "Cut down from trees or groves.",
+	"order": 2,
+	"subtypes": {
+		"tree": "Tree",
+		"ruins": "Ruins"
+	},
+	"truePrice": 100,
+	"shareable": true,
+	"tradeable": true,
+	"aiAnalysisInfluenceGroup": "abundant"
+}

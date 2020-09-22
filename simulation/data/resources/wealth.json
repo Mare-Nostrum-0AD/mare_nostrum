@@ -10,5 +10,7 @@
 		"wares": "Wares"
 	},
 	"truePrice": 200,
+	"shareable": true,
+	"tradeable": true,
 	"aiAnalysisInfluenceGroup": "sparse"
 }

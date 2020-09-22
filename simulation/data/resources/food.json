@@ -11,5 +11,7 @@
 		"milk": "Milk"
 	},
 	"truePrice": 100,
+	"shareable": true,
+	"tradeable": true,
 	"aiAnalysisInfluenceGroup": "ignore"
 }

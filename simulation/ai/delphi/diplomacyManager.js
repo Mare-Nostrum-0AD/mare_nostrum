@@ -78,7 +78,7 @@ m.DiplomacyManager.prototype.tributes = function(gameState)
 		let allyPop = gameState.sharedScript.playersData[i].popCount;
 		let tribute = {};
 		let toSend = false;
-		for (let res in allyResources)
+		for (let res of Resources.GetCodes((res) => res.shareable))
 		{
 			if (donor && availableResources[res] > 200 && allyResources[res] < 0.2 * availableResources[res])
 			{

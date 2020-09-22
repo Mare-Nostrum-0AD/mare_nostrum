@@ -8,7 +8,7 @@
  * @param subtypes - If true, resource subtypes will be included as well.
  * @return RelaxNG schema string
  */
-Resources.prototype.BuildSchema = function(datatype, additional = [], subtypes = false)
+Resources.prototype.BuildSchema = function(datatype, additional = [], subtypes = false, filter = (res) => true)
 {
 	if (!datatype)
 		return "";
@@ -25,7 +25,7 @@ Resources.prototype.BuildSchema = function(datatype, additional = [], subtypes =
 		datatype = "<data type='" + datatype + "'/>";
 	}
 
-	let resCodes = this.resourceData.map(resource => resource.code);
+	let resCodes = this.resourceData.filter(filter).map(resource => resource.code);
 	let schema = "";
 	for (let res of resCodes.concat(additional))
 		schema +=
@@ -38,7 +38,7 @@ Resources.prototype.BuildSchema = function(datatype, additional = [], subtypes =
 	if (!subtypes)
 		return "<interleave>" + schema + "</interleave>";
 
-	for (let res of this.resourceData)
+	for (let res of this.resourceData.filter(filter))
 		for (let subtype in res.subtypes)
 			schema +=
 				"<optional>" +
@@ -66,20 +66,20 @@ Resources.prototype.BuildSchema = function(datatype, additional = [], subtypes =
  * @param treasure - If set to true, the pseudo resource 'treasure' (or its subtypes) will be included
  * @return String of RelaxNG Schema `<choice/>` values.
  */
-Resources.prototype.BuildChoicesSchema = function(subtypes = false, treasure = false)
+Resources.prototype.BuildChoicesSchema = function(subtypes = false, treasure = false, filter = (res) => true)
 {
 	let schema = "";
 
 	if (!subtypes)
 	{
-		let resCodes = this.resourceData.map(resource => resource.code);
+		let resCodes = this.resourceData.filter(filter).map(resource => resource.code);
 		if (treasure)
 			resCodes.push("treasure");
 		for (let res of resCodes)
 			schema += "<value>" + res + "</value>";
 	}
 	else
-		for (let res of this.resourceData)
+		for (let res of this.resourceData.filter(filter))
 		{
 			for (let subtype in res.subtypes)
 				schema += "<value>" + res.code + "." + subtype + "</value>";

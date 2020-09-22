@@ -1,0 +1,13 @@
+{
+	"code": "metal",
+	"name": "Metal",
+	"description": "Mine from metal mines or quarries.",
+	"order": 4,
+	"subtypes": {
+		"ore": "Ore"
+	},
+	"truePrice": 100,
+	"shareable": true,
+	"tradeable": true,
+	"aiAnalysisInfluenceGroup": "sparse"
+}
