@@ -73,6 +73,18 @@
 		<LineTextureMask>outline_border_mask.png</LineTextureMask>
         <LineThickness>0.625</LineThickness>
 	</RangeOverlay>
+	<ResourceTrickle>
+		<Interval>10000</Interval>
+		<PerPop>100</PerPop>
+		<Rates>
+			<food>0</food>
+			<wood>0</wood>
+			<stone>0</stone>
+			<metal>0</metal>
+			<wealth>0</wealth>
+			<manpower>1</manpower>
+		</Rates>
+	</ResourceTrickle>
 	<Upgrade>structures/{native}_civil_centre</Upgrade>
   </City>
   <CityMember disable="" />

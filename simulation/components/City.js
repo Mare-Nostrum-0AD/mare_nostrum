@@ -96,6 +96,7 @@ City.prototype.Init = function()
 	this.SetPopulation(this.template.Population.Init);
 	// set timer this.growthTimer to grow population at interval
 	this.ResetGrowthTimer();
+	this.ResetResourceTrickleTimer();
 };
 
 City.prototype.ResetGrowthTimer = function()
@@ -105,6 +106,17 @@ City.prototype.ResetGrowthTimer = function()
 		cmpTimer.CancelTimer(this.growthTimer);
 	let growthTimerInterval = Math.round(this.template.Population.Growth.Interval);
 	this.growthTimer = cmpTimer.SetInterval(this.entity, IID_City, "GrowPopulation", growthTimerInterval, growthTimerInterval, null);
+};
+
+City.prototype.ResetResourceTrickleTimer = function()
+{
+	if (!this.template.ResourceTrickle)
+		return;
+	let cmpTimer = Engine.QueryInterface(SYSTEM_ENTITY, IID_Timer);
+	if (this.resourceTrickleTimer)
+		cmpTimer.CancelTimer(this.resourceTrickleTimer);
+	let timerInterval = ApplyValueModificationsToEntity("City/ResourceTrickle/Interval", Math.round(this.template.ResourceTrickle.Interval, this.entity));
+	this.resourceTrickleTimer = cmpTimer.SetInterval(this.entity, IID_City, "TrickleResources", timerInterval, timerInterval, null);
 };
 
 City.prototype.GetPopulation = function()
@@ -209,6 +221,27 @@ City.prototype.GrowPopulation = function()
 	return this.SetPopulation(oldPopulation + this.GetPopulationGrowthRate());
 };
 
+City.prototype.ComputeResourceTrickleRates = function()
+{
+	let popMultiplier = Math.floor(+this.GetPopulation() / 
+		+ApplyValueModificationsToEntity("City/ResourceTrickle/PerPop", +this.template.ResourceTrickle.PerPop, this.entity));
+	let rates = {};
+	for (let resource in this.template.ResourceTrickle.Rates)
+	{
+		rates[resource] = Math.round(+ApplyValueModificationsToEntity("City/ResourceTrickle/Rates/" + resource, +this.template.ResourceTrickle.Rates[resource], this.entity) * popMultiplier);
+	}// end for rate of rates
+	return rates;
+};
+
+City.prototype.TrickleResources = function()
+{
+	let cmpPlayer = QueryOwnerInterface(this.entity) || Engine.QueryInterface(this.entity, IID_Player);
+	if (!cmpPlayer)
+		return;
+
+	cmpPlayer.AddResources(this.ComputeResourceTrickleRates());
+};
+
 City.prototype.GetUpgradeTemplate = function()
 {
 	if (!this.template.Upgrade)
@@ -255,13 +288,24 @@ City.prototype.CancelGrowthTimer = function()
 	{
 		let cmpTimer = Engine.QueryInterface(SYSTEM_ENTITY, IID_Timer);
 		cmpTimer.CancelTimer(this.growthTimer);
-		this.timer = undefined;
+		this.growthTimer = undefined;
+	}
+};
+
+City.prototype.CancelResourceTrickleTimer = function()
+{
+	if (this.resourceTrickleTimer)
+	{
+		let cmpTimer = Engine.QueryInterface(SYSTEM_ENTITY, IID_Timer);
+		cmpTimer.CancelTimer(this.resourceTrickleTimer);
+		this.resourceTrickleTimer = undefined;
 	}
 };
 
 City.prototype.OnDestroy = function(msg)
 {
 	this.CancelGrowthTimer();
+	this.CancelResourceTrickleTimer();
 };
 
 City.prototype.Serialize = function()
