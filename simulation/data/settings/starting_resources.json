@@ -4,33 +4,89 @@
 	"Data":
 	[
 		{
-			"Resources": 1,
-			"Title": "None"
-		},
-		{
-			"Resources": 100,
-			"Title": "Very Low"
-		},
-		{
-			"Resources": 300,
-			"Title": "Low",
+			"Title": "None",
+			"AmountLabel": 0,
+			"Resources": {
+				"food": 0,
+				"wood": 0,
+				"stone": 0,
+				"metal": 0,
+				"wealth": 0,
+				"manpower": 100
+			},
 			"Default": true
 		},
 		{
-			"Resources": 500,
-			"Title": "Medium"
+			"Title": "Very Low",
+			"AmountLabel": 100,
+			"Resources": {
+				"food": 100,
+				"wood": 100,
+				"stone": 50,
+				"metal": 50,
+				"wealth": 25,
+				"manpower": 100
+			}
 		},
 		{
-			"Resources": 1000,
-			"Title": "High"
+			"Title": "Low",
+			"AmountLabel": 300,
+			"Resources": {
+				"food": 300,
+				"wood": 300,
+				"stone": 150,
+				"metal": 150,
+				"wealth": 75,
+				"manpower": 100
+			}
 		},
 		{
-			"Resources": 3000,
-			"Title": "Very High"
+			"Title": "Medium",
+			"AmountLabel": 500,
+			"Resources": {
+				"food": 500,
+				"wood": 500,
+				"stone": 250,
+				"metal": 250,
+				"wealth": 125,
+				"manpower": 125
+			}
 		},
 		{
-			"Resources": 50000,
-			"Title": "Deathmatch"
+			"Title": "High",
+			"AmountLabel": 1000,
+			"Resources": {
+				"food": 1000,
+				"wood": 1000,
+				"stone": 500,
+				"metal": 500,
+				"wealth": 250,
+				"manpower": 200
+			}
+		},
+		{
+			"Title": "Very High",
+			"AmountLabel": 3000,
+			"Resources": {
+				"food": 3000,
+				"wood": 3000,
+				"stone": 1500,
+				"metal": 1500,
+				"wealth": 750,
+				"manpower": 300
+			}
+		},
+		{
+			"Title": "Deathmatch",
+			"AmountLabel": 50000,
+			"Resources": {
+				"food": 50000,
+				"wood": 50000,
+				"stone": 50000,
+				"metal": 50000,
+				"wealth": 50000,
+				"manpower": 50000
+			}
 		}
 	]
 }

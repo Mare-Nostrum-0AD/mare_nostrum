@@ -115,7 +115,7 @@ City.prototype.ResetResourceTrickleTimer = function()
 	let cmpTimer = Engine.QueryInterface(SYSTEM_ENTITY, IID_Timer);
 	if (this.resourceTrickleTimer)
 		cmpTimer.CancelTimer(this.resourceTrickleTimer);
-	let timerInterval = ApplyValueModificationsToEntity("City/ResourceTrickle/Interval", Math.round(this.template.ResourceTrickle.Interval, this.entity));
+	let timerInterval = +ApplyValueModificationsToEntity("City/ResourceTrickle/Interval", Math.round(this.template.ResourceTrickle.Interval, this.entity));
 	this.resourceTrickleTimer = cmpTimer.SetInterval(this.entity, IID_City, "TrickleResources", timerInterval, timerInterval, null);
 };
 
@@ -224,7 +224,7 @@ City.prototype.GrowPopulation = function()
 City.prototype.ComputeResourceTrickleRates = function()
 {
 	let popMultiplier = Math.floor(+this.GetPopulation() / 
-		+ApplyValueModificationsToEntity("City/ResourceTrickle/PerPop", +this.template.ResourceTrickle.PerPop, this.entity));
+		Math.round(ApplyValueModificationsToEntity("City/ResourceTrickle/PerPop", +this.template.ResourceTrickle.PerPop, this.entity)));
 	let rates = {};
 	for (let resource in this.template.ResourceTrickle.Rates)
 	{
