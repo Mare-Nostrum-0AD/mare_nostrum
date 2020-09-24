@@ -17,6 +17,13 @@ var g_GameSpeeds = getGameSpeedChoices(false);
  * Load unselectable civs as they could appear in scenario maps.
  */
 const g_CivData = loadCivData(false, false);
+const g_RandomCivGroups = loadRandomCivGroups().filter((group) => {
+	for (let civ in group.Weights) {
+		if (!g_CivData.hasOwnProperty(civ))
+			return false;
+	}// end for civ
+	return true;
+});
 
 /**
  * Store civilization code and page (structree or history) opened in civilization info.
@@ -81,15 +88,24 @@ var g_PlayerCivList = g_CivData && prepareForDropdown([{
 		"name": translateWithContext("civilization", "Random"),
 		"tooltip": translate("Picks one civilization at random when the game starts."),
 		"color": g_ColorRandom,
-		"code": "random"
-	}].concat(
+		"code": "random",
+		"random": true
+	}].concat(g_RandomCivGroups.map((group) => ({
+		'name': 'Random/' + group.Title,
+		'tooltip': group.Tooltip,
+		'color': g_ColorRandom,
+		'code': 'random.' + group.Code,
+		'weights': group.Weights,
+		'random': true
+	}))).concat(
 		Object.keys(g_CivData).filter(
 			civ => g_CivData[civ].SelectableInGameSetup
 		).map(civ => ({
 			"name": g_CivData[civ].Name,
 			"tooltip": g_CivData[civ].History,
 			"color": g_ColorRegular,
-			"code": civ
+			"code": civ,
+			"random": false
 		})).sort(sortNameIgnoreCase)
 	)
 );
@@ -2230,6 +2246,36 @@ function launchGame()
 			let culture = pickRandom(cultures);
 			chosenCiv = pickRandom(Object.keys(g_CivData).filter(civ =>
 				g_CivData[civ].Culture == culture && g_CivData[civ].SelectableInGameSetup));
+		} else if (chosenCiv.split('.')[0] === 'random') {
+			let civGroupElems = chosenCiv.split('.');
+			let groupId = civGroupElems[1] || undefined;
+			let civWeights = undefined;
+			for (let group of g_RandomCivGroups) {
+				if (group.Code === groupId) {
+					civWeights = group.Weights;
+					break;
+				}
+			}// end for group
+			if (!civWeights) {
+				let culture = pickRandom(cultures);
+				chosenCiv = pickRandom(Object.keys(g_CivData).filter(civ =>
+					g_CivData[civ].Culture == culture && g_CivData[civ].SelectableInGameSetup));
+			} else {
+				let sumWeights = (() => {
+					let val = 0;
+					for (let key in civWeights)
+						val += civWeights[key];
+					return val;
+				})();
+				let choiceVal = sumWeights * Math.random();
+				for (let civ in civWeights) {
+					if (civWeights[civ] >= choiceVal) {
+						chosenCiv = civ;
+						break;
+					}
+					choiceVal -= civWeights[civ];
+				}// end for civ
+			}
 		}
 		g_GameAttributes.settings.PlayerData[i].Civ = chosenCiv;
 
