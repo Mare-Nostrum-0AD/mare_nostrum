@@ -7,7 +7,7 @@
     <MaxDistance>2.0</MaxDistance>
     <BaseSpeed>1.0</BaseSpeed>
     <Rates>
-      <food.milk>1.2</food.milk>
+      <food.milk>0.8</food.milk>
       <food.fruit>0.4</food.fruit>
     </Rates>
 	<Capacities>

@@ -41,6 +41,7 @@
   <ProductionQueue>
     <BatchTimeModifier>0.8</BatchTimeModifier>
     <Entities datatype="tokens">
+      units/{civ}_ship_fishing
       units/{civ}_ship_bireme
       units/{civ}_ship_trireme
     </Entities>

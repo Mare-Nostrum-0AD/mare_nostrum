@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Entity parent="template_structure_civic">
   <AlertRaiser>
-    <List datatype="tokens">FemaleCitizen</List>
+    <List datatype="tokens">Support+!Healer</List>
     <RaiseAlertRange>100</RaiseAlertRange>
     <EndOfAlertRange>140</EndOfAlertRange>
-    <SearchRange>60</SearchRange>
+    <SearchRange>90</SearchRange>
   </AlertRaiser>
   <Armour>
     <Hack op="add">1</Hack>
@@ -64,7 +64,7 @@
 			<TradeRate>2.0</TradeRate>
 			<Interval>10000</Interval>
 		</Growth>
-		<Init>100</Init>
+		<Init>50</Init>
 		<Max>500</Max>
 	</Population>
 	<Radius>60</Radius>
@@ -74,8 +74,8 @@
         <LineThickness>0.625</LineThickness>
 	</RangeOverlay>
 	<ResourceTrickle>
-		<Interval>10000</Interval>
-		<PerPop>100</PerPop>
+		<Interval>60000</Interval>
+		<PerPop>250</PerPop>
 		<Rates>
 			<food>0</food>
 			<wood>0</wood>
@@ -96,6 +96,8 @@
       <wood>200</wood>
       <stone>200</stone>
       <metal>0</metal>
+      <wealth>0</wealth>
+      <manpower>50</manpower>
     </Resources>
   </Cost>
   <Footprint>
@@ -147,6 +149,17 @@
     <Types>food wood stone metal</Types>
     <Sharable>true</Sharable>
   </ResourceDropsite>
+  <ResourceTrickle>
+  	<Rates>
+		<food>0</food>
+		<wood>0</wood>
+		<stone>0</stone>
+		<metal>0</metal>
+		<wealth>0</wealth>
+		<manpower>1</manpower>
+	</Rates>
+	<Interval>60000</Interval>
+  </ResourceTrickle>
   <Sound>
     <SoundGroups>
       <select>interface/select/building/sel_civ_center.xml</select>

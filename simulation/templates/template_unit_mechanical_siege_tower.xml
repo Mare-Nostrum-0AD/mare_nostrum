@@ -37,6 +37,7 @@
     <Resources>
       <wood>500</wood>
       <metal>300</metal>
+      <manpower>10</manpower>
     </Resources>
   </Cost>
   <Footprint replace="">

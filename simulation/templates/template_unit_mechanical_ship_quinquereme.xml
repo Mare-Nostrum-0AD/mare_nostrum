@@ -33,6 +33,7 @@
       <metal>200</metal>
       <stone>350</stone>
       <wealth>500</wealth>
+      <manpower>20</manpower>
     </Resources>
   </Cost>
   <Footprint>

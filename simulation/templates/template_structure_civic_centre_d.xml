@@ -13,6 +13,18 @@
 		<Max>1000000</Max>
 	</Population>
 	<Radius>150</Radius>
+	<ResourceTrickle>
+		<Interval>15000</Interval>
+		<PerPop>10000</PerPop>
+		<Rates>
+			<food>0</food>
+			<wood>0</wood>
+			<stone>0</stone>
+			<metal>0</metal>
+			<wealth>0</wealth>
+			<manpower>1</manpower>
+		</Rates>
+	</ResourceTrickle>
   </City>
   <GarrisonHolder merge="">
     <Max op="mul">4.0</Max>
@@ -26,6 +38,11 @@
     <Classes datatype="tokens">Sturdy VillageCentre TownCentre CityCentre</Classes>
     <VisibleClasses datatype="tokens">MetroCentre</VisibleClasses>
   </Identity>
+  <ResourceTrickle merge="">
+  	<Rates>
+		<manpower>12</manpower>
+	</Rates>
+  </ResourceTrickle>
   <TerritoryInfluence merge="">
     <Radius op="mul">2.5</Radius>
   </TerritoryInfluence>

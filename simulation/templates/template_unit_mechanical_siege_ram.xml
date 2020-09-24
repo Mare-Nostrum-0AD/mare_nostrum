@@ -25,6 +25,7 @@
     <Resources>
       <wood>350</wood>
       <metal>200</metal>
+      <manpower>5</manpower>
     </Resources>
   </Cost>
   <GarrisonHolder>

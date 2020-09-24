@@ -29,6 +29,7 @@
     <Resources>
       <wood>125</wood>
       <metal>50</metal>
+      <manpower>5</manpower>
     </Resources>
   </Cost>
   <Footprint>
