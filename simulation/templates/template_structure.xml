@@ -90,6 +90,7 @@
       <stone>1.0</stone>
       <metal>1.0</metal>
       <wealth>1.0</wealth>
+      <manpower>1.0</manpower>
       <time>1.0</time>
     </TechCostMultiplier>
   </ProductionQueue>
