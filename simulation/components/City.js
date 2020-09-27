@@ -115,7 +115,7 @@ City.prototype.ResetResourceTrickleTimer = function()
 	let cmpTimer = Engine.QueryInterface(SYSTEM_ENTITY, IID_Timer);
 	if (this.resourceTrickleTimer)
 		cmpTimer.CancelTimer(this.resourceTrickleTimer);
-	let timerInterval = ApplyValueModificationsToEntity("City/ResourceTrickle/Interval", Math.round(this.template.ResourceTrickle.Interval, this.entity));
+	let timerInterval = ApplyValueModificationsToEntity("City/ResourceTrickle/Interval", Math.round(this.template.ResourceTrickle.Interval), this.entity);
 	this.resourceTrickleTimer = cmpTimer.SetInterval(this.entity, IID_City, "TrickleResources", timerInterval, timerInterval, null);
 };
 

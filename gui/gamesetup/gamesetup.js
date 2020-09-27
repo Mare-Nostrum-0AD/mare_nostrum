@@ -93,11 +93,12 @@ var g_PlayerCivList = g_CivData && prepareForDropdown([{
 	}].concat(g_RandomCivGroups.map((group) => ({
 		'name': 'Random/' + group.Title,
 		'tooltip': group.Tooltip,
-		'color': g_ColorRandom,
+		'color': group.Color ? group.Color : g_ColorRandom,
 		'code': 'random.' + group.Code,
+		'gui_order': group.GUIOrder,
 		'weights': group.Weights,
 		'random': true
-	}))).concat(
+	})).sort((a, b) => a.gui_order - b.gui_order)).concat(
 		Object.keys(g_CivData).filter(
 			civ => g_CivData[civ].SelectableInGameSetup
 		).map(civ => ({
@@ -2261,12 +2262,9 @@ function launchGame()
 				chosenCiv = pickRandom(Object.keys(g_CivData).filter(civ =>
 					g_CivData[civ].Culture == culture && g_CivData[civ].SelectableInGameSetup));
 			} else {
-				let sumWeights = (() => {
-					let val = 0;
-					for (let key in civWeights)
-						val += civWeights[key];
-					return val;
-				})();
+				let sumWeights = 0;
+				for (let civ in civWeights)
+					sumWeights += civWeights[civ];
 				let choiceVal = sumWeights * Math.random();
 				for (let civ in civWeights) {
 					if (civWeights[civ] >= choiceVal) {
