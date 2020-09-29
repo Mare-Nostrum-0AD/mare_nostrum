@@ -85,6 +85,72 @@ function listFiles(path, extension, recurse)
  */
 function getCivInfo(civCode)
 {
+	if (civCode === 'gaia')
+		return undefined;
 	let civFileName = sprintf('simulation/data/civs/%s.json', civCode);
 	return Engine.ReadJSONFile(civFileName);
 }
+
+/*
+ * parses tokens with relation to an entity and returns a list of valid template names
+ * @param entity: entity number
+ * @param tokenlist: array of template names, possibly including {civ} and {native}
+ */
+function parseEntityTokens(entity, tokenList)
+{
+	let cmpPlayer = QueryOwnerInterface(entity);
+	if (!cmpPlayer)
+		return [];
+	let playerCivCode = cmpPlayer.GetCiv();
+	let playerCivInfo = getCivInfo(playerCivCode);
+	let playerCodes = [playerCivCode];
+	if (playerCivInfo && playerCivInfo.Culture)
+		playerCodes = playerCodes.concat(playerCivInfo.Culture);
+	playerCodes.push('generic');
+
+	let nativeCodes = (() => {
+		let cmpIdentity = Engine.QueryInterface(entity, IID_Identity);
+		if (!cmpIdentity)
+			return undefined;
+		let nativeCivCode = cmpIdentity.GetCiv();
+		let nativeCivInfo = getCivInfo(nativeCivCode);
+		let nativeCodes = [nativeCivCode];
+		if (nativeCivInfo && nativeCivInfo.Culture)
+			nativeCodes = nativeCodes.concat(nativeCivInfo.Culture);
+		nativeCodes.push('generic');
+		return nativeCodes;
+	})();
+
+	let cmpTemplateManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_TemplateManager);
+	let disabledTemplates = cmpPlayer.GetDisabledTemplates();
+
+	let entities = [];
+
+	for (let i in tokenList) {
+		let token = tokenList[i];
+		if (token.indexOf('{civ}') != -1 && playerCodes) {
+			for (let c in playerCodes) {
+				let code = playerCodes[c];
+				let parsedToken = token.replace(/\{civ\}/g, code);
+				if (cmpTemplateManager.TemplateExists(parsedToken)) {
+					token = parsedToken;
+					break;
+				}
+			}// end for code of playerCodes
+		}
+		if (token.indexOf('{native}') != -1 && nativeCodes) {
+			for (let c in nativeCodes) {
+				let code = nativeCodes[c];
+				let parsedToken = token.replace(/\{native\}/g, code);
+				if (cmpTemplateManager.TemplateExists(parsedToken)) {
+					token = parsedToken;
+					break;
+				}
+			}// end for code of nativeCodes
+		}
+		if (cmpTemplateManager.TemplateExists(token) && !disabledTemplates[token])
+			entities.push(token);
+	}// end for i
+
+	return entities;
+}// end parseEntityTokens
