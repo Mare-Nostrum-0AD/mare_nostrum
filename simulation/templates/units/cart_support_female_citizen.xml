@@ -2,8 +2,7 @@
 <Entity parent="template_unit_support_female_citizen">
   <Builder>
     <Entities datatype="tokens">
-		-other/vineyard
-		other/olive_grove
+      structures/cart_library
     </Entities>
   </Builder>
   <Identity>

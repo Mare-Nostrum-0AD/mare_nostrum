@@ -3,11 +3,11 @@
   <Builder>
     <Entities datatype="tokens">
       -other/wallset_palisade
-      structures/rome_arch
-      structures/rome_thermae
-      structures/rome_army_camp
-      structures/rome_wallset_siege
-      structures/rome_temple_vesta
+      structures/{civ}_arch
+      structures/{civ}_thermae
+      structures/{civ}_army_camp
+      structures/{civ}_wallset_siege
+      structures/{civ}_temple_vesta
     </Entities>
   </Builder>
   <Identity>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_unit_support_healer">
+  <Identity>
+    <Civ>assyr</Civ>
+    <SelectionGroupName>units/assyr_support_healer_b</SelectionGroupName>
+    <GenericName>Mesopotamian Priest</GenericName>
+    <SpecificName>Baru</SpecificName>
+    <Icon>units/assyr_support_healer.png</Icon>
+    <Rank>Basic</Rank>
+  </Identity>
+  <Promotion>
+    <Entity>units/assyr_support_healer_a</Entity>
+  </Promotion>
+  <VisualActor>
+    <Actor>units/persians/healer.xml</Actor>
+  </VisualActor>
+</Entity>

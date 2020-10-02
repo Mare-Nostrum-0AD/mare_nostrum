@@ -14,9 +14,6 @@
   </Obstruction>
   <ProductionQueue>
     <Entities datatype="tokens">
-      units/{civ}_hero_philip
-      units/{civ}_hero_alexander
-      units/{civ}_hero_demetrius
       units/{civ}_champion_infantry_a
       units/{civ}_champion_cavalry
     </Entities>

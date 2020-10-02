@@ -1,0 +1,86 @@
+{
+	"Code": "assyr",
+	"Culture": ["assyr", "mesop"],
+	"Name": "Assyrians",
+	"Emblem": "session/portraits/emblems/assyr.png",
+	"History": "The Neo-Assyrian Empire, established by Adad-nirari II in the 10th century BC, was one of the greatest powers of early Antiquity. An innovator in both military tactics and governance, the Assyrians came to dominate the Middle East through the early adoption of iron weapons and maintained their power using a sophisticated network of roads and mule riders.",
+	"Music":[
+			{"File":"Eastern_Dreams.ogg", "Type":"peace"},
+			{"File":"Valley_of_the_Nile.ogg", "Type":"peace"},
+			{"File":"Land_between_the_two_Seas.ogg", "Type":"peace"},
+			{"File":"Sands_of_Time.ogg", "Type":"peace"}
+		],
+	"Factions":
+	[
+		{
+			"Name": "",
+			"Description": "",
+			"Technologies":[],
+			"Heroes": []
+		}
+	],
+	"CivBonuses": [],
+	"TeamBonuses": [],
+	"Structures": [],
+	"WallSets":
+	[
+		"other/wallset_palisade",
+		"structures/assyr_wallset_stone"
+	],
+	"StartEntities":
+	[
+		{
+			"Template": "structures/assyr_civil_centre"
+		},
+		{
+			"Template": "units/assyr_support_female_citizen",
+			"Count": 4
+		},
+		{
+			"Template": "units/assyr_infantry_spearman_b",
+			"Count": 2
+		},
+		{
+			"Template": "units/assyr_infantry_archer_b",
+			"Count": 2
+		},
+		{
+			"Template": "units/assyr_cavalry_javelinist_b"
+		},
+		{
+			"Template": "units/assyr_support_wagon"
+		}
+	],
+	"Formations":
+	[
+		"special/formations/null",
+		"special/formations/box",
+		"special/formations/column_closed",
+		"special/formations/line_closed",
+		"special/formations/column_open",
+		"special/formations/line_open",
+		"special/formations/flank",
+		"special/formations/skirmish",
+		"special/formations/wedge",
+		"special/formations/battle_line"
+	],
+	"AINames":
+	[
+		"Adad-nirari II",
+		"Ashurnasirpal II",
+		"Shalmaneser III",
+		"Adad-nirari III",
+		"Shalmaneser IV",
+		"Tiglath-Pileser III",
+		"Sargon II",
+		"Sennacherib",
+		"Esarhaddon",
+		"Ashurbanipal"
+	],
+	"SkirmishReplacements":
+	{
+		"skirmish/units/default_infantry_ranged_b": "units/assyr_infantry_archer_b",
+		"skirmish/structures/default_house_10" : "structures/{civ}_house"
+	},
+	"SelectableInGameSetup": true
+}

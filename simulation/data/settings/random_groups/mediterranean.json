@@ -4,8 +4,10 @@
 	"GUIOrder": 1,
 	"Tooltip": "Civs based around the mediterranean sea. Includes Rome, Carthage, and the Hellenic Civs.",
 	"Weights": {
+		"assyr": 1,
 		"athen": 2,
 		"cart": 2,
+		"etru": 2,
 		"iber": 1,
 		"mace": 2,
 		"ptol": 2,

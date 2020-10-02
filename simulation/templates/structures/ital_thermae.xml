@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_structure_special_monument">
+  <Cost>
+    <BuildTime>200</BuildTime>
+  </Cost>
+  <Footprint>
+    <Square width="30.0" depth="30.0"/>
+    <Height>8.0</Height>
+  </Footprint>
+  <GarrisonHolder>
+    <Max>20</Max>
+  </GarrisonHolder>
+  <Health>
+    <Max>2000</Max>
+    <SpawnEntityOnDeath>decay|rubble/rubble_stone_6x6</SpawnEntityOnDeath>
+  </Health>
+  <Identity>
+    <Civ>gaia</Civ>
+    <SpecificName>Thermae</SpecificName>
+    <GenericName>Public Bath</GenericName>
+    <Tooltip>Special Roman building. Increases city growth rate. Decreases cost of units in nearby buildings.</Tooltip>
+    <Icon>structures/rome_thermae.png</Icon>
+  </Identity>
+  <Loot>
+    <stone>100</stone>
+    <metal>50</metal>
+  </Loot>
+  <Obstruction>
+    <Static width="28.0" depth="28.0"/>
+  </Obstruction>
+  <ProductionQueue disable=""/>
+  <Sound>
+    <SoundGroups>
+      <select>interface/select/building/sel_theater.xml</select>
+      <constructed>interface/complete/building/complete_theatre.xml</constructed>
+      <death>attack/destruction/building_collapse_large.xml</death>
+    </SoundGroups>
+  </Sound>
+  <VisualActor>
+    <Actor>structures/romans/thermae.xml</Actor>
+    <FoundationActor>structures/fndn_6x6.xml</FoundationActor>
+  </VisualActor>
+</Entity>

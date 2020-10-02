@@ -1,0 +1,19 @@
+{
+	"genericName": "Republic",
+	"description": "Government by a council of wealthy citizens.",
+	"cost": {"stone": 500, "wealth": 500},
+	"requirements": {"tech": "phase_hegemon"},
+	"icon": "statue_face_stone.png",
+	"researchTime": 60,
+	"tooltip": "Citizen Soldiers -20% cost and training time.",
+	"affects": ["CitizenSoldier"],
+	"modifications": [
+		{"value": "Cost/BuildTime", "multiply": 0.80},
+		{"value": "Cost/Resources/food", "multiply": 0.80},
+		{"value": "Cost/Resources/wood", "multiply": 0.80},
+		{"value": "Cost/Resources/stone", "multiply": 0.80},
+		{"value": "Cost/Resources/metal", "multiply": 0.80},
+		{"value": "Cost/Resources/wealth", "multiply": 0.80}
+	],
+	"soundComplete": "interface/complete/building/complete_tholos.xml"
+}

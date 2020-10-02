@@ -29,7 +29,7 @@
   <Identity>
     <GenericName>Palace</GenericName>
 	<Classes datatype="tokens">Palace</Classes>
-	<Icon>structures/palace.png</Icon>
+	<Icon>structures/tholos.png</Icon>
 	<Tooltip>Train hero units.</Tooltip>
     <RequiredTechnology>phase_hegemon</RequiredTechnology>
   </Identity>
@@ -38,6 +38,20 @@
     <stone>200</stone>
     <wealth>500</wealth>
   </Loot>
+  <ProductionQueue>
+  	<BatchTimeModifier>1.0</BatchTimeModifier>
+    <Entities datatype="tokens">
+	  units/{civ}_hero_01
+	  units/{civ}_hero_02
+	  units/{civ}_hero_03
+	  units/{civ}_hero_04
+	  units/{civ}_hero_05
+	  units/{civ}_hero_06
+    </Entities>
+    <Technologies datatype="tokens">
+	  pair_taxation_{civ}
+    </Technologies>
+  </ProductionQueue>
   <TerritoryInfluence>
     <Root>true</Root>
     <Radius>48</Radius>

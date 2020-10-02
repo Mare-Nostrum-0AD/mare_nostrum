@@ -19,7 +19,7 @@
     <SpecificName>Thermae</SpecificName>
     <GenericName>Public Bath</GenericName>
     <Tooltip>Special Roman building. Increases city growth rate. Decreases cost of units in nearby buildings.</Tooltip>
-    <Icon>structures/gymnasion.png</Icon>
+    <Icon>structures/rome_thermae.png</Icon>
   </Identity>
   <Loot>
     <stone>100</stone>

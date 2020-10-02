@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_structure_resource_field_olives">
+	<Identity merge="">
+		<Civ>cart</Civ>
+	</Identity>
+</Entity>
+

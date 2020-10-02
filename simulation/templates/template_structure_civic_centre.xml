@@ -75,7 +75,7 @@
 	</RangeOverlay>
 	<ResourceTrickle>
 		<Interval>60000</Interval>
-		<PerPop>250</PerPop>
+		<PerPop>1000</PerPop>
 		<Rates>
 			<food>0</food>
 			<wood>0</wood>

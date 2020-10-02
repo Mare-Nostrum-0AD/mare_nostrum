@@ -1,0 +1,14 @@
+{
+	"genericName": "Monetary Taxes",
+	"description": "Gather taxes from your cities' population in wealth.",
+	"cost": {"wealth": 1000},
+	"requirements": {"tech": "phase_hegemon"},
+	"icon": "coinage.png",
+	"researchTime": 60,
+	"tooltip": "Gather 5 wealth per 1000 city population every minute.",
+	"affects": ["CivilCentre"],
+	"modifications": [
+		{"value": "City/ResourceTrickle/Rates/wealth", "add": 5}
+	],
+	"soundComplete": "interface/complete/building/complete_tholos.xml"
+}

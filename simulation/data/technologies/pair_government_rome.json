@@ -1,0 +1,8 @@
+{
+	"genericName": "Republic vs. Dictatorship",
+	"specificName": {
+		"rome": "Res Publica vs. Dictatura"
+	},
+	"top": "government_democracy_rome",
+	"bottom": "government_tyranny_rome"
+}

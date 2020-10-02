@@ -1,0 +1,14 @@
+{
+	"Title": "Western",
+	"Code": "west",
+	"GUIOrder": 2,
+	"Tooltip": "Civs from the western halves of the Mediterranean and Europe.",
+	"Weights": {
+		"cart": 2,
+		"brit": 1,
+		"etru": 2,
+		"gaul": 2,
+		"iber": 2,
+		"rome": 2
+	}
+}

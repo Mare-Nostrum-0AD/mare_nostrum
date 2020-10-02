@@ -12,19 +12,7 @@
 		<Max>5000</Max>
 	</Population>
 	<Radius>90</Radius>
-	<ResourceTrickle>
-		<Interval>15000</Interval>
-		<PerPop>1000</PerPop>
-		<Rates>
-			<food>0</food>
-			<wood>0</wood>
-			<stone>0</stone>
-			<metal>0</metal>
-			<wealth>0</wealth>
-			<manpower>1</manpower>
-		</Rates>
-	</ResourceTrickle>
-  	<Upgrade>structures/{native}_city_centre</Upgrade>
+	<Upgrade>structures/{native}_city_centre</Upgrade>
   </City>
   <GarrisonHolder merge="">
     <Max op="mul">2.0</Max>
@@ -38,11 +26,6 @@
     <Classes datatype="tokens">VillageCentre</Classes>
     <VisibleClasses datatype="tokens">TownCentre</VisibleClasses>
   </Identity>
-  <ResourceTrickle merge="">
-  	<Rates>
-		<manpower>3</manpower>
-	</Rates>
-  </ResourceTrickle>
   <TerritoryInfluence merge="">
     <Radius op="mul">1.5</Radius>
   </TerritoryInfluence>

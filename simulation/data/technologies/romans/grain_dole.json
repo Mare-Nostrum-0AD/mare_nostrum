@@ -1,0 +1,16 @@
+{
+	"genericName": "Grain Dole",
+	"specificName": {"rome": "Cura Annonae"},
+	"description": "Provide free grain to your citizens. Increases city population growth, but decreases grain gather rate.",
+	"cost": {"food": 500, "wealth": 500},
+	"requirements": {"tech": "phase_hegemon"},
+	"icon": "grain.png",
+	"researchTime": 30,
+	"tooltip": "Civil Centres +20% growth and trade growth rate, but workers -30% grain gather rate.",
+	"affects": ["CivilCentre", "Worker", "Citizen"],
+	"modifications": [
+		{"value": "City/Population/Growth/Rate", "multiply": 1.20},
+		{"value": "City/Population/Growth/TradeRate", "multiply": 1.20},
+		{"value": "ResourceGatherer/Rates/food.grain", "multiply": 0.70}
+	]
+}

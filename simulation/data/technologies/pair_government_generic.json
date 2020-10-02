@@ -1,0 +1,10 @@
+{
+	"genericName": "Democracy vs. Autocracy",
+	"specificName": {
+		"athen": "Dēmokratía vs. Turannía",
+		"spart": "Dēmokratía vs. Turannía",
+		"rome": "Res Publica vs. Dictatura"
+	},
+	"top": "government_democracy_generic",
+	"bottom": "government_tyranny_generic"
+}

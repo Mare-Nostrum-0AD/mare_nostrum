@@ -4,6 +4,7 @@
 	"GUIOrder": 1,
 	"Tooltip": "Non-European civs.",
 	"Weights": {
+		"assyr": 2,
 		"cart": 1,
 		"kush": 1,
 		"maur": 1,

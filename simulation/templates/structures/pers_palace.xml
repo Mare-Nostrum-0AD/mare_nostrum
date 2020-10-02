@@ -37,9 +37,6 @@
   <ProductionQueue>
     <BatchTimeModifier>0.8</BatchTimeModifier>
     <Entities datatype="tokens">
-      units/{civ}_hero_cyrus
-      units/{civ}_hero_darius
-      units/{civ}_hero_xerxes
       units/{civ}_champion_infantry
     </Entities>
     <Technologies datatype="tokens">

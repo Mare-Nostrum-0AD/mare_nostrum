@@ -31,12 +31,9 @@
     <Static width="20.0" depth="20.0"/>
   </Obstruction>
   <ProductionQueue>
-    <BatchTimeModifier>0.7</BatchTimeModifier>
-    <Entities datatype="tokens">
-      units/{civ}_hero_leonidas
-      units/{civ}_hero_brasidas
-      units/{civ}_hero_agis
-    </Entities>
+	<Technologies datatype="tokens">
+	  pair_government_{civ}
+	</Technologies>
   </ProductionQueue>
   <Sound>
     <SoundGroups>

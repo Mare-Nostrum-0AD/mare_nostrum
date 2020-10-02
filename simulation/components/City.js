@@ -228,7 +228,9 @@ City.prototype.ComputeResourceTrickleRates = function()
 	let rates = {};
 	for (let resource in this.template.ResourceTrickle.Rates)
 	{
-		rates[resource] = ApplyValueModificationsToEntity("City/ResourceTrickle/Rates/" + resource, Math.round(+this.template.ResourceTrickle.Rates[resource]), this.entity) * popMultiplier;
+		rates[resource] = ApplyValueModificationsToEntity(
+			sprintf("City/ResourceTrickle/Rates/%s", resource),
+			Math.round(+this.template.ResourceTrickle.Rates[resource]), this.entity) * popMultiplier;
 	}// end for rate of rates
 	return rates;
 };

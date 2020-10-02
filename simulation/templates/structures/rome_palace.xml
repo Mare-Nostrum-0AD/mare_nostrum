@@ -31,12 +31,10 @@
     <Static width="24.0" depth="30.0"/>
   </Obstruction>
   <ProductionQueue>
-    <BatchTimeModifier>0.7</BatchTimeModifier>
-    <Entities datatype="tokens">
-      units/{civ}_hero_marcellus
-      units/{civ}_hero_maximus
-      units/{civ}_hero_scipio
-    </Entities>
+    <Technologies datatype="tokens">
+	  pair_government_{civ}
+	  romans/grain_dole
+    </Technologies>
   </ProductionQueue>
   <Sound>
     <SoundGroups>

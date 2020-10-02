@@ -7,8 +7,6 @@
   </Attack>
   <Builder>
     <Entities datatype="tokens">
-	  -other/vineyard
-	  other/olive_grove
       other/wallset_palisade
       structures/{civ}_defense_tower
       structures/{civ}_sentry_tower
