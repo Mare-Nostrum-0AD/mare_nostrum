@@ -170,28 +170,31 @@ m.TradeManager.prototype.setTradingGoods = function(gameState)
 	let wantedRates = gameState.ai.HQ.GetWantedGatherRates(gameState);
 	let remaining = 100;
 	let targetNum = this.Config.Economy.targetNumTraders;
-	for (let res in stocks)
+	for (let res in tradingGoods)
 	{
 		if (res == "food")
 			continue;
 		let wantedRate = wantedRates[res];
-		if (stocks[res] < 200)
+		if (stocks.hasOwnProperty(res))
 		{
-			tradingGoods[res] = wantedRate > 0 ? 20 : 10;
-			targetNum += Math.min(5, 3 + Math.ceil(wantedRate/30));
-		}
-		else if (stocks[res] < 500)
-		{
-			tradingGoods[res] = wantedRate > 0 ? 15 : 10;
-			targetNum += 2;
-		}
-		else if (stocks[res] < 1000)
-		{
-			tradingGoods[res] = 10;
-			targetNum += 1;
+			if (stocks[res] < 200)
+			{
+				tradingGoods[res] = wantedRate > 0 ? 20 : 10;
+				targetNum += Math.min(5, 3 + Math.ceil(wantedRate/30));
+			}
+			else if (stocks[res] < 500)
+			{
+				tradingGoods[res] = wantedRate > 0 ? 15 : 10;
+				targetNum += 2;
+			}
+			else if (stocks[res] < 1000)
+			{
+				tradingGoods[res] = 10;
+				targetNum += 1;
+			}
 		}
 		remaining -= tradingGoods[res];
-	}
+	}// end for res
 	this.targetNumTraders = Math.round(this.Config.popScaling * targetNum);
 
 
