@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Entity parent="template_structure_civic_centre_d">
+  <City merge="">
+    <Population>
+      <Growth>
+        <Rate op="mul">1.5</Rate>
+      </Growth>
+	</Population>
+  </City>
   <Health>
     <SpawnEntityOnDeath>decay|rubble/rubble_assyr_cc</SpawnEntityOnDeath>
   </Health>

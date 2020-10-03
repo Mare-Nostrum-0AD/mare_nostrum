@@ -1,0 +1,17 @@
+{
+	"genericName": "Mule Transports",
+	"description": "Merchants gain 50% max health and travel 20% faster.",
+	"cost": { "food": 200, "wealth": 200 },
+	"requirements": { "all": [{"tech": "phase_city"}, {"civ": "assyr"}] },
+	"requirementsTooltip": "Unlocked in City Phase",
+	"icon": "mule.png",
+	"researchTime": 40,
+	"tooltip": "Merchants gain 50% max health and travel 20% faster.",
+	"affects": ["Trader"],
+	"modifications": [
+		{ "value": "Health/Max", "multiply": 1.5 },
+		{ "value": "UnitMotion/WalkSpeed", "multiply": 1.2 },
+		{ "value": "UnitMotion/RunSpeed", "multiply": 1.2 }
+	],
+	"soundComplete": "interface/alarm/alarm_upgradearmory.xml"
+}

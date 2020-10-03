@@ -73,6 +73,24 @@
 	"Structures":
 	[
 		{
+			"Name": "Triumphal Arch",
+			"Class": "Monument",
+			"Emblem": "",
+			"History": "The Romans celebrated military victories with a parade and civil ceremony known as a Triumph. To commemorate the occasion for years to come, the Senate would also often vote to construct a triumphal arch. During the Republican period, notable triumphal arches were constructed for Scipio Africanus and Quintus Fabius Maximus Allobrogicus. No triumphal arches survive from the Republican period; however, many arches from the later Imperial period have survived.",
+			"Requirements": "",
+			"Phase": "City",
+			"Special": "Doubles city growth rate."
+		},
+		{
+			"Name": "Thermae",
+			"Class": "Monument",
+			"Emblem": "",
+			"History": "The Romans took great pleasure in bathing, and so constructed massive public bathhouses that additionaly served as centers of civic life. Owning a bathhouse was a mark of greatness for wealthy Romans, and senators looking to curry favor with the masses were known to provide free admission in their name.",
+			"Requirements": "",
+			"Phase": "City",
+			"Special": "Doubles city growth rate."
+		},
+		{
 			"Name": "Entrenched Camp",
 			"Class": "",
 			"Emblem": "",
