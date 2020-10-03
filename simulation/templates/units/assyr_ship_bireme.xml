@@ -10,6 +10,6 @@
     <Icon>units/assyr_ship_bireme.png</Icon>
   </Identity>
   <VisualActor>
-    <Actor>structures/assyrians/bireme.xml</Actor>
+    <Actor>structures/persians/bireme.xml</Actor>
   </VisualActor>
 </Entity>

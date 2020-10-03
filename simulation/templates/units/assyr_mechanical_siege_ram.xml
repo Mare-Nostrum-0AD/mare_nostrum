@@ -19,6 +19,6 @@
     <Icon>units/assyr_mechanical_siege_ram.png</Icon>
   </Identity>
   <VisualActor>
-    <Actor>structures/assyrians/siege_ram.xml</Actor>
+    <Actor>structures/persians/siege_ram.xml</Actor>
   </VisualActor>
 </Entity>

@@ -25,6 +25,6 @@
     </TechCostMultiplier>
   </ProductionQueue>
   <VisualActor>
-    <Actor>structures/assyrians/trireme.xml</Actor>
+    <Actor>structures/persians/trireme.xml</Actor>
   </VisualActor>
 </Entity>

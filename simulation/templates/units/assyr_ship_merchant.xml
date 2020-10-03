@@ -10,6 +10,6 @@
     <Icon>units/assyr_ship_merchant.png</Icon>
   </Identity>
   <VisualActor>
-    <Actor>structures/assyrians/merchant.xml</Actor>
+    <Actor>structures/persians/merchant.xml</Actor>
   </VisualActor>
 </Entity>

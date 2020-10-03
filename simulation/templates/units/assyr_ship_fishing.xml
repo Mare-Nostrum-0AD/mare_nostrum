@@ -5,6 +5,6 @@
     <Icon>units/assyr_ship_fishing.png</Icon>
   </Identity>
   <VisualActor>
-    <Actor>structures/assyrians/fishship.xml</Actor>
+    <Actor>structures/persians/fishship.xml</Actor>
   </VisualActor>
 </Entity>
