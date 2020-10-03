@@ -1,0 +1,24 @@
+{
+	"genericName": "Hegemon Phase",
+	"specificName": {
+		"athen": "Metrópolis",
+		"mace": "Metrópolis",
+		"spart": "Metrópolis"
+	},
+	"description": "Advances from a respectable city to a veritable metropolis, renowned far and wide for its influence.",
+	"cost": { "food": 0, "wood": 0, "stone": 0, "metal": 0 },
+	"requirements": { "entity": { "class": "MetroCentre", "number": 1 } },
+	"autoResearch": true,
+	"requirementsTooltip": "Requires 1 Metropolis.",
+	"supersedes": "phase_city_athen",
+	"replaces": ["phase_hegemon"],
+	"icon": "hegemon_phase.png",
+	"researchTime": 60,
+	"tooltip": "Advance to Hegemon Phase, which unlocks Wonders and Hero units. All units move 10% faster. All structures +3 garrisoned regeneration rate.",
+	"modifications": [
+		{ "value": "UnitMotion/WalkSpeed", "multiply": 1.1, "affects": "Unit" },
+		{ "value": "UnitMotion/RunSpeed", "multiply": 1.1, "affects": "Unit" },
+		{ "value": "Capturable/GarrisonRegenRate", "add": 3.0, "affects": "Structure" }
+	],
+	"soundComplete": "interface/alarm/alarm_phase.xml"
+}
