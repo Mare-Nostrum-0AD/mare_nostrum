@@ -93,10 +93,23 @@ City.prototype.Schema = "<a:help>Identifies this entity as a city centre.</a:hel
 
 City.prototype.Init = function()
 {
-	this.SetPopulation(this.template.Population.Init);
+	let initPop = ApplyValueModificationsToEntity("City/Population/Init", Math.floor(this.template.Population.Init), this.entity);
+	initPop = this.SetPopulation(initPop);
 	// set timer this.growthTimer to grow population at interval
 	this.ResetGrowthTimer();
 	this.ResetResourceTrickleTimer();
+	// count initial pop for statistics tracker
+	let cmpTimer = Engine.QueryInterface(SYSTEM_ENTITY, IID_Timer);
+	let initPopTimerInterval = 1;
+	cmpTimer.SetTimeout(this.entity, IID_City, 'TrackInitialPop', initPopTimerInterval, initPop);
+};
+
+// messy workaround for statistics tracker to count initial city pop
+City.prototype.TrackInitialPop = function(initPop)
+{
+	let cmpStatisticsTracker = QueryOwnerInterface(this.entity, IID_StatisticsTracker);
+	if (cmpStatisticsTracker)
+		cmpStatisticsTracker.IncreaseCivicPopulation(initPop);
 };
 
 City.prototype.ResetGrowthTimer = function()
@@ -131,6 +144,7 @@ City.prototype.GetMaxPopulation = function()
 
 City.prototype.SetPopulation = function(value)
 {
+	let oldPopulation = this.population;
 	let val = Math.round(value);
 	if (typeof(val) !== 'number')
 		return this.population;
@@ -153,6 +167,10 @@ City.prototype.SetPopulation = function(value)
 		"entity": this.entity,
 		"to": this.population
 	});
+	let popChange = this.population - oldPopulation;
+	let cmpStatisticsTracker = QueryOwnerInterface(this.entity, IID_StatisticsTracker);
+	if (cmpStatisticsTracker)
+		cmpStatisticsTracker.IncreaseCivicPopulation(popChange);
 	return this.population;
 };
 
@@ -312,10 +330,23 @@ City.prototype.CancelResourceTrickleTimer = function()
 	}
 };
 
+City.prototype.OnOwnershipChanged = function(msg)
+{
+	let prevOwnerStatisticsTracker = QueryPlayerIDInterface(msg.from, IID_StatisticsTracker);
+	if (prevOwnerStatisticsTracker)
+		prevOwnerStatisticsTracker.IncreaseCivicPopulation(-this.population);
+	let newOwnerStatisticsTracker = QueryPlayerIDInterface(msg.to, IID_StatisticsTracker);
+	if (newOwnerStatisticsTracker)
+		newOwnerStatisticsTracker.IncreaseCivicPopulation(+this.population);
+};
+
 City.prototype.OnDestroy = function(msg)
 {
 	this.CancelGrowthTimer();
 	this.CancelResourceTrickleTimer();
+	let cmpStatisticsTracker = QueryOwnerInterface(this.entity, IID_StatisticsTracker);
+	if (cmpStatisticsTracker)
+		cmpStatisticsTracker.IncreaseCivicPopulation(-this.population);
 };
 
 City.prototype.Serialize = function()
