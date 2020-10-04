@@ -241,7 +241,15 @@ City.prototype.TrickleResources = function()
 	if (!cmpPlayer)
 		return;
 
-	cmpPlayer.AddResources(this.ComputeResourceTrickleRates());
+	let rates = this.ComputeResourceTrickleRates();
+	cmpPlayer.AddResources(rates);
+
+	let cmpStatisticsTracker = QueryOwnerInterface(this.entity, IID_StatisticsTracker);
+	if (cmpStatisticsTracker) {
+		for (let res in rates) {
+			cmpStatisticsTracker.IncreaseResourceGatheredCounter(res, rates[res], null);
+		}// end for res
+	}
 };
 
 City.prototype.GetUpgradeTemplate = function()
