@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_unit_mechanical_ship_fire">
+  <Identity>
+    <Civ>cart</Civ>
+    <Icon>units/ship_fire.png</Icon>
+  </Identity>
+  <VisualActor>
+    <Actor>structures/carthaginians/fireship.xml</Actor>
+  </VisualActor>
+</Entity>

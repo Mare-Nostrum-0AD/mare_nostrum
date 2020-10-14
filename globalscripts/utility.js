@@ -105,10 +105,11 @@ function parseCivTemplate(templateName, subPattern, civCode)
 	if (civInfo && civInfo.Culture)
 		codes = codes.concat(civInfo.Culture);
 	codes.push('generic');
+	let cmpTemplateManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_TemplateManager);
 	for (let i in codes) {
 		let code = codes[i];
 		let parsedTemplateName = templateName.replace(subPattern, code);
-		if (Engine.TemplateExists(parsedTemplateName))
+		if (cmpTemplateManager && cmpTemplateManager.TemplateExists(parsedTemplateName))
 			return parsedTemplateName;
 	}// end for i
 	return undefined;

@@ -32,6 +32,29 @@ function loadCivData(selectableOnly, gaia)
 }
 
 /**
+ * parses a template for a particular civ
+ * @param templateName (str) unparsed template name (i.e. "{civ}_building")
+ * @param subPattern (regex) pattern to replace in templateName (i.e. /\{civ\}/)
+ * @param civCode (str) code of civ in question (i.e. "athen")
+ * @return (str/undefined) valid, parsed template name; undefined if no valid template found
+ */
+function parseCivTemplate(templateName, subPattern, civCode)
+{
+	let codes = [civCode];
+	let civInfo = getCivInfo(civCode);
+	if (civInfo && civInfo.Culture)
+		codes = codes.concat(civInfo.Culture);
+	codes.push('generic');
+	for (let i in codes) {
+		let code = codes[i];
+		let parsedTemplateName = templateName.replace(subPattern, code);
+		if (Engine.TemplateExists(parsedTemplateName))
+			return parsedTemplateName;
+	}// end for i
+	return undefined;
+}// end parseCivTemplate
+
+/**
  * Returns random civ selection groups with translated titles and tooltips.
  */
 function loadRandomCivGroups()

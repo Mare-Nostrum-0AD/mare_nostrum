@@ -13,6 +13,9 @@
 	  </CivilCentre>
     </DistancesExclusive>
   </BuildRestrictions>
+  <City merge="">
+	<Initial>true</Initial>
+  </City>
   <Cost>
     <BuildTime>300</BuildTime>
     <Resources>

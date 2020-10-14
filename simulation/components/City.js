@@ -36,6 +36,11 @@ City.prototype.Schema = "<a:help>Identifies this entity as a city centre.</a:hel
 	"</zeroOrMore>" +
 "</element>" +
 "</optional>" +
+"<optional>" +
+"<element name='Initial' a:help='Whether or not this is the initial buildable city in a progression of city types.'>" +
+	"<data type='boolean' />" +
+"</element>" +
+"</optional>" +
 "<element name='Population' a:help='Population of city (does not relate to player population number)'>" +
 	"<element name='Growth' a:help='Population growth rate'>" +
 		"<optional>" +
@@ -99,6 +104,9 @@ City.prototype.Init = function()
 	this.ResetGrowthTimer();
 	this.ResetResourceTrickleTimer();
 	// count initial pop for statistics tracker
+	// only if initial city, not for city upgrades
+	if (!this.IsInitial())
+		return;
 	let cmpTimer = Engine.QueryInterface(SYSTEM_ENTITY, IID_Timer);
 	let initPopTimerInterval = 1;
 	cmpTimer.SetTimeout(this.entity, IID_City, 'TrackInitialPop', initPopTimerInterval, initPop);
@@ -130,6 +138,11 @@ City.prototype.ResetResourceTrickleTimer = function()
 		cmpTimer.CancelTimer(this.resourceTrickleTimer);
 	let timerInterval = ApplyValueModificationsToEntity("City/ResourceTrickle/Interval", Math.round(this.template.ResourceTrickle.Interval), this.entity);
 	this.resourceTrickleTimer = cmpTimer.SetInterval(this.entity, IID_City, "TrickleResources", timerInterval, timerInterval, null);
+};
+
+City.prototype.IsInitial = function()
+{
+	return this.template.hasOwnProperty('Initial') && this.template.Initial;
 };
 
 City.prototype.GetPopulation = function()
@@ -276,7 +289,11 @@ City.prototype.GetUpgradeTemplate = function()
 		return null;
 	let cmpPlayer = QueryOwnerInterface(this.entity);
 	let cmpIdentity = Engine.QueryInterface(this.entity, IID_Identity);
-	return this.template.Upgrade.replace(/\{civ\}/g, cmpPlayer.GetCiv()).replace(/\{native\}/g, cmpIdentity.GetCiv());
+	let templateName = this.template.Upgrade;
+	let parsedTemplate = templateName.indexOf('{native}') != -1 ?
+		parseCivTemplate(templateName, /\{native\}/g, cmpIdentity.GetCiv()) :
+		parseCivTemplate(templateName, /\{civ\}/g, cmpPlayer.GetCiv());
+	return parsedTemplate;
 };
 
 City.prototype.Upgrade = function()

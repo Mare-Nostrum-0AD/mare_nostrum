@@ -67,7 +67,7 @@
   </UnitMotion>
   <Upgrade>
   	<Fireship>
-  		<Entity>units/generic_ship_fire</Entity>
+  		<Entity>units/{civ}_ship_fire</Entity>
 		<Tooltip>Set ship on fire. Does great damage to nearby ships before sinking.</Tooltip>
 		<Time>3</Time>
 	</Fireship>

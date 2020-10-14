@@ -10,7 +10,7 @@
   <City merge="">
   	<Population>
 		<Init>5000</Init>
-		<Max>50000</Max>
+		<Max>25000</Max>
 	</Population>
 	<Radius>120</Radius>
 	<Upgrade>structures/{native}_metro_centre</Upgrade>

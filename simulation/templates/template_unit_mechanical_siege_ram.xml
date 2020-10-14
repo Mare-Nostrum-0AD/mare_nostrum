@@ -6,8 +6,8 @@
       <Pierce>0.0</Pierce>
       <Crush>100.0</Crush>
       <MaxRange>6.5</MaxRange>
-      <PrepareTime>750</PrepareTime>
-      <RepeatTime>1500</RepeatTime>
+      <PrepareTime>1250</PrepareTime>
+      <RepeatTime>2500</RepeatTime>
       <PreferredClasses datatype="tokens">Gates CivilCentre Fortress Tower+!StoneWall</PreferredClasses>
 	  <RestrictedClasses datatype="tokens">Organic</RestrictedClasses>
     </Melee>
