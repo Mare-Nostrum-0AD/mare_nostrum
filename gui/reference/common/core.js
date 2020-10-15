@@ -121,8 +121,11 @@ function loadProductionQueue(template)
 	if (template.ProductionQueue.Entities && template.ProductionQueue.Entities._string)
 		for (let templateName of template.ProductionQueue.Entities._string.split(" "))
 		{
-			templateName = templateName.replace(/\{(civ|native)\}/g, g_SelectedCiv);
-			if (Engine.TemplateExists(templateName))
+			if (templateName.indexOf('{civ}') != -1)
+				templateName = parseCivTemplate(templateName, /\{civ\}/g, g_SelectedCiv);
+			else if (templateName.indexOf('{native}') != -1)
+				templateName = parseCivTemplate(templateName, /\{native\}/g, g_SelectedCiv);
+			if (templateName && Engine.TemplateExists(templateName))
 				production.units.push(getBaseTemplateName(templateName));
 		}
 
