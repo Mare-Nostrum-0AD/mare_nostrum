@@ -717,8 +717,8 @@ m.NavalManager.prototype.buildNavalStructures = function(gameState, queues)
 
 	if (gameState.ai.HQ.getAccountedPopulation(gameState) > this.Config.Economy.popForDock)
 	{
-		if (queues.dock.countQueuedUnitsWithClass("NavalMarket") === 0 &&
-			!gameState.getOwnStructures().filter(API3.Filters.and(API3.Filters.byClass("NavalMarket"), API3.Filters.isFoundation())).hasEntities() &&
+		if (queues.dock.countQueuedUnitsWithClass("Shipyard") === 0 &&
+			!gameState.getOwnStructures().filter(API3.Filters.and(API3.Filters.byClass("Shipyard"), API3.Filters.isFoundation())).hasEntities() &&
 			gameState.ai.HQ.canBuild(gameState, "structures/{civ}_dock"))
 		{
 			let dockStarted = false;

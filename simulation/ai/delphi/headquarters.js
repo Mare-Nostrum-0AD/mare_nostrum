@@ -522,12 +522,20 @@ m.HQ.prototype.checkPhaseRequirements = function(gameState, queues)
 			    !queues.militaryBuilding.hasQueuedUnits() &&
 			    !queues.defenseBuilding.hasQueuedUnits())
 			{
-				if (!gameState.getOwnEntitiesByClass("BarterMarket", true).hasEntities() &&
-				    this.canBuild(gameState, "structures/{civ}_market"))
+				if (!gameState.getOwnEntitiesByClass("BarterMarket", true).hasEntities())
 				{
-					plan = new m.ConstructionPlan(gameState, "structures/{civ}_market", { "phaseUp": true });
-					queue = "economicBuilding";
-					break;
+					let marketTemplates = [];
+					if (this.canBuild(gameState, "structures/{civ}_market")))
+						marketTemplates.push("structures/{civ}_market");
+					if (this.canBuild(gameState, "structures/{civ}_port")))
+						marketTemplates.push("structures/{civ}_port");
+					if (marketTemplates.length > 0)
+					{
+						let marketTemplate = marketTemplates[randIntExclusive(0, marketTemplates.length)];
+						plan = new m.ConstructionPlan(gameState, marketTemplate, { "phaseUp": true });
+						queue = "economicBuilding";
+						break;
+					}
 				}
 				if (!gameState.getOwnEntitiesByClass("Temple", true).hasEntities() &&
 				    this.canBuild(gameState, "structures/{civ}_temple"))
@@ -1245,114 +1253,8 @@ m.HQ.prototype.findStrategicCCLocation = function(gameState, template)
  */
 m.HQ.prototype.findMarketLocation = function(gameState, template)
 {
-	let markets = gameState.updatingCollection("diplo-ExclusiveAllyMarkets", API3.Filters.byClass("Market"), gameState.getExclusiveAllyEntities()).toEntityArray();
-	if (!markets.length)
-		markets = gameState.updatingCollection("OwnMarkets", API3.Filters.byClass("Market"), gameState.getOwnStructures()).toEntityArray();
-
-	if (!markets.length)	// this is the first market. For the time being, place it arbitrarily by the ConstructionPlan
-		return [-1, -1, -1, 0];
-
-	// obstruction map
-	let obstructions = m.createObstructionMap(gameState, 0, template);
-	let halfSize = 0;
-	if (template.get("Footprint/Square"))
-		halfSize = Math.max(+template.get("Footprint/Square/@depth"), +template.get("Footprint/Square/@width")) / 2;
-	else if (template.get("Footprint/Circle"))
-		halfSize = +template.get("Footprint/Circle/@radius");
-
-	let bestIdx;
-	let bestJdx;
-	let bestVal;
-	let bestDistSq;
-	let bestGainMult;
-	let radius = Math.ceil(template.obstructionRadius().max / obstructions.cellSize);
-	let isNavalMarket = template.hasClass("NavalMarket");
-
-	let width = this.territoryMap.width;
-	let cellSize = this.territoryMap.cellSize;
-
-	let traderTemplatesGains = gameState.getTraderTemplatesGains();
-
-	for (let j = 0; j < this.territoryMap.length; ++j)
-	{
-		// do not try on the narrow border of our territory
-		if (this.borderMap.map[j] & m.narrowFrontier_Mask)
-			continue;
-		if (this.basesMap.map[j] == 0)   // only in our territory
-			continue;
-		// with enough room around to build the market
-		let i = this.territoryMap.getNonObstructedTile(j, radius, obstructions);
-		if (i < 0)
-			continue;
-		let index = gameState.ai.accessibility.landPassMap[i];
-		if (!this.landRegions[index])
-			continue;
-		let pos = [cellSize * (j%width+0.5), cellSize * (Math.floor(j/width)+0.5)];
-		// checking distances to other markets
-		let maxVal = 0;
-		let maxDistSq;
-		let maxGainMult;
-		let gainMultiplier;
-		for (let market of markets)
-		{
-			if (isNavalMarket && market.hasClass("NavalMarket"))
-			{
-				if (m.getSeaAccess(gameState, market) != gameState.ai.accessibility.getAccessValue(pos, true))
-					continue;
-				gainMultiplier = traderTemplatesGains.navalGainMultiplier;
-			}
-			else if (m.getLandAccess(gameState, market) == index &&
-				!m.isLineInsideEnemyTerritory(gameState, market.position(), pos))
-				gainMultiplier = traderTemplatesGains.landGainMultiplier;
-			else
-				continue;
-			if (!gainMultiplier)
-				continue;
-			let distSq = API3.SquareVectorDistance(market.position(), pos);
-			if (gainMultiplier * distSq > maxVal)
-			{
-				maxVal = gainMultiplier * distSq;
-				maxDistSq = distSq;
-				maxGainMult = gainMultiplier;
-			}
-		}
-		if (maxVal == 0)
-			continue;
-		if (bestVal !== undefined && maxVal < bestVal)
-			continue;
-		if (this.isDangerousLocation(gameState, pos, halfSize))
-			continue;
-		bestVal = maxVal;
-		bestDistSq = maxDistSq;
-		bestGainMult = maxGainMult;
-		bestIdx = i;
-		bestJdx = j;
-	}
-
-	if (this.Config.debug > 1)
-		API3.warn("We found a market position with bestVal = " + bestVal);
-
-	if (bestVal === undefined)  // no constraints. For the time being, place it arbitrarily by the ConstructionPlan
-		return [-1, -1, -1, 0];
-	let expectedGain = Math.round(bestGainMult * TradeGain(bestDistSq, gameState.sharedScript.mapSize));
-	if (this.Config.debug > 1)
-		API3.warn("this would give a trading gain of " + expectedGain);
-	// do not keep it if gain is too small, except if this is our first BarterMarket
-	let idx;
-	if (expectedGain < this.tradeManager.minimalGain)
-	{
-		if (template.hasClass("BarterMarket") &&
-		    !gameState.getOwnEntitiesByClass("BarterMarket", true).hasEntities())
-			idx = -1;	// needed by queueplanBuilding manager to keep that market
-		else
-			return false;
-	}
-	else
-		idx = this.basesMap.map[bestJdx];
-
-	let x = (bestIdx % obstructions.width + 0.5) * obstructions.cellSize;
-	let z = (Math.floor(bestIdx / obstructions.width) + 0.5) * obstructions.cellSize;
-	return [x, z, idx, expectedGain];
+	// quick fix; let markets be placed arbitrarily by the ConstructionPlan
+	return [-1, -1, -1, 0];
 };
 
 /**
@@ -1495,9 +1397,11 @@ m.HQ.prototype.findDefensiveLocation = function(gameState, template)
 
 m.HQ.prototype.buildTemple = function(gameState, queues)
 {
+	let numCivCentres = gameState.getOwnEntitiesByClass("CivCentre", true).toEntityArray().length;
 	// at least one market (which have the same queue) should be build before any temple
+	// number of temples should ideally equal number of CivCentres
 	if (queues.economicBuilding.hasQueuedUnits() ||
-		gameState.getOwnEntitiesByClass("Temple", true).hasEntities() ||
+		gameState.getOwnEntitiesByClass("Temple", true).toEntityArray().length >= numCivCentres ||
 		!gameState.getOwnEntitiesByClass("BarterMarket", true).hasEntities())
 		return;
 	// Try to build a temple earlier if in regicide to recruit healer guards
@@ -1529,8 +1433,8 @@ m.HQ.prototype.buildTemplePatron = function(gameState, queues)
 
 m.HQ.prototype.buildMarket = function(gameState, queues)
 {
-	if (gameState.getOwnEntitiesByClass("BarterMarket", true).hasEntities() ||
-		!this.canBuild(gameState, "structures/{civ}_market"))
+	let numCivCentres = gameState.getOwnEntitiesByClass("CivCentre", true).toEntityArray().length;
+	if (gameState.getOwnEntitiesByClass("BarterMarket", true).toEntityArray().length >= numCivCentres))
 		return;
 
 	if (queues.economicBuilding.hasQueuedUnitsWithClass("BarterMarket"))
@@ -1557,7 +1461,15 @@ m.HQ.prototype.buildMarket = function(gameState, queues)
 	}
 
 	gameState.ai.queueManager.changePriority("economicBuilding", 3*this.Config.priorities.economicBuilding);
-	let plan = new m.ConstructionPlan(gameState, "structures/{civ}_market");
+	let marketTemplates = [];
+	if (this.canBuild(gameState, "structures/{civ}_market")))
+		marketTemplates.push("structures/{civ}_market");
+	if (this.canBuild(gameState, "structures/{civ}_port")))
+		marketTemplates.push("structures/{civ}_port");
+	if (marketTemplates.length < 1)
+		return;
+	let marketTemplate = marketTemplates[randIntExclusive(0, marketTemplates.length)];
+	let plan = new m.ConstructionPlan(gameState, marketTemplate);
 	plan.queueToReset = "economicBuilding";
 	queues.economicBuilding.addPlan(plan);
 };

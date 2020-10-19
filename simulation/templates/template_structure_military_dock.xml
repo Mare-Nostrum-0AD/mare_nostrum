@@ -24,7 +24,7 @@
     <GenericName>Shipyard</GenericName>
     <Tooltip>Build upon a shoreline to construct naval vessels. Research naval improvements.</Tooltip>
     <Classes datatype="tokens">Naval</Classes>
-    <VisibleClasses datatype="tokens">Village Dock</VisibleClasses>
+    <VisibleClasses datatype="tokens">Village Dock Shipyard</VisibleClasses>
     <Icon>structures/shipyard.png</Icon>
   </Identity>
   <Loot>
