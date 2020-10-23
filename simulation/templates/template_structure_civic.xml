@@ -42,6 +42,6 @@
     <VisibleClasses datatype="tokens">Civic</VisibleClasses>
   </Identity>
   <TerritoryDecay>
-  	<DecayRate>100</DecayRate>
+  	<DecayRate>10</DecayRate>
   </TerritoryDecay>
 </Entity>

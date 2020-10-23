@@ -10,8 +10,8 @@
     <Category>Market</Category>
 	<DistancesExclusive>
 		<Market>
-			<FromClass>BarterMarket</FromClass>
-			<MinDistance>120</MinDistance>
+			<FromClass>Market</FromClass>
+			<MinDistance>240</MinDistance>
 		</Market>
 	</DistancesExclusive>
   </BuildRestrictions>

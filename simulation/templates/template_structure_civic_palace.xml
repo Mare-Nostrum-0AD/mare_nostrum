@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Entity parent="template_structure_special">
+<Entity parent="template_structure_civic">
   <BuildRestrictions>
     <Category>Palace</Category>
 	<DistancesInclusive>
-	  <MetroCentre>
-	    <FromClass>MetroCentre</FromClass>
-		<MaxDistance>150</MaxDistance>
-	  </MetroCentre>
+		<VillageCentre disable="" />
+		<TownCentre disable="" />
 	</DistancesInclusive>
   </BuildRestrictions>
   <Cost>

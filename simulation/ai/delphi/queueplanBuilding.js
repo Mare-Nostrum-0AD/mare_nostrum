@@ -57,18 +57,6 @@ m.ConstructionPlan.prototype.start = function(gameState)
 		return;
 	}
 
-	if (this.metadata && this.metadata.expectedGain && (!this.template.hasClass("BarterMarket") ||
-	    gameState.getOwnEntitiesByClass("BarterMarket", true).hasEntities()))
-	{
-		// Check if this market is still worth building (others may have been built making it useless)
-		let tradeManager = gameState.ai.HQ.tradeManager;
-		tradeManager.checkRoutes(gameState);
-		if (!tradeManager.isNewMarketWorth(this.metadata.expectedGain))
-		{
-			Engine.ProfileStop();
-			return;
-		}
-	}
 	gameState.ai.HQ.turnCache.buildingBuilt = true;
 
 	if (this.metadata === undefined)
@@ -121,7 +109,7 @@ m.ConstructionPlan.prototype.findGoodPosition = function(gameState)
 	{
 		// recompute the best dropsite location in case some conditions have changed
 		let base = HQ.getBaseByID(this.metadata.base);
-		let type = this.metadata.type ? this.metadata.type : "wood";
+		let type = this.metadata && this.metadata.type ? this.metadata.type : "wood";
 		let newpos = base.findBestDropsiteLocation(gameState, type);
 		if (newpos && newpos.quality > 0)
 		{
@@ -177,6 +165,11 @@ m.ConstructionPlan.prototype.findGoodPosition = function(gameState)
 			else if (!pos)
 				return false;
 		}
+		else if (template.hasClass('Civic') && !template.hasClass('CivCentre'))
+		{
+			let pos = HQ.findCivicLocation(gameState, template);
+			return {'x': pos.x, 'z': pos.z, 'angle': 3*Math.PI/4, 'base': pos.base};
+		}
 	}
 
 	// Compute each tile's closeness to friendly structures:
@@ -224,6 +217,13 @@ m.ConstructionPlan.prototype.findGoodPosition = function(gameState)
 						placement.addInfluence(x, z, 80/cellSize, 50);
 					else // If this is not a field add a negative influence because we want to leave this area for fields
 						placement.addInfluence(x, z, 80/cellSize, -20);
+				}
+				// markets and temples built close to civ centres
+				else if (template.hasClass('Civic') &&
+					!template.hasClass('CivCentre') &&
+					ent.hasClass('CivCentre'))
+				{
+					placement.addInfluence(x, z, 40/cellSize, 60);
 				}
 				else if (template.hasClass("House"))
 				{
@@ -505,7 +505,7 @@ m.ConstructionPlan.prototype.findDockPosition = function(gameState)
 		// Final selection now that the checkDockPlacement water is known
 		if (bestIdx !== undefined && score + 5 * (maxWater - ret.water) > bestVal)
 			continue;
-		if (this.metadata.proximity && gameState.ai.accessibility.regionSize[ret.land] < 4000)
+		if (this.metadata && this.metadata.proximity && gameState.ai.accessibility.regionSize[ret.land] < 4000)
 			continue;
 		if (gameState.ai.HQ.isDangerousLocation(gameState, pos, halfSize))
 			continue;
@@ -521,7 +521,7 @@ m.ConstructionPlan.prototype.findDockPosition = function(gameState)
 		return false;
 
 	// if no good place with enough water around and still in first phase, wait for expansion at the next phase
-	if (!this.metadata.proximity && bestWater < 10 && gameState.currentPhase() == 1)
+	if (this.metadata && !this.metadata.proximity && bestWater < 10 && gameState.currentPhase() == 1)
 		return false;
 
 	let x = (bestIdx % obstructions.width + 0.5) * obstructions.cellSize;

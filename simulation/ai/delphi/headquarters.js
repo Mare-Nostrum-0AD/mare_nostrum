@@ -86,8 +86,9 @@ m.HQ.prototype.postinit = function(gameState)
 	// Rebuild the base maps from the territory indices of each base
 	this.basesMap = new API3.Map(gameState.sharedScript, "territory");
 	for (let base of this.baseManagers)
-		for (let j of base.territoryIndices)
-			this.basesMap.map[j] = base.ID;
+		if (base)
+			for (let j of base.territoryIndices)
+				this.basesMap.map[j] = base.ID;
 
 	for (let ent of gameState.getOwnEntities().values())
 	{
@@ -99,7 +100,8 @@ m.HQ.prototype.postinit = function(gameState)
 		if (baseID === undefined)
 			continue;
 		let base = this.getBaseByID(baseID);
-		base.assignResourceToDropsite(gameState, ent);
+		if (base)
+			base.assignResourceToDropsite(gameState, ent);
 	}
 
 	this.updateTerritories(gameState);
@@ -121,7 +123,7 @@ m.HQ.prototype.createBase = function(gameState, ent, type)
 	let newbase;
 	for (let base of this.baseManagers)
 	{
-		if (base.accessIndex != access)
+		if (!base || base.accessIndex != access)
 			continue;
 		if (type != "anchorless" && base.anchor)
 			continue;
@@ -221,9 +223,9 @@ m.HQ.prototype.checkEvents = function(gameState, events)
 			if (evt.metadata[PlayerID].base == -1 || evt.metadata[PlayerID].base == -2)
 				continue;
 			let base = this.getBaseByID(evt.metadata[PlayerID].base);
-			if (ent.resourceDropsiteTypes() && ent.hasClass("Structure"))
+			if (base && ent.resourceDropsiteTypes() && ent.hasClass("Structure"))
 				base.removeDropsite(gameState, ent);
-			if (evt.metadata[PlayerID].baseAnchor && evt.metadata[PlayerID].baseAnchor === true)
+			if (base && evt.metadata[PlayerID].baseAnchor && evt.metadata[PlayerID].baseAnchor === true)
 				base.anchorLost(gameState, ent);
 		}
 	}
@@ -234,7 +236,7 @@ m.HQ.prototype.checkEvents = function(gameState, events)
 		if (!ent || ent.owner() != PlayerID || ent.getMetadata(PlayerID, "base") === undefined)
 			continue;
 		let base = this.getBaseByID(ent.getMetadata(PlayerID, "base"));
-		if (!base.anchorId || base.anchorId != evt.entity)
+		if (!base || !base.anchorId || base.anchorId != evt.entity)
 			continue;
 		base.anchorId = evt.newentity;
 		base.anchor = ent;
@@ -291,6 +293,8 @@ m.HQ.prototype.checkEvents = function(gameState, events)
 		if (ent.getMetadata(PlayerID, "base") === undefined)
 			continue;
 		let base = this.getBaseByID(ent.getMetadata(PlayerID, "base"));
+		if (!base)
+			continue;
 		base.buildings.updateEnt(ent);
 		if (ent.resourceDropsiteTypes())
 			base.assignResourceToDropsite(gameState, ent);
@@ -311,6 +315,8 @@ m.HQ.prototype.checkEvents = function(gameState, events)
 			if (!ent || ent.getMetadata(PlayerID, "base") === undefined)
 				continue;
 			let base = this.getBaseByID(ent.getMetadata(PlayerID, "base"));
+			if (!base)
+				continue;
 			if (ent.resourceDropsiteTypes() && ent.hasClass("Structure"))
 				base.removeDropsite(gameState, ent);
 			if (ent.getMetadata(PlayerID, "baseAnchor") === true)
@@ -366,6 +372,8 @@ m.HQ.prototype.checkEvents = function(gameState, events)
 			else
 				base = m.getBestBase(gameState, ent) || this.baseManagers[0];
 			base.assignEntity(gameState, ent);
+			if (!base)
+				continue;
 			if (ent.decaying())
 			{
 				if (ent.isGarrisonHolder() && this.garrisonManager.addDecayingStructure(gameState, evt.entity, true))
@@ -436,6 +444,8 @@ m.HQ.prototype.checkEvents = function(gameState, events)
 				}
 				else
 					base = this.getBaseByID(ent.getMetadata(PlayerID, "base"));
+				if (!base)
+					continue;
 				base.reassignIdleWorkers(gameState, [ent]);
 				base.workerObject.update(gameState, ent);
 			}
@@ -525,9 +535,9 @@ m.HQ.prototype.checkPhaseRequirements = function(gameState, queues)
 				if (!gameState.getOwnEntitiesByClass("BarterMarket", true).hasEntities())
 				{
 					let marketTemplates = [];
-					if (this.canBuild(gameState, "structures/{civ}_market")))
+					if (this.canBuild(gameState, "structures/{civ}_market"))
 						marketTemplates.push("structures/{civ}_market");
-					if (this.canBuild(gameState, "structures/{civ}_port")))
+					if (this.canBuild(gameState, "structures/{civ}_port"))
 						marketTemplates.push("structures/{civ}_port");
 					if (marketTemplates.length > 0)
 					{
@@ -805,7 +815,7 @@ m.HQ.prototype.bulkPickWorkers = function(gameState, baseRef, number)
 	let workers = new API3.EntityCollection(gameState.sharedScript);
 	for (let base of baseBest)
 	{
-		if (base.ID == baseRef.ID)
+		if (!base || base.ID == baseRef.ID)
 			continue;
 		base.pickBuilders(gameState, workers, needed);
 		if (workers.length >= number)
@@ -823,8 +833,12 @@ m.HQ.prototype.getTotalResourceLevel = function(gameState)
 	for (let res of Resources.GetCodes())
 		total[res] = 0;
 	for (let base of this.baseManagers)
+	{
+		if (!base)
+			continue;
 		for (let res in total)
 			total[res] += base.getResourceLevel(gameState, res);
+	}
 
 	return total;
 };
@@ -842,7 +856,11 @@ m.HQ.prototype.GetCurrentGatherRates = function(gameState)
 			currentRates[res] = 0.5 * this.GetTCResGatherer(res);
 
 		for (let base of this.baseManagers)
+		{
+			if (!base)
+				continue;
 			base.addGatherRates(gameState, currentRates);
+		}
 
 		for (let res of Resources.GetCodes())
 			currentRates[res] = Math.max(currentRates[res], 0);
@@ -1091,7 +1109,7 @@ m.HQ.prototype.findEconomicCCLocation = function(gameState, template, resource, 
 	let indexIdx = gameState.ai.accessibility.landPassMap[bestIdx];
 	for (let base of this.baseManagers)
 	{
-		if (!base.anchor || base.accessIndex == indexIdx)
+		if (!base || !base.anchor || base.accessIndex == indexIdx)
 			continue;
 		let sea = this.getSeaBetweenIndices(gameState, base.accessIndex, indexIdx);
 		if (sea !== undefined)
@@ -1234,7 +1252,7 @@ m.HQ.prototype.findStrategicCCLocation = function(gameState, template)
 	let indexIdx = gameState.ai.accessibility.landPassMap[bestIdx];
 	for (let base of this.baseManagers)
 	{
-		if (!base.anchor || base.accessIndex == indexIdx)
+		if (!base || !base.anchor || base.accessIndex == indexIdx)
 			continue;
 		let sea = this.getSeaBetweenIndices(gameState, base.accessIndex, indexIdx);
 		if (sea !== undefined)
@@ -1245,16 +1263,103 @@ m.HQ.prototype.findStrategicCCLocation = function(gameState, template)
 };
 
 /**
- * Returns the best position to build a new market: if the allies already have a market, build it as far as possible
- * from it, although not in our border to be able to defend it easily. If no allied market, our second market will
- * follow the same logic.
- * To do so, we suppose that the gain/distance is an increasing function of distance and look for the max distance
- * for performance reasons.
+ * Applies a template's BuildRestriction values to a territory placement map, specifically MinDistances and MaxDistances
+ * @param placement territory placement map, as returned by API3.Map()
+ * @param gameState object containing game state info
+ * @param template template of the structure to be built, as defined in simulation/templates
+ * @return None (modifies placement)
  */
+m.HQ.prototype.applyBuildRestrictions = function(placement, gameState, template)
+{
+	// distance from similar structures; try to spread out amongst civ centres
+	const avoidPenalty = -512;
+	// account for BuildRestrictions distances
+	let distancesExclusive = template.get('BuildRestrictions/DistancesExclusive');
+	if (distancesExclusive)
+	{
+		for (let d in distancesExclusive)
+		{
+			let dist = distancesExclusive[d];
+			if (!dist.MinDistance)
+				continue;
+			let minDist = Math.floor(Number(dist.MinDistance));
+			let distClass = dist.FromClass;
+			let classStructs = gameState.getOwnStructures().filter(API3.Filters.byClass(distClass)).toEntityArray();
+			for (let ent of classStructs)
+			{
+				let entPos = ent.position();
+				placement.addInfluence(Math.floor(entPos[0] / cellSize), Math.floor(entPos[1] / cellSize), Math.ceil(minDist / cellSize), avoidPenalty);
+			}// end for ent
+		}// end for dist
+	}
+};//end m.HQ.prototype.applyBuildRestrictions
+
+/**
+ * find the nearest base to a given tile
+ * @param tileIndex (int) index of a tile in a territory map
+ * @param obstructions (obj) map of obstructions
+ * @return (int) id of nearest base; undefined if no nearest base found
+ */
+m.HQ.prototype.findNearestBase = function(tileIndex, obstructions)
+{
+	let tileX = (tileIndex % obstructions.width) * obstructions.cellSize;
+	let tileZ = (Math.floor(tileIndex / obstructions.width)) * obstructions.cellSize;
+	let minDist = -1;
+	let baseID = undefined;
+	let civCentrePos = [-1, -1];
+	for (let base of this.baseManagers)
+	{
+		if (!base || !base.anchor)
+			continue;
+		let basePos = base.anchor.position();
+		let dist = API3.SquareVectorDistance(basePos, [tileX, tileZ]);
+		minDist = minDist < 0 || dist < minDist ? dist : minDist;
+		if (dist === minDist)
+		{
+			baseID = base.ID;
+			civCentrePos = basePos;
+		}
+	}// end for base
+	return baseID;
+};// end m.HQ.prototype.findNearestBase
+
+m.HQ.prototype.findCivicLocation = function(gameState, template)
+{
+	let placement = new API3.Map(gameState.sharedScript, "territory");
+	let cellSize = this.territoryMap.cellSize; // size of each tile
+	let civCentres = gameState.getOwnEntitiesByClass('CivCentre', true).toEntityArray();
+	if (civCentres.length < 1)
+		return {'x': -1, 'z': -1, 'base': -1};
+	for (let civCentre of civCentres)
+	{
+		let civCentrePos = civCentre.position();
+		let civCentrePosX = Math.floor(civCentrePos[0] / cellSize);
+		let civCentrePosZ = Math.floor(civCentrePos[1] / cellSize);
+		let civCentreRadius = Math.floor(Number(civCentre.get('City/Radius')));
+		if (!civCentreRadius)
+			civCentreRadius = 60;
+		placement.addInfluence(civCentrePosX, civCentrePosZ, Math.floor(civCentreRadius / cellSize), 255);
+	}// end for civCentre
+	// distance from similar structures; try to spread out amongst civ centres
+	this.applyBuildRestrictions(placement, gameState, template);
+	let obstructions = m.createObstructionMap(gameState, 0, template);
+	let radius = Math.ceil((template.obstructionRadius().max * 1.2 / obstructions.cellSize));
+	let structTile = placement.findBestTile(radius, obstructions);
+	// found no best tile
+	if (!structTile.val)
+		return {'x': -1, 'z': -1, 'base': -1};
+	let structIndex = structTile.idx;
+	let structPosX = (structIndex % obstructions.width) * obstructions.cellSize;
+	let structPosZ = (Math.floor(structIndex / obstructions.width)) * obstructions.cellSize;
+	// find nearest base
+	let baseID = this.findNearestBase(structIndex, obstructions);
+	return {'x': structPosX, 'z': structPosZ, 'base': baseID};
+};// end findCivicLocation
+
 m.HQ.prototype.findMarketLocation = function(gameState, template)
 {
-	// quick fix; let markets be placed arbitrarily by the ConstructionPlan
-	return [-1, -1, -1, 0];
+	let pos = this.findCivicLocation(gameState, template);
+	return [pos.x, pos.z, pos.base, 9999];
 };
 
 /**
@@ -1397,11 +1502,11 @@ m.HQ.prototype.findDefensiveLocation = function(gameState, template)
 
 m.HQ.prototype.buildTemple = function(gameState, queues)
 {
-	let numCivCentres = gameState.getOwnEntitiesByClass("CivCentre", true).toEntityArray().length;
+	let numCivCentres = gameState.getOwnStructures().filter(API3.Filters.byClass('CivCentre')).filter(API3.Filters.isBuilt()).length;
 	// at least one market (which have the same queue) should be build before any temple
 	// number of temples should ideally equal number of CivCentres
 	if (queues.economicBuilding.hasQueuedUnits() ||
-		gameState.getOwnEntitiesByClass("Temple", true).toEntityArray().length >= numCivCentres ||
+		gameState.getOwnEntitiesByClass("Temple", true).length >= numCivCentres ||
 		!gameState.getOwnEntitiesByClass("BarterMarket", true).hasEntities())
 		return;
 	// Try to build a temple earlier if in regicide to recruit healer guards
@@ -1433,8 +1538,8 @@ m.HQ.prototype.buildTemplePatron = function(gameState, queues)
 
 m.HQ.prototype.buildMarket = function(gameState, queues)
 {
-	let numCivCentres = gameState.getOwnEntitiesByClass("CivCentre", true).toEntityArray().length;
-	if (gameState.getOwnEntitiesByClass("BarterMarket", true).toEntityArray().length >= numCivCentres))
+	let numCivCentres = gameState.getOwnStructures().filter(API3.Filters.byClass('CivCentre')).filter(API3.Filters.isBuilt()).length;
+	if (gameState.getOwnEntitiesByClass("Market", true).length >= numCivCentres)
 		return;
 
 	if (queues.economicBuilding.hasQueuedUnitsWithClass("BarterMarket"))
@@ -1461,18 +1566,41 @@ m.HQ.prototype.buildMarket = function(gameState, queues)
 	}
 
 	gameState.ai.queueManager.changePriority("economicBuilding", 3*this.Config.priorities.economicBuilding);
-	let marketTemplates = [];
-	if (this.canBuild(gameState, "structures/{civ}_market")))
-		marketTemplates.push("structures/{civ}_market");
-	if (this.canBuild(gameState, "structures/{civ}_port")))
-		marketTemplates.push("structures/{civ}_port");
-	if (marketTemplates.length < 1)
+	// prioritize ports, build land market otherwise
+	let portTemplateFormat = 'structures/{civ}_port';
+	let marketTemplateFormat = 'structures/{civ}_market';
+	let chosenTemplate = undefined;
+	if (this.canBuild(gameState, portTemplateFormat))
+	{
+		let portTemplate = gameState.getTemplate(gameState.applyCiv(portTemplateFormat));
+		let portPos = this.findCivicLocation(gameState, portTemplate);
+		if (portPos.base)
+			chosenTemplate = portTemplateFormat;
+	}
+	if (!chosenTemplate && this.canBuild(gameState, marketTemplateFormat))
+		chosenTemplate = marketTemplateFormat;
+	if (!chosenTemplate)
 		return;
-	let marketTemplate = marketTemplates[randIntExclusive(0, marketTemplates.length)];
-	let plan = new m.ConstructionPlan(gameState, marketTemplate);
+	let plan = new m.ConstructionPlan(gameState, chosenTemplate);
 	plan.queueToReset = "economicBuilding";
 	queues.economicBuilding.addPlan(plan);
-};
+};// end buildMarket
+
+m.HQ.prototype.buildTavern = function(gameState, queues)
+{
+	let numMarkets = gameState.getOwnStructures().filter(API3.Filters.byClass('Market')).filter(API3.Filters.isBuilt()).length;
+	// at least one market (which have the same queue) should be build before any tavern
+	// number of taverns should ideally equal number of markets
+	if (queues.economicBuilding.hasQueuedUnits() ||
+		gameState.getOwnEntitiesByClass("Tavern", true).length >= numMarkets ||
+		!gameState.getOwnEntitiesByClass("BarterMarket", true).hasEntities())
+		return;
+
+	let templateName = "structures/{civ}_tavern";
+	if (!this.canBuild(gameState, templateName))
+		return;
+	queues.economicBuilding.addPlan(new m.ConstructionPlan(gameState, templateName));
+};// end buildTavern
 
 /** Build a farmstead */
 m.HQ.prototype.buildFarmstead = function(gameState, queues)
@@ -1979,7 +2107,7 @@ m.HQ.prototype.trainEmergencyUnits = function(gameState, positions)
 		// check nearest base anchor
 		for (let base of this.baseManagers)
 		{
-			if (!base.anchor || !base.anchor.position())
+			if (!base || !base.anchor || !base.anchor.position())
 				continue;
 			if (m.getLandAccess(gameState, base.anchor) != access)
 				continue;
@@ -2216,7 +2344,7 @@ m.HQ.prototype.updateTerritories = function(gameState)
 			let pos = [cellSize * (j%width+0.5), cellSize * (Math.floor(j/width)+0.5)];
 			for (let base of this.baseManagers)
 			{
-				if (!base.anchor || !base.anchor.position())
+				if (!base || !base.anchor || !base.anchor.position())
 					continue;
 				if (base.accessIndex != access)
 					continue;
@@ -2265,7 +2393,7 @@ m.HQ.prototype.reassignTerritories = function(deletedBase)
 		let pos = [cellSize * (j%width+0.5), cellSize * (Math.floor(j/width)+0.5)];
 		for (let base of this.baseManagers)
 		{
-			if (!base.anchor || !base.anchor.position())
+			if (!base || !base.anchor || !base.anchor.position())
 				continue;
 			if (base.accessIndex != deletedBase.accessIndex)
 				continue;
@@ -2291,7 +2419,7 @@ m.HQ.prototype.reassignTerritories = function(deletedBase)
 m.HQ.prototype.getBaseByID = function(baseID)
 {
 	for (let base of this.baseManagers)
-		if (base.ID == baseID)
+		if (base && base.ID == baseID)
 			return base;
 
 	return undefined;
@@ -2321,7 +2449,7 @@ m.HQ.prototype.updateBaseCache = function()
 	this.turnCache.base = { "active": 0, "potential": 0 };
 	for (let base of this.baseManagers)
 	{
-		if (!base.anchor)
+		if (!base || !base.anchor)
 			continue;
 		++this.turnCache.base.potential;
 		if (base.anchor.foundationProgress() === undefined)
@@ -2342,6 +2470,8 @@ m.HQ.prototype.assignGatherers = function()
 {
 	for (let base of this.baseManagers)
 	{
+		if (!base)
+			continue;
 		for (let worker of base.workers.values())
 		{
 			if (worker.unitAIState().split(".")[1] != "RETURNRESOURCE")
@@ -2572,6 +2702,7 @@ m.HQ.prototype.update = function(gameState, queues, events)
 	Engine.ProfileStart("Headquarters update");
 	this.turnCache = {};
 	this.territoryMap = m.createTerritoryMap(gameState);
+	let numCivCentres = gameState.getOwnStructures().filter(API3.Filters.byClass('CivCentre')).filter(API3.Filters.isBuilt()).length;
 	this.canBarter = gameState.getOwnEntitiesByClass("BarterMarket", true).filter(API3.Filters.isBuilt()).hasEntities();
 	// TODO find a better way to update
 	if (this.currentPhase != gameState.currentPhase())
@@ -2630,6 +2761,9 @@ m.HQ.prototype.update = function(gameState, queues, events)
 	if (this.currentPhase > 1 && gameState.ai.playedTurn % 3 == 0)
 	{
 		if (!this.canBarter)
+			this.buildMarket(gameState, queues);
+
+		if (gameState.getOwnEntitiesByClass('Market', true).toEntityArray().length < numCivCentres)
 			this.buildMarket(gameState, queues);
 
 		if (!this.saveResources)
@@ -2716,7 +2850,8 @@ m.HQ.prototype.Serialize = function()
 
 	let baseManagers = [];
 	for (let base of this.baseManagers)
-		baseManagers.push(base.Serialize());
+		if (base)
+			baseManagers.push(base.Serialize());
 
 	if (this.Config.debug == -100)
 	{
@@ -2758,6 +2893,8 @@ m.HQ.prototype.Deserialize = function(gameState, data)
 	this.baseManagers = [];
 	for (let base of data.baseManagers)
 	{
+		if (!base)
+			continue;
 		// the first call to deserialize set the ID base needed by entitycollections
 		let newbase = new m.BaseManager(gameState, this.Config);
 		newbase.Deserialize(gameState, base);

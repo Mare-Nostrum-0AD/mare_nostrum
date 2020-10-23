@@ -1,6 +1,6 @@
 {
 	"type": "range",
-	"radius": 80,
+	"radius": 240,
 	"affects": ["Trader"],
 	"modifications": [
 		{ "value": "Trader/GainMultiplier", "multiply": 1.1 }

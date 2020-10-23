@@ -13,6 +13,28 @@ BuildRestrictions.prototype.Schema =
 			"</Distance>" +
 		"</BuildRestrictions>" +
 	"</a:example>" +
+	"<optional>" +
+	"<element name='AI' a:help='Data to guide the AI'>" +
+		"<element name='Affinities' a:help='How close (or far) to ideally build from other structures. For hard limits, see BuildRestrictions/DistancesExclusive or BuildRestrictions/DistancesInclusive'>" +
+			"<oneOrMore>" +
+				"<element a:help='One affinity'>" +
+					"<anyName />" +
+					"<interleave>" +
+						"<element name='Class'>" +
+							"<text />" +
+						"</element>" +
+						"<element name='Distance' a:help='Distance to apply entity placement weights.'>" +
+							"<data type='positiveInteger' />" +
+						"</element>" +
+						"<element name='Value' a:help='Value of affinity. Positive means structure should be placed nearer to class, negative means should be placed further from class.'>" +
+							"<ref name='decimal' />" +
+						"</element>" +
+					"</interleave>" +
+				"</element>" +
+			"</oneOrMore>" +
+		"</element>" +
+	"</element>" +
+	"</optional>" +
 	"<element name='PlacementType' a:help='Specifies the terrain type restriction for this building.'>" +
 		"<choice>" +
 			"<value>land</value>" +
