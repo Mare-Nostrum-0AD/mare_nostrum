@@ -20,6 +20,11 @@
   </Cost>
   <GarrisonHolder>
     <Max>10</Max>
+    <EjectHealth>0.1</EjectHealth>
+    <EjectClassesOnDestroy datatype="tokens">Unit</EjectClassesOnDestroy>
+    <List datatype="tokens">Champion Hero</List>
+    <BuffHeal>2</BuffHeal>
+    <LoadingRange>2</LoadingRange>
   </GarrisonHolder>
   <Health>
     <Max>2000</Max>
@@ -51,7 +56,8 @@
     </Technologies>
   </ProductionQueue>
   <TerritoryInfluence>
-    <Root>true</Root>
+	<Root>false</Root>
     <Radius>48</Radius>
+    <Weight>40000</Weight>
   </TerritoryInfluence>
 </Entity>
