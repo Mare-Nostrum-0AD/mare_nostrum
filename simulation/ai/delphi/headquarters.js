@@ -1272,6 +1272,7 @@ m.HQ.prototype.findStrategicCCLocation = function(gameState, template)
 m.HQ.prototype.applyBuildRestrictions = function(placement, gameState, template)
 {
 	// distance from similar structures; try to spread out amongst civ centres
+	const cellSize = this.territoryMap.cellSize; // size of each tile
 	const avoidPenalty = -512;
 	// account for BuildRestrictions distances
 	let distancesExclusive = template.get('BuildRestrictions/DistancesExclusive');
@@ -1343,7 +1344,8 @@ m.HQ.prototype.findCivicLocation = function(gameState, template)
 	// distance from similar structures; try to spread out amongst civ centres
 	this.applyBuildRestrictions(placement, gameState, template);
 	let obstructions = m.createObstructionMap(gameState, 0, template);
-	let radius = Math.ceil((template.obstructionRadius().max * 1.2 / obstructions.cellSize));
+	let obstructionRatio = template.buildPlacementType() == "shore" ? 0.01 : 1.2;
+	let radius = Math.ceil((template.obstructionRadius().max * obstructionRatio / obstructions.cellSize));
 	let structTile = placement.findBestTile(radius, obstructions);
 	// found no best tile
 	if (!structTile.val)

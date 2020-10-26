@@ -15,6 +15,7 @@ BuildRestrictions.prototype.Schema =
 	"</a:example>" +
 	"<optional>" +
 	"<element name='AI' a:help='Data to guide the AI'>" +
+		"<optional>" +
 		"<element name='Affinities' a:help='How close (or far) to ideally build from other structures. For hard limits, see BuildRestrictions/DistancesExclusive or BuildRestrictions/DistancesInclusive'>" +
 			"<oneOrMore>" +
 				"<element a:help='One affinity'>" +
@@ -33,6 +34,27 @@ BuildRestrictions.prototype.Schema =
 				"</element>" +
 			"</oneOrMore>" +
 		"</element>" +
+		"</optional>" +
+		"<optional>" +
+		"<element name='Critical' a:help='Whether or not this structure should be prioritized when low on resources'>" +
+			"<data type='boolean' />" +
+		"</element>" +
+		"</optional>" +
+		"<optional>" +
+		"<element name='Ratios' a:help='How many of this structure to build per each structure of a given class'>" +
+			"<oneOrMore>" +
+				"<element a:help='one ratio'>" +
+					"<anyName />" +
+					"<element name='Class' a:help='Class of other structures to compare to'>" +
+						"<text />" +
+					"</element>" +
+					"<element name='Ratio' a:help='Number of this structure to build per each structure of Class'>" +
+						"<ref name='positiveDecimal' />" +
+					"</element>" +		
+				"</element>" +		
+			"</oneOrMore>" +	
+		"</element>" +
+		"</optional>" +
 	"</element>" +
 	"</optional>" +
 	"<element name='PlacementType' a:help='Specifies the terrain type restriction for this building.'>" +

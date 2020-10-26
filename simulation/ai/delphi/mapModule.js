@@ -82,20 +82,24 @@ m.createObstructionMap = function(gameState, accessIndex, template)
 		}
 	}
 
+	// contrain using BuildRestrictions/Distances*
 	let map = new API3.Map(gameState.sharedScript, "passability", obstructionTiles);
 	map.setMaxVal(255);
+	const penalty = -255;
 
-	if (template && template.buildDistance())
+	if (template && template.get('BuildRestrictions/DistancesExclusive'))
 	{
-		let distance = template.buildDistance();
-		let minDist = distance.MinDistance ? +distance.MinDistance : 0;
-		if (minDist)
-		{
-			let obstructionRadius = template.obstructionRadius();
+		const obstructionRadius = template.obstructionRadius();
+		const cellSize = passabilityMap.cellSize;
+		let distances = template.get('BuildRestrictions/DistancesExclusive');
+		for (let d in distances) {
+			let dist = distances[d];
+			let minDist = dist.MinDistance;
+			if (!minDist)
+				continue;
+			let fromClass = dist.FromClass;
 			if (obstructionRadius)
 				minDist -= obstructionRadius.min;
-			let fromClass = distance.FromClass;
-			let cellSize = passabilityMap.cellSize;
 			let cellDist = 1 + minDist / cellSize;
 			let structures = gameState.getOwnStructures().filter(API3.Filters.byClass(fromClass));
 			for (let ent of structures.values())
@@ -105,9 +109,9 @@ m.createObstructionMap = function(gameState, accessIndex, template)
 				let pos = ent.position();
 				let x = Math.round(pos[0] / cellSize);
 				let z = Math.round(pos[1] / cellSize);
-				map.addInfluence(x, z, cellDist, -255, "constant");
-			}
-		}
+				map.addInfluence(x, z, cellDist, penalty, "constant");
+			}// end for ent of structures.values()
+		}// end for d in distances
 	}
 
 	return map;
