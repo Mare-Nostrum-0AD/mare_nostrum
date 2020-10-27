@@ -8,11 +8,11 @@
 	<CapturePoints op="mul">4.0</CapturePoints>
   </Capturable>
   <City merge="">
-  	<Population>
-		<Init>25000</Init>
-		<Max>1000000</Max>
-	</Population>
-	<Radius>150</Radius>
+		<Population>
+			<Init>25000</Init>
+			<Max>1000000</Max>
+		</Population>
+		<Radius op="add">60</Radius>
   </City>
   <GarrisonHolder merge="">
     <Max op="mul">4.0</Max>

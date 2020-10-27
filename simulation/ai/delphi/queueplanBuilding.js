@@ -101,7 +101,7 @@ m.ConstructionPlan.prototype.findGoodPosition = function(gameState)
 {
 	let template = this.template;
 
-	if (template.buildPlacementType() == "shore")
+	if (template.buildPlacementType() == "shore" && !template.hasClass('Civic'))
 		return this.findDockPosition(gameState);
 
 	let HQ = gameState.ai.HQ;
@@ -152,23 +152,9 @@ m.ConstructionPlan.prototype.findGoodPosition = function(gameState)
 			if (!template.hasClass("Fortress") || gameState.getOwnEntitiesByClass("Fortress", true).hasEntities())
 				return false;
 		}
-		else if (template.hasClass("Market"))	// Docks (i.e. NavalMarket) are done before
-		{
-			let pos = HQ.findMarketLocation(gameState, template);
-			if (pos && pos[2] > 0)
-			{
-				if (!this.metadata)
-					this.metadata = {};
-				this.metadata.expectedGain = pos[3];
-				return { "x": pos[0], "z": pos[1], "angle": 3*Math.PI/4, "base": pos[2] };
-			}
-			else if (!pos)
-				return false;
-		}
 		else if (template.hasClass('Civic') && !template.hasClass('CivCentre'))
 		{
-			let pos = HQ.findCivicLocation(gameState, template);
-			return {'x': pos.x, 'z': pos.z, 'angle': 3*Math.PI/4, 'base': pos.base};
+			return HQ.findCivicLocation(gameState, template);
 		}
 	}
 
@@ -350,7 +336,12 @@ m.ConstructionPlan.prototype.findGoodPosition = function(gameState)
 	let territorypos = placement.gamePosToMapPos([x, z]);
 	let territoryIndex = territorypos[0] + territorypos[1]*placement.width;
 	// default angle = 3*Math.PI/4;
-	return { "x": x, "z": z, "angle": 3*Math.PI/4, "base": HQ.basesMap.map[territoryIndex] };
+	let angle = this.metadata && this.metadata.angle ? this.metadata.angle : 3*Math.PI/4;
+	let outputBase = this.metadata && this.metadata.base ? this.metadata.base : HQ.basesMap.map[territoryIndex];
+	let output = { "x": x, "z": z, "angle": angle, "base": outputBase };
+	if (this.metadata && this.metadata.access)
+		output['access'] = this.metadata.access;
+	return output;
 };
 
 /**

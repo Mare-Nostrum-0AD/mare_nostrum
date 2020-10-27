@@ -124,6 +124,7 @@ m.BuildManager.prototype.setBuildable = function(template)
 /** Time is the duration in second that we will wait before checking again if it is buildable */
 m.BuildManager.prototype.setUnbuildable = function(gameState, template, time = 90, reason = "room")
 {
+	// TODO: debugger - remove
 	if (!this.unbuildables.has(template))
 		this.unbuildables.set(template, { "reason": reason, "time": gameState.ai.elapsedTime + time });
 	else

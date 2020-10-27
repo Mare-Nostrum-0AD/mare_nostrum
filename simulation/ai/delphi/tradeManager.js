@@ -162,12 +162,20 @@ m.TradeManager.prototype.updateTrader = function(gameState, ent)
 m.TradeManager.prototype.setTradingGoods = function(gameState)
 {
 	let tradingGoods = {};
+	let validTradingGoods = Resources.GetCodes((res) => res.tradeable).reduce((acc, res) => { acc[res] = true ; return acc; }, new Map());
 	for (let res of Resources.GetCodes((res) => res.tradeable))
 		tradingGoods[res] = 0;
 	// first, try to anticipate future needs
 	let stocks = gameState.ai.HQ.getTotalResourceLevel(gameState);
-	let mostNeeded = gameState.ai.HQ.pickMostNeededResources(gameState);
+	let mostNeeded = gameState.ai.HQ.pickMostNeededResources(gameState).filter((res) => validTradingGoods.hasOwnProperty(res.type));
 	let wantedRates = gameState.ai.HQ.GetWantedGatherRates(gameState);
+	let actualWantedRates = new Map();
+	for (let res in wantedRates) {
+		if (validTradingGoods.hasOwnProperty(res)) {
+			actualWantedRates[res] = wantedRates[res];
+		}// end if !validTradingGoods.hasOwnProperty(res)
+	}// end for res in wantedRates
+	wantedRates = actualWantedRates;
 	let remaining = 100;
 	let targetNum = this.Config.Economy.targetNumTraders;
 	for (let res in tradingGoods)
@@ -403,7 +411,7 @@ m.TradeManager.prototype.activateProspection = function(gameState)
 {
 	this.routeProspection = true;
 	gameState.ai.HQ.buildManager.setBuildable(gameState.applyCiv("structures/{civ}_market"));
-	gameState.ai.HQ.buildManager.setBuildable(gameState.applyCiv("structures/{civ}_dock"));
+	gameState.ai.HQ.buildManager.setBuildable(gameState.applyCiv("structures/{civ}_port"));
 };
 
 /**
@@ -655,9 +663,6 @@ m.TradeManager.prototype.update = function(gameState, events, queues)
 		if (gameState.ai.playedTurn % 60 == 0)
 			this.setTradingGoods(gameState);
 	}
-
-	if (this.routeProspection)
-		this.prospectForNewMarket(gameState, queues);
 };
 
 m.TradeManager.prototype.routeEntToId = function(route)

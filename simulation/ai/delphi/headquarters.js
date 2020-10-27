@@ -532,35 +532,6 @@ m.HQ.prototype.checkPhaseRequirements = function(gameState, queues)
 			    !queues.militaryBuilding.hasQueuedUnits() &&
 			    !queues.defenseBuilding.hasQueuedUnits())
 			{
-				if (!gameState.getOwnEntitiesByClass("BarterMarket", true).hasEntities())
-				{
-					let marketTemplates = [];
-					if (this.canBuild(gameState, "structures/{civ}_market"))
-						marketTemplates.push("structures/{civ}_market");
-					if (this.canBuild(gameState, "structures/{civ}_port"))
-						marketTemplates.push("structures/{civ}_port");
-					if (marketTemplates.length > 0)
-					{
-						let marketTemplate = marketTemplates[randIntExclusive(0, marketTemplates.length)];
-						plan = new m.ConstructionPlan(gameState, marketTemplate, { "phaseUp": true });
-						queue = "economicBuilding";
-						break;
-					}
-				}
-				if (!gameState.getOwnEntitiesByClass("Temple", true).hasEntities() &&
-				    this.canBuild(gameState, "structures/{civ}_temple"))
-				{
-					plan = new m.ConstructionPlan(gameState, "structures/{civ}_temple", { "phaseUp": true });
-					queue = "economicBuilding";
-					break;
-				}
-				if (!gameState.getOwnEntitiesByClass("Blacksmith", true).hasEntities() &&
-				    this.canBuild(gameState, "structures/{civ}_blacksmith"))
-				{
-					plan = new m.ConstructionPlan(gameState, "structures/{civ}_blacksmith", { "phaseUp": true });
-					queue = "militaryBuilding";
-					break;
-				}
 				if (this.canBuild(gameState, "structures/{civ}_defense_tower"))
 				{
 					plan = new m.ConstructionPlan(gameState, "structures/{civ}_defense_tower", { "phaseUp": true });
@@ -1324,13 +1295,153 @@ m.HQ.prototype.findNearestBase = function(tileIndex, obstructions)
 	return baseID;
 };// end m.HQ.prototype.findNearestBase
 
+/** Algorithm taken from the function GetDockAngle in simulation/helpers/Commands.js */
+m.HQ.prototype.getDockAngle = function(gameState, x, z, size)
+{
+	let pos = gameState.ai.accessibility.gamePosToMapPos([x, z]);
+	let k = pos[0] + pos[1]*gameState.ai.accessibility.width;
+	let seaRef = gameState.ai.accessibility.navalPassMap[k];
+	if (seaRef < 2)
+		return false;
+	const numPoints = 16;
+	for (let dist = 0; dist < 4; ++dist)
+	{
+		let waterPoints = [];
+		for (let i = 0; i < numPoints; ++i)
+		{
+			let angle = 2 * Math.PI * i / numPoints;
+			pos = [x - (1+dist)*size*Math.sin(angle), z + (1+dist)*size*Math.cos(angle)];
+			pos = gameState.ai.accessibility.gamePosToMapPos(pos);
+			if (pos[0] < 0 || pos[0] >= gameState.ai.accessibility.width ||
+			    pos[1] < 0 || pos[1] >= gameState.ai.accessibility.height)
+				continue;
+			let j = pos[0] + pos[1]*gameState.ai.accessibility.width;
+			if (gameState.ai.accessibility.navalPassMap[j] == seaRef)
+				waterPoints.push(i);
+		}
+		let length = waterPoints.length;
+		if (!length)
+			continue;
+		let consec = [];
+		for (let i = 0; i < length; ++i)
+		{
+			let count = 0;
+			for (let j = 0; j < length-1; ++j)
+			{
+				if ((waterPoints[(i + j) % length]+1) % numPoints == waterPoints[(i + j + 1) % length])
+					++count;
+				else
+					break;
+			}
+			consec[i] = count;
+		}
+		let start = 0;
+		let count = 0;
+		for (let c in consec)
+		{
+			if (consec[c] > count)
+			{
+				start = c;
+				count = consec[c];
+			}
+		}
+
+		// If we've found a shoreline, stop searching
+		if (count != numPoints-1)
+			return -((waterPoints[start] + consec[start]/2) % numPoints)/numPoints*2*Math.PI;
+	}
+	return false;
+};
+
+/**
+ * Algorithm taken from checkPlacement in simulation/components/BuildRestriction.js
+ * to determine the special dock requirements
+ * returns {"land": land index for this dock, "water": amount of water around this spot}
+ */
+m.HQ.prototype.checkDockPlacement = function(gameState, x, z, halfDepth, halfWidth, angle)
+{
+	let sz = halfDepth * Math.sin(angle);
+	let cz = halfDepth * Math.cos(angle);
+	// center back position
+	let pos = gameState.ai.accessibility.gamePosToMapPos([x - sz, z - cz]);
+	let j = pos[0] + pos[1]*gameState.ai.accessibility.width;
+	let land = gameState.ai.accessibility.landPassMap[j];
+	if (land < 2)
+		return null;
+	// center front position
+	pos = gameState.ai.accessibility.gamePosToMapPos([x + sz, z + cz]);
+	j = pos[0] + pos[1]*gameState.ai.accessibility.width;
+	if (gameState.ai.accessibility.landPassMap[j] > 1 || gameState.ai.accessibility.navalPassMap[j] < 2)
+		return null;
+	// additional constraints compared to BuildRestriction.js to assure we have enough place to build
+	let sw = halfWidth * Math.cos(angle) * 3 / 4;
+	let cw = halfWidth * Math.sin(angle) * 3 / 4;
+	pos = gameState.ai.accessibility.gamePosToMapPos([x - sz + sw, z - cz - cw]);
+	j = pos[0] + pos[1]*gameState.ai.accessibility.width;
+	if (gameState.ai.accessibility.landPassMap[j] != land)
+		return null;
+	pos = gameState.ai.accessibility.gamePosToMapPos([x - sz - sw, z - cz + cw]);
+	j = pos[0] + pos[1]*gameState.ai.accessibility.width;
+	if (gameState.ai.accessibility.landPassMap[j] != land)
+		return null;
+	let water = 0;
+	let sp = 15 * Math.sin(angle);
+	let cp = 15 * Math.cos(angle);
+	for (let i = 1; i < 5; ++i)
+	{
+		pos = gameState.ai.accessibility.gamePosToMapPos([x + sz + i*(sp+sw), z + cz + i*(cp-cw)]);
+		if (pos[0] < 0 || pos[0] >= gameState.ai.accessibility.width ||
+		    pos[1] < 0 || pos[1] >= gameState.ai.accessibility.height)
+			break;
+		j = pos[0] + pos[1]*gameState.ai.accessibility.width;
+		if (gameState.ai.accessibility.landPassMap[j] > 1 || gameState.ai.accessibility.navalPassMap[j] < 2)
+			break;
+		pos = gameState.ai.accessibility.gamePosToMapPos([x + sz + i*sp, z + cz + i*cp]);
+		if (pos[0] < 0 || pos[0] >= gameState.ai.accessibility.width ||
+		    pos[1] < 0 || pos[1] >= gameState.ai.accessibility.height)
+			break;
+		j = pos[0] + pos[1]*gameState.ai.accessibility.width;
+		if (gameState.ai.accessibility.landPassMap[j] > 1 || gameState.ai.accessibility.navalPassMap[j] < 2)
+			break;
+		pos = gameState.ai.accessibility.gamePosToMapPos([x + sz + i*(sp-sw), z + cz + i*(cp+cw)]);
+		if (pos[0] < 0 || pos[0] >= gameState.ai.accessibility.width ||
+		    pos[1] < 0 || pos[1] >= gameState.ai.accessibility.height)
+			break;
+		j = pos[0] + pos[1]*gameState.ai.accessibility.width;
+		if (gameState.ai.accessibility.landPassMap[j] > 1 || gameState.ai.accessibility.navalPassMap[j] < 2)
+			break;
+		water += 4;
+	}
+	return { "land": land, "water": water };
+};
+
 m.HQ.prototype.findCivicLocation = function(gameState, template)
 {
 	let placement = new API3.Map(gameState.sharedScript, "territory");
-	let cellSize = this.territoryMap.cellSize; // size of each tile
+	const isDock = template.buildPlacementType() == 'shore';
+	const civCentreRadiusRatio = isDock ? 1.0 : 1.0;
+	const obstructionRatio = isDock ? 0.8 : 1.2;
+	const maxRetries = 100;// for finding dock position
+	const maxValidPositions = 5;
+	const cellSize = this.territoryMap.cellSize; // size of each tile
+	let halfSize = 0;    // used for dock angle
+	let halfDepth = 0;   // used by checkPlacement
+	let halfWidth = 0;   // used by checkPlacement
+	if (template.get("Footprint/Square"))
+	{
+		halfSize = Math.max(+template.get("Footprint/Square/@depth"), +template.get("Footprint/Square/@width")) / 2;
+		halfDepth = +template.get("Footprint/Square/@depth") / 2;
+		halfWidth = +template.get("Footprint/Square/@width") / 2;
+	}
+	else if (template.get("Footprint/Circle"))
+	{
+		halfSize = +template.get("Footprint/Circle/@radius");
+		halfDepth = halfSize;
+		halfWidth = halfSize;
+	}
 	let civCentres = gameState.getOwnEntitiesByClass('CivCentre', true).toEntityArray();
 	if (civCentres.length < 1)
-		return {'x': -1, 'z': -1, 'base': -1};
+		return false;
 	for (let civCentre of civCentres)
 	{
 		let civCentrePos = civCentre.position();
@@ -1339,23 +1450,49 @@ m.HQ.prototype.findCivicLocation = function(gameState, template)
 		let civCentreRadius = Math.floor(Number(civCentre.get('City/Radius')));
 		if (!civCentreRadius)
 			civCentreRadius = 60;
-		placement.addInfluence(civCentrePosX, civCentrePosZ, Math.floor(civCentreRadius / cellSize), 255);
+		placement.addInfluence(civCentrePosX, civCentrePosZ, Math.floor((civCentreRadius * civCentreRadiusRatio) / cellSize), 255);
 	}// end for civCentre
 	// distance from similar structures; try to spread out amongst civ centres
 	this.applyBuildRestrictions(placement, gameState, template);
 	let obstructions = m.createObstructionMap(gameState, 0, template);
-	let obstructionRatio = template.buildPlacementType() == "shore" ? 0.01 : 1.2;
-	let radius = Math.ceil((template.obstructionRadius().max * obstructionRatio / obstructions.cellSize));
-	let structTile = placement.findBestTile(radius, obstructions);
-	// found no best tile
-	if (!structTile.val)
-		return {'x': -1, 'z': -1, 'base': -1};
-	let structIndex = structTile.idx;
-	let structPosX = (structIndex % obstructions.width) * obstructions.cellSize;
-	let structPosZ = (Math.floor(structIndex / obstructions.width)) * obstructions.cellSize;
-	// find nearest base
-	let baseID = this.findNearestBase(structIndex, obstructions);
-	return {'x': structPosX, 'z': structPosZ, 'base': baseID};
+	const radius = Math.ceil((template.obstructionRadius().max * obstructionRatio / obstructions.cellSize));
+	// loop until find valid position (useful for docks)
+	// choose randomly from a number of valid positions
+	let validPositions = [];
+	for (let i = 0; i < maxRetries; i++)
+	{
+		let structTile = placement.findBestTile(radius, obstructions);
+		// found no best tile
+		if (!structTile.val)
+			break;
+		let structIndex = structTile.idx;
+		let structPosX = (structIndex % obstructions.width) * obstructions.cellSize;
+		let structPosZ = (Math.floor(structIndex / obstructions.width)) * obstructions.cellSize;
+		// find nearest base
+		let baseID = this.findNearestBase(structIndex, obstructions);
+		let position = {'x': structPosX, 'z': structPosZ, 'base': baseID};
+		if (isDock) {
+			let angle = this.getDockAngle(gameState, structPosX, structPosZ, halfSize);
+			if (angle == false) {
+				obstructions.set(structIndex, 0);
+				continue;
+			}
+			let ret = this.checkDockPlacement(gameState, structPosX, structPosZ, halfDepth, halfWidth, angle);
+			if (!ret || !this.landRegions[ret.land]) {
+				obstructions.set(structIndex, 0);
+				continue;
+			}
+			position['angle'] = angle;
+			position['access'] = ret.land;
+		}// end if iѕDock
+		obstructions.set(structIndex, 0);
+		validPositions.push(position);
+		if (validPositions.length >= maxValidPositions)
+			break;
+	}// end for maxRetries
+	if (validPositions.length > 0)
+		return validPositions[randIntExclusive(0, validPositions.length)];
+	return false;
 };// end findCivicLocation
 
 m.HQ.prototype.findMarketLocation = function(gameState, template)
@@ -1544,31 +1681,35 @@ m.HQ.prototype.buildMarket = function(gameState, queues)
 	if (gameState.getOwnEntitiesByClass("Market", true).length >= numCivCentres)
 		return;
 
-	if (queues.economicBuilding.hasQueuedUnitsWithClass("BarterMarket"))
-	{
-		if (!queues.economicBuilding.paused)
-		{
-			// Put available resources in this market
-			let queueManager = gameState.ai.queueManager;
-			let cost = queues.economicBuilding.plans[0].getCost();
-			queueManager.setAccounts(gameState, cost, "economicBuilding");
-			if (!queueManager.canAfford("economicBuilding", cost))
-			{
-				for (let q in queueManager.queues)
-				{
-					if (q == "economicBuilding")
-						continue;
-					queueManager.transferAccounts(cost, q, "economicBuilding");
-					if (queueManager.canAfford("economicBuilding", cost))
-						break;
-				}
-			}
-		}
+	if (queues.economicBuilding.hasQueuedUnitsWithClass('Market'))
 		return;
-	}
+// 	if (queues.economicBuilding.hasQueuedUnitsWithClass("BarterMarket"))
+// 	{
+// 		if (!queues.economicBuilding.paused)
+// 		{
+// 			// Put available resources in this market
+// 			let queueManager = gameState.ai.queueManager;
+// 			let cost = queues.economicBuilding.plans[0].getCost();
+// 			queueManager.setAccounts(gameState, cost, "economicBuilding");
+// 			if (!queueManager.canAfford("economicBuilding", cost))
+// 			{
+// 				for (let q in queueManager.queues)
+// 				{
+// 					if (q == "economicBuilding")
+// 						continue;
+// 					queueManager.transferAccounts(cost, q, "economicBuilding");
+// 					if (queueManager.canAfford("economicBuilding", cost))
+// 						break;
+// 				}
+// 			}
+// 		}
+// 		return;
+// 	}
 
 	gameState.ai.queueManager.changePriority("economicBuilding", 3*this.Config.priorities.economicBuilding);
 	// prioritize ports, build land market otherwise
+	let position = undefined;
+	let metadata = undefined;
 	let portTemplateFormat = 'structures/{civ}_port';
 	let marketTemplateFormat = 'structures/{civ}_market';
 	let chosenTemplate = undefined;
@@ -1576,8 +1717,10 @@ m.HQ.prototype.buildMarket = function(gameState, queues)
 	{
 		let portTemplate = gameState.getTemplate(gameState.applyCiv(portTemplateFormat));
 		let portPos = this.findCivicLocation(gameState, portTemplate);
-		if (portPos.base)
+		if (portPos)
+		{
 			chosenTemplate = portTemplateFormat;
+		}
 	}
 	if (!chosenTemplate && this.canBuild(gameState, marketTemplateFormat))
 		chosenTemplate = marketTemplateFormat;
