@@ -1419,8 +1419,8 @@ m.HQ.prototype.findCivicLocation = function(gameState, template)
 {
 	let placement = new API3.Map(gameState.sharedScript, "territory");
 	const isDock = template.buildPlacementType() == 'shore';
-	const civCentreRadiusRatio = isDock ? 1.0 : 1.0;
-	const obstructionRatio = isDock ? 0.8 : 1.2;
+	const civCentreRadiusRatio = 1.0;
+	const obstructionRatio = isDock ? 1.0 : 1.2;
 	const maxRetries = 100;// for finding dock position
 	const maxValidPositions = 5;
 	const cellSize = this.territoryMap.cellSize; // size of each tile
@@ -1470,7 +1470,7 @@ m.HQ.prototype.findCivicLocation = function(gameState, template)
 		let structPosZ = (Math.floor(structIndex / obstructions.width)) * obstructions.cellSize;
 		// find nearest base
 		let baseID = this.findNearestBase(structIndex, obstructions);
-		let position = {'x': structPosX, 'z': structPosZ, 'base': baseID};
+		let position = {'x': structPosX, 'z': structPosZ, 'angle': 3*Math.PI/4, 'base': baseID};
 		if (isDock) {
 			let angle = this.getDockAngle(gameState, structPosX, structPosZ, halfSize);
 			if (angle == false) {

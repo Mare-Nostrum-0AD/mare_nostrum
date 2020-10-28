@@ -15,19 +15,19 @@
     <DistancesInclusive>
 	  <VillageCentre>
       	<FromClass>VillageCentre</FromClass>
-      	<MaxDistance>120</MaxDistance>
+      	<MaxDistance>90</MaxDistance>
 	  </VillageCentre>
 	  <TownCentre>
       	<FromClass>TownCentre</FromClass>
-      	<MaxDistance>120</MaxDistance>
+      	<MaxDistance>90</MaxDistance>
 	  </TownCentre>
 	  <CityCentre>
       	<FromClass>CityCentre</FromClass>
-      	<MaxDistance>150</MaxDistance>
+      	<MaxDistance>120</MaxDistance>
 	  </CityCentre>
 	  <MetroCentre>
       	<FromClass>MetroCentre</FromClass>
-      	<MaxDistance>180</MaxDistance>
+      	<MaxDistance>150</MaxDistance>
 	  </MetroCentre>
     </DistancesInclusive>
   </BuildRestrictions>

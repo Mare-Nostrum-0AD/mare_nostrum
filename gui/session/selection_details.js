@@ -227,6 +227,8 @@ function displaySingle(entState)
 	else if (entState.trader && entState.trader.goods.amount)
 	{
 		resourceCarryingIcon.sprite = "stretched:session/icons/resources/" + entState.trader.goods.type + ".png";
+		if (!entState.trader.goods.amount.traderOwner)
+			entState.trader.goods.amount.traderOwner = entState.player;
 		let totalGain = entState.trader.goods.amount.traderGain;
 		if (entState.trader.goods.amount.market1Gain)
 			totalGain += entState.trader.goods.amount.market1Gain;
