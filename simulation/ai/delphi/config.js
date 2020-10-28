@@ -30,7 +30,7 @@ m.Config = function(difficulty, behavior)
 		"workPhase4": 80,	// How many workers we want before aging to phase4 or higher.
 		"popForDock": 25,
 		"targetNumWorkers": 40,	// dummy, will be changed later
-		"targetNumTraders": 5,	// Target number of traders
+		"traderRatio": 0.1,		// fraction of traders among population
 		"targetNumFishers": 1,	// Target number of fishers per sea
 		"supportRatio": 0.35,	// fraction of support workers among the workforce
 		"provisionFields": 2
@@ -208,7 +208,6 @@ m.Config.prototype.setConfig = function(gameState)
 		this.Economy.targetNumWorkers = Math.max(1, Math.min(60, Math.floor(maxPop/2)));
 	else
 		this.Economy.targetNumWorkers = Math.max(1, Math.min(120, Math.floor(maxPop/3)));
-	this.Economy.targetNumTraders = 2 + this.difficulty;
 
 
 	if (gameState.getVictoryConditions().has("wonder"))
@@ -226,7 +225,6 @@ m.Config.prototype.setConfig = function(gameState)
 		this.Economy.popPhase2 = Math.min(Math.max(Math.floor(this.Economy.popPhase2 * this.popScaling), 20), Math.floor(maxPop/2));
 		this.Economy.workPhase3 = Math.min(Math.max(Math.floor(this.Economy.workPhase3 * this.popScaling), 40), Math.floor(maxPop*2/3));
 		this.Economy.workPhase4 = Math.min(Math.max(Math.floor(this.Economy.workPhase4 * this.popScaling), 45), Math.floor(maxPop*2/3));
-		this.Economy.targetNumTraders = Math.round(this.Economy.targetNumTraders * this.popScaling);
 	}
 	this.Economy.targetNumWorkers = Math.max(this.Economy.targetNumWorkers, this.Economy.popPhase2);
 	this.Economy.workPhase3 = Math.min(this.Economy.workPhase3, this.Economy.targetNumWorkers);

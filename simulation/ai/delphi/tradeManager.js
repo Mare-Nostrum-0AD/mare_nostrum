@@ -11,7 +11,7 @@ m.TradeManager = function(Config)
 	this.tradeRoute = undefined;
 	this.potentialTradeRoute = undefined;
 	this.routeProspection = false;
-	this.targetNumTraders = this.Config.Economy.targetNumTraders;
+	this.traderRatio = this.Config.Economy.traderRatio;
 	this.warnedAllies = {};
 };
 
@@ -38,6 +38,7 @@ m.TradeManager.prototype.trainMoreTraders = function(gameState, queues)
 	if (!this.hasTradeRoute() || queues.trader.hasQueuedUnits())
 		return;
 
+	let targetNumTraders = gameState.getPopulationMax() * this.traderRatio;
 	let numTraders = this.traders.length;
 	let numSeaTraders = this.traders.filter(API3.Filters.byClass("Ship")).length;
 	let numLandTraders = numTraders - numSeaTraders;
@@ -54,9 +55,9 @@ m.TradeManager.prototype.trainMoreTraders = function(gameState, queues)
 				numLandTraders += item.count;
 		}
 	});
-	if (numTraders >= this.targetNumTraders &&
-		(!this.tradeRoute.sea && numLandTraders >= Math.floor(this.targetNumTraders/2) ||
-		  this.tradeRoute.sea && numSeaTraders >= Math.floor(this.targetNumTraders/2)))
+	if (numTraders >= targetNumTraders &&
+		(!this.tradeRoute.sea && numLandTraders >= Math.floor(targetNumTraders/2) ||
+		  this.tradeRoute.sea && numSeaTraders >= Math.floor(targetNumTraders/2)))
 		return;
 
 	let template;
@@ -177,7 +178,7 @@ m.TradeManager.prototype.setTradingGoods = function(gameState)
 	}// end for res in wantedRates
 	wantedRates = actualWantedRates;
 	let remaining = 100;
-	let targetNum = this.Config.Economy.targetNumTraders;
+	let targetNum = gameState.getPopulationMax() * this.traderRatio;
 	for (let res in tradingGoods)
 	{
 		if (res == "food")
@@ -188,22 +189,18 @@ m.TradeManager.prototype.setTradingGoods = function(gameState)
 			if (stocks[res] < 200)
 			{
 				tradingGoods[res] = wantedRate > 0 ? 20 : 10;
-				targetNum += Math.min(5, 3 + Math.ceil(wantedRate/30));
 			}
 			else if (stocks[res] < 500)
 			{
 				tradingGoods[res] = wantedRate > 0 ? 15 : 10;
-				targetNum += 2;
 			}
 			else if (stocks[res] < 1000)
 			{
 				tradingGoods[res] = 10;
-				targetNum += 1;
 			}
 		}
 		remaining -= tradingGoods[res];
 	}// end for res
-	this.targetNumTraders = Math.round(this.Config.popScaling * targetNum);
 
 
 	// then add what is needed now
@@ -656,7 +653,7 @@ m.TradeManager.prototype.update = function(gameState, events, queues)
 	if (this.tradeRoute)
 	{
 		this.traders.forEach(ent => { this.updateTrader(gameState, ent); });
-		if (gameState.ai.playedTurn % 5 == 0)
+		if (gameState.ai.playedTurn % 3 == 0)
 			this.trainMoreTraders(gameState, queues);
 		if (gameState.ai.playedTurn % 20 == 0 && this.traders.length >= 2)
 			gameState.ai.HQ.researchManager.researchTradeBonus(gameState, queues);
@@ -711,7 +708,7 @@ m.TradeManager.prototype.Serialize = function()
 		"tradeRoute": this.routeEntToId(this.tradeRoute),
 		"potentialTradeRoute": this.routeEntToId(this.potentialTradeRoute),
 		"routeProspection": this.routeProspection,
-		"targetNumTraders": this.targetNumTraders,
+		"traderRatio": this.traderRatio,
 		"warnedAllies": this.warnedAllies
 	};
 };
