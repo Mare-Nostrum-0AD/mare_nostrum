@@ -160,9 +160,12 @@ m.DefenseManager.prototype.isDangerous = function(gameState, entity)
 			continue;
 		if (cooperation < 0.3)
 			continue;
-		if (API3.SquareVectorDistance(cc.position(), entity.position()) < dist2Min)
+		let ccPos = cc.position();
+		if (!ccPos)
+			continue;
+		if (API3.SquareVectorDistance(ccPos, entity.position()) < dist2Min)
 			return true;
-	}
+	}// end for cc of ccEnts.values()
 
 	for (let building of gameState.getOwnStructures().values())
 	{

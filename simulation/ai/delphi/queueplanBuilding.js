@@ -122,15 +122,7 @@ m.ConstructionPlan.prototype.findGoodPosition = function(gameState)
 	{
 		if (template.hasClass("CivCentre"))
 		{
-			let pos;
-			if (this.metadata && this.metadata.resource)
-			{
-				let proximity = this.metadata.proximity ? this.metadata.proximity : undefined;
-				pos = HQ.findEconomicCCLocation(gameState, template, this.metadata.resource, proximity);
-			}
-			else
-				pos = HQ.findStrategicCCLocation(gameState, template);
-
+			let pos = HQ.findGenericCCLocation(gameState, template);
 			if (pos)
 				return { "x": pos[0], "z": pos[1], "angle": 3*Math.PI/4, "base": 0 };
 			// No possible location, try to build instead a dock in a not-enemy island
