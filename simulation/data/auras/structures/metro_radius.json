@@ -1,6 +1,6 @@
 {
 	"type": "range",
-	"radius": 150,
+	"radius": 180,
 	"affects": ["Structure Civic !CivilCentre"],
 	"modifications": [
 		{ "value": "BuildRestrictions/Distance/MaxDistance", "add": 90 }

@@ -5,6 +5,6 @@
 	"modifications": [
 		{ "value": "BuildRestrictions/Distance/MaxDistance", "add": 0 }
 	],
-	"auraName": "Town Radius",
-	"auraDescription": "Towns have a radius of 120 meters."
+	"auraName": "Village Radius",
+	"auraDescription": "Villages have a radius of 120 meters."
 }

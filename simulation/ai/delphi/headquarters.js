@@ -91,7 +91,6 @@ m.HQ.prototype.init = function(gameState, queues)
 		}// end for i in tiles
 		return tiles;
 	})();
-	warn(sprintf('Num shoreTiles: %d', this.shoreTiles.length));// TODO: remove debug
 	// try to determine if we have a water map
 	this.navalMap = false;
 	this.navalRegions = {};
@@ -1004,7 +1003,6 @@ m.HQ.prototype.findGenericCCLocation = function(gameState, template)
 		})();
 		placement.addInfluence(avgPos[0], avgPos[1], Math.floor(mapWidthHalf / 2), defaultTileVal * 2, 'constant');
 		const accessVal = gameState.ai.accessibility.getAccessValue([avgPos[0] * cellSize, avgPos[1] * cellSize]);
-		warn(sprintf('Player %d land access val: %d', PlayerID, accessVal));
 		for (let i in placement.map) {
 			let tileAccessVal = gameState.ai.accessibility.getAccessValue([(i % mapWidth) * cellSize, Math.floor(i / mapWidth) * cellSize]);
 			if (tileAccessVal != accessVal)
@@ -1035,7 +1033,6 @@ m.HQ.prototype.findGenericCCLocation = function(gameState, template)
 			this.navalManager.setMinimalTransportShips(gameState, sea, 1);
 	}
 
-	warn(sprintf('Found Player %d base location at tile %d', PlayerID, bestTile.idx));
 	return gameState.ai.accessibility.mapPosToGamePos(bestTile.idx);
 };// end function m.HQ.prototype.findGenericCCLocation
 

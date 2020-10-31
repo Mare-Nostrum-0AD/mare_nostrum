@@ -1,6 +1,6 @@
 {
 	"type": "range",
-	"radius": 150,
+	"radius": 180,
 	"affects": ["Worker", "Trader"],
 	"modifications": [
 		{ "value": "ResourceGatherer/Rates/food.grain", "multiply": 1.5 },
