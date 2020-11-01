@@ -946,7 +946,7 @@ m.HQ.prototype.findGenericCCLocation = function(gameState, template)
 	for (let res of Resources.GetCodes()) {
 		let ents = gameState.getResourceSupplies(res).toEntityArray();
 		for (let ent of ents) {
-			let strength = Math.ceil((defaultTileVal * 2) / ents.length);
+			let strength = Math.floor((defaultTileVal * 2) / ents.length);
 			let pos = ent.position();
 			let posX = Math.floor(pos[0] / cellSize);
 			let posZ = Math.floor(pos[1] / cellSize);

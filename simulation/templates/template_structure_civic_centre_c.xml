@@ -28,6 +28,6 @@
     <VisibleClasses datatype="tokens">CityCentre</VisibleClasses>
   </Identity>
   <TerritoryInfluence merge="">
-    <Radius op="mul">2.0</Radius>
+    <Radius op="mul">1.5</Radius>
   </TerritoryInfluence>
 </Entity>
