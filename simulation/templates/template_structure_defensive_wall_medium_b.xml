@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Entity parent="template_structure_defense_wall_short">
+<Entity parent="template_structure_defensive_wall_medium">
   <Capturable>
     <CapturePoints op="mul">2.0</CapturePoints>
   </Capturable>
   <Health>
     <Max op="mul">2.0</Max>
-    <SpawnEntityOnDeath>decay|rubble/rubble_stone_wall_short</SpawnEntityOnDeath>
+    <SpawnEntityOnDeath>decay|rubble/rubble_stone_wall_medium</SpawnEntityOnDeath>
   </Health>
   <Identity>
 	<GenericName>Stone Wall II</GenericName>
@@ -15,10 +15,10 @@
   </TerritoryDecay>
   <Upgrade>
   	<Wall>
-		<Entity>structures/{civ}_wall_short_c</Entity>
+		<Entity>structures/{civ}_wall_medium_c</Entity>
 		<Tooltip>Triple the health of this wall segment.</Tooltip>
 		<Cost>
-			<stone>15</stone>
+			<stone>22</stone>
 		</Cost>
 		<Time>30</Time>
 	</Wall>
