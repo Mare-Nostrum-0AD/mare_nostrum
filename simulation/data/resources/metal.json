@@ -6,9 +6,7 @@
 	"subtypes": {
 		"ore": "Ore"
 	},
-	"properties": ["barterable", "tradable", "tributable"],
+	"properties": ["barterable", "tributable"],
 	"truePrice": 100,
-	"shareable": true,
-	"tradeable": true,
 	"aiAnalysisInfluenceGroup": "sparse"
 }

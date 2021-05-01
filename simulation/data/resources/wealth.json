@@ -9,8 +9,7 @@
 		"crops": "Crops",
 		"wares": "Wares"
 	},
-	"truePrice": 200,
-	"shareable": true,
-	"tradeable": true,
+	"properties": ["barterable", "tradable", "tributable"],
+	"truePrice": 100,
 	"aiAnalysisInfluenceGroup": "sparse"
 }

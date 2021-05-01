@@ -4,8 +4,7 @@
 	"description": "Manpower recruited from your cities.",
 	"order": 6,
 	"subtypes": {},
+	"properties": [],
 	"truePrice": 100,
-	"shareable": true,
-	"tradeable": false,
 	"aiAnalysisInfluenceGroup": "ignore"
 }
