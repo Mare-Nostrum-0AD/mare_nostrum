@@ -1,28 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Entity parent="template_unit_champion">
-  <Armour>
-    <Hack>10</Hack>
-    <Pierce>10</Pierce>
-    <Crush>25</Crush>
-  </Armour>
   <Capturable>
-  	<CapturePoints>50</CapturePoints>
-	<RegenRate>2.0</RegenRate>
-	<GarrisonRegenRate>0</GarrisonRegenRate>
+		<CapturePoints>50</CapturePoints>
+		<RegenRate>2.0</RegenRate>
+		<GarrisonRegenRate>0</GarrisonRegenRate>
   </Capturable>
   <Cost>
     <Population>3</Population>
-    <BuildTime>30</BuildTime>
+    <BuildTime>36</BuildTime>
     <Resources>
-      <food>250</food>
-      <wood>0</wood>
-      <stone>0</stone>
-      <metal>250</metal>
+      <food>300</food>
+      <metal>200</metal>
     </Resources>
   </Cost>
-  <Footprint>
-    <Circle radius="3.5"/>
-    <Height>6.0</Height>
+  <Footprint replace="">
+    <Square width="4.5" depth="9.0"/>
+    <Height>9.0</Height>
   </Footprint>
   <Health>
     <Max>750</Max>
@@ -30,19 +23,24 @@
   <Identity>
     <GenericName>War Elephant</GenericName>
     <VisibleClasses datatype="tokens">Elephant</VisibleClasses>
-    <Icon>gaia/fauna_elephant.png</Icon>
   </Identity>
+  <Loot>
+    <xp>300</xp>
+    <food>30</food>
+    <metal>20</metal>
+  </Loot>
   <Position>
-    <Anchor>pitch</Anchor>
+    <TurnRate>3</TurnRate>
   </Position>
-  <Selectable>
-    <Overlay>
-      <Texture>
-        <MainTexture>arrow/256x256.png</MainTexture>
-        <MainTextureMask>arrow/256x256_mask.png</MainTextureMask>
-      </Texture>
-    </Overlay>
-  </Selectable>
+  <Resistance>
+    <Entity>
+      <Damage>
+        <Hack>10</Hack>
+        <Pierce>10</Pierce>
+        <Crush>20</Crush>
+      </Damage>
+    </Entity>
+  </Resistance>
   <Sound>
     <SoundGroups>
       <select>actor/fauna/animal/elephant_select.xml</select>
@@ -58,19 +56,12 @@
     </SoundGroups>
   </Sound>
   <StatusBars>
-    <HeightOffset>6.5</HeightOffset>
+    <HeightOffset>10.0</HeightOffset>
   </StatusBars>
   <UnitMotion>
     <PassabilityClass>large</PassabilityClass>
-    <WalkSpeed op="mul">0.95</WalkSpeed>
-    <Run>
-      <Speed op="mul">0.95</Speed>
-    </Run>
   </UnitMotion>
   <Vision>
     <Range>100</Range>
   </Vision>
-  <VisualActor>
-    <Actor>units/mauryans/champion_elephant.xml</Actor>
-  </VisualActor>
 </Entity>

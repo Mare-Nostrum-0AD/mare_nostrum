@@ -75,7 +75,6 @@ function displaySingle(entState)
 	let civEmblem = g_CivData[playerState.civ].Emblem;
 
 	let playerName = playerState.name;
-	let playerColor = rgbToGuiColor(g_DisplayedPlayerColors[entState.player], 128);
 
 	// Indicate disconnected players by prefixing their name
 	if (g_Players[entState.player].offline)
@@ -96,8 +95,35 @@ function displaySingle(entState)
 		Engine.GetGUIObjectByName("rankIcon").tooltip = "";
 	}
 
+	if (entState.statusEffects)
+	{
+		let statusEffectsSection = Engine.GetGUIObjectByName("statusEffectsIcons");
+		statusEffectsSection.hidden = false;
+		let statusIcons = statusEffectsSection.children;
+		let i = 0;
+		for (let effectCode in entState.statusEffects)
+		{
+			let effect = entState.statusEffects[effectCode];
+			statusIcons[i].hidden = false;
+			statusIcons[i].sprite = "stretched:session/icons/status_effects/" + g_StatusEffectsMetadata.getIcon(effect.baseCode) + ".png";
+			statusIcons[i].tooltip = getStatusEffectsTooltip(effect.baseCode, effect, false);
+			let size = statusIcons[i].size;
+			size.top = i * 18;
+			size.bottom = i * 18 + 16;
+			statusIcons[i].size = size;
+
+			if (++i >= statusIcons.length)
+				break;
+		}
+		for (; i < statusIcons.length; ++i)
+			statusIcons[i].hidden = true;
+	}
+	else
+		Engine.GetGUIObjectByName("statusEffectsIcons").hidden = true;
+
 	let showHealth = entState.hitpoints;
 	let showResource = entState.resourceSupply;
+	let showCapture = entState.capturePoints;
 
 	let healthSection = Engine.GetGUIObjectByName("healthSection");
 	let captureSection = Engine.GetGUIObjectByName("captureSection");
@@ -123,11 +149,13 @@ function displaySingle(entState)
 		captureSection.size = showResource ? sectionPosMiddle.size : sectionPosBottom.size;
 		resourceSection.size = showResource ? sectionPosBottom.size : sectionPosMiddle.size;
 	}
-	else
+	else if (showResource)
 	{
 		captureSection.size = sectionPosBottom.size;
 		resourceSection.size = sectionPosTop.size;
 	}
+	else if (showCapture)
+		captureSection.size = sectionPosTop.size;
 
 	// CapturePoints
 	captureSection.hidden = !entState.capturePoints;
@@ -141,7 +169,7 @@ function displaySingle(entState)
 			let size = 100 * Math.max(0, Math.min(1, entState.capturePoints[playerID] / entState.maxCapturePoints));
 			sizeObj.rright = startSize + size;
 			unitCaptureBar.size = sizeObj;
-			unitCaptureBar.sprite = "color:" + rgbToGuiColor(g_DisplayedPlayerColors[playerID], 128);
+			unitCaptureBar.sprite = "color:" + g_DiplomacyColors.getPlayerColor(playerID, 128);
 			unitCaptureBar.hidden = false;
 			return startSize + size;
 		};
@@ -244,8 +272,10 @@ function displaySingle(entState)
 	{
 		resourceCarryingIcon.sprite = "stretched:session/icons/repair.png";
 		resourceCarryingIcon.tooltip = getBuildTimeTooltip(entState);
-		resourceCarryingText.caption = entState.foundation.numBuilders ?
-			Engine.FormatMillisecondsIntoDateStringGMT(entState.foundation.buildTime.timeRemaining * 1000, translateWithContext("countdown format", "m:ss")) : "";
+		resourceCarryingText.caption = entState.foundation.numBuilders ? sprintf(translate("(%(number)s)\n%(time)s"), {
+			"number": entState.foundation.numBuilders,
+			"time": Engine.FormatMillisecondsIntoDateStringGMT(entState.foundation.buildTime.timeRemaining * 1000, translateWithContext("countdown format", "m:ss"))
+		}) : "";
 	}
 	else if (entState.resourceSupply && (!entState.resourceSupply.killBeforeGather || !entState.hitpoints))
 	{
@@ -260,8 +290,10 @@ function displaySingle(entState)
 	{
 		resourceCarryingIcon.sprite = "stretched:session/icons/repair.png";
 		resourceCarryingIcon.tooltip = getRepairTimeTooltip(entState);
-		resourceCarryingText.caption = entState.repairable.numBuilders ?
-			Engine.FormatMillisecondsIntoDateStringGMT(entState.repairable.buildTime.timeRemaining * 1000, translateWithContext("countdown format", "m:ss")) : "";
+		resourceCarryingText.caption = entState.repairable.numBuilders ? sprintf(translate("(%(number)s)\n%(time)s"), {
+			"number": entState.repairable.numBuilders,
+			"time": Engine.FormatMillisecondsIntoDateStringGMT(entState.repairable.buildTime.timeRemaining * 1000, translateWithContext("countdown format", "m:ss"))
+		}) : "";
 	}
 	else
 	{
@@ -271,7 +303,10 @@ function displaySingle(entState)
 
 	Engine.GetGUIObjectByName("specific").caption = specificName;
 	Engine.GetGUIObjectByName("player").caption = playerName;
-	Engine.GetGUIObjectByName("playerColorBackground").sprite = "color:" + playerColor;
+
+	Engine.GetGUIObjectByName("playerColorBackground").sprite =
+		"color:" + g_DiplomacyColors.getPlayerColor(entState.player, 128);
+
 	Engine.GetGUIObjectByName("generic").caption = genericName == specificName ? "" :
 		sprintf(translate("(%(genericName)s)"), {
 			"genericName": genericName
@@ -288,18 +323,25 @@ function displaySingle(entState)
 			showTemplateDetails(entState.template);
 		};
 
-	Engine.GetGUIObjectByName("attackAndArmorStats").tooltip = [
+	let detailedTooltip = [
 		getAttackTooltip,
-		getSplashDamageTooltip,
 		getHealerTooltip,
-		getArmorTooltip,
+		getResistanceTooltip,
 		getGatherTooltip,
 		getSpeedTooltip,
 		getGarrisonTooltip,
+		getPopulationBonusTooltip,
 		getProjectilesTooltip,
 		getResourceTrickleTooltip,
 		getLootTooltip
 	].map(func => func(entState)).filter(tip => tip).join("\n");
+	if (detailedTooltip)
+	{
+		Engine.GetGUIObjectByName("attackAndResistanceStats").hidden = false;
+		Engine.GetGUIObjectByName("attackAndResistanceStats").tooltip = detailedTooltip;
+	}
+	else
+		Engine.GetGUIObjectByName("attackAndResistanceStats").hidden = true;
 
 	let iconTooltips = [];
 
@@ -386,7 +428,7 @@ function displayMultiple(entStates)
 			let size = 100 * Math.max(0, Math.min(1, capturePoints[pID] / maxCapturePoints));
 			sizeObj.rbottom = startSize + size;
 			unitCaptureBar.size = sizeObj;
-			unitCaptureBar.sprite = "color:" + rgbToGuiColor(g_DisplayedPlayerColors[pID], 128);
+			unitCaptureBar.sprite = "color:" + g_DiplomacyColors.getPlayerColor(pID, 128);
 			unitCaptureBar.hidden = false;
 			return startSize + size;
 		};

@@ -1,7 +1,7 @@
 {
 	"Description": {
 		"Title": "Frozen Lake",
-		"Description": "Solidifying it's grip, the harsh cold has succeeded in freezing up the gulf. The thick ice formed is capable of withstanding any weight."
+		"Description": "Solidifying its grip, the harsh cold has succeeded in freezing up the gulf. The thick ice formed is capable of withstanding any weight."
 	},
 	"Environment": {
 		"SkySet": "stormy",
@@ -38,16 +38,16 @@
 		"water": ["polar_ice_snow", "polar_ice"]
 	},
 	"Gaia": {
-		"tree1": "gaia/flora_tree_pine_w",
-		"fruitBush": "gaia/flora_bush_berry",
+		"tree1": "gaia/tree/pine_w",
+		"fruitBush": "gaia/fruit/berry_01",
 		"pasture": "gaia/flora_pasture",
 		"chicken": "gaia/fauna_chicken",
 		"mainHuntableAnimal": "gaia/fauna_deer",
 		"secondaryHuntableAnimal": "gaia/fauna_rabbit",
-		"fish": "gaia/fauna_fish",
-		"stoneLarge": "gaia/geology_stonemine_alpine_quarry",
-		"stoneSmall": "gaia/geology_stone_alpine_a",
-		"metalLarge": "gaia/geology_metal_alpine_slabs"
+		"fish": "gaia/fish/generic",
+		"stoneLarge": "gaia/rock/alpine_large",
+		"stoneSmall": "gaia/rock/alpine_small",
+		"metalLarge": "gaia/ore/alpine_large"
 	},
 	"Decoratives": {
 		"grass": "actor|props/flora/grass_soft_dry_small_tall.xml",

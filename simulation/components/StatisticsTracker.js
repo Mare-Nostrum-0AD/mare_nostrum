@@ -1,129 +1,67 @@
 function StatisticsTracker() {}
 
-const g_UpdateSequenceInterval = 30 * 1000;
-
 StatisticsTracker.prototype.Schema =
-	"<empty/>";
+	"<a:help>This component records statistics over the course of the match, such as the number of trained, lost, captured and destroyed units and buildings The statistics are consumed by the summary screen and lobby rankings.</a:help>" +
+	"<a:example>" +
+		"<UnitClasses>Infantry FemaleCitizen</UnitClasses>" +
+		"<StructureClasses>House Wonder</StructureClasses>" +
+	"</a:example>" +
+	"<element name='UnitClasses' a:help='The tracker records trained, lost, killed and captured units of entities that match any of these Identity classes.'>" +
+		"<attribute name='datatype'>" +
+			"<value>tokens</value>" +
+		"</attribute>" +
+		"<text/>" +
+	"</element>" +
+	"<element name='StructureClasses' a:help='The tracker records constructed, lost, destroyed and captured structures of entities that match any of these Identity classes.'>" +
+		"<attribute name='datatype'>" +
+			"<value>tokens</value>" +
+		"</attribute>" +
+		"<text/>" +
+	"</element>";
+
+/**
+ * This number specifies the time in milliseconds between consecutive statistics snapshots recorded.
+ */
+StatisticsTracker.prototype.UpdateSequenceInterval = 30 * 1000;
 
 StatisticsTracker.prototype.Init = function()
 {
-	this.unitsClasses = [
-		"Infantry",
-		"Worker",
-		"FemaleCitizen",
-		"Cavalry",
-		"Champion",
-		"Hero",
-		"Siege",
-		"Ship",
-		"Domestic",
-		"Trader"
-	];
-	this.unitsTrained = {
-		"Infantry": 0,
-		"Worker": 0,
-		"FemaleCitizen": 0,
-		"Cavalry": 0,
-		"Champion": 0,
-		"Hero": 0,
-		"Siege": 0,
-		"Ship": 0,
-		"Trader": 0,
-		"Domestic": 0,
-		"total": 0
-	};
-	this.unitsLost = {
-		"Infantry": 0,
-		"Worker": 0,
-		"FemaleCitizen": 0,
-		"Cavalry": 0,
-		"Champion": 0,
-		"Hero": 0,
-		"Siege": 0,
-		"Ship": 0,
-		"Trader": 0,
-		"total": 0
-	};
+	this.unitsClasses = this.template.UnitClasses._string.split(/\s+/);
+	this.buildingsClasses = this.template.StructureClasses._string.split(/\s+/);
+
+	this.unitsTrained = {};
+	this.unitsLost = {};
+	this.enemyUnitsKilled = {};
+	this.unitsCaptured = {};
+
 	this.unitsLostValue = 0;
-	this.enemyUnitsKilled = {
-		"Infantry": 0,
-		"Worker": 0,
-		"FemaleCitizen": 0,
-		"Cavalry": 0,
-		"Champion": 0,
-		"Hero": 0,
-		"Siege": 0,
-		"Ship": 0,
-		"Trader": 0,
-		"total": 0
-	};
 	this.enemyUnitsKilledValue = 0;
-	this.unitsCaptured = {
-		"Infantry": 0,
-		"Worker": 0,
-		"FemaleCitizen": 0,
-		"Cavalry": 0,
-		"Champion": 0,
-		"Hero": 0,
-		"Siege": 0,
-		"Ship": 0,
-		"Trader": 0,
-		"total": 0
-	};
 	this.unitsCapturedValue = 0;
 
-	this.buildingsClasses = [
-		"House",
-		"Economic",
-		"Outpost",
-		"Military",
-		"Fortress",
-		"CivCentre",
-		"Wonder"
-	];
-	this.buildingsConstructed = {
-		"House": 0,
-		"Economic": 0,
-		"Outpost": 0,
-		"Military": 0,
-		"Fortress": 0,
-		"CivCentre": 0,
-		"Wonder": 0,
-		"total": 0
-	};
-	this.buildingsLost = {
-		"House": 0,
-		"Economic": 0,
-		"Outpost": 0,
-		"Military": 0,
-		"Fortress": 0,
-		"CivCentre": 0,
-		"Wonder": 0,
-		"total": 0
-	};
+	for (let counterName of ["unitsTrained", "unitsLost", "enemyUnitsKilled", "unitsCaptured"])
+	{
+		this[counterName].total = 0;
+		for (let unitClass of this.unitsClasses)
+			// Domestic units are only counted for training
+			if (unitClass != "Domestic" || counterName == "unitsTrained")
+				this[counterName][unitClass] = 0;
+	}
+
+	this.buildingsConstructed = {};
+	this.buildingsLost = {};
+	this.enemyBuildingsDestroyed = {};
+	this.buildingsCaptured = {};
+
 	this.buildingsLostValue = 0;
-	this.enemyBuildingsDestroyed = {
-		"House": 0,
-		"Economic": 0,
-		"Outpost": 0,
-		"Military": 0,
-		"Fortress": 0,
-		"CivCentre": 0,
-		"Wonder": 0,
-		"total": 0
-	};
 	this.enemyBuildingsDestroyedValue = 0;
-	this.buildingsCaptured = {
-		"House": 0,
-		"Economic": 0,
-		"Outpost": 0,
-		"Military": 0,
-		"Fortress": 0,
-		"CivCentre": 0,
-		"Wonder": 0,
-		"total": 0
-	};
 	this.buildingsCapturedValue = 0;
+
+	for (let counterName of ["buildingsConstructed", "buildingsLost", "enemyBuildingsDestroyed", "buildingsCaptured"])
+	{
+		this[counterName].total = 0;
+		for (let unitClass of this.buildingsClasses)
+			this[counterName][unitClass] = 0;
+	}
 
 	this.resourcesGathered = {
 		"vegetarianFood": 0
@@ -153,7 +91,7 @@ StatisticsTracker.prototype.Init = function()
 
 	let cmpTimer = Engine.QueryInterface(SYSTEM_ENTITY, IID_Timer);
 	this.updateTimer = cmpTimer.SetInterval(
-		this.entity, IID_StatisticsTracker, "UpdateSequences", 0, g_UpdateSequenceInterval);
+		this.entity, IID_StatisticsTracker, "UpdateSequences", 0, this.UpdateSequenceInterval);
 };
 
 StatisticsTracker.prototype.OnGlobalInitGame = function()
@@ -195,6 +133,7 @@ StatisticsTracker.prototype.GetStatistics = function()
 		"enemyBuildingsDestroyedValue": this.enemyBuildingsDestroyedValue,
 		"buildingsCaptured": this.buildingsCaptured,
 		"buildingsCapturedValue": this.buildingsCapturedValue,
+		"resourcesCount": this.GetResourceCounts(),
 		"resourcesGathered": this.resourcesGathered,
 		"resourcesUsed": this.resourcesUsed,
 		"resourcesSold": this.resourcesSold,
@@ -204,6 +143,7 @@ StatisticsTracker.prototype.GetStatistics = function()
 		"tradeIncome": this.tradeIncome,
 		"treasuresCollected": this.treasuresCollected,
 		"lootCollected": this.lootCollected,
+		"populationCount": this.GetPopulationCount(),
 		"percentMapExplored": this.GetPercentMapExplored(),
 		"teamPercentMapExplored": this.GetTeamPercentMapExplored(),
 		"percentMapControlled": this.GetPercentMapControlled(),
@@ -314,6 +254,7 @@ StatisticsTracker.prototype.KilledEntity = function(targetEntity)
 	var cmpCost = Engine.QueryInterface(targetEntity, IID_Cost);
 	var costs = cmpCost && cmpCost.GetResourceCosts();
 
+	// Exclude gaia animals but not gaia soldiers.
 	if (cmpTargetEntityIdentity.HasClass("Unit") && !cmpTargetEntityIdentity.HasClass("Animal"))
 	{
 		for (let type of this.unitsClasses)
@@ -410,6 +351,17 @@ StatisticsTracker.prototype.CapturedEntity = function(capturedEntity)
 };
 
 /**
+ * @return {Object} - The amount of available resources.
+ */
+StatisticsTracker.prototype.GetResourceCounts = function()
+{
+	let cmpPlayer = Engine.QueryInterface(this.entity, IID_Player);
+	return cmpPlayer ?
+		cmpPlayer.GetResourceCounts() :
+		Object.fromEntries(Resources.GetCodes().map(res => [res, 0]));
+};
+
+/**
  * @param {string} type - generic type of resource.
  * @param {number} amount - amount of resource, whick should be added.
  * @param {string} specificType - specific type of resource.
@@ -465,6 +417,12 @@ StatisticsTracker.prototype.IncreaseTributesReceivedCounter = function(amount)
 StatisticsTracker.prototype.IncreaseTradeIncomeCounter = function(amount)
 {
 	this.tradeIncome += amount;
+};
+
+StatisticsTracker.prototype.GetPopulationCount = function()
+{
+	let cmpPlayer = Engine.QueryInterface(this.entity, IID_Player);
+	return cmpPlayer ? cmpPlayer.GetPopulationCount() : 0;
 };
 
 StatisticsTracker.prototype.IncreaseSuccessfulBribesCounter = function()

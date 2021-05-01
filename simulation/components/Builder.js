@@ -5,7 +5,7 @@ Builder.prototype.Schema =
 	"<a:example>" +
 		"<Rate>1.0</Rate>" +
 		"<Entities datatype='tokens'>" +
-			"\n    structures/{civ}_barracks\n    structures/{native}_civil_centre\n    structures/pers_apadana\n  " +
+			"\n    structures/{civ}/barracks\n    structures/{native}/civil_centre\n    structures/pers/apadana\n  " +
 		"</Entities>" +
 	"</a:example>" +
 	"<element name='Rate' a:help='Construction speed multiplier (1.0 is normal speed, higher values are faster).'>" +
@@ -39,7 +39,7 @@ Builder.prototype.GetRange = function()
 	let max = 2;
 	let cmpObstruction = Engine.QueryInterface(this.entity, IID_Obstruction);
 	if (cmpObstruction)
-		max += cmpObstruction.GetUnitRadius();
+		max += cmpObstruction.GetSize();
 
 	return { "max": max, "min": 0 };
 };
@@ -70,6 +70,17 @@ Builder.prototype.PerformBuilding = function(target)
 		cmpRepairable.Repair(this.entity, rate);
 		return;
 	}
+};
+
+Builder.prototype.OnValueModification = function(msg)
+{
+	if (msg.component != "Builder" || !msg.valueNames.some(name => name.endsWith('_string')))
+		return;
+
+	// Token changes may require selection updates.
+	let cmpPlayer = QueryOwnerInterface(this.entity, IID_Player);
+	if (cmpPlayer)
+		Engine.QueryInterface(SYSTEM_ENTITY, IID_GuiInterface).SetSelectionDirty(cmpPlayer.GetPlayerID());
 };
 
 Engine.RegisterComponentType(IID_Builder, "Builder", Builder);

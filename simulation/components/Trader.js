@@ -1,19 +1,22 @@
 // See helpers/TraderGain.js for the CalculateTaderGain() function which works out how many
 // resources a trader gets
 
-// Additional gain for ships for each garrisoned trader, in percents
-const GARRISONED_TRADER_ADDITION = 20;
-
 function Trader() {}
 
 Trader.prototype.Schema =
 	"<a:help>Lets the unit generate resouces while moving between markets (or docks in case of water trading).</a:help>" +
 	"<a:example>" +
 		"<GainMultiplier>0.75</GainMultiplier>" +
+		"<GarrisonGainMultiplier>0.2</GarrisonGainMultiplier>" +
 	"</a:example>" +
 	"<element name='GainMultiplier' a:help='Trader gain for a 100m distance and mapSize = 1024'>" +
 		"<ref name='positiveDecimal'/>" +
-	"</element>";
+	"</element>" +
+	"<optional>" +
+		"<element name='GarrisonGainMultiplier' a:help='Additional gain for garrisonable unit for each garrisoned trader (1.0 means 100%)'>" +
+			"<ref name='positiveDecimal'/>" +
+		"</element>" +
+	"</optional>";
 
 Trader.prototype.Init = function()
 {
@@ -32,34 +35,52 @@ Trader.prototype.CalculateGain = function(currentMarket, nextMarket)
 	if (!gain)	// One of our markets must have been destroyed
 		return null;
 
-	// For ship increase gain for each garrisoned trader
+	// For garrisonable unit increase gain for each garrisoned trader
 	// Calculate this here to save passing unnecessary stuff into the CalculateTraderGain function
-	var cmpIdentity = Engine.QueryInterface(this.entity, IID_Identity);
-	if (cmpIdentity && cmpIdentity.HasClass("Ship"))
-	{
-		var cmpGarrisonHolder = Engine.QueryInterface(this.entity, IID_GarrisonHolder);
-		if (cmpGarrisonHolder)
-		{
-			var garrisonMultiplier = 1;
-			var garrisonedTradersCount = 0;
-			for (let entity of cmpGarrisonHolder.GetEntities())
-			{
-				var cmpGarrisonedUnitTrader = Engine.QueryInterface(entity, IID_Trader);
-				if (cmpGarrisonedUnitTrader)
-					garrisonedTradersCount++;
-			}
-			garrisonMultiplier *= 1 + GARRISONED_TRADER_ADDITION * garrisonedTradersCount / 100;
+	let garrisonGainMultiplier = this.GetGarrisonGainMultiplier();
+	if (garrisonGainMultiplier === undefined)
+		return gain;
 
-			if (gain.traderGain)
-				gain.traderGain = Math.round(garrisonMultiplier * gain.traderGain);
-			if (gain.market1Gain)
-				gain.market1Gain = Math.round(garrisonMultiplier * gain.market1Gain);
-			if (gain.market2Gain)
-				gain.market2Gain = Math.round(garrisonMultiplier * gain.market2Gain);
-		}
+	let cmpGarrisonHolder = Engine.QueryInterface(this.entity, IID_GarrisonHolder);
+	if (!cmpGarrisonHolder)
+		return gain;
+
+	let garrisonMultiplier = 1;
+	let garrisonedTradersCount = 0;
+	for (let entity of cmpGarrisonHolder.GetEntities())
+	{
+		let cmpGarrisonedUnitTrader = Engine.QueryInterface(entity, IID_Trader);
+		if (cmpGarrisonedUnitTrader)
+			++garrisonedTradersCount;
 	}
+	garrisonMultiplier *= 1 + garrisonGainMultiplier * garrisonedTradersCount;
+
+	if (gain.traderGain)
+		gain.traderGain = Math.round(garrisonMultiplier * gain.traderGain);
+	if (gain.market1Gain)
+		gain.market1Gain = Math.round(garrisonMultiplier * gain.market1Gain);
+	if (gain.market2Gain)
+		gain.market2Gain = Math.round(garrisonMultiplier * gain.market2Gain);
 
 	return gain;
+};
+
+/**
+ * Remove market from trade route iff only first market is set.
+ * @param {number} id of market to be removed.
+ * @return {boolean} true iff removal was successful.
+ */
+Trader.prototype.RemoveTargetMarket = function(target)
+{
+	if (this.markets.length != 1 || this.markets[0] != target)
+		return false;
+	let cmpTargetMarket = QueryMiragedInterface(target, IID_Market);
+	if (!cmpTargetMarket)
+		return false;
+	cmpTargetMarket.RemoveTrader(this.entity);
+	this.index = -1;
+	this.markets = [];
+	return true;
 };
 
 // Set target as target market.
@@ -98,13 +119,11 @@ Trader.prototype.SetTargetMarket = function(target, source)
 		// set the target as second one
 		if (target == this.markets[0])
 			return false;
-		else
-		{
-			this.index = 0;
-			this.markets.push(target);
-			cmpTargetMarket.AddTrader(this.entity);
-			this.goods.amount = this.CalculateGain(this.markets[0], this.markets[1]);
-		}
+
+		this.index = 0;
+		this.markets.push(target);
+		cmpTargetMarket.AddTrader(this.entity);
+		this.goods.amount = this.CalculateGain(this.markets[0], this.markets[1]);
 	}
 	else
 	{
@@ -134,6 +153,13 @@ Trader.prototype.GetTraderGainMultiplier = function()
 	return ApplyValueModificationsToEntity("Trader/GainMultiplier", +this.template.GainMultiplier, this.entity);
 };
 
+Trader.prototype.GetGarrisonGainMultiplier = function()
+{
+	if (this.template.GarrisonGainMultiplier === undefined)
+		return undefined;
+	return ApplyValueModificationsToEntity("Trader/GarrisonGainMultiplier", +this.template.GarrisonGainMultiplier, this.entity);
+};
+
 Trader.prototype.HasBothMarkets = function()
 {
 	return this.markets.length >= 2;
@@ -141,13 +167,13 @@ Trader.prototype.HasBothMarkets = function()
 
 Trader.prototype.CanTrade = function(target)
 {
-	var cmpTraderIdentity = Engine.QueryInterface(this.entity, IID_Identity);
+	let cmpTraderIdentity = Engine.QueryInterface(this.entity, IID_Identity);
 
-	var cmpTargetMarket = QueryMiragedInterface(target, IID_Market);
+	let cmpTargetMarket = QueryMiragedInterface(target, IID_Market);
 	if (!cmpTargetMarket)
 		return false;
 
-	var cmpTargetFoundation = Engine.QueryInterface(target, IID_Foundation);
+	let cmpTargetFoundation = Engine.QueryInterface(target, IID_Foundation);
 	if (cmpTargetFoundation)
 		return false;
 
@@ -155,11 +181,10 @@ Trader.prototype.CanTrade = function(target)
 		!(cmpTraderIdentity.HasClass("Ship") && cmpTargetMarket.HasType("naval")))
 		return false;
 
-	var cmpTraderPlayer = QueryOwnerInterface(this.entity, IID_Player);
-	var cmpTargetPlayer = QueryOwnerInterface(target, IID_Player);
-	var targetPlayerId = cmpTargetPlayer.GetPlayerID();
+	let cmpTraderPlayer = QueryOwnerInterface(this.entity, IID_Player);
+	let cmpTargetPlayer = QueryOwnerInterface(target, IID_Player);
 
-	return !cmpTraderPlayer.IsEnemy(targetPlayerId);
+	return cmpTraderPlayer && cmpTargetPlayer && !cmpTraderPlayer.IsEnemy(cmpTargetPlayer.GetPlayerID());
 };
 
 Trader.prototype.AddResources = function(ent, gain)
@@ -275,11 +300,11 @@ Trader.prototype.StopTrading = function()
 // to be able to trade with it.
 Trader.prototype.GetRange = function()
 {
-	var cmpObstruction = Engine.QueryInterface(this.entity, IID_Obstruction);
-	var max = 1;
+	let cmpObstruction = Engine.QueryInterface(this.entity, IID_Obstruction);
+	let max = 1;
 	if (cmpObstruction)
-		max += cmpObstruction.GetUnitRadius()*1.5;
-	return { "min": 0, "max": max};
+		max += cmpObstruction.GetSize() * 1.5;
+	return { "min": 0, "max": max };
 };
 
 Trader.prototype.OnGarrisonedUnitsChanged = function()

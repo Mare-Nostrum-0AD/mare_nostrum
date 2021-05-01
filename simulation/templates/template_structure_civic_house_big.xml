@@ -6,7 +6,6 @@
 	</GrowthContrib>
   </CityMember>
   <Cost>
-    <PopulationBonus>10</PopulationBonus>
     <BuildTime>50</BuildTime>
     <Resources>
       <wood>150</wood>
@@ -23,16 +22,19 @@
     <SpawnEntityOnDeath>decay|rubble/rubble_stone_3x3</SpawnEntityOnDeath>
   </Health>
   <Loot>
-    <wood>20</wood>
+    <wood>30</wood>
   </Loot>
   <Obstruction>
     <Static width="14.0" depth="14.0"/>
   </Obstruction>
+  <Population>
+    <Bonus>10</Bonus>
+  </Population>
   <TerritoryInfluence>
     <Radius>20</Radius>
     <Weight>40000</Weight>
   </TerritoryInfluence>
   <VisualActor>
-    <FoundationActor>structures/fndn_3x3.xml</FoundationActor>
+    <FoundationActor>structures/fndn_4x4.xml</FoundationActor>
   </VisualActor>
 </Entity>

@@ -2,26 +2,28 @@
 <Entity parent="template_unit_champion_infantry">
   <Attack>
     <Ranged>
-      <Hack>0</Hack>
-      <Pierce>6.5</Pierce>
-      <Crush>0</Crush>
-      <MaxRange>76</MaxRange>
-      <MinRange>0.0</MinRange>
-      <ProjectileSpeed>75.0</ProjectileSpeed>
-      <Gravity>9.81</Gravity>
-      <PrepareTime>300</PrepareTime>
-      <RepeatTime>500</RepeatTime>
-      <Spread>1.0</Spread>
+      <AttackName>Bow</AttackName>
+      <Damage>
+        <Hack>0</Hack>
+        <Pierce>13.5</Pierce>
+        <Crush>0</Crush>
+      </Damage>
+      <MaxRange>60</MaxRange>
+      <MinRange>0</MinRange>
+      <PrepareTime>500</PrepareTime>
+      <RepeatTime>1000</RepeatTime>
       <Delay>0</Delay>
+      <Projectile>
+        <Speed>100.0</Speed>
+        <Spread>0.8</Spread>
+        <Gravity>50.0</Gravity>
+        <FriendlyFire>false</FriendlyFire>
+        <LaunchPoint y="3"/>
+      </Projectile>
       <PreferredClasses datatype="tokens">Human</PreferredClasses>
       <RestrictedClasses datatype="tokens">Sturdy</RestrictedClasses>
     </Ranged>
   </Attack>
-  <Cost>
-    <Resources>
-      <wood>100</wood>
-    </Resources>
-  </Cost>
   <Health>
     <Max>120</Max>
   </Health>
@@ -32,10 +34,21 @@
       special/formations/skirmish
     </Formations>
   </Identity>
+  <Resistance>
+    <Entity>
+      <Damage>
+        <Hack op="add">-2</Hack>
+        <Pierce op="add">-2</Pierce>
+      </Damage>
+    </Entity>
+  </Resistance>
+  <Sound>
+    <SoundGroups>
+      <attack_impact_ranged>attack/impact/arrow_impact.xml</attack_impact_ranged>
+      <attack_ranged>attack/weapon/bow_attack.xml</attack_ranged>
+    </SoundGroups>
+  </Sound>
   <UnitMotion>
     <WalkSpeed op="mul">1.2</WalkSpeed>
-    <Run>
-      <Speed op="mul">1.2</Speed>
-    </Run>
   </UnitMotion>
 </Entity>

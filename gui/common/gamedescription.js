@@ -34,62 +34,11 @@ var g_Buddies = Engine.ConfigDB_GetValue("user", "lobby.buddies").split(g_BuddyL
  */
 var g_BuddySymbol = '•';
 
-var g_MapPreviewPath = "session/icons/mappreview/";
-
-/**
- * Returns the biome specific mappreview image if it exists, or empty string otherwise.
- */
-function getBiomePreview(mapName, biomeName)
-{
-	let biomePreview = basename(mapName) + "_" + basename(biomeName) + ".png";
-
-	if (Engine.TextureExists("art/textures/ui/" + g_MapPreviewPath + biomePreview))
-		return biomePreview;
-
-	return "";
-}
-
-/**
- * Returns map description and preview image or placeholder.
- */
-function getMapDescriptionAndPreview(mapType, mapName, gameAttributes = undefined)
-{
-	let mapData;
-	if (mapType == "random" && mapName == "random")
-		mapData = { "settings": { "Description": translate("A randomly selected map.") } };
-	else if (mapType == "random" && Engine.FileExists(mapName + ".json"))
-		mapData = Engine.ReadJSONFile(mapName + ".json");
-	else if (Engine.FileExists(mapName + ".xml"))
-		mapData = Engine.LoadMapSettings(mapName + ".xml");
-
-	let biomePreview = getBiomePreview(mapName, gameAttributes && gameAttributes.settings.Biome || "");
-
-	return deepfreeze({
-		"description": mapData && mapData.settings && mapData.settings.Description ? translate(mapData.settings.Description) : translate("Sorry, no description available."),
-		"preview": biomePreview ? biomePreview :
-			mapData && mapData.settings && mapData.settings.Preview ? mapData.settings.Preview : "nopreview.png"
-	});
-}
-
-/**
- * Sets the mappreview image correctly.
- * It needs to be cropped as the engine only allows loading square textures.
- *
- * @param {string} guiObject
- * @param {string} filename
- */
-function setMapPreviewImage(guiObject, filename)
-{
-	Engine.GetGUIObjectByName(guiObject).sprite =
-		"cropped:" + 400 / 512 + "," + 300 / 512 + ":" +
-		g_MapPreviewPath + filename;
-}
-
 /**
  * Returns a formatted string describing the player assignments.
  * Needs g_CivData to translate!
  *
- * @param {object} playerDataArray - As known from gamesetup and simstate.
+ * @param {Object} playerDataArray - As known from game setup and sim state.
  * @param {(string[]|false)} playerStates - One of "won", "defeated", "active" for each player.
  * @returns {string}
  */
@@ -227,11 +176,11 @@ function formatPlayerInfo(playerDataArray, playerStates)
 }
 
 /**
- * Sets an additional map label, map preview image and describes the chosen gamesettings more closely.
+ * Sets an additional map label, map preview image and describes the chosen game settings more closely.
  *
  * Requires g_GameAttributes and g_VictoryConditions.
  */
-function getGameDescription()
+function getGameDescription(mapCache)
 {
 	let titles = [];
 	if (!g_GameAttributes.settings.VictoryConditions.length)
@@ -247,27 +196,31 @@ function getGameDescription()
 
 		let title = translateVictoryCondition(victoryCondition.Name);
 		if (victoryCondition.Name == "wonder")
+		{
+			let wonderDuration = Math.round(g_GameAttributes.settings.WonderDuration);
 			title = sprintf(
 				translatePluralWithContext(
 					"victory condition",
 					"Wonder (%(min)s minute)",
 					"Wonder (%(min)s minutes)",
-					g_GameAttributes.settings.WonderDuration
+					wonderDuration
 				),
-				{ "min": g_GameAttributes.settings.WonderDuration }
-			);
+				{ "min": wonderDuration });
+		}
 
 		let isCaptureTheRelic = victoryCondition.Name == "capture_the_relic";
 		if (isCaptureTheRelic)
+		{
+			let relicDuration = Math.round(g_GameAttributes.settings.RelicDuration);
 			title = sprintf(
 				translatePluralWithContext(
 					"victory condition",
 					"Capture the Relic (%(min)s minute)",
 					"Capture the Relic (%(min)s minutes)",
-					g_GameAttributes.settings.RelicDuration
+					relicDuration
 				),
-				{ "min": g_GameAttributes.settings.RelicDuration }
-			);
+				{ "min": relicDuration });
+		}
 
 		titles.push({
 			"label": title,
@@ -277,7 +230,7 @@ function getGameDescription()
 		if (isCaptureTheRelic)
 			titles.push({
 				"label": translate("Relic Count"),
-				"value": g_GameAttributes.settings.RelicCount
+				"value": Math.round(g_GameAttributes.settings.RelicCount)
 			});
 
 		if (victoryCondition.Name == "regicide")
@@ -322,16 +275,17 @@ function getGameDescription()
 			"value": translate("If one player wins, his or her allies win too. If one group of allies remains, they win.")
 		});
 
+	let ceasefire = Math.round(g_GameAttributes.settings.Ceasefire);
 	titles.push({
 		"label": translate("Ceasefire"),
 		"value":
-			g_GameAttributes.settings.Ceasefire == 0 ?
+			ceasefire == 0 ?
 				translate("disabled") :
 				sprintf(translatePlural(
 					"For the first minute, other players will stay neutral.",
 					"For the first %(min)s minutes, other players will stay neutral.",
-					g_GameAttributes.settings.Ceasefire),
-				{ "min": g_GameAttributes.settings.Ceasefire })
+					ceasefire),
+				{ "min": ceasefire })
 	});
 
 	if (g_GameAttributes.map == "random")
@@ -343,13 +297,13 @@ function getGameDescription()
 	{
 		titles.push({
 			"label": translate("Map Name"),
-			"value": translate(g_GameAttributes.settings.Name)
+			"value": mapCache.translateMapName(
+				mapCache.getTranslatableMapName(g_GameAttributes.mapType, g_GameAttributes.map, g_GameAttributes))
 		});
+
 		titles.push({
 			"label": translate("Map Description"),
-			"value": g_GameAttributes.settings.Description ?
-					translate(g_GameAttributes.settings.Description) :
-					translate("Sorry, no description available.")
+			"value": mapCache.getTranslatedMapDescription(g_GameAttributes.mapType, g_GameAttributes.map)
 		});
 	}
 
@@ -357,12 +311,6 @@ function getGameDescription()
 		"label": translate("Map Type"),
 		"value": g_MapTypes.Title[g_MapTypes.Name.indexOf(g_GameAttributes.mapType)]
 	});
-
-	if (typeof g_MapFilterList !== "undefined")
-		titles.push({
-			"label": translate("Map Filter"),
-			"value": g_MapFilterList.name[g_MapFilterList.id.findIndex(id => id == g_GameAttributes.mapFilter)]
-		});
 
 	if (g_GameAttributes.mapType == "random")
 	{
@@ -385,39 +333,58 @@ function getGameDescription()
 
 	if (g_GameAttributes.settings.TriggerDifficulty !== undefined)
 	{
-		let difficulty = g_Settings.TriggerDifficulties.find(difficulty => difficulty.Difficulty == g_GameAttributes.settings.TriggerDifficulty);
+		let triggerDifficulty = g_Settings.TriggerDifficulties.find(difficulty => difficulty.Difficulty == g_GameAttributes.settings.TriggerDifficulty);
 		titles.push({
-			"label": difficulty.Title,
-			"value": difficulty.Tooltip
+			"label": triggerDifficulty.Title,
+			"value": triggerDifficulty.Tooltip
 		});
 	}
 
-	titles.push({
-		"label": g_GameAttributes.settings.Nomad ? translate("Nomad Mode") : translate("Civic Centers"),
-		"value":
-			g_GameAttributes.settings.Nomad ?
-				translate("Players start with only few units and have to find a suitable place to build their city.") :
-				translate("Players start with a Civic Center.")
-	});
+	if (g_GameAttributes.settings.Nomad !== undefined)
+		titles.push({
+			"label": g_GameAttributes.settings.Nomad ? translate("Nomad Mode") : translate("Civic Centers"),
+			"value":
+				g_GameAttributes.settings.Nomad ?
+					translate("Players start with only few units and have to find a suitable place to build their city.") :
+					translate("Players start with a Civic Center.")
+		});
 
-	titles.push({
-		"label": translate("Starting Resources"),
-		"value": sprintf(translate("%(startingResourcesTitle)s (%(amount)s)"), {
-			"startingResourcesTitle":
-				g_StartingResources.Title[
-					g_StartingResources.Resources.indexOf(
-						g_GameAttributes.settings.StartingResources)],
-			"amount": g_GameAttributes.settings.StartingResources['max']
-		})
-	});
+	if (g_GameAttributes.settings.StartingResources !== undefined)
+		titles.push({
+			"label": translate("Starting Resources"),
+			"value":
+				g_GameAttributes.settings.PlayerData &&
+				g_GameAttributes.settings.PlayerData.some(pData => pData && pData.Resources !== undefined) ?
+					translateWithContext("starting resources", "Per Player") :
+					sprintf(translate("%(startingResourcesTitle)s (%(amount)s)"), {
+						"startingResourcesTitle":
+							g_StartingResources.Title[
+								g_StartingResources.Resources.indexOf(
+									g_GameAttributes.settings.StartingResources)],
+						"amount": g_GameAttributes.settings.StartingResources['max']
+					})
+		});
 
-	titles.push({
-		"label": translate("Population Limit"),
-		"value":
-			g_PopulationCapacities.Title[
-				g_PopulationCapacities.Population.indexOf(
-					g_GameAttributes.settings.PopulationCap)]
-	});
+	if (g_GameAttributes.settings.PopulationCap !== undefined)
+		titles.push({
+			"label": translate("Population Limit"),
+			"value":
+				g_GameAttributes.settings.PlayerData &&
+				g_GameAttributes.settings.PlayerData.some(pData => pData && pData.PopulationLimit !== undefined) ?
+					translateWithContext("population limit", "Per Player") :
+					g_PopulationCapacities.Title[
+						g_PopulationCapacities.Population.indexOf(
+							g_GameAttributes.settings.PopulationCap)]
+		});
+
+	if (g_GameAttributes.settings.WorldPopulationCap !== undefined)
+		titles.push({
+			"label": translate("World Population Cap"),
+			"value":
+				g_WorldPopulationCapacities.Title[
+					g_WorldPopulationCapacities.Population.indexOf(
+						g_GameAttributes.settings.WorldPopulationCap)]
+		});
 
 	titles.push({
 		"label": translate("Treasures"),
@@ -444,20 +411,16 @@ function getGameDescription()
 	return titles.map(title => sprintf(translate("%(label)s %(details)s"), {
 		"label": coloredText(title.label, g_DescriptionHighlight),
 		"details":
-			title.value === true ? translateWithContext("gamesetup option", "enabled") :
-				title.value || translateWithContext("gamesetup option", "disabled")
+			title.value === true ? translateWithContext("game setup option", "enabled") :
+				title.value || translateWithContext("game setup option", "disabled")
 	})).join("\n");
 }
 
 /**
  * Sets the win/defeat icon to indicate current player's state.
- * @param {string} state - The current in-game state of the player.
- * @param {string} imageID - The name of the XML image object to update.
  */
-function setOutcomeIcon(state, imageID)
+function setOutcomeIcon(state, image)
 {
-	let image = Engine.GetGUIObjectByName(imageID);
-
 	if (state == "won")
 	{
 		image.sprite = "stretched:session/icons/victory.png";

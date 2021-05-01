@@ -1,6 +1,16 @@
-var getScorePanelsData = () => ({
-	"score": {
-		"caption": translate("Score"),
+/**
+ * Horizontal size of a tab button.
+ */
+var g_TabButtonWidth = 118;
+
+/**
+ * Horizontal space between two tab buttons.
+ */
+var g_TabButtonDist = 6;
+
+var getScorePanelsData = () => [
+	{
+		"label": translate("Score"),
 		"headings": [
 			{ "identifier": "playername", "caption": translate("Player name"), "yStart": 26, "width": 200 },
 			{ "identifier": "totalScore", "caption": translate("Total score"), "yStart": 16, "width": 100 },
@@ -17,8 +27,8 @@ var getScorePanelsData = () => ({
 		],
 		"teamCounterFn": calculateScoreTeam
 	},
-	"buildings": {
-		"caption": translate("Buildings"),
+	{
+		"label": translate("Structures"),
 		"headings": [
 			{ "identifier": "playername", "caption": translate("Player name"), "yStart": 26, "width": 200 },
 			{ "identifier": "total", "caption": translate("Total"), "yStart": 34, "width": 105 },
@@ -32,7 +42,7 @@ var getScorePanelsData = () => ({
 		],
 		"titleHeadings": [
 			{
-				"caption": sprintf(translate("Buildings Statistics (%(constructed)s / %(destroyed)s / %(captured)s / %(lost)s)"),
+				"caption": sprintf(translate("Structure Statistics (%(constructed)s / %(destroyed)s / %(captured)s / %(lost)s)"),
 					{
 						"constructed": getColoredTypeTranslation("constructed"),
 						"destroyed": getColoredTypeTranslation("destroyed"),
@@ -55,8 +65,8 @@ var getScorePanelsData = () => ({
 		],
 		"teamCounterFn": calculateBuildingsTeam
 	},
-	"units": {
-		"caption": translate("Units"),
+	{
+		"label": translate("Units"),
 		"headings": [
 			{ "identifier": "playername", "caption": translate("Player name"), "yStart": 26, "width": 200 },
 			{ "identifier": "total", "caption": translate("Total"), "yStart": 34, "width": 105 },
@@ -71,7 +81,7 @@ var getScorePanelsData = () => ({
 		],
 		"titleHeadings": [
 			{
-				"caption": sprintf(translate("Units Statistics (%(trained)s / %(killed)s / %(captured)s / %(lost)s)"),
+				"caption": sprintf(translate("Unit Statistics (%(trained)s / %(killed)s / %(captured)s / %(lost)s)"),
 					{
 						"trained": getColoredTypeTranslation("trained"),
 						"killed": getColoredTypeTranslation("killed"),
@@ -95,8 +105,8 @@ var getScorePanelsData = () => ({
 		],
 		"teamCounterFn": calculateUnitsTeam
 	},
-	"resources": {
-		"caption": translate("Resources"),
+	{
+		"label": translate("Resources"),
 		"headings": [
 			{ "identifier": "playername", "caption": translate("Player name"), "yStart": 26, "width": 200 },
 			{ "identifier": "total", "caption": translate("Total"), "yStart": 34, "width": 110 },
@@ -146,12 +156,12 @@ var getScorePanelsData = () => ({
 		],
 		"teamCounterFn": calculateResourcesTeam
 	},
-	"market": {
-		"caption": translate("Market"),
+	{
+		"label": translate("Market"),
 		"headings": [
 			{ "identifier": "playername", "caption": translate("Player name"), "yStart": 26, "width": 200 },
 			{ "identifier": "tradeIncome", "caption": translate("Trade income"), "yStart": 16, "width": 100 },
-			{ "identifier": "barterEfficency", "caption": translate("Barter efficiency"), "yStart": 16, "width": 100 },
+			{ "identifier": "barterEfficency", "caption": translate("Barter efficiency"), "yStart": 16, "width": 100, "format": "PERCENTAGE" },
 			...g_ResourceData.GetResources().map(res => {
 				return {
 					"identifier": res.code,
@@ -178,17 +188,18 @@ var getScorePanelsData = () => ({
 		],
 		"teamCounterFn": calculateMarketTeam
 	},
-	"misc": {
-		"caption": translate("Miscellaneous"),
+	{
+		"label": translate("Miscellaneous"),
 		"headings": [
 			{ "identifier": "playername", "caption": translate("Player name"), "yStart": 26, "width": 200 },
 			{ "identifier": "civicPopulation", "caption": translate("Civic Population"), "yStart": 16, "width": 100 },
 			{ "identifier": "killDeath", "caption": translate("Kill / Death ratio"), "yStart": 16, "width": 100, "format": "DECIMAL2" },
-			{ "identifier": "mapControlPeak", "caption": translate("Map control (peak)"), "yStart": 16, "width": 100 },
-			{ "identifier": "mapControl", "caption": translate("Map control (finish)"), "yStart": 16, "width": 100 },
-			{ "identifier": "mapExploration", "caption": translate("Map exploration"), "yStart": 16, "width": 100 },
-			{ "identifier": "vegetarianRatio", "caption": translate("Vegetarian ratio"), "yStart": 16, "width": 100 },
-			{ "identifier": "feminization", "caption": translate("Feminization"), "yStart": 16, "width": 100 },
+			{ "identifier": "population", "caption": translate("Population"), "yStart": 16, "width": 100, "hideInSummary": true },
+			{ "identifier": "mapControlPeak", "caption": translate("Map control (peak)"), "yStart": 16, "width": 100, "format": "PERCENTAGE" },
+			{ "identifier": "mapControl", "caption": translate("Map control (finish)"), "yStart": 16, "width": 100, "format": "PERCENTAGE" },
+			{ "identifier": "mapExploration", "caption": translate("Map exploration"), "yStart": 16, "width": 100, "format": "PERCENTAGE" },
+			{ "identifier": "vegetarianRatio", "caption": translate("Vegetarian ratio"), "yStart": 16, "width": 100, "format": "PERCENTAGE" },
+			{ "identifier": "feminization", "caption": translate("Feminization"), "yStart": 16, "width": 100, "format": "PERCENTAGE" },
 			{
 				"identifier": "bribes",
 				"caption": translate("Bribes"),
@@ -205,6 +216,7 @@ var getScorePanelsData = () => ({
 		"counters": [
 			{ "width": 100, "fn": calculateCivicPopulation, "verticalOffset": 12 },
 			{ "width": 100, "fn": calculateKillDeathRatio, "verticalOffset": 12 },
+			{ "width": 100, "fn": calculatePopulationCount, "verticalOffset": 12, "hideInSummary": true },
 			{ "width": 100, "fn": calculateMapPeakControl, "verticalOffset": 12 },
 			{ "width": 100, "fn": calculateMapFinalControl, "verticalOffset": 12 },
 			{ "width": 100, "fn": calculateMapExploration, "verticalOffset": 12 },
@@ -214,7 +226,13 @@ var getScorePanelsData = () => ({
 		],
 		"teamCounterFn": calculateMiscellaneousTeam
 	}
-});
+];
+
+var g_ChartPanelsData = [
+	{
+		"label": translate("Charts")
+	}
+];
 
 function getColoredTypeTranslation(type)
 {
@@ -241,8 +259,10 @@ function resetGeneralPanel()
 	}
 }
 
-function updateGeneralPanelHeadings(headings)
+function updateGeneralPanelHeadings(allHeadings)
 {
+	let headings = allHeadings.filter(heading => !heading.hideInSummary);
+
 	let left = 50;
 	for (let h in headings)
 	{
@@ -281,8 +301,9 @@ function updateGeneralPanelTitles(titleHeadings)
 	}
 }
 
-function updateGeneralPanelCounter(counters)
+function updateGeneralPanelCounter(allCounters)
 {
+	let counters = allCounters.filter(counter => !counter.hideInSummary);
 	let rowPlayerObjectWidth = 0;
 	let left = 0;
 

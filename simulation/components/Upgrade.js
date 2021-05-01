@@ -16,6 +16,11 @@ Upgrade.prototype.Schema =
 					"</element>" +
 				"</optional>" +
 				"<optional>" +
+					"<element name='Variant' a:help='The name of the variant to switch to when upgrading'>" +
+						"<text/>" +
+					"</element>" +
+				"</optional>" +
+				"<optional>" +
 					"<element name='Tooltip' a:help='This will be added to the tooltip to help the player choose why to upgrade.'>" +
 						"<text/>" +
 					"</element>" +
@@ -110,7 +115,8 @@ Upgrade.prototype.ChangeUpgradedEntityCount = function(amount)
 		return;
 
 	let cmpEntityLimits = QueryPlayerIDInterface(this.owner, IID_EntityLimits);
-	cmpEntityLimits.ChangeCount(categoryTo, amount);
+	if (cmpEntityLimits)
+		cmpEntityLimits.ChangeCount(categoryTo, amount);
 };
 
 Upgrade.prototype.CanUpgradeTo = function(template)
@@ -223,15 +229,30 @@ Upgrade.prototype.Upgrade = function(template)
 		return false;
 
 	let cmpPlayer = QueryOwnerInterface(this.entity, IID_Player);
+	if (!cmpPlayer)
+		return false;
+
+	let cmpProductionQueue = Engine.QueryInterface(this.entity, IID_ProductionQueue);
+	if (cmpProductionQueue && cmpProductionQueue.HasQueuedProduction())
+	{
+		let cmpGUIInterface = Engine.QueryInterface(SYSTEM_ENTITY, IID_GuiInterface);
+		cmpGUIInterface.PushNotification({
+			"players": [cmpPlayer.GetPlayerID()],
+			"message": markForTranslation("Entity is producing. Cannot start upgrading."),
+			"translateMessage": true
+		});
+		return false;
+	}
 
 	this.expendedResources = this.GetResourceCosts(template);
-	if (!cmpPlayer.TrySubtractResources(this.expendedResources))
+	if (!cmpPlayer || !cmpPlayer.TrySubtractResources(this.expendedResources))
 	{
 		this.expendedResources = {};
 		return false;
 	}
 
 	this.upgrading = template;
+	this.SetUpgradeAnimationVariant();
 
 	// Prevent cheating
 	this.ChangeUpgradedEntityCount(1);
@@ -259,6 +280,15 @@ Upgrade.prototype.CancelUpgrade = function(owner)
 	this.expendedResources = {};
 	this.ChangeUpgradedEntityCount(-1);
 
+	// Do not update visual actor if the animation didn't change.
+	let choice = this.upgradeTemplates[this.upgrading];
+	if (choice && this.template[choice].Variant)
+	{
+		let cmpVisual = Engine.QueryInterface(this.entity, IID_Visual);
+		if (cmpVisual)
+			cmpVisual.SelectAnimation("idle", false, 1.0);
+	}
+
 	this.upgrading = false;
 	this.CancelTimer();
 	this.SetElapsedTime(0);
@@ -275,9 +305,7 @@ Upgrade.prototype.GetUpgradeTime = function(templateArg)
 	if (!this.template[choice].Time)
 		return 0;
 
-	let cmpPlayer = QueryPlayerIDInterface(this.owner, IID_Player);
-	return ApplyValueModificationsToEntity("Upgrade/Time", +this.template[choice].Time, this.entity) *
-		cmpPlayer.GetTimeMultiplier();
+	return ApplyValueModificationsToEntity("Upgrade/Time", +this.template[choice].Time, this.entity);
 };
 
 Upgrade.prototype.GetElapsedTime = function()
@@ -295,6 +323,21 @@ Upgrade.prototype.GetProgress = function()
 Upgrade.prototype.SetElapsedTime = function(time)
 {
 	this.elapsedTime = time;
+	Engine.PostMessage(this.entity, MT_UpgradeProgressUpdate, null);
+};
+
+Upgrade.prototype.SetUpgradeAnimationVariant = function()
+{
+	let choice = this.upgradeTemplates[this.upgrading];
+
+	if (!choice || !this.template[choice].Variant)
+		return;
+
+	let cmpVisual = Engine.QueryInterface(this.entity, IID_Visual);
+	if (!cmpVisual)
+		return;
+
+	cmpVisual.SelectAnimation(this.template[choice].Variant, false, 1.0);
 };
 
 Upgrade.prototype.UpgradeProgress = function(data, lateness)

@@ -6,7 +6,7 @@ BuildRestrictions.prototype.Schema =
 		"<BuildRestrictions>" +
 			"<PlacementType>land</PlacementType>" +
 			"<Territory>own</Territory>" +
-			"<Category>Special</Category>" +
+			"<Category>Structure</Category>" +
 			"<Distance>" +
 				"<FromClass>CivilCentre</FromClass>" +
 				"<MaxDistance>40</MaxDistance>" +
@@ -76,7 +76,7 @@ BuildRestrictions.prototype.Schema =
 			"</oneOrMore>" +
 		"</list>" +
 	"</element>" +
-	"<element name='Category' a:help='Specifies the category of this building, for satisfying special constraints. Choices include: Apadana, ArmyCamp, Barracks, CivilCentre, Colony, Council, DefenseTower, Dock, Embassy, Farmstead, Fence, Field, Fortress, Hall, House, Kennel, Library, Market, Monument, Outpost, Pillar, Resource, Special, Stoa, Storehouse, Temple, Theater, UniqueBuilding, Wall, Wonder'>" +
+	"<element name='Category' a:help='Specifies the category of this building, for satisfying special constraints. Choices include: Apadana, CivilCentre, Council, Embassy, Fortress, Gladiator, Hall, Hero, Juggernaut, Library, Lighthouse, Monument, Pillar, PyramidLarge, PyramidSmall, Stoa, TempleOfAmun, Theater, Tower, UniqueBuilding, WarDog, Wonder'>" +
 		"<text/>" +
 	"</element>" +
 	"<optional>" +
@@ -93,6 +93,11 @@ BuildRestrictions.prototype.Schema =
 					"</interleave>" +
 				"</element>" +
 			"</oneOrMore>" +
+		"</element>" +
+	"</optional>" +
+	"<optional>" +
+		"<element name='MatchLimit' a:help='Specifies how many times this entity can be created during a match.'>" +
+			"<data type='positiveInteger'/>" +
 		"</element>" +
 	"</optional>" +
 	"<optional>" +
@@ -114,7 +119,6 @@ BuildRestrictions.prototype.Schema =
 
 BuildRestrictions.prototype.Init = function()
 {
-	this.territories = this.template.Territory.split(/\s+/);
 };
 
 /**
@@ -157,8 +161,11 @@ BuildRestrictions.prototype.CheckPlacement = function()
 		"translateParameters": ["name"],
 	};
 
-	// TODO: AI has no visibility info
 	var cmpPlayer = QueryOwnerInterface(this.entity, IID_Player);
+	if (!cmpPlayer)
+		return result; // Fail
+
+	// TODO: AI has no visibility info
 	if (!cmpPlayer.IsAI())
 	{
 		// Check whether it's in a visible or fogged region
@@ -229,9 +236,8 @@ BuildRestrictions.prototype.CheckPlacement = function()
 
 	// Check territory restrictions
 	var cmpTerritoryManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_TerritoryManager);
-	var cmpPlayer = QueryOwnerInterface(this.entity, IID_Player);
 	var cmpPosition = Engine.QueryInterface(this.entity, IID_Position);
-	if (!(cmpTerritoryManager && cmpPlayer && cmpPosition && cmpPosition.IsInWorld()))
+	if (!cmpTerritoryManager || !cmpPosition || !cmpPosition.IsInWorld())
 		return result;	// Fail
 
 	var pos = cmpPosition.GetPosition2D();
@@ -395,7 +401,7 @@ BuildRestrictions.prototype.GetCategory = function()
 
 BuildRestrictions.prototype.GetTerritories = function()
 {
-	return ApplyValueModificationsToEntity("BuildRestrictions/Territory", this.territories, this.entity);
+	return ApplyValueModificationsToEntity("BuildRestrictions/Territory", this.template.Territory, this.entity).split(/\s+/);
 };
 
 BuildRestrictions.prototype.HasTerritory = function(territory)

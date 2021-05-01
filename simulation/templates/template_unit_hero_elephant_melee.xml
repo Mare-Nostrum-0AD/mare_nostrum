@@ -1,40 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Entity parent="template_unit_hero">
-  <Armour>
-    <Hack>10</Hack>
-    <Pierce>10</Pierce>
-    <Crush>25</Crush>
-  </Armour>
-  <Attack replace="">
+  <Attack>
+    <Capture disable=""/>
     <Melee>
-      <Hack>20.0</Hack>
-      <Pierce>0</Pierce>
-      <Crush>50.0</Crush>
-      <MaxRange>8.0</MaxRange>
-      <PrepareTime>500</PrepareTime>
-      <RepeatTime>1000</RepeatTime>
+      <AttackName>Trunk</AttackName>
+      <Damage>
+				<Hack>20.0</Hack>
+				<Pierce>0</Pierce>
+				<Crush>50.0</Crush>
+      </Damage>
       <PreferredClasses datatype="tokens">Infantry+Melee Siege Structure</PreferredClasses>
       <RestrictedClasses datatype="tokens">Sturdy</RestrictedClasses>
     </Melee>
   </Attack>
   <Cost>
-    <Population>3</Population>
-    <BuildTime>60</BuildTime>
     <Resources>
-      <food>500</food>
-      <metal>500</metal>
+      <food>600</food>
+      <metal>400</metal>
     </Resources>
   </Cost>
-  <Footprint>
-    <Circle radius="3.0"/>
+  <Footprint replace="">
+    <Square width="4.5" depth="9.0"/>
     <Height>9.0</Height>
   </Footprint>
   <Health>
-    <Max>2000</Max>
+    <Max>1500</Max>
   </Health>
   <Identity>
+    <GenericName>Hero Elephant</GenericName>
     <VisibleClasses datatype="tokens">Elephant Melee</VisibleClasses>
   </Identity>
+  <Loot>
+    <food>60</food>
+    <metal>40</metal>
+  </Loot>
+  <Position>
+    <TurnRate>3</TurnRate>
+  </Position>
+  <Resistance>
+    <Entity>
+      <Damage>
+        <Hack>10</Hack>
+        <Pierce>10</Pierce>
+        <Crush>25</Crush>
+      </Damage>
+    </Entity>
+  </Resistance>
+  <Selectable>
+    <Overlay>
+      <Shape>
+        <Circle radius="5.0"/>
+      </Shape>
+    </Overlay>
+  </Selectable>
   <Sound>
     <SoundGroups>
       <select>actor/fauna/animal/elephant_select.xml</select>
@@ -49,14 +67,10 @@
       <trained>actor/fauna/animal/elephant_trained.xml</trained>
     </SoundGroups>
   </Sound>
+  <StatusBars>
+    <HeightOffset>10.0</HeightOffset>
+  </StatusBars>
   <UnitMotion>
     <PassabilityClass>large</PassabilityClass>
-    <WalkSpeed op="mul">0.95</WalkSpeed>
-    <Run>
-      <Speed op="mul">0.95</Speed>
-    </Run>
   </UnitMotion>
-  <Vision>
-    <Range>80</Range>
-  </Vision>
 </Entity>

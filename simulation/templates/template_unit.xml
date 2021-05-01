@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Entity parent="template_entity_full">
-  <Armour>
-    <Hack>1</Hack>
-    <Pierce>1</Pierce>
-    <Crush>15</Crush>
-  </Armour>
+<Entity>
+  <AIProxy/>
   <Cost>
     <Population>1</Population>
-    <PopulationBonus>0</PopulationBonus>
     <BuildTime>1</BuildTime>
     <Resources>
       <food>0</food>
@@ -27,7 +22,7 @@
   </Decay>
   <Footprint>
     <Circle radius="1.5"/>
-    <Height>2.5</Height>
+    <Height>4.0</Height>
   </Footprint>
   <Garrisonable/>
   <Guard/>
@@ -39,8 +34,9 @@
     <Unhealable>false</Unhealable>
   </Health>
   <Identity>
+    <Civ>gaia</Civ>
+    <Classes datatype="tokens">Unit Organic ConquestCritical</Classes>
     <GenericName>Unit</GenericName>
-    <Classes datatype="tokens">Unit ConquestCritical</Classes>
     <Formations datatype="tokens">
       special/formations/null
       special/formations/box
@@ -51,8 +47,10 @@
       special/formations/flank
       special/formations/battle_line
     </Formations>
+    <Phenotype datatype="tokens">male</Phenotype>
     <Undeletable>false</Undeletable>
   </Identity>
+  <Looter/>
   <Minimap>
     <Type>unit</Type>
   </Minimap>
@@ -68,8 +66,25 @@
     <DeleteUponConstruction>false</DeleteUponConstruction>
   </Obstruction>
   <OverlayRenderer/>
+  <Ownership/>
+  <Position>
+    <Altitude>0</Altitude>
+    <Anchor>pitch</Anchor>
+    <Floating>false</Floating>
+    <FloatDepth>0.0</FloatDepth>
+    <TurnRate>8</TurnRate>
+  </Position>
   <RangeOverlayManager/>
   <RangeOverlayRenderer/>
+  <Resistance>
+    <Entity>
+      <Damage>
+        <Hack>1</Hack>
+        <Pierce>1</Pierce>
+        <Crush>1</Crush>
+      </Damage>
+    </Entity>
+  </Resistance>
   <ResourceGatherer>
     <MaxDistance>2.0</MaxDistance>
     <BaseSpeed>1.0</BaseSpeed>
@@ -87,15 +102,17 @@
   <Selectable>
     <Overlay>
       <Texture>
-        <MainTexture>circle/128x128.png</MainTexture>
-        <MainTextureMask>circle/128x128_mask.png</MainTextureMask>
+        <MainTexture>128x128/ellipse.png</MainTexture>
+        <MainTextureMask>128x128/ellipse_mask.png</MainTextureMask>
       </Texture>
     </Overlay>
   </Selectable>
   <Sound>
     <SoundGroups>
       <attacked>interface/alarm/alarm_attackplayer.xml</attacked>
-      <attack_slaughter>attack/weapon/sword.xml</attack_slaughter>
+      <attacked_gaia>interface/alarm/alarm_attacked_gaia.xml</attacked_gaia>
+      <attacked_capture>interface/alarm/alarm_attackplayer.xml</attacked_capture>
+      <attacked_capture_gaia>interface/alarm/alarm_attacked_gaia.xml</attacked_capture_gaia>
     </SoundGroups>
   </Sound>
   <StatusBars>
@@ -103,24 +120,21 @@
     <BarHeight>0.333</BarHeight>
     <HeightOffset>5.0</HeightOffset>
   </StatusBars>
+  <StatusEffectsReceiver/>
   <UnitAI>
     <DefaultStance>aggressive</DefaultStance>
     <FleeDistance>12.0</FleeDistance>
     <FormationController>false</FormationController>
     <CanGuard>true</CanGuard>
     <CanPatrol>true</CanPatrol>
+    <PatrolWaitTime>1</PatrolWaitTime>
+    <CheeringTime>2800</CheeringTime>
   </UnitAI>
   <UnitMotion>
     <FormationController>false</FormationController>
-    <WalkSpeed>9.0</WalkSpeed>
-    <Run>
-      <Speed>15.0</Speed>
-      <Range>50.0</Range>
-      <RangeMin>0.0</RangeMin>
-      <RegenTime>0.1</RegenTime>
-      <DecayTime>0.2</DecayTime>
-    </Run>
     <PassabilityClass>default</PassabilityClass>
+    <WalkSpeed>9.0</WalkSpeed>
+    <RunMultiplier>1.67</RunMultiplier>
   </UnitMotion>
   <Visibility>
     <RetainInFog>false</RetainInFog>

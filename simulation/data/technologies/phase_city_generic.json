@@ -1,8 +1,10 @@
 {
 	"genericName": "City Phase",
 	"specificName": {
-		"mace": "Megalópolis",
-		"spart": "Megalópolis"
+		"mace": "Megalopolis",
+		"ptol": "Megalopolis",
+		"sele": "Megalopolis",
+		"spart": "Megalopolis"
 	},
 	"description": "Advances from a bustling town to a respectable city, full of the wonders of modern technology.",
 	"cost": { "food": 0, "wood": 0, "stone": 0, "metal": 0 },
@@ -13,11 +15,10 @@
 	"replaces": ["phase_city"],
 	"icon": "city_phase.png",
 	"researchTime": 60,
-	"tooltip": "Advance to City Phase, which unlocks more structures and units. Territory radius for Civic Centers increased by another +50%. Citizen soldiers max health increased by +10%. All structures +9 garrisoned regeneration rate.",
+	"tooltip": "Advance to City Phase, which unlocks more entities and technologies. Civic Centers +50% territory influence radius. Structures +9 capture points regeneration rate per garrisoned unit.",
 	"modifications": [
-		{ "value": "TerritoryInfluence/Radius", "multiply": 1.50, "affects": "CivCentre" },
-		{ "value": "Health/Max", "multiply": 1.1, "affects": "CitizenSoldier" },
-		{ "value": "Capturable/GarrisonRegenRate", "add": 9.0, "affects": "Structure" }
+		{ "value": "Capturable/GarrisonRegenRate", "add": 9, "affects": "Structure" },
+		{ "value": "TerritoryInfluence/Radius", "multiply": 1.5, "affects": "CivCentre" }
 	],
 	"soundComplete": "interface/alarm/alarm_phase.xml"
 }

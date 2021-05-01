@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_structure_civic_centre_a">
+  <City merge="">
+	<Upgrade>structures/{native}_town_centre</Upgrade>
+  </City>
+  <Footprint>
+    <Square width="40.0" depth="40.0"/>
+    <Height>8.0</Height>
+  </Footprint>
+  <Health>
+    <SpawnEntityOnDeath>decay|rubble/rubble_rome_cc</SpawnEntityOnDeath>
+  </Health>
+  <Identity>
+    <Civ>ptol</Civ>
+    <GenericName>Village</GenericName>
+  </Identity>
+  <Obstruction>
+    <Static width="37.0" depth="37.0"/>
+  </Obstruction>
+  <ProductionQueue>
+    <Entities datatype="tokens">
+	  units/{civ}_infantry_pikeman_b
+      units/{civ}_infantry_javelinist_b
+    </Entities>
+  </ProductionQueue>
+  <VisualActor>
+    <Actor>structures/ptolemies/village.xml</Actor>
+    <FoundationActor>structures/fndn_8x8.xml</FoundationActor>
+    </Entities>
+  </ProductionQueue>
+  <VisualActor>
+    <Actor>structures/ptolemies/civic_centre.xml</Actor>
+>>>>>>> A24
+  </VisualActor>
+</Entity>

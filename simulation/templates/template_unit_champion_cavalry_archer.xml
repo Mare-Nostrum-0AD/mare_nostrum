@@ -2,36 +2,50 @@
 <Entity parent="template_unit_champion_cavalry">
   <Attack>
     <Ranged>
-      <Hack>0</Hack>
-      <Pierce>14.0</Pierce>
-      <Crush>0</Crush>
-      <MaxRange>76.0</MaxRange>
-      <MinRange>0.0</MinRange>
-      <ProjectileSpeed>75.0</ProjectileSpeed>
-      <Gravity>9.81</Gravity>
+      <AttackName>Bow</AttackName>
+      <Damage>
+        <Hack>0</Hack>
+        <Pierce>14</Pierce>
+        <Crush>0</Crush>
+      </Damage>
+      <MaxRange>60</MaxRange>
+      <MinRange>0</MinRange>
       <PrepareTime>500</PrepareTime>
       <RepeatTime>1000</RepeatTime>
-      <Spread>1.0</Spread>
       <Delay>0</Delay>
+      <Projectile>
+        <Speed>100.0</Speed>
+        <Spread>0.8</Spread>
+        <Gravity>50.0</Gravity>
+        <FriendlyFire>false</FriendlyFire>
+        <LaunchPoint y="5"/>
+      </Projectile>
       <PreferredClasses datatype="tokens">Human</PreferredClasses>
       <RestrictedClasses datatype="tokens">Sturdy</RestrictedClasses>
     </Ranged>
   </Attack>
-  <Cost>
-    <Resources>
-      <wood>100</wood>
-    </Resources>
-  </Cost>
   <Identity>
     <VisibleClasses datatype="tokens">Ranged Archer</VisibleClasses>
-    <GenericName>Champion Cavalry Archer.</GenericName>
+    <GenericName>Champion Cavalry Archer</GenericName>
     <Formations datatype="tokens">
       special/formations/skirmish
     </Formations>
   </Identity>
+  <Resistance>
+    <Entity>
+      <Damage>
+        <Hack op="add">-2</Hack>
+        <Pierce op="add">-2</Pierce>
+      </Damage>
+    </Entity>
+  </Resistance>
   <Sound>
     <SoundGroups>
-      <death>actor/fauna/death/death_horse.xml</death>
+      <attack_impact_ranged>attack/impact/arrow_impact.xml</attack_impact_ranged>
+      <attack_ranged>attack/weapon/bow_attack.xml</attack_ranged>
     </SoundGroups>
   </Sound>
+  <UnitMotion>
+    <WalkSpeed op="mul">0.835</WalkSpeed>
+  </UnitMotion>
 </Entity>

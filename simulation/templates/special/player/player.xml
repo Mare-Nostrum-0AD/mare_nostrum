@@ -16,7 +16,8 @@
   <EntityLimits>
     <Limits>
       <CivilCentre>1</CivilCentre>
-      <DefenseTower>30</DefenseTower>
+      <Council>1</Council>
+      <Embassy>3</Embassy>
       <Fortress>10</Fortress>
       <Wonder>1</Wonder>
       <Palace>1</Palace>
@@ -28,31 +29,36 @@
       <WarDog>0</WarDog>
       <Theater>1</Theater>
       <Council>1</Council>
+      <Gladiator>0</Gladiator>
+      <Juggernaut>1</Juggernaut>
       <Library>1</Library>
       <Lighthouse>1</Lighthouse>
-      <Juggernaut>1</Juggernaut>
-      <UniqueBuilding>1</UniqueBuilding>
-      <Hall>2</Hall>
-      <Stoa>2</Stoa>
-      <Kennel>5</Kennel>
-      <PyramidSmall>4</PyramidSmall>
+      <Monument>5</Monument>
+      <Palace>1</Palace>
+      <Pillar>0</Pillar>
       <PyramidLarge>2</PyramidLarge>
       <TemplePatron>1</TemplePatron>
+      <PyramidSmall>4</PyramidSmall>
       <TempleOfAmun>1</TempleOfAmun>
+      <TempleOfVesta>1</TempleOfVesta>
+      <Theater>1</Theater>
+      <Tower>30</Tower>
+      <WarDog>20</WarDog>
+      <Wonder>1</Wonder>
     </Limits>
     <LimitChangers>
-      <WarDog>
-        <Kennel>10</Kennel>
-      </WarDog>
-      <Pillar>
-        <Ashoka>5</Ashoka>
-      </Pillar>
+      <Gladiator>
+        <Amphitheater>15</Amphitheater>
+      </Gladiator>
       <Juggernaut>
         <PtolemyIV>4</PtolemyIV>
       </Juggernaut>
-	  <Monument>
-	  	<CityCentre>1</CityCentre>
-	  </Monument>
+			<Monument>
+				<CityCentre>1</CityCentre>
+			</Monument>
+      <Pillar>
+        <Ashoka>5</Ashoka>
+      </Pillar>
     </LimitChangers>
     <LimitRemovers>
       <CivilCentre>
@@ -96,6 +102,36 @@
     </Rates>
     <Interval>1000</Interval>
   </ResourceTrickle>
-  <StatisticsTracker/>
+  <Sound>
+    <SoundGroups>
+      <defeated>interface/alarm/alarm_defeated.xml</defeated>
+      <defeated_ally>interface/alarm/alarm_defeated_ally.xml</defeated_ally>
+      <defeated_enemy>interface/alarm/alarm_defeated_enemy.xml</defeated_enemy>
+    </SoundGroups>
+  </Sound>
+  <StatisticsTracker>
+    <!-- The summary screen and lobby rankings expect these classes, but additional classes may be added. -->
+    <UnitClasses datatype="tokens">
+      Cavalry
+      Champion
+      Domestic
+      FemaleCitizen
+      Hero
+      Infantry
+      Ship
+      Siege
+      Trader
+      Worker
+    </UnitClasses>
+    <StructureClasses datatype="tokens">
+      Economic
+      CivCentre
+      Fortress
+      House
+      Military
+      Outpost
+      Wonder
+    </StructureClasses>
+  </StatisticsTracker>
   <TechnologyManager/>
 </Entity>

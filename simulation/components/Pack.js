@@ -58,11 +58,11 @@ Pack.prototype.Pack = function()
 	this.packing = true;
 
 	let cmpTimer = Engine.QueryInterface(SYSTEM_ENTITY, IID_Timer);
-	this.timer = cmpTimer.SetInterval(this.entity, IID_Pack, "PackProgress", 0, PACKING_INTERVAL, { "packing": true });
+	this.timer = cmpTimer.SetInterval(this.entity, IID_Pack, "PackProgress", 0, PACKING_INTERVAL, null);
 
 	let cmpVisual = Engine.QueryInterface(this.entity, IID_Visual);
 	if (cmpVisual)
-		cmpVisual.SelectAnimation("packing", true, 1.0, "packing");
+		cmpVisual.SelectAnimation("packing", true, 1.0);
 };
 
 Pack.prototype.Unpack = function()
@@ -73,7 +73,7 @@ Pack.prototype.Unpack = function()
 	this.packing = true;
 
 	let cmpTimer = Engine.QueryInterface(SYSTEM_ENTITY, IID_Timer);
-	this.timer = cmpTimer.SetInterval(this.entity, IID_Pack, "PackProgress", 0, PACKING_INTERVAL, { "packing": false });
+	this.timer = cmpTimer.SetInterval(this.entity, IID_Pack, "PackProgress", 0, PACKING_INTERVAL, null);
 
 	let cmpVisual = Engine.QueryInterface(this.entity, IID_Visual);
 	if (cmpVisual)
@@ -97,10 +97,7 @@ Pack.prototype.CancelPack = function()
 
 Pack.prototype.GetPackTime = function()
 {
-	let cmpPlayer = QueryOwnerInterface(this.entity, IID_Player);
-	let timeMultiplier = cmpPlayer ? cmpPlayer.GetTimeMultiplier() : 1.0;
-
-	return ApplyValueModificationsToEntity("Pack/Time", +this.template.Time, this.entity) * timeMultiplier;
+	return ApplyValueModificationsToEntity("Pack/Time", +this.template.Time, this.entity);
 };
 
 Pack.prototype.GetElapsedTime = function()

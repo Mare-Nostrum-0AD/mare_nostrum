@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <actor version="1">
   <castshadow/>
   <group>
@@ -6,13 +6,8 @@
       <mesh>skeletal/new/m_tunic_short.dae</mesh>
       <props>
         <prop actor="props/units/heads/new/head_hele_b.xml" attachpoint="head"/>
-        <prop actor="props/units/weapons/sling.xml" attachpoint="weapon_R"/>
-        <prop actor="props/units/weapons/slingrock.xml" attachpoint="projectile"/>
         <prop actor="props/units/mace_sling_pouch.xml" attachpoint="sheath_L"/>
       </props>
-      <textures>
-        <texture file="skeletal/hele_tunic.dds" name="baseTex"/>
-      </textures>
     </variant>
   </group>
   <group>
@@ -21,10 +16,32 @@
         <prop actor="props/units/helmets/headband_color.xml" attachpoint="helmet"/>
       </props>
     </variant>
-    <variant frequency="1" name="Kausia cap">
-      <props>
-        <prop actor="props/units/helmets/hele_kausia_cap.xml" attachpoint="helmet"/>
-      </props>
+  </group>
+  <group>
+    <variant frequency="3" name="illy-tunic-basic-01-a">
+      <textures>
+        <texture file="skeletal/illy_tunic_01_basic_a.png" name="baseTex"/>
+      </textures>
+    </variant>
+    <variant frequency="3" name="illy-tunic-basic-01-b">
+      <textures>
+        <texture file="skeletal/illy_tunic_01_basic_b.png" name="baseTex"/>
+      </textures>
+    </variant>
+    <variant frequency="1" name="hele-tunic-02-a">
+      <textures>
+        <texture file="skeletal/hele_tunic_2_a.png" name="baseTex"/>
+      </textures>
+    </variant>
+    <variant frequency="1" name="hele-tunic-02-b">
+      <textures>
+        <texture file="skeletal/hele_tunic_2_b.png" name="baseTex"/>
+      </textures>
+    </variant>
+    <variant frequency="1" name="hele-tunic-02-c">
+      <textures>
+        <texture file="skeletal/hele_tunic_2_c.png" name="baseTex"/>
+      </textures>
     </variant>
   </group>
   <group>
@@ -35,6 +52,14 @@
     <variant file="biped/carry_stone.xml"/>
     <variant file="biped/carry_metal.xml"/>
     <variant file="biped/carry_wealth.xml"/>
+    <variant file="biped/approach_tree.xml"/>
+    <variant file="biped/approach_grain.xml"/>
+    <variant file="biped/approach_fruit.xml"/>
+    <variant file="biped/approach_meat.xml"/>
+    <variant file="biped/approach_rock.xml"/>
+    <variant file="biped/approach_ore.xml"/>
+    <variant file="biped/approach_ruins.xml"/>
+    <variant file="biped/approach_praise.xml"/>
   </group>
   <group>
     <variant frequency="1" name="Idle"/>

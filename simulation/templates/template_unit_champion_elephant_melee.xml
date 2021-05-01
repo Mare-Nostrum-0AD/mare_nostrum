@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Entity parent="template_unit_champion_elephant">
-  <Attack replace="">
+  <Attack>
+    <Capture disable=""/>
     <Melee>
-      <Hack>60</Hack>
-      <Pierce>0</Pierce>
-      <Crush>90.0</Crush>
-      <MaxRange>8.0</MaxRange>
-      <PrepareTime>750</PrepareTime>
-      <RepeatTime>1500</RepeatTime>
+      <Damage>
+				<Hack>60</Hack>
+				<Pierce>0</Pierce>
+				<Crush>90.0</Crush>
+      </Damage>
       <PreferredClasses datatype="tokens">Infantry+Melee Siege Structure</PreferredClasses>
       <RestrictedClasses datatype="tokens">Sturdy</RestrictedClasses>
     </Melee>

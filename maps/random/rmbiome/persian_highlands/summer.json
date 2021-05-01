@@ -7,7 +7,7 @@
 		"SunColor": { "r": 1, "g": 0.796, "b": 0.374, "a": 0 },
 		"SunElevation": 0.52359877559,
 		"SunRotation": -1.86532,
-		"TerrainAmbientColor": { "r": 0.501961, "g": 0.501961, "b": 0.501961, "a": 0 },
+		"AmbientColor": { "r": 0.501961, "g": 0.501961, "b": 0.501961, "a": 0 },
 		"Fog": {
 			"FogThickness": 0,
 			"FogFactor": 0.002,
@@ -32,15 +32,15 @@
 		"road": "desert_city_tile_pers_dirt"
 	},
 	"Gaia": {
-		"tree1": "gaia/flora_tree_oak",
-		"fruitBush": "gaia/flora_bush_grapes",
+		"tree1": "gaia/tree/oak",
+		"fruitBush": "gaia/fruit/grapes",
 		"pasture": "gaia/flora_pasture",
 		"mainHuntableAnimal": "gaia/fauna_camel",
 		"secondaryHuntableAnimal": "gaia/fauna_sheep",
 		"thirdHuntableAnimal": "gaia/fauna_goat",
-		"stoneLarge": "gaia/geology_stonemine_desert_badlands_quarry",
-		"stoneSmall": "gaia/geology_stone_desert_small",
-		"metalLarge": "gaia/geology_metal_desert_slabs"
+		"stoneLarge": "gaia/rock/badlands_large",
+		"stoneSmall": "gaia/rock/desert_small",
+		"metalLarge": "gaia/ore/desert_large"
 	},
 	"Decoratives": {
 		"bush1": "actor|props/flora/bush_desert_a.xml",

@@ -10,6 +10,7 @@
 		"meat": "Meat",
 		"milk": "Milk"
 	},
+	"properties": ["barterable", "tradable", "tributable"],
 	"truePrice": 100,
 	"shareable": true,
 	"tradeable": true,
