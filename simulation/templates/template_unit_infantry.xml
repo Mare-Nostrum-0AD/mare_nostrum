@@ -27,7 +27,9 @@
       structures/{civ}/storehouse
       structures/{civ}/farmstead
       structures/{civ}/field
+	  	structures/{civ}/field_cash_crop
       structures/{civ}/corral
+			structures/{civ}/port
       structures/{civ}/dock
       structures/{civ}/barracks
       structures/{civ}/stable
@@ -38,11 +40,17 @@
       structures/{civ}/market
       structures/{civ}/outpost
       structures/{civ}/sentry_tower
-      structures/{civ}/defense_tower
+      structures/{civ}/defensive_tower
       structures/{civ}/fortress
       structures/wallset_palisade
       structures/{civ}/wallset_siege
       structures/{civ}/wallset_stone
+			structures/{civ}/temple_patron_fertility
+      structures/{civ}/temple_patron_war
+      structures/{civ}/temple_patron_trade
+      structures/{civ}/temple_patron_sea
+      structures/{civ}/temple_patron_horse
+			structures/{civ}/palace
       structures/{civ}/theater
       structures/{civ}/wonder
     </Entities>

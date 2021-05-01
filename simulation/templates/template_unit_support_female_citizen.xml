@@ -44,7 +44,7 @@
       structures/{civ}/market
       structures/{civ}/outpost
       structures/{civ}/sentry_tower
-      structures/{civ}/defense_tower
+      structures/{civ}/defensive_tower
       structures/{civ}/fortress
       structures/wallset_palisade
       structures/{civ}/wallset_siege
