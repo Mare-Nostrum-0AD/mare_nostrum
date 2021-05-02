@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Entity parent="template_structure_civic_temple">
-  <Auras datatype="tokens">
-    structures/temple_heal
-  </Auras>
   <BuildRestrictions>
     <Category>TemplePatron</Category>
   </BuildRestrictions>
   <CityMember>
   	<GrowthContrib>
-		<Value>1.5</Value>
-	</GrowthContrib>
+			<Value>1.5</Value>
+		</GrowthContrib>
   </CityMember>
   <Cost>
     <PopulationBonus>10</PopulationBonus>
@@ -49,20 +46,6 @@
   <Obstruction>
     <Static width="17.5" depth="30.0"/>
   </Obstruction>
-  <Sound>
-    <SoundGroups>
-      <select>interface/select/building/sel_temple.xml</select>
-      <constructed>interface/complete/building/complete_temple.xml</constructed>
-    </SoundGroups>
-  </Sound>
-  <TerritoryInfluence>
-    <Root>false</Root>
-    <Radius>40</Radius>
-    <Weight>30000</Weight>
-  </TerritoryInfluence>
-  <Vision>
-    <Range>40</Range>
-  </Vision>
   <VisualActor>
     <FoundationActor>structures/fndn_4x6.xml</FoundationActor>
   </VisualActor>
