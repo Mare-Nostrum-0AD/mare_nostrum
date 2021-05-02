@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Entity parent="template_structure_civic_centre_d">
+<Entity parent="template_structure_civic_civil_centre_d">
   <Footprint>
     <Square width="32.0" depth="32"/>
     <Height>10.0</Height>
