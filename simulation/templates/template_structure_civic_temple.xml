@@ -7,10 +7,10 @@
     <Category>Temple</Category>
   </BuildRestrictions>
   <CityMember>
-  	<GrowthContrib>
-			<Operation>multiply</Operation>
-			<Value>1.2</Value>
-		</GrowthContrib>
+    <GrowthContrib>
+      <Operation>multiply</Operation>
+      <Value>1.2</Value>
+    </GrowthContrib>
   </CityMember>
   <Cost>
     <BuildTime>200</BuildTime>

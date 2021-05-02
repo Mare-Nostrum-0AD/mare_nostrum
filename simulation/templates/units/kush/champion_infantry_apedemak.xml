@@ -24,12 +24,12 @@
     <Icon>units/kush_champion_apedemak.png</Icon>
   </Identity>
   <Resistance>
-		<Entity>
-			<Damage>
-				<Hack op="add">-1</Hack>
-				<Pierce op="add">-1</Pierce>
-			</Damage>
-		</Entity>
+    <Entity>
+      <Damage>
+        <Hack op="add">-1</Hack>
+        <Pierce op="add">-1</Pierce>
+      </Damage>
+    </Entity>
   </Resistance>
   <VisualActor>
     <Actor>units/kushites/infantry_axeman_c.xml</Actor>

@@ -37,10 +37,10 @@
     <Territory>neutral enemy</Territory>
     <Category>ArmyCamp</Category>
     <DistancesExclusive>
-	  <ArmyCamp>
-      	<FromClass>ArmyCamp</FromClass>
-      	<MinDistance>80</MinDistance>
-	  </ArmyCamp>
+      <ArmyCamp>
+        <FromClass>ArmyCamp</FromClass>
+        <MinDistance>80</MinDistance>
+      </ArmyCamp>
     </DistancesExclusive>
   </BuildRestrictions>
   <Capturable>

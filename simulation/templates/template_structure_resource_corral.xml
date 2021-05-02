@@ -41,8 +41,8 @@
     </Technologies>
   </ProductionQueue>
   <ResourceDropsite>
-  	<Types>food</Types>
-	<Sharable>true</Sharable>
+    <Types>food</Types>
+    <Sharable>true</Sharable>
   </ResourceDropsite>
   <Sound>
     <SoundGroups>

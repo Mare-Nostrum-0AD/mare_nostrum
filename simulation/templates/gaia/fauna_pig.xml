@@ -40,11 +40,11 @@
     </Run>
   </UnitMotion>
   <Upgrade>
-  	<Flame>
-		<Entity>gaia/fauna_pig_flaming</Entity>
-		<Tooltip>Set this pig on fire. Scares enemy elephants, reducing their attack and loyalty.</Tooltip>
-		<Time>1</Time>
-	</Flame>
+    <Flame>
+      <Entity>gaia/fauna_pig_flaming</Entity>
+      <Tooltip>Set this pig on fire. Scares enemy elephants, reducing their attack and loyalty.</Tooltip>
+      <Time>1</Time>
+    </Flame>
   </Upgrade>
   <VisualActor>
     <Actor>fauna/pig1.xml</Actor>

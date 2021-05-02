@@ -8,12 +8,12 @@
   </AlertRaiser>
   <BuildRestrictions merge="">
     <Category>Market</Category>
-	<DistancesExclusive>
-		<Market>
-			<FromClass>Market</FromClass>
-			<MinDistance>240</MinDistance>
-		</Market>
-	</DistancesExclusive>
+    <DistancesExclusive>
+      <Market>
+        <FromClass>Market</FromClass>
+        <MinDistance>240</MinDistance>
+      </Market>
+    </DistancesExclusive>
   </BuildRestrictions>
   <Cost>
     <BuildTime>150</BuildTime>
@@ -46,7 +46,7 @@
   </Loot>
   <Market>
     <TradeType>land</TradeType>
-	<DemandMultiplier>1.0</DemandMultiplier>
+    <DemandMultiplier>1.0</DemandMultiplier>
     <InternationalBonus>0.2</InternationalBonus>
   </Market>
   <Obstruction>

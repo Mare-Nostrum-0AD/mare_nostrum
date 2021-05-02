@@ -36,10 +36,10 @@
   <BuildRestrictions>
     <Category>Fortress</Category>
     <DistancesExclusive>
-	  <Fortress>
-      	<FromClass>Fortress</FromClass>
-      	<MinDistance>80</MinDistance>
-	  </Fortress>
+      <Fortress>
+        <FromClass>Fortress</FromClass>
+        <MinDistance>80</MinDistance>
+      </Fortress>
     </DistancesExclusive>
   </BuildRestrictions>
   <Capturable>

@@ -19,9 +19,9 @@
     units/ram_ship
   </Auras>
   <Capturable>
-  	<CapturePoints>100</CapturePoints>
-  	<RegenRate>2</RegenRate>
-  	<GarrisonRegenRate>2</GarrisonRegenRate>
+    <CapturePoints>100</CapturePoints>
+    <RegenRate>2</RegenRate>
+    <GarrisonRegenRate>2</GarrisonRegenRate>
   </Capturable>
   <Cost>
     <BuildTime>30</BuildTime>

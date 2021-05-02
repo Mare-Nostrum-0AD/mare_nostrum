@@ -4,8 +4,8 @@
   	structures/village_radius
   </Auras>
   <City merge="">
-		<Initial>true</Initial>
-		<Upgrade>structures/{native}_town_centre</Upgrade>
+    <Initial>true</Initial>
+    <Upgrade>structures/{native}_town_centre</Upgrade>
   </City>
   <Identity>
     <GenericName>Village</GenericName>

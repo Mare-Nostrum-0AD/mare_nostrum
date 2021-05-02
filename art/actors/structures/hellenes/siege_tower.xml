@@ -39,15 +39,15 @@
     </variant>
   </group>
   <group>
-  	<variant frequency="1" name="Idle" />
-	<variant name="attack_capture">
+    <variant frequency="1" name="Idle"/>
+    <variant name="attack_capture">
       <props>
         <prop actor="props/special/common/garrison_flag_hele.xml" attachpoint="garrisoned"/>
       </props>
-		<animations>
-			<animation file="mechanical/hele_siege_tower_idle.dae" name="attack_capture" speed="100"/>
-		</animations>
-	</variant>
+      <animations>
+        <animation file="mechanical/hele_siege_tower_idle.dae" name="attack_capture" speed="100"/>
+      </animations>
+    </variant>
   </group>
   <material>player_trans.xml</material>
 </actor>

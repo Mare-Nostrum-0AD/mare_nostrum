@@ -43,11 +43,11 @@
     <Territory>own neutral</Territory>
     <Category>CivilCentre</Category>
     <DistancesExclusive>
-	  <CivilCentre>
-      	<FromClass>CivilCentre</FromClass>
-      	<MinDistance>200</MinDistance>
-		<MaxDistance disable="" />
-	  </CivilCentre>
+      <CivilCentre>
+        <FromClass>CivilCentre</FromClass>
+        <MinDistance>200</MinDistance>
+        <MaxDistance disable=""/>
+      </CivilCentre>
     </DistancesExclusive>
   </BuildRestrictions>
   <Capturable>
@@ -55,19 +55,19 @@
     <RegenRate>5.0</RegenRate>
   </Capturable>
   <City>
-  	<Population>
-		<Growth>
-			<AttackMultiplier>0</AttackMultiplier>
-			<Rate>5</Rate>
-			<TradeRate>2.0</TradeRate>
-			<Interval>10000</Interval>
-		</Growth>
-		<Init>100</Init>
-		<Max>10000</Max>
-	</Population>
-	<Radius>90</Radius>
+    <Population>
+      <Growth>
+        <AttackMultiplier>0</AttackMultiplier>
+        <Rate>5</Rate>
+        <TradeRate>2.0</TradeRate>
+        <Interval>10000</Interval>
+      </Growth>
+      <Init>100</Init>
+      <Max>10000</Max>
+    </Population>
+    <Radius>90</Radius>
   </City>
-  <CityMember disable="" />
+  <CityMember disable=""/>
   <Cost>
     <BuildTime>500</BuildTime>
     <Resources>

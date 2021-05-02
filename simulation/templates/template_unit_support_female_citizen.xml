@@ -92,10 +92,10 @@
       <stone.rock>0.35</stone.rock>
       <stone.ruins>2</stone.ruins>
       <metal.ore>0.35</metal.ore>
-	  <wealth.gold>1</wealth.gold>
-	  <wealth.silver>0.7</wealth.silver>
-	  <wealth.wares>0.2</wealth.wares>
-	  <wealth.crops>0.15</wealth.crops>
+      <wealth.gold>1</wealth.gold>
+      <wealth.silver>0.7</wealth.silver>
+      <wealth.wares>0.2</wealth.wares>
+      <wealth.crops>0.15</wealth.crops>
     </Rates>
   </ResourceGatherer>
   <Sound>

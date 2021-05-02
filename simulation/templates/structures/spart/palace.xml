@@ -31,7 +31,7 @@
     <Static width="20.0" depth="20.0"/>
   </Obstruction>
   <ProductionQueue>
-	<Technologies datatype="tokens">
+    <Technologies datatype="tokens">
 	  pair_government_{civ}
 	</Technologies>
   </ProductionQueue>

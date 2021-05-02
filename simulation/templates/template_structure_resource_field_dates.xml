@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Entity parent="template_structure_resource_field">
-	<Cost>
-		<BuildTime>100</BuildTime>
-		<Resources>
-			<wood>200</wood>
-		</Resources>
-	</Cost>
-	<Identity>
-		<GenericName>Date Palm Grove</GenericName>
-		<Tooltip>Harvest dates for wealth. Max gatherers: 5.</Tooltip>
-		<Icon>structures/date_grove.png</Icon>
-		<RequiredTechnology>phase_town</RequiredTechnology>
-	</Identity>
-	<ResourceSupply>
-		<Type>wealth.crops</Type>
-		<MaxGatherers>5</MaxGatherers>
-	</ResourceSupply>
-	<VisualActor>
-		<Actor>structures/plot_dates_8x8.xml</Actor>
-	</VisualActor>
+  <Cost>
+    <BuildTime>100</BuildTime>
+    <Resources>
+      <wood>200</wood>
+    </Resources>
+  </Cost>
+  <Identity>
+    <GenericName>Date Palm Grove</GenericName>
+    <Tooltip>Harvest dates for wealth. Max gatherers: 5.</Tooltip>
+    <Icon>structures/date_grove.png</Icon>
+    <RequiredTechnology>phase_town</RequiredTechnology>
+  </Identity>
+  <ResourceSupply>
+    <Type>wealth.crops</Type>
+    <MaxGatherers>5</MaxGatherers>
+  </ResourceSupply>
+  <VisualActor>
+    <Actor>structures/plot_dates_8x8.xml</Actor>
+  </VisualActor>
 </Entity>

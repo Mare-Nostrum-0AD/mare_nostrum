@@ -2,9 +2,9 @@
 <Entity parent="template_structure_defensive_wallset">
   <Identity>
     <Civ>gaia</Civ>
-	<GenericName>Earthworks</GenericName>
-	<SpecificName>Rampart</SpecificName>
-	<Classes datatype="tokens">-StoneWall Palisade</Classes>
+    <GenericName>Earthworks</GenericName>
+    <SpecificName>Rampart</SpecificName>
+    <Classes datatype="tokens">-StoneWall Palisade</Classes>
     <Icon>structures/palisade_wall.png</Icon>
     <RequiredTechnology>phase_village</RequiredTechnology>
   </Identity>

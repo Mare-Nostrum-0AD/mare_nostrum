@@ -36,10 +36,10 @@
   <BuildRestrictions>
     <Category>Tower</Category>
     <DistancesExclusive>
-			<DefenseTower>
-					<FromClass>Tower</FromClass>
-					<MinDistance>60</MinDistance>
-			</DefenseTower>
+      <DefenseTower>
+        <FromClass>Tower</FromClass>
+        <MinDistance>60</MinDistance>
+      </DefenseTower>
     </DistancesExclusive>
   </BuildRestrictions>
   <GarrisonHolder>

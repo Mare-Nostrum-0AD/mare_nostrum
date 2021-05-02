@@ -6,10 +6,10 @@
   <BuildRestrictions>
     <Category>Monument</Category>
     <DistancesExclusive>
-	  <Monument>
-      	<FromClass>Monument</FromClass>
-      	<MinDistance>150</MinDistance>
-	  </Monument>
+      <Monument>
+        <FromClass>Monument</FromClass>
+        <MinDistance>150</MinDistance>
+      </Monument>
     </DistancesExclusive>
   </BuildRestrictions>
   <Capturable disable=""/>

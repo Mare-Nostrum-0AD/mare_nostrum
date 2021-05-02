@@ -16,7 +16,7 @@
       </textures>
     </variant>
   </group>
-   <group>
+  <group>
     <!-- In this group, defined overloads for "Idle", "Walk" and "Run" -->
     <variant file="biped/female_base_walk.xml"/>
     <variant file="biped/female_carry_food.xml"/>

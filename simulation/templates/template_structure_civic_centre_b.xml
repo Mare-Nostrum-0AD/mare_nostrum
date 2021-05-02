@@ -4,20 +4,20 @@
   	structures/town_radius
   </Auras>
   <Capturable merge="">
-		<CapturePoints op="mul">2.0</CapturePoints>
+    <CapturePoints op="mul">2.0</CapturePoints>
   </Capturable>
   <City merge="">
-  	<Population>
-			<Init>500</Init>
-			<Max>5000</Max>
-		</Population>
-		<Upgrade>structures/{native}_city_centre</Upgrade>
+    <Population>
+      <Init>500</Init>
+      <Max>5000</Max>
+    </Population>
+    <Upgrade>structures/{native}_city_centre</Upgrade>
   </City>
   <GarrisonHolder merge="">
     <Max op="mul">2.0</Max>
   </GarrisonHolder>
   <Health merge="">
-  	<Max op="mul">2.0</Max>
+    <Max op="mul">2.0</Max>
   </Health>
   <Identity>
     <GenericName>Town</GenericName>

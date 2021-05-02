@@ -20,7 +20,7 @@
   </Health>
   <Identity>
     <Civ>gaia</Civ>
-	<SpecificName>Anáktoro</SpecificName>
+    <SpecificName>Anáktoro</SpecificName>
     <Icon>structures/tholos.png</Icon>
   </Identity>
   <Loot>

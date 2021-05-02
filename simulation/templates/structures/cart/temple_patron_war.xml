@@ -11,7 +11,7 @@
   </Footprint>
   <Identity>
     <Civ>cart</Civ>
-	<SpecificName>Temple of Tanit</SpecificName>
+    <SpecificName>Temple of Tanit</SpecificName>
     <Tooltip>Train Healers and Champions and research healing technologies.</Tooltip>
   </Identity>
   <Loot>

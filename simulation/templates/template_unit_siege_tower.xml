@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Entity parent="template_unit_siege">
   <Attack>
-  	<Capture>
+    <Capture>
       <Value>10</Value>
       <MaxRange>8</MaxRange>
       <RepeatTime>1000</RepeatTime>
@@ -60,19 +60,29 @@
     <LoadingRange>2</LoadingRange>
     <VisibleGarrisonPoints>
       <Archer1>
-        <X>-2.0</X><Y>14.0</Y><Z>2.0</Z>
+        <X>-2.0</X>
+        <Y>14.0</Y>
+        <Z>2.0</Z>
       </Archer1>
       <Archer2>
-        <X>0</X><Y>14.0</Y><Z>2.0</Z>
+        <X>0</X>
+        <Y>14.0</Y>
+        <Z>2.0</Z>
       </Archer2>
       <Archer3>
-        <X>2.0</X><Y>14.0</Y><Z>2.0</Z>
+        <X>2.0</X>
+        <Y>14.0</Y>
+        <Z>2.0</Z>
       </Archer3>
       <Archer4>
-        <X>-2.0</X><Y>14.0</Y><Z>0</Z>
+        <X>-2.0</X>
+        <Y>14.0</Y>
+        <Z>0</Z>
       </Archer4>
       <Archer5>
-        <X>-2.0</X><Y>14.0</Y><Z>-2.0</Z>
+        <X>-2.0</X>
+        <Y>14.0</Y>
+        <Z>-2.0</Z>
       </Archer5>
     </VisibleGarrisonPoints>
   </GarrisonHolder>

@@ -4,7 +4,7 @@
     <Resources>
       <wood>500</wood>
       <metal>0</metal>
-	  <wealth op="mul">0.5</wealth>
+      <wealth op="mul">0.5</wealth>
     </Resources>
   </Cost>
   <Footprint>

@@ -6,10 +6,10 @@
   <BuildRestrictions>
     <Category>Pillar</Category>
     <DistancesExclusive>
-	  <Pillar>
-      	<FromClass>Pillar</FromClass>
-      	<MinDistance>75</MinDistance>
-	  </Pillar>
+      <Pillar>
+        <FromClass>Pillar</FromClass>
+        <MinDistance>75</MinDistance>
+      </Pillar>
     </DistancesExclusive>
   </BuildRestrictions>
   <Capturable disable=""/>

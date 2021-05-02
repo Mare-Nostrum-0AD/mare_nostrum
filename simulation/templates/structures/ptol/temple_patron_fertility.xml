@@ -9,7 +9,7 @@
   </Health>
   <Identity>
     <Civ>ptol</Civ>
-	<SpecificName>Temple of Serapis</SpecificName>
+    <SpecificName>Temple of Serapis</SpecificName>
   </Identity>
   <Obstruction>
     <Static width="17.5" depth="35.5"/>

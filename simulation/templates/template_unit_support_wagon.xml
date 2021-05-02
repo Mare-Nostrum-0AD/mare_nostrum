@@ -31,13 +31,13 @@
     <Anchor>pitch</Anchor>
   </Position>
   <Resistance>
-		<Entity>
-			<Damage>
-				<Hack>5</Hack>
-				<Pierce>8</Pierce>
-				<Crush>10</Crush>
-			</Damage>
-		</Entity>
+    <Entity>
+      <Damage>
+        <Hack>5</Hack>
+        <Pierce>8</Pierce>
+        <Crush>10</Crush>
+      </Damage>
+    </Entity>
   </Resistance>
   <ResourceDropsite>
     <Types>food wood stone metal</Types>

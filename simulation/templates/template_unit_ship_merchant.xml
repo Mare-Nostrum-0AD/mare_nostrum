@@ -51,11 +51,11 @@
     <WalkSpeed op="mul">1.35</WalkSpeed>
   </UnitMotion>
   <Upgrade>
-  	<Fireship>
-  		<Entity>units/{civ}_ship_fire</Entity>
-		<Tooltip>Set ship on fire. Does great damage to nearby ships before sinking.</Tooltip>
-		<Time>3</Time>
-	</Fireship>
+    <Fireship>
+      <Entity>units/{civ}_ship_fire</Entity>
+      <Tooltip>Set ship on fire. Does great damage to nearby ships before sinking.</Tooltip>
+      <Time>3</Time>
+    </Fireship>
   </Upgrade>
   <Vision>
     <Range>50</Range>

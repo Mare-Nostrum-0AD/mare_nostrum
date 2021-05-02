@@ -5,9 +5,9 @@
     <Melee>
       <AttackName>Trunk</AttackName>
       <Damage>
-				<Hack>20.0</Hack>
-				<Pierce>0</Pierce>
-				<Crush>50.0</Crush>
+        <Hack>20.0</Hack>
+        <Pierce>0</Pierce>
+        <Crush>50.0</Crush>
       </Damage>
       <PreferredClasses datatype="tokens">Infantry+Melee Siege Structure</PreferredClasses>
       <RestrictedClasses datatype="tokens">Sturdy</RestrictedClasses>

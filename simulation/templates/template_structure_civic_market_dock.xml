@@ -31,7 +31,7 @@
   </Loot>
   <Market>
     <TradeType>land naval</TradeType>
-	<DemandMultiplier>1.0</DemandMultiplier>
+    <DemandMultiplier>1.0</DemandMultiplier>
     <InternationalBonus>0.2</InternationalBonus>
   </Market>
   <Obstruction>

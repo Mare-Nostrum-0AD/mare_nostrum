@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <Entity parent="template_unit_mechanical_ship_fire">
   <Identity>
     <Civ>gaia</Civ>

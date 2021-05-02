@@ -8,11 +8,11 @@
         <Pierce>0.0</Pierce>
         <Crush>0.0</Crush>
       </Damage>
-			<MaxRange>6</MaxRange>
-			<PrepareTime>375</PrepareTime>
-			<RepeatTime>750</RepeatTime>
-			<PreferredClasses datatype="tokens">Human Siege</PreferredClasses>
-			<RestrictedClasses datatype="tokens">Sturdy</RestrictedClasses>
+      <MaxRange>6</MaxRange>
+      <PrepareTime>375</PrepareTime>
+      <RepeatTime>750</RepeatTime>
+      <PreferredClasses datatype="tokens">Human Siege</PreferredClasses>
+      <RestrictedClasses datatype="tokens">Sturdy</RestrictedClasses>
     </Melee>
   </Attack>
   <Cost>

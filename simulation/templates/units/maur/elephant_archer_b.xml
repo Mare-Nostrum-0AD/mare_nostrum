@@ -43,12 +43,12 @@
     <Entity>units/maur_elephant_archer_a</Entity>
   </Promotion>
   <Resistance>
-		<Entity>
-			<Damage>
-				<Hack op="add">1.0</Hack>
-				<Pierce op="add">2.0</Pierce>
-			</Damage>
-		</Entity>
+    <Entity>
+      <Damage>
+        <Hack op="add">1.0</Hack>
+        <Pierce op="add">2.0</Pierce>
+      </Damage>
+    </Entity>
   </Resistance>
   <ResourceGatherer disable=""/>
   <Selectable>

@@ -6,8 +6,8 @@
     <Icon>gaia/flora_bamboo.png</Icon>
   </Identity>
   <Footprint>
-  	<Circle radius="4.0"/>
-	<Height>2.0</Height>
+    <Circle radius="4.0"/>
+    <Height>2.0</Height>
   </Footprint>
   <Obstruction>
     <Static width="3.0" depth="3.0"/>

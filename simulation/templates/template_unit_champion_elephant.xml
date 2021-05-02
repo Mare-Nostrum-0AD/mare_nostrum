@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Entity parent="template_unit_champion">
   <Capturable>
-		<CapturePoints>50</CapturePoints>
-		<RegenRate>2.0</RegenRate>
-		<GarrisonRegenRate>0</GarrisonRegenRate>
+    <CapturePoints>50</CapturePoints>
+    <RegenRate>2.0</RegenRate>
+    <GarrisonRegenRate>0</GarrisonRegenRate>
   </Capturable>
   <Cost>
     <Population>3</Population>

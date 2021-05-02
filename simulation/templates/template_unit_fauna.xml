@@ -2,9 +2,9 @@
 <Entity parent="template_unit">
   <Cost>
     <Population>0</Population>
-	<Resources>
-		<manpower>0</manpower>
-	</Resources>
+    <Resources>
+      <manpower>0</manpower>
+    </Resources>
   </Cost>
   <Footprint replace="">
     <Square width="2.0" depth="4.0"/>

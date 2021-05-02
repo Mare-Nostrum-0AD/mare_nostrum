@@ -5,10 +5,10 @@
   </Auras>
   <BuildRestrictions>
     <DistancesExclusive>
-	  <Field>
-		<FromClass>Field</FromClass>
-		<MaxDistance>20</MaxDistance>
-	  </Field>
+      <Field>
+        <FromClass>Field</FromClass>
+        <MaxDistance>20</MaxDistance>
+      </Field>
     </DistancesExclusive>
   </BuildRestrictions>
   <Cost>
@@ -42,8 +42,8 @@
   <ProductionQueue disable=""/>
   <RallyPoint disable=""/>
   <ResourceDropsite>
-  	<Types>food</Types>
-	<Sharable>true</Sharable>
+    <Types>food</Types>
+    <Sharable>true</Sharable>
   </ResourceDropsite>
   <Sound>
     <SoundGroups>

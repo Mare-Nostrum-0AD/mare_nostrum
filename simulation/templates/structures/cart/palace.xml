@@ -2,7 +2,7 @@
 <Entity parent="template_structure_civic_palace">
   <Cost>
     <BuildTime>300</BuildTime>
-	<PopulationBonus>10</PopulationBonus>
+    <PopulationBonus>10</PopulationBonus>
   </Cost>
   <Footprint>
     <Square width="28.0" depth="28.0"/>
@@ -25,7 +25,7 @@
   </Obstruction>
   <ProductionQueue>
     <BatchTimeModifier>0.8</BatchTimeModifier>
-	<Technologies datatype="tokens">
+    <Technologies datatype="tokens">
 	  pair_government_{civ}
 	</Technologies>
   </ProductionQueue>

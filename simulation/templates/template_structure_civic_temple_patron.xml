@@ -4,9 +4,9 @@
     <Category>TemplePatron</Category>
   </BuildRestrictions>
   <CityMember>
-  	<GrowthContrib>
-			<Value>1.5</Value>
-		</GrowthContrib>
+    <GrowthContrib>
+      <Value>1.5</Value>
+    </GrowthContrib>
   </CityMember>
   <Cost>
     <PopulationBonus>10</PopulationBonus>

@@ -107,10 +107,10 @@
       <stone.rock>0.5</stone.rock>
       <stone.ruins>2</stone.ruins>
       <metal.ore>0.5</metal.ore>
-	  <wealth.gold>1</wealth.gold>
-	  <wealth.silver>0.7</wealth.silver>
-	  <wealth.wares>0.25</wealth.wares>
-	  <wealth.crops>0.1</wealth.crops>
+      <wealth.gold>1</wealth.gold>
+      <wealth.silver>0.7</wealth.silver>
+      <wealth.wares>0.25</wealth.wares>
+      <wealth.crops>0.1</wealth.crops>
     </Rates>
   </ResourceGatherer>
   <Sound>

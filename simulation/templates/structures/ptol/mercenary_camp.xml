@@ -3,10 +3,10 @@
   <BuildRestrictions>
     <Territory>own neutral</Territory>
     <DistancesExclusive>
-	  <MercenaryCamp>
-      	<FromClass>MercenaryCamp</FromClass>
-      	<MinDistance>100</MinDistance>
-	  </MercenaryCamp>
+      <MercenaryCamp>
+        <FromClass>MercenaryCamp</FromClass>
+        <MinDistance>100</MinDistance>
+      </MercenaryCamp>
     </DistancesExclusive>
   </BuildRestrictions>
   <Cost>

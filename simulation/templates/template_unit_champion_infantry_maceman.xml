@@ -4,9 +4,9 @@
     <Melee>
       <AttackName>Mace</AttackName>
       <Damage>
-				<Hack>0</Hack>
-				<Pierce>0</Pierce>
-				<Crush>10.5</Crush>
+        <Hack>0</Hack>
+        <Pierce>0</Pierce>
+        <Crush>10.5</Crush>
       </Damage>
       <PreferredClasses datatype="tokens">!Ship</PreferredClasses>
       <RestrictedClasses datatype="tokens">Sturdy</RestrictedClasses>

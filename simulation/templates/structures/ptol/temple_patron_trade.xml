@@ -9,7 +9,7 @@
   </Health>
   <Identity>
     <Civ>ptol</Civ>
-	<SpecificName>Temple of Isis</SpecificName>
+    <SpecificName>Temple of Isis</SpecificName>
   </Identity>
   <Obstruction>
     <Static width="17.5" depth="35.5"/>

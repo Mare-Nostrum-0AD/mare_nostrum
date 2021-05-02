@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <actor version="1">
-<castshadow/>
+  <castshadow/>
   <group>
     <variant>
-	<mesh>structural/field_propped_8x8.dae</mesh>
-	  	  <props>
-		<prop actor="props/flora/foliagebush.xml" attachpoint="patch_008" minheight="-20" maxheight="20"/>
-		<prop actor="props/flora/foliagebush.xml" attachpoint="patch_013" minheight="-20" maxheight="20"/>
-		<prop actor="props/flora/foliagebush.xml" attachpoint="patch_043" minheight="-20" maxheight="20"/>
-		<prop actor="props/flora/foliagebush.xml" attachpoint="patch_048" minheight="-20" maxheight="20"/>
-		<prop actor="props/structures/decals/field_new_5x5.xml" attachpoint="root"/>
+      <mesh>structural/field_propped_8x8.dae</mesh>
+      <props>
+        <prop actor="props/flora/foliagebush.xml" attachpoint="patch_008" minheight="-20" maxheight="20"/>
+        <prop actor="props/flora/foliagebush.xml" attachpoint="patch_013" minheight="-20" maxheight="20"/>
+        <prop actor="props/flora/foliagebush.xml" attachpoint="patch_043" minheight="-20" maxheight="20"/>
+        <prop actor="props/flora/foliagebush.xml" attachpoint="patch_048" minheight="-20" maxheight="20"/>
+        <prop actor="props/structures/decals/field_new_5x5.xml" attachpoint="root"/>
       </props>
       <textures>
         <texture file="gaia/decal_farmland.png" name="baseTex"/>

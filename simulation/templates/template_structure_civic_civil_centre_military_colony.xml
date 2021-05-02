@@ -7,14 +7,14 @@
     <Territory>own neutral</Territory>
     <Category>Colony</Category>
     <DistancesExclusive>
-	  <CivilCentre>
-      	<FromClass>CivilCentre</FromClass>
-      	<MinDistance>200</MinDistance>
-	  </CivilCentre>
+      <CivilCentre>
+        <FromClass>CivilCentre</FromClass>
+        <MinDistance>200</MinDistance>
+      </CivilCentre>
     </DistancesExclusive>
   </BuildRestrictions>
   <City merge="">
-	<Initial>true</Initial>
+    <Initial>true</Initial>
   </City>
   <Cost>
     <BuildTime>300</BuildTime>

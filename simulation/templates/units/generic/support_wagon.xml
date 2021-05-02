@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Entity parent="template_unit_support_wagon">
   <Identity>
-	<Civ>gaia</Civ>
+    <Civ>gaia</Civ>
   </Identity>
   <VisualActor>
     <Actor>units/romans/supply_wagon.xml</Actor>

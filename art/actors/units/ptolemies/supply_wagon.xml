@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <actor version="1">
   <castshadow/>
   <group>
@@ -14,7 +14,9 @@
         <prop actor="units/ptolemies/trader_h.xml" attachpoint="horse_r"/>
         <prop actor="props/special/eyecandy/Box_Pile.xml" attachpoint="cargo"/>
       </props>
-      <textures><texture file="props/wooden_wagon.png" name="baseTex"/></textures>
+      <textures>
+        <texture file="props/wooden_wagon.png" name="baseTex"/>
+      </textures>
     </variant>
   </group>
 </actor>

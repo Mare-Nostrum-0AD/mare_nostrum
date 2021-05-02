@@ -5,8 +5,8 @@
     <variant>
       <mesh>skeletal/new/f_dress.dae</mesh>
       <textures>
-	    <texture file="skeletal/gown_green.dds" name="baseTex"/>
-	  </textures>
+        <texture file="skeletal/gown_green.dds" name="baseTex"/>
+      </textures>
       <props>
         <prop actor="props/units/heads/new/dudette_head.xml" attachpoint="head"/>
       </props>

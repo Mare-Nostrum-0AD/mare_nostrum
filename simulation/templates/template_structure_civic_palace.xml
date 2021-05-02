@@ -2,10 +2,10 @@
 <Entity parent="template_structure_civic">
   <BuildRestrictions>
     <Category>Palace</Category>
-	<DistancesInclusive>
-		<VillageCentre disable="" />
-		<TownCentre disable="" />
-	</DistancesInclusive>
+    <DistancesInclusive>
+      <VillageCentre disable=""/>
+      <TownCentre disable=""/>
+    </DistancesInclusive>
   </BuildRestrictions>
   <Cost>
     <BuildTime>300</BuildTime>
@@ -31,9 +31,9 @@
   </Health>
   <Identity>
     <GenericName>Palace</GenericName>
-	<Classes datatype="tokens">Palace</Classes>
-	<Icon>structures/tholos.png</Icon>
-	<Tooltip>Train hero units.</Tooltip>
+    <Classes datatype="tokens">Palace</Classes>
+    <Icon>structures/tholos.png</Icon>
+    <Tooltip>Train hero units.</Tooltip>
     <RequiredTechnology>phase_hegemon</RequiredTechnology>
   </Identity>
   <Loot>
@@ -42,7 +42,7 @@
     <wealth>500</wealth>
   </Loot>
   <ProductionQueue>
-  	<BatchTimeModifier>1.0</BatchTimeModifier>
+    <BatchTimeModifier>1.0</BatchTimeModifier>
     <Entities datatype="tokens">
 	  units/{civ}_hero_01
 	  units/{civ}_hero_02
@@ -56,7 +56,7 @@
     </Technologies>
   </ProductionQueue>
   <TerritoryInfluence>
-	<Root>false</Root>
+    <Root>false</Root>
     <Radius>48</Radius>
     <Weight>40000</Weight>
   </TerritoryInfluence>

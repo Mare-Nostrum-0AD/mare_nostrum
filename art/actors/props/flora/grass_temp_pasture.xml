@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <actor version="1">
   <group>
     <variant frequency="1" name="large-short-a">
@@ -14,16 +14,17 @@
       <mesh>gaia/grass_la_tall_b.dae</mesh>
     </variant>
   </group>
-
   <group>
     <variant frequency="1" name="green">
-      <textures><texture file="gaia/grass_field_temperate.dds" name="baseTex"/></textures>
+      <textures>
+        <texture file="gaia/grass_field_temperate.dds" name="baseTex"/>
+      </textures>
     </variant>
     <variant frequency="1" name="greener">
-      <textures><texture file="gaia/grass_field_temperate_2.dds" name="baseTex"/></textures>
+      <textures>
+        <texture file="gaia/grass_field_temperate_2.dds" name="baseTex"/>
+      </textures>
     </variant>
   </group>
-
   <material>basic_trans_wind.xml</material>
-
 </actor>

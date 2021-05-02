@@ -6,8 +6,8 @@
   </BuildRestrictions>
   <Capturable>
     <CapturePoints>1200</CapturePoints>
-	<RegenRate>5.0</RegenRate>
-	<GarrisonRegenRate>5.0</GarrisonRegenRate>
+    <RegenRate>5.0</RegenRate>
+    <GarrisonRegenRate>5.0</GarrisonRegenRate>
   </Capturable>
   <Footprint>
     <Square width="6.0" depth="6.0"/>

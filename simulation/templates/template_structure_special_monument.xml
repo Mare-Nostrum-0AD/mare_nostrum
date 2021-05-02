@@ -5,16 +5,16 @@
   </Auras>
   <BuildRestrictions>
     <Category>Monument</Category>
-	<DistancesInclusive>
-	  <CityCentre>
-      	<FromClass>CityCentre</FromClass>
-      	<MaxDistance>120</MaxDistance>
-	  </CityCentre>
-	  <MetroCentre>
-      	<FromClass>MetroCentre</FromClass>
-      	<MaxDistance>150</MaxDistance>
-	  </MetroCentre>
-	</DistancesInclusive>
+    <DistancesInclusive>
+      <CityCentre>
+        <FromClass>CityCentre</FromClass>
+        <MaxDistance>120</MaxDistance>
+      </CityCentre>
+      <MetroCentre>
+        <FromClass>MetroCentre</FromClass>
+        <MaxDistance>150</MaxDistance>
+      </MetroCentre>
+    </DistancesInclusive>
   </BuildRestrictions>
   <Cost>
     <BuildTime>100</BuildTime>

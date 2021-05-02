@@ -11,7 +11,7 @@
   </Footprint>
   <Identity>
     <Civ>cart</Civ>
-	<SpecificName>Shrine of Ba'al Hammon</SpecificName>
+    <SpecificName>Shrine of Ba'al Hammon</SpecificName>
     <Tooltip>Train Healers and Champions and research healing technologies. Provides food production bonuses.</Tooltip>
   </Identity>
   <Loot>

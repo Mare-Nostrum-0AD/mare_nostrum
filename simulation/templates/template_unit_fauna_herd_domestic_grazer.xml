@@ -10,8 +10,8 @@
       <food.milk>0.8</food.milk>
       <food.fruit>0.4</food.fruit>
     </Rates>
-	<Capacities>
-	  <food>15</food>
-	</Capacities>
+    <Capacities>
+      <food>15</food>
+    </Capacities>
   </ResourceGatherer>
 </Entity>

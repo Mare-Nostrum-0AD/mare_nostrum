@@ -10,7 +10,7 @@
       <stone>0</stone>
       <metal>0</metal>
       <wealth>0</wealth>
-	  <manpower>1</manpower>
+      <manpower>1</manpower>
     </Resources>
   </Cost>
   <Decay>
