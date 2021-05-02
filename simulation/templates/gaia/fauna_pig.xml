@@ -35,9 +35,7 @@
   </StatusBars>
   <UnitMotion>
     <WalkSpeed op="mul">0.9</WalkSpeed>
-    <Run>
-      <Speed op="mul">1.2</Speed>
-    </Run>
+		<RunMultiplier>1.2</RunMultiplier>
   </UnitMotion>
   <Upgrade>
     <Flame>
