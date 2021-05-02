@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Entity parent="template_unit_cavalry_ranged_archer">
-  <Armour>
-    <Hack op="add">1.0</Hack>
-    <Pierce op="add">2.0</Pierce>
-  </Armour>
   <Attack>
     <Capture disable=""/>
     <Ranged>
@@ -46,6 +42,14 @@
   <Promotion>
     <Entity>units/maur_elephant_archer_a</Entity>
   </Promotion>
+  <Resistance>
+		<Entity>
+			<Damage>
+				<Hack op="add">1.0</Hack>
+				<Pierce op="add">2.0</Pierce>
+			</Damage>
+		</Entity>
+  </Resistance>
   <ResourceGatherer disable=""/>
   <Selectable>
     <Overlay>

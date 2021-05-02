@@ -6,15 +6,6 @@
     <EndOfAlertRange>140</EndOfAlertRange>
     <SearchRange>90</SearchRange>
   </AlertRaiser>
-  <Armour>
-    <Hack op="add">1</Hack>
-    <Pierce op="add">1</Pierce>
-    <Foundation>
-      <Hack>5</Hack>
-      <Pierce>15</Pierce>
-      <Crush>3</Crush>
-    </Foundation>
-  </Armour>
   <Attack>
     <Ranged>
       <Hack>0.0</Hack>
@@ -145,6 +136,21 @@
       phase_empire_{civ}
     </Technologies>
   </ProductionQueue>
+  <Resistance>
+		<Entity>
+			<Damage>
+				<Hack op="add">1</Hack>
+				<Pierce op="add">1</Pierce>
+			</Damage>
+		</Entity>
+    <Foundation>
+			<Damage>
+				<Hack>5</Hack>
+				<Pierce>15</Pierce>
+				<Crush>3</Crush>
+			</Damage>
+    </Foundation>
+  </Resistance>
   <ResourceDropsite>
     <Types>food wood stone metal</Types>
     <Sharable>true</Sharable>

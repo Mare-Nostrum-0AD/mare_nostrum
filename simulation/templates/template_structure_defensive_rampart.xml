@@ -4,16 +4,6 @@
     structures/rampart_garrisoned
     structures/rampart_movement
   </Auras>
-  <Armour>
-  	<Hack>4.0</Hack>
-	<Pierce>25.0</Pierce>
-	<Crush>20.0</Crush>
-	<Foundation>
-  		<Hack>1.0</Hack>
-		<Pierce>5.0</Pierce>
-		<Crush>1.0</Crush>
-	</Foundation>
-  </Armour>
   <Cost>
   	<BuildTime>12</BuildTime>
     <Resources>
@@ -70,6 +60,22 @@
   <Repairable>
     <RepairTimeRatio>4.5</RepairTimeRatio>
   </Repairable>
+  <Resistance>
+		<Entity>
+			<Damage>
+				<Hack>4.0</Hack>
+				<Pierce>25.0</Pierce>
+				<Crush>20.0</Crush>
+			</Damage>
+		</Entity>
+		<Foundation>
+			<Damage>
+				<Hack>1.0</Hack>
+				<Pierce>5.0</Pierce>
+				<Crush>1.0</Crush>
+			</Damage>
+		</Foundation>
+  </Resistance>
   <Sound>
     <SoundGroups>
       <select>interface/select/building/sel_wall.xml</select>
