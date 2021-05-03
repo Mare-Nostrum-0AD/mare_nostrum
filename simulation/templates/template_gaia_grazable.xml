@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Entity parent="template_gaia_flora">
+<Entity parent="template_gaia">
   <Minimap>
     <Type>food</Type>
     <Color r="204" g="155" b="102"/>

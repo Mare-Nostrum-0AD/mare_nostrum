@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Entity parent="template_gaia_flora_grazable">
+<Entity parent="template_gaia_grazable">
   <Identity>
     <SpecificName>Pasture</SpecificName>
     <Tooltip>Have domestic animals graze here to produce food.</Tooltip>
