@@ -6,11 +6,11 @@
   </Identity>
   <WallSet>
     <Templates>
-      <Tower>structures/ptol_wall_tower</Tower>
-      <Gate>structures/ptol_wall_gate</Gate>
-      <WallLong>structures/ptol_wall_long</WallLong>
-      <WallMedium>structures/ptol_wall_medium</WallMedium>
-      <WallShort>structures/ptol_wall_short</WallShort>
+      <Tower>structures/ptol/wall_tower</Tower>
+      <Gate>structures/ptol/wall_gate</Gate>
+      <WallLong>structures/ptol/wall_long</WallLong>
+      <WallMedium>structures/ptol/wall_medium</WallMedium>
+      <WallShort>structures/ptol/wall_short</WallShort>
     </Templates>
     <MaxTowerOverlap>0.90</MaxTowerOverlap>
     <MinTowerOverlap>0.15</MinTowerOverlap>

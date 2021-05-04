@@ -3,7 +3,7 @@
   <Builder>
     <Entities datatype="tokens">
       structures/athen/gymnasium
-      structures/athen_library
+			structures/athen/library
     </Entities>
   </Builder>
   <Identity>

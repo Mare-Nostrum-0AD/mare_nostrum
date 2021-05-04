@@ -6,11 +6,11 @@
   </Identity>
   <WallSet>
     <Templates>
-      <Tower>structures/brit_wall_tower</Tower>
-      <Gate>structures/brit_wall_gate</Gate>
-      <WallLong>structures/brit_wall_long</WallLong>
-      <WallMedium>structures/brit_wall_medium</WallMedium>
-      <WallShort>structures/brit_wall_short</WallShort>
+      <Tower>structures/brit/wall_tower</Tower>
+      <Gate>structures/brit/wall_gate</Gate>
+      <WallLong>structures/brit/wall_long</WallLong>
+      <WallMedium>structures/brit/wall_medium</WallMedium>
+      <WallShort>structures/brit/wall_short</WallShort>
     </Templates>
     <MaxTowerOverlap>0.80</MaxTowerOverlap>
     <MinTowerOverlap>0.05</MinTowerOverlap>
