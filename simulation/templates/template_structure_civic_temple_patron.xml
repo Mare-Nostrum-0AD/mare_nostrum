@@ -9,7 +9,6 @@
     </GrowthContrib>
   </CityMember>
   <Cost>
-    <PopulationBonus>10</PopulationBonus>
     <BuildTime>400</BuildTime>
     <Resources>
       <stone>600</stone>

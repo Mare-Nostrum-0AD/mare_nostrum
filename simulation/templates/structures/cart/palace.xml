@@ -2,7 +2,6 @@
 <Entity parent="template_structure_civic_palace">
   <Cost>
     <BuildTime>300</BuildTime>
-    <PopulationBonus>10</PopulationBonus>
   </Cost>
   <Footprint>
     <Square width="28.0" depth="28.0"/>

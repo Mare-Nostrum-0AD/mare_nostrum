@@ -9,7 +9,6 @@
   </BuildRestrictions>
   <Cost>
     <BuildTime>300</BuildTime>
-    <PopulationBonus>10</PopulationBonus>
     <Resources>
       <food>0</food>
       <wood>500</wood>
