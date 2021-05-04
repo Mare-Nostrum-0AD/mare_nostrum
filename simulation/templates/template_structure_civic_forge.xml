@@ -10,10 +10,6 @@
     <Square width="22.0" depth="22.0"/>
     <Height>12.0</Height>
   </Footprint>
-  <GarrisonHolder>
-    <Max>1</Max>
-    <List datatype="tokens">Infantry Healer</List>
-  </GarrisonHolder>
   <Health>
     <Max>2000</Max>
     <SpawnEntityOnDeath>decay|rubble/rubble_stone_4x4</SpawnEntityOnDeath>
