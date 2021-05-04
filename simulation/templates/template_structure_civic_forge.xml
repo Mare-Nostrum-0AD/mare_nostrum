@@ -18,7 +18,6 @@
     <GenericName>Forge</GenericName>
     <SelectionGroupName>template_structure_military_forge</SelectionGroupName>
     <Tooltip>Research attack damage and damage resistance technologies.</Tooltip>
-    <Classes datatype="tokens">-ConquestCritical</Classes>
     <VisibleClasses datatype="tokens">Town Forge</VisibleClasses>
     <Icon>structures/blacksmith.png</Icon>
     <RequiredTechnology>phase_town</RequiredTechnology>
@@ -55,6 +54,7 @@
     </SoundGroups>
   </Sound>
   <TerritoryInfluence>
+		<Root>false</Root>
     <Radius>38</Radius>
     <Weight>30000</Weight>
   </TerritoryInfluence>
