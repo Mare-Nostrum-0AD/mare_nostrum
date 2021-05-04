@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Entity parent="units/pers_support_healer_b">
+<Entity parent="units/pers/support_healer_b">
   <Identity>
     <Rank>Advanced</Rank>
   </Identity>

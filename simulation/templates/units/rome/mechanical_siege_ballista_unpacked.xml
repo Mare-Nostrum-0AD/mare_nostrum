@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Entity parent="units/rome_mechanical_siege_ballista_packed">
+<Entity parent="units/rome/mechanical_siege_ballista_packed">
   <Identity>
     <Icon>units/rome_mechanical_siege_ballista.png</Icon>
   </Identity>
