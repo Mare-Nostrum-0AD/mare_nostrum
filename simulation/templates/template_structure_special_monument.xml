@@ -25,9 +25,17 @@
       <wealth>1000</wealth>
     </Resources>
   </Cost>
+	<Health>
+		<Max>1000</Max>
+	</Health>
   <Identity>
     <GenericName>Monument</GenericName>
     <Tooltip>This is a monument unique to a particular civilization. It aids in the growth of cities.</Tooltip>
     <VisibleClasses datatype="tokens">Monument</VisibleClasses>
   </Identity>
+	<TerritoryInfluence>
+		<Root>false</Root>
+		<Radius>60</Radius>
+    <Weight>65535</Weight>
+	</TerritoryInfluence>
 </Entity>
