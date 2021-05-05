@@ -22,7 +22,7 @@
   </Obstruction>
   <ProductionQueue>
     <Entities datatype="tokens">
-      units/{civ}_champion_infantry_barracks
+      units/{civ}/champion_infantry_barracks
     </Entities>
     <Technologies datatype="tokens">
       unlock_champion_units

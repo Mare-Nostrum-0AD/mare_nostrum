@@ -43,12 +43,12 @@
   <ProductionQueue>
     <BatchTimeModifier>1.0</BatchTimeModifier>
     <Entities datatype="tokens">
-	  units/{civ}_hero_01
-	  units/{civ}_hero_02
-	  units/{civ}_hero_03
-	  units/{civ}_hero_04
-	  units/{civ}_hero_05
-	  units/{civ}_hero_06
+	  units/{civ}/hero_01
+	  units/{civ}/hero_02
+	  units/{civ}/hero_03
+	  units/{civ}/hero_04
+	  units/{civ}/hero_05
+	  units/{civ}/hero_06
     </Entities>
     <Technologies datatype="tokens">
 	  pair_taxation_{civ}

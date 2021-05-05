@@ -37,7 +37,7 @@
   <ProductionQueue>
     <BatchTimeModifier>0.7</BatchTimeModifier>
     <Entities datatype="tokens">
-      units/{civ}_champion_infantry_spear
+      units/{civ}/champion_infantry_spear
     </Entities>
     <Technologies datatype="tokens">
       agoge

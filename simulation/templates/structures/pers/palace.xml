@@ -39,7 +39,7 @@
   <ProductionQueue>
     <BatchTimeModifier>0.8</BatchTimeModifier>
     <Entities datatype="tokens">
-      units/{civ}_champion_infantry
+      units/{civ}/champion_infantry
     </Entities>
     <Technologies datatype="tokens">
       persians/immortals

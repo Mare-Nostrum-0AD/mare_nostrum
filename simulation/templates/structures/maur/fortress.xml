@@ -7,9 +7,9 @@
   </Identity>
   <ProductionQueue>
     <Entities datatype="tokens">
-      units/{civ}_champion_infantry
-      units/{civ}_champion_maiden
-      units/{civ}_champion_chariot
+      units/{civ}/champion_infantry
+      units/{civ}/champion_maiden
+      units/{civ}/champion_chariot
 </Entities>
     <Technologies datatype="tokens">
       attack_soldiers_will

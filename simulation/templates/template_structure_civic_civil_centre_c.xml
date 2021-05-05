@@ -13,7 +13,7 @@
       <Max>25000</Max>
     </Population>
     <Radius op="add">30</Radius>
-    <Upgrade>structures/{native}_metro_centre</Upgrade>
+    <Upgrade>structures/{native}/metro_centre</Upgrade>
   </City>
   <GarrisonHolder merge="">
     <Max op="mul">3.0</Max>

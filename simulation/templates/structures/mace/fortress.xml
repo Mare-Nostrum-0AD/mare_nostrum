@@ -14,8 +14,8 @@
   </Obstruction>
   <ProductionQueue>
     <Entities datatype="tokens">
-      units/{civ}_champion_infantry_a
-      units/{civ}_champion_cavalry
+      units/{civ}/champion_infantry_a
+      units/{civ}/champion_cavalry
     </Entities>
     <Technologies datatype="tokens">
       successors/upgrade_mace_silvershields

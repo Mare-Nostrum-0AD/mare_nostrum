@@ -7,8 +7,8 @@
   </Identity>
   <ProductionQueue>
     <Entities datatype="tokens">
-      units/{civ}_champion_infantry
-      units/{civ}_champion_cavalry
+      units/{civ}/champion_infantry
+      units/{civ}/champion_cavalry
     </Entities>
   </ProductionQueue>
   <VisualActor>

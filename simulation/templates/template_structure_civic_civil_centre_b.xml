@@ -11,7 +11,7 @@
       <Init>500</Init>
       <Max>5000</Max>
     </Population>
-    <Upgrade>structures/{native}_city_centre</Upgrade>
+    <Upgrade>structures/{native}/city_centre</Upgrade>
   </City>
   <GarrisonHolder merge="">
     <Max op="mul">2.0</Max>

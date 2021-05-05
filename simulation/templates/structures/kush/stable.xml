@@ -14,7 +14,7 @@
   </Obstruction>
   <ProductionQueue>
     <Entities datatype="tokens">
-      units/{civ}_cavalry_javelinist_b
+      units/{civ}/cavalry_javelinist_b
     </Entities>
     <Technologies datatype="tokens">
     </Technologies>

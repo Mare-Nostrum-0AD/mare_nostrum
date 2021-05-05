@@ -15,7 +15,7 @@
   </Obstruction>
   <ProductionQueue>
     <Entities datatype="tokens">
-      units/{civ}_champion_cavalry_barracks
+      units/{civ}/champion_cavalry_barracks
     </Entities>
     <Technologies datatype="tokens">
       unlock_champion_units

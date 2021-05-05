@@ -20,8 +20,8 @@
   <ProductionQueue>
     <BatchTimeModifier>0.7</BatchTimeModifier>
     <Entities datatype="tokens">
-      units/{civ}_support_female_citizen
-      units/{civ}_champion_maiden_archer
+      units/{civ}/support_female_citizen
+      units/{civ}/champion_maiden_archer
     </Entities>
   </ProductionQueue>
   <TerritoryInfluence>

@@ -14,9 +14,9 @@
   </Obstruction>
   <ProductionQueue>
     <Entities datatype="tokens">
-      units/{civ}_champion_infantry
-      units/{civ}_champion_cavalry
-      units/{civ}_champion_elephant
+      units/{civ}/champion_infantry
+      units/{civ}/champion_cavalry
+      units/{civ}/champion_elephant
     </Entities>
   </ProductionQueue>
   <VisualActor>
