@@ -11,7 +11,6 @@
       persians/training_levy_infantry
       persians/training_conscription_infantry
       persians/special_archery_tradition
-      -training_conscription
     </Technologies>
   </ProductionQueue>
   <VisualActor>

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <variant name="gather_gold">
   <animations>
-    <animation event="0.4" file="biped/new/gather_mine.dae" name="gather_gold" speed="100"/>
+    <animation event="0.4" file="biped/gatherer/gather_mine.dae" name="gather_gold" speed="100"/>
   </animations>
   <props>
     <prop attachpoint="weapon_R"/>

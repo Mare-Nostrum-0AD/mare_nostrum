@@ -22,7 +22,7 @@
     <LoadingRange>2</LoadingRange>
   </GarrisonHolder>
   <Identity>
-    <Classes datatype="tokens">-ConquestCritical Sturdy Defensive StoneWall</Classes>
+    <Classes datatype="tokens">Sturdy StoneWall</Classes>
     <GenericName>Stone Wall</GenericName>
     <SelectionGroupName>template_structure_defensive_wall</SelectionGroupName>
     <Tooltip>Wall off your town for a stout defense.</Tooltip>

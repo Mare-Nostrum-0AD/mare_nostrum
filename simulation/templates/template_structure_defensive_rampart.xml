@@ -44,7 +44,7 @@
   <Identity>
     <Civ>gaia</Civ>
     <SelectionGroupName>other/wallset_rampart</SelectionGroupName>
-    <Classes datatype="tokens">-ConquestCritical Defensive Rampart</Classes>
+    <Classes datatype="tokens">Rampart</Classes>
     <GenericName>Earth Rampart</GenericName>
     <Tooltip>Quick free fortification that can be built in any territory. Slows, but does not block, enemy troop movement. Decays when not garrisoned.</Tooltip>
     <Icon>structures/palisade_wall.png</Icon>

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <variant name="gather_wares">
   <animations>
-    <animation event="0.5" file="biped/new/build.dae" name="gather_wares" speed="100"/>
+    <animation event="0.5" file="biped/citizen/build.dae" name="gather_wares" speed="100"/>
   </animations>
   <props>
     <prop attachpoint="shield"/>

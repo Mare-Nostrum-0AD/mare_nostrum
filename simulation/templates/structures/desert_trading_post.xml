@@ -19,7 +19,6 @@
   </Obstruction>
   <ProductionQueue>
     <Technologies datatype="tokens">
-      -trader_health
       -trade_gain_01
       -trade_gain_02
       -trade_commercial_treaty
