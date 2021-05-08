@@ -49,6 +49,12 @@
         <MaxDistance disable=""/>
       </CivilCentre>
     </DistancesExclusive>
+    <DistancesInclusive>
+      <VillageCentre disable=""/>
+      <TownCentre disable=""/>
+      <CityCentre disable=""/>
+      <MetroCentre disable=""/>
+    </DistancesInclusive>
   </BuildRestrictions>
   <Capturable>
     <CapturePoints>2500</CapturePoints>
@@ -71,9 +77,8 @@
   <Cost>
     <BuildTime>500</BuildTime>
     <Resources>
-      <wood>500</wood>
-      <stone>500</stone>
-      <metal>500</metal>
+      <wood>300</wood>
+      <stone>300</stone>
     </Resources>
   </Cost>
   <Footprint>
@@ -95,7 +100,7 @@
   <Identity>
     <GenericName>Civic Center</GenericName>
     <Tooltip>Build to acquire large tracts of territory. Train citizens.</Tooltip>
-    <Classes datatype="tokens">Defensive CivCentre TownCentre</Classes>
+    <Classes datatype="tokens">Defensive CivCentre</Classes>
     <VisibleClasses datatype="tokens">CivilCentre</VisibleClasses>
     <SelectionGroupName>template_structure_civic_civil_centre</SelectionGroupName>
     <Icon>structures/civic_centre.png</Icon>

@@ -47,8 +47,8 @@
       units/{civ}/ship_merchant
     </Entities>
     <Technologies datatype="tokens">
-      gather_capacity_fishing
-      gather_fishing_net
+      fishing_boat_gather_rate
+      fishing_boat_gather_capacity
     </Technologies>
   </ProductionQueue>
   <RallyPointRenderer>

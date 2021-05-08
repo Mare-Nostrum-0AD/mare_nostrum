@@ -8,6 +8,9 @@
   </Capturable>
   <City merge="">
     <Population>
+			<Growth>
+				<Rate>2</Rate>
+			</Growth>
       <Init>500</Init>
       <Max>5000</Max>
     </Population>

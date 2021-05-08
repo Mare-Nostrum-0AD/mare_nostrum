@@ -43,6 +43,7 @@
       units/{civ}/ship_fishing
       units/{civ}/ship_bireme
       units/{civ}/ship_trireme
+      units/{civ}/ship_quinquereme
     </Entities>
     <Technologies datatype="tokens">
       fishing_boat_gather_rate

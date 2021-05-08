@@ -17,7 +17,7 @@ BuildRestrictions.prototype.Schema =
 	"<element name='AI' a:help='Data to guide the AI'>" +
 		"<optional>" +
 		"<element name='Affinities' a:help='How close (or far) to ideally build from other structures. For hard limits, see BuildRestrictions/DistancesExclusive or BuildRestrictions/DistancesInclusive'>" +
-			"<oneOrMore>" +
+			"<zeroOrMore>" +
 				"<element a:help='One affinity'>" +
 					"<anyName />" +
 					"<interleave>" +
@@ -32,7 +32,7 @@ BuildRestrictions.prototype.Schema =
 						"</element>" +
 					"</interleave>" +
 				"</element>" +
-			"</oneOrMore>" +
+			"</zeroOrMore>" +
 		"</element>" +
 		"</optional>" +
 		"<optional>" +
@@ -42,7 +42,7 @@ BuildRestrictions.prototype.Schema =
 		"</optional>" +
 		"<optional>" +
 		"<element name='Ratios' a:help='How many of this structure to build per each structure of a given class'>" +
-			"<oneOrMore>" +
+			"<zeroOrMore>" +
 				"<element a:help='one ratio'>" +
 					"<anyName />" +
 					"<element name='Class' a:help='Class of other structures to compare to'>" +
@@ -52,7 +52,7 @@ BuildRestrictions.prototype.Schema =
 						"<ref name='positiveDecimal' />" +
 					"</element>" +		
 				"</element>" +		
-			"</oneOrMore>" +	
+			"</zeroOrMore>" +	
 		"</element>" +
 		"</optional>" +
 	"</element>" +
@@ -81,7 +81,7 @@ BuildRestrictions.prototype.Schema =
 	"</element>" +
 	"<optional>" +
 		"<element name='DistancesExclusive' a:help='Specifies distance restrictions on this building, relative to buildings from the given categories. All restrictions must be satisfied.'>" +
-			"<oneOrMore>" +
+			"<zeroOrMore>" +
 				"<element a:help='One distance restriction'>" +
 					"<anyName />" +
 					"<interleave>" +
@@ -92,7 +92,7 @@ BuildRestrictions.prototype.Schema =
 						"<optional><element name='MaxDistance'><data type='positiveInteger'/></element></optional>" +
 					"</interleave>" +
 				"</element>" +
-			"</oneOrMore>" +
+			"</zeroOrMore>" +
 		"</element>" +
 	"</optional>" +
 	"<optional>" +
@@ -102,7 +102,7 @@ BuildRestrictions.prototype.Schema =
 	"</optional>" +
 	"<optional>" +
 		"<element name='DistancesInclusive' a:help='Specifies distance restrictions on this building, relative to buildings from the given categories. Only one restriction need be satisfied.'>" +
-			"<oneOrMore>" +
+			"<zeroOrMore>" +
 				"<element a:help='One distance restriction'>" +
 					"<anyName />" +
 					"<interleave>" +
@@ -113,7 +113,7 @@ BuildRestrictions.prototype.Schema =
 						"<optional><element name='MaxDistance'><data type='positiveInteger'/></element></optional>" +
 					"</interleave>" +
 				"</element>" +
-			"</oneOrMore>" +
+			"</zeroOrMore>" +
 		"</element>" +
 	"</optional>";
 

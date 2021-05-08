@@ -10,15 +10,6 @@
     <Civ>iber</Civ>
     <SpecificName>Kaserna</SpecificName>
   </Identity>
-  <ProductionQueue>
-    <Entities datatype="tokens">
-      units/{civ}/champion_infantry_barracks
-      units/{civ}/champion_cavalry_barracks
-    </Entities>
-    <Technologies datatype="tokens">
-      unlock_champion_units
-    </Technologies>
-  </ProductionQueue>
   <VisualActor>
     <Actor>structures/iberians/barracks.xml</Actor>
   </VisualActor>
