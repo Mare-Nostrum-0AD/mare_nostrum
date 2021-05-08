@@ -356,12 +356,9 @@ function getGameDescription(mapCache)
 				g_GameAttributes.settings.PlayerData &&
 				g_GameAttributes.settings.PlayerData.some(pData => pData && pData.Resources !== undefined) ?
 					translateWithContext("starting resources", "Per Player") :
-					sprintf(translate("%(startingResourcesTitle)s (%(amount)s)"), {
-						"startingResourcesTitle":
-							g_StartingResources.Title[
-								g_StartingResources.Resources.indexOf(
-									g_GameAttributes.settings.StartingResources)],
-						"amount": g_GameAttributes.settings.StartingResources['max']
+					sprintf(translate("%(startingResourcesTitle)s\n%(amounts)s"), {
+						"startingResourcesTitle":	g_StartingResources.Title[g_GameAttributes.settings.StartingResourcesIndex],
+						"amounts":					g_GameAttributes.settings.StartingResourcesLabel
 					})
 		});
 
