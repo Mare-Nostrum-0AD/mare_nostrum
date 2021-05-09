@@ -42,7 +42,7 @@
       units/{civ}/champion_infantry
     </Entities>
     <Technologies datatype="tokens">
-      persians/immortals
+      immortals
     </Technologies>
   </ProductionQueue>
   <ResourceTrickle>

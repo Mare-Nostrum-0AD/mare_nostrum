@@ -10,7 +10,7 @@
       units/{civ}/champion_infantry
       units/{civ}/champion_maiden
       units/{civ}/champion_chariot
-</Entities>
+		</Entities>
     <Technologies datatype="tokens">
       attack_soldiers_will
     </Technologies>

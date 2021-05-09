@@ -26,7 +26,7 @@
   <ProductionQueue>
     <BatchTimeModifier>0.7</BatchTimeModifier>
     <Technologies datatype="tokens">
-      successors/special_hellenistic_metropolis
+      hellenistic_metropolis
     </Technologies>
   </ProductionQueue>
   <Sound>

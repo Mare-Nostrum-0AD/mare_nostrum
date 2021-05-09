@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Entity parent="template_structure_special_monument">
   <Auras datatype="tokens">
-    structures/theatron
+    structures/theater
   </Auras>
   <Cost>
     <BuildTime>500</BuildTime>

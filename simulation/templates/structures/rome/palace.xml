@@ -32,8 +32,8 @@
   </Obstruction>
   <ProductionQueue>
     <Technologies datatype="tokens">
-	  pair_government_{civ}
-	  romans/grain_dole
+			pair_government_{civ}
+			grain_dole
     </Technologies>
   </ProductionQueue>
   <Sound>

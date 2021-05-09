@@ -16,7 +16,7 @@
   </Obstruction>
   <ProductionQueue>
     <Technologies datatype="tokens">
-      persians/special_equine_transports
+      equine_transports
     </Technologies>
   </ProductionQueue>
   <VisualActor>

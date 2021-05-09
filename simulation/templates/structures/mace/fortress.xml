@@ -18,7 +18,7 @@
       units/{civ}/champion_cavalry
     </Entities>
     <Technologies datatype="tokens">
-      successors/upgrade_mace_silvershields
+      silvershields
     </Technologies>
   </ProductionQueue>
   <VisualActor>

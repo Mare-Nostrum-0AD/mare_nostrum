@@ -11,11 +11,6 @@
   <Obstruction>
     <Static width="20.0" depth="40.0"/>
   </Obstruction>
-  <ProductionQueue>
-    <Technologies datatype="tokens">
-      romans/vision_sibylline
-    </Technologies>
-  </ProductionQueue>
   <VisualActor>
     <Actor>structures/romans/temple_mars.xml</Actor>
   </VisualActor>

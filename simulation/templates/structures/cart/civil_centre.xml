@@ -23,7 +23,7 @@
       units/{civ}/infantry_archer_b
     </Entities>
     <Technologies datatype="tokens">
-      carthaginians/special_colonisation
+      colonization
     </Technologies>
   </ProductionQueue>
   <VisualActor>

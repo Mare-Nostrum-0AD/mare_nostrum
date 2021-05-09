@@ -32,8 +32,8 @@
   </Obstruction>
   <ProductionQueue>
     <Technologies datatype="tokens">
-	  pair_government_{civ}
-	</Technologies>
+			pair_government_{civ}
+		</Technologies>
   </ProductionQueue>
   <Sound>
     <SoundGroups>

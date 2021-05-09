@@ -33,9 +33,9 @@
   <ProductionQueue>
     <BatchTimeModifier>0.7</BatchTimeModifier>
     <Technologies datatype="tokens">
-	  pair_government_{civ}
-      hellenes/special_long_walls
-      hellenes/special_iphicratean_reforms
+	  	pair_government_{civ}
+      long_walls
+      iphicratean_reforms
     </Technologies>
   </ProductionQueue>
   <Sound>
