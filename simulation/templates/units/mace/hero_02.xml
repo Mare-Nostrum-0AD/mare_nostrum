@@ -6,16 +6,16 @@
     </Melee>
   </Attack>
   <Auras datatype="tokens">
-    units/heroes/mace_hero_demetrius_i
+    units/heroes/mace_hero_craterus
   </Auras>
   <Identity>
     <Civ>mace</Civ>
     <Lang>greek</Lang>
-    <GenericName>Demetrius I the Besieger</GenericName>
-    <SpecificName>Dēmētrios Poliorkētēs</SpecificName>
-    <Icon>units/mace_hero_demetrius.png</Icon>
+    <GenericName>Craterus</GenericName>
+    <SpecificName>Krateros</SpecificName>
+    <Icon>units/mace_hero_craterus.png</Icon>
   </Identity>
   <VisualActor>
-    <Actor>units/macedonians/hero_infantry_swordsman_demetrius.xml</Actor>
+    <Actor>units/macedonians/hero_infantry_swordsman_craterus.xml</Actor>
   </VisualActor>
 </Entity>

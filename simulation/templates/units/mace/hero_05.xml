@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Entity parent="template_unit_hero_infantry_swordsman">
+<Entity parent="template_unit_hero_cavalry_swordsman">
   <Attack>
     <Melee>
-      <AttackName context="Name of an attack using a single-edged sword.">Sword</AttackName>
+      <Bonuses>
+        <Herocide>
+          <Classes>Hero</Classes>
+          <Multiplier>1.2</Multiplier>
+        </Herocide>
+      </Bonuses>
     </Melee>
   </Attack>
   <Auras datatype="tokens">
-    units/heroes/mace_hero_craterus
+    units/heroes/mace_hero_alexander_1
+    units/heroes/mace_hero_alexander_2
   </Auras>
   <Identity>
     <Civ>mace</Civ>
     <Lang>greek</Lang>
-    <GenericName>Craterus</GenericName>
-    <SpecificName>Krateros</SpecificName>
-    <Icon>units/mace_hero_craterus.png</Icon>
+    <GenericName>Alexander The Great</GenericName>
+    <SpecificName>Mégās Aléxandros</SpecificName>
+    <Tooltip>"Herocide" Bonus: +20% attack bonus vs. enemy Heroes.</Tooltip>
+    <Icon>units/hele_hero_alexander.png</Icon>
   </Identity>
   <VisualActor>
-    <Actor>units/macedonians/hero_infantry_swordsman_craterus.xml</Actor>
+    <Actor>units/macedonians/hero_cavalry_swordsman_alexander_m.xml</Actor>
   </VisualActor>
 </Entity>

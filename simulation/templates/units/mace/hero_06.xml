@@ -2,6 +2,7 @@
 <Entity parent="template_unit_hero_cavalry_swordsman">
   <Attack>
     <Melee>
+      <AttackName context="Name of an attack using a single-edged sword.">Sword</AttackName>
       <Bonuses>
         <Herocide>
           <Classes>Hero</Classes>
@@ -11,16 +12,16 @@
     </Melee>
   </Attack>
   <Auras datatype="tokens">
-    units/heroes/mace_hero_alexander_1
-    units/heroes/mace_hero_alexander_2
+    units/heroes/mace_hero_alexander_iii_1
+    units/heroes/mace_hero_alexander_iii_2
   </Auras>
   <Identity>
     <Civ>mace</Civ>
     <Lang>greek</Lang>
-    <GenericName>Alexander The Great</GenericName>
-    <SpecificName>Mégās Aléxandros</SpecificName>
-    <Tooltip>"Herocide" Bonus: +20% attack bonus vs. enemy Heroes.</Tooltip>
-    <Icon>units/hele_hero_alexander.png</Icon>
+    <GenericName>Alexander III the Great</GenericName>
+    <SpecificName>Alexandros ho Megas</SpecificName>
+    <Tooltip>Counters: 1.2× vs Heroes.</Tooltip>
+    <Icon>units/mace_hero_alexander.png</Icon>
   </Identity>
   <VisualActor>
     <Actor>units/macedonians/hero_cavalry_swordsman_alexander_m.xml</Actor>

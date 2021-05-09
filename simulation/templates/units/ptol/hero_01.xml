@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Entity parent="template_unit_hero_infantry_archer">
+<Entity parent="template_unit_hero_elephant_melee">
   <Auras datatype="tokens">
-    units/heroes/ptol_hero_cleopatra_vii_1
-    units/heroes/ptol_hero_cleopatra_vii_2
-    units/heroes/ptol_hero_cleopatra_vii_3
+    units/heroes/ptol_hero_ptolemy_i_1
+    units/heroes/ptol_hero_ptolemy_i_2
   </Auras>
   <Identity>
     <Civ>ptol</Civ>
-    <Phenotype>female</Phenotype>
-    <GenericName>Cleopatra VII</GenericName>
-    <SpecificName>Kleopatra H' Philopatōr</SpecificName>
-    <Icon>units/ptol_hero_cleopatra.png</Icon>
+    <GenericName>Ptolemy I</GenericName>
+    <SpecificName>Ptolemaios A' Sōter</SpecificName>
+    <Icon>units/ptol_hero_ptolemy_I.png</Icon>
   </Identity>
   <VisualActor>
-    <Actor>units/ptolemies/hero_infantry_archer_cleopatra.xml</Actor>
+    <Actor>units/ptolemies/hero_elephantry_ptolemy_I_m.xml</Actor>
   </VisualActor>
 </Entity>

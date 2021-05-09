@@ -1,18 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Entity parent="template_unit_hero_elephant_melee">
+<Entity parent="template_unit_hero_cavalry_archer">
   <Auras datatype="tokens">
-    units/heroes/kush_hero_arakamani_1
-    units/heroes/kush_hero_arakamani_2
-    units/heroes/kush_hero_arakamani_3
+    units/heroes/kush_hero_amanirenas
   </Auras>
+  <Footprint replace="">
+    <Square width="6.0" depth="14.0"/>
+    <Height>6.0</Height>
+  </Footprint>
   <Identity>
     <Civ>kush</Civ>
     <Lang>napatan</Lang>
-    <GenericName>Arakamani</GenericName>
-    <SpecificName>I͗rk-k-I͗mn H̱nm-ı͗-Rʿ</SpecificName>
-    <Icon>units/kush_hero_arakamani.png</Icon>
+    <Phenotype>female</Phenotype>
+    <GenericName>Amanirenas</GenericName>
+    <SpecificName>Amnirense qore li kdwe li</SpecificName>
+    <VisibleClasses datatype="tokens">Chariot</VisibleClasses>
+    <Icon>units/kush_hero_amanirenas.png</Icon>
   </Identity>
+  <Selectable>
+    <Overlay>
+      <Shape>
+        <Circle radius="5.0"/>
+      </Shape>
+    </Overlay>
+  </Selectable>
   <VisualActor>
-    <Actor>units/kushites/hero_elephantry_arakamani_m.xml</Actor>
+    <Actor>units/kushites/hero_chariot_archer_amanirenas_m.xml</Actor>
   </VisualActor>
 </Entity>
