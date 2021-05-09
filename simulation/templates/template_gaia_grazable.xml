@@ -9,6 +9,10 @@
     <Type>food.milk</Type>
 		<KillBeforeGather>false</KillBeforeGather>
 		<MaxGatherers>5</MaxGatherers>
+		<RegenRate>
+			<Amount>2</Amount>
+			<Interval>5000</Interval>
+		</RegenRate>
   </ResourceSupply>
   <Sound>
     <SoundGroups>
