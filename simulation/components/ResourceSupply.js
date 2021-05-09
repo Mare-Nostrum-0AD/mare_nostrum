@@ -29,10 +29,10 @@ ResourceSupply.prototype.Schema =
 	"<optional>" +
 		"<element name='RegenRate' a:help='The rate at which the resource regenerates (or diminishes). Leave the element out for no regeneration.'>" +
 			"<element name='Amount' a:help='Amount to add/subtract per interval.'>" +
-				"<data type='integer' />"
+				"<data type='integer' />" +
 			"</element>" +
 			"<element name='Interval' a:help='Milliseconds between regenerations'>" +
-				"<data type='positiveInteger' />"
+				"<data type='positiveInteger' />" +
 			"</element>" +
 		"</element>" +
 	"</optional>";
@@ -50,7 +50,6 @@ ResourceSupply.prototype.Init = function()
 	if (this.template.RegenRate)
 	{
 		let cmpTimer = Engine.QueryInterface(SYSTEM_ENTITY, IID_Timer);
-		let regenTimerInterval = Math.round(+this.template.RegenRate.Interval);
 		let regenTimerInterval = ApplyValueModificationsToEntity("ResourceSupply/RegenRate/Interval", +this.template.RegenRate.Interval, this.entity);
 		this.regenTimer = cmpTimer.SetInterval(this.entity, IID_ResourceSupply, "Regenerate",
 			regenTimerInterval, regenTimerInterval, null);
