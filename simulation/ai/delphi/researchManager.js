@@ -1,11 +1,7 @@
-var DELPHI = function(m)
-{
-
 /**
  * Manage the research
  */
-
-m.ResearchManager = function(Config)
+DELPHI.ResearchManager = function(Config)
 {
 	this.Config = Config;
 };
@@ -13,7 +9,7 @@ m.ResearchManager = function(Config)
 /**
  * Check if we can go to the next phase
  */
-m.ResearchManager.prototype.checkPhase = function(gameState, queues)
+DELPHI.ResearchManager.prototype.checkPhase = function(gameState, queues)
 {
 	if (queues.majorTech.hasQueuedUnits())
 		return;
@@ -35,11 +31,11 @@ m.ResearchManager.prototype.checkPhase = function(gameState, queues)
 		gameState.ai.HQ.phasing = currentPhaseIndex + 1;
 		// Reset the queue priority in case it was changed during a previous phase update
 		gameState.ai.queueManager.changePriority("majorTech", gameState.ai.Config.priorities.majorTech);
-		queues.majorTech.addPlan(new m.ResearchPlan(gameState, nextPhaseName, true));
+		queues.majorTech.addPlan(new DELPHI.ResearchPlan(gameState, nextPhaseName, true));
 	}
 };
 
-m.ResearchManager.prototype.researchPopulationBonus = function(gameState, queues)
+DELPHI.ResearchManager.prototype.researchPopulationBonus = function(gameState, queues)
 {
 	if (queues.minorTech.hasQueuedUnits())
 		return;
@@ -50,14 +46,14 @@ m.ResearchManager.prototype.researchPopulationBonus = function(gameState, queues
 		if (!tech[1]._template.modifications)
 			continue;
 		// TODO may-be loop on all modifs and check if the effect if positive ?
-		if (tech[1]._template.modifications[0].value !== "Cost/PopulationBonus")
+		if (tech[1]._template.modifications[0].value !== "Population/Bonus")
 			continue;
-		queues.minorTech.addPlan(new m.ResearchPlan(gameState, tech[0]));
+		queues.minorTech.addPlan(new DELPHI.ResearchPlan(gameState, tech[0]));
 		break;
 	}
 };
 
-m.ResearchManager.prototype.researchTradeBonus = function(gameState, queues)
+DELPHI.ResearchManager.prototype.researchTradeBonus = function(gameState, queues)
 {
 	if (queues.minorTech.hasQueuedUnits())
 		return;
@@ -73,19 +69,24 @@ m.ResearchManager.prototype.researchTradeBonus = function(gameState, queues)
 		if (tech[1]._template.modifications[0].value !== "UnitMotion/WalkSpeed" &&
                     tech[1]._template.modifications[0].value !== "Trader/GainMultiplier")
 			continue;
-		queues.minorTech.addPlan(new m.ResearchPlan(gameState, tech[0]));
+		queues.minorTech.addPlan(new DELPHI.ResearchPlan(gameState, tech[0]));
 		break;
 	}
 };
 
 /** Techs to be searched for as soon as they are available */
-m.ResearchManager.prototype.researchWantedTechs = function(gameState, techs)
+DELPHI.ResearchManager.prototype.researchWantedTechs = function(gameState, techs)
 {
 	let phase1 = gameState.currentPhase() === 1;
 	let available = phase1 ? gameState.ai.queueManager.getAvailableResources(gameState) : null;
 	let numWorkers = phase1 ? gameState.getOwnEntitiesByRole("worker", true).length : 0;
 	for (let tech of techs)
 	{
+		if (tech[0].indexOf("unlock_champion") == 0)
+			return { "name": tech[0], "increasePriority": true };
+		if (tech[0] == "traditional_army_sele" || tech[0] == "reformed_army_sele")
+			return { "name": pickRandom(["traditional_army_sele", "reformed_army_sele"]), "increasePriority": true };
+
 		if (!tech[1]._template.modifications)
 			continue;
 		let template = tech[1]._template;
@@ -118,7 +119,7 @@ m.ResearchManager.prototype.researchWantedTechs = function(gameState, techs)
 };
 
 /** Techs to be searched for as soon as they are available, but only after phase 2 */
-m.ResearchManager.prototype.researchPreferredTechs = function(gameState, techs)
+DELPHI.ResearchManager.prototype.researchPreferredTechs = function(gameState, techs)
 {
 	let phase2 = gameState.currentPhase() === 2;
 	let available = phase2 ? gameState.ai.queueManager.getAvailableResources(gameState) : null;
@@ -154,7 +155,7 @@ m.ResearchManager.prototype.researchPreferredTechs = function(gameState, techs)
 	return null;
 };
 
-m.ResearchManager.prototype.update = function(gameState, queues)
+DELPHI.ResearchManager.prototype.update = function(gameState, queues)
 {
 	if (queues.minorTech.hasQueuedUnits() || queues.majorTech.hasQueuedUnits())
 		return;
@@ -167,12 +168,12 @@ m.ResearchManager.prototype.update = function(gameState, queues)
 		if (techName.increasePriority)
 		{
 			gameState.ai.queueManager.changePriority("minorTech", 2*this.Config.priorities.minorTech);
-			let plan = new m.ResearchPlan(gameState, techName.name);
+			let plan = new DELPHI.ResearchPlan(gameState, techName.name);
 			plan.queueToReset = "minorTech";
 			queues.minorTech.addPlan(plan);
 		}
 		else
-			queues.minorTech.addPlan(new m.ResearchPlan(gameState, techName.name));
+			queues.minorTech.addPlan(new DELPHI.ResearchPlan(gameState, techName.name));
 		return;
 	}
 
@@ -185,12 +186,12 @@ m.ResearchManager.prototype.update = function(gameState, queues)
 		if (techName.increasePriority)
 		{
 			gameState.ai.queueManager.changePriority("minorTech", 2*this.Config.priorities.minorTech);
-			let plan = new m.ResearchPlan(gameState, techName.name);
+			let plan = new DELPHI.ResearchPlan(gameState, techName.name);
 			plan.queueToReset = "minorTech";
 			queues.minorTech.addPlan(plan);
 		}
 		else
-			queues.minorTech.addPlan(new m.ResearchPlan(gameState, techName.name));
+			queues.minorTech.addPlan(new DELPHI.ResearchPlan(gameState, techName.name));
 		return;
 	}
 
@@ -203,7 +204,7 @@ m.ResearchManager.prototype.update = function(gameState, queues)
 	{
 		let template = techs[i][1]._template;
 		if (template.affects && template.affects.length === 1 &&
-			(template.affects[0] === "Healer" || template.affects[0] === "Outpost" || template.affects[0] === "StoneWall"))
+			(template.affects[0] === "Healer" || template.affects[0] === "Outpost" || template.affects[0] === "Wall"))
 		{
 			techs.splice(i--, 1);
 			continue;
@@ -220,10 +221,10 @@ m.ResearchManager.prototype.update = function(gameState, queues)
 		return;
 
 	// randomly pick one. No worries about pairs in that case.
-	queues.minorTech.addPlan(new m.ResearchPlan(gameState, pickRandom(techs)[0]));
+	queues.minorTech.addPlan(new DELPHI.ResearchPlan(gameState, pickRandom(techs)[0]));
 };
 
-m.ResearchManager.prototype.CostSum = function(cost)
+DELPHI.ResearchManager.prototype.CostSum = function(cost)
 {
 	let costSum = 0;
 	for (let res in cost)
@@ -231,14 +232,11 @@ m.ResearchManager.prototype.CostSum = function(cost)
 	return costSum;
 };
 
-m.ResearchManager.prototype.Serialize = function()
+DELPHI.ResearchManager.prototype.Serialize = function()
 {
 	return {};
 };
 
-m.ResearchManager.prototype.Deserialize = function(data)
+DELPHI.ResearchManager.prototype.Deserialize = function(data)
 {
 };
-
-return m;
-}(DELPHI);

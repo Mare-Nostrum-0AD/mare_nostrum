@@ -1,9 +1,6 @@
-var DELPHI = function(m)
+DELPHI.TrainingPlan = function(gameState, type, metadata, number = 1, maxMerge = 5)
 {
-
-m.TrainingPlan = function(gameState, type, metadata, number = 1, maxMerge = 5)
-{
-	if (!m.QueuePlan.call(this, gameState, type, metadata))
+	if (!DELPHI.QueuePlan.call(this, gameState, type, metadata))
 	{
 		API3.warn(" Plan training " + type + " canceled");
 		return false;
@@ -21,9 +18,9 @@ m.TrainingPlan = function(gameState, type, metadata, number = 1, maxMerge = 5)
 	return true;
 };
 
-m.TrainingPlan.prototype = Object.create(m.QueuePlan.prototype);
+DELPHI.TrainingPlan.prototype = Object.create(DELPHI.QueuePlan.prototype);
 
-m.TrainingPlan.prototype.canStart = function(gameState)
+DELPHI.TrainingPlan.prototype.canStart = function(gameState)
 {
 	this.trainers = this.getBestTrainers(gameState);
 	if (!this.trainers)
@@ -32,7 +29,7 @@ m.TrainingPlan.prototype.canStart = function(gameState)
 	return true;
 };
 
-m.TrainingPlan.prototype.getBestTrainers = function(gameState)
+DELPHI.TrainingPlan.prototype.getBestTrainers = function(gameState)
 {
 	if (this.metadata && this.metadata.trainer)
 	{
@@ -66,7 +63,7 @@ m.TrainingPlan.prototype.getBestTrainers = function(gameState)
 	return trainers;
 };
 
-m.TrainingPlan.prototype.start = function(gameState)
+DELPHI.TrainingPlan.prototype.start = function(gameState)
 {
 	if (this.metadata && this.metadata.trainer)
 	{
@@ -132,13 +129,13 @@ m.TrainingPlan.prototype.start = function(gameState)
 	this.onStart(gameState);
 };
 
-m.TrainingPlan.prototype.addItem = function(amount = 1)
+DELPHI.TrainingPlan.prototype.addItem = function(amount = 1)
 {
 	this.number += amount;
 };
 
 /** Find the promoted types corresponding to this.type */
-m.TrainingPlan.prototype.promotedTypes = function(gameState)
+DELPHI.TrainingPlan.prototype.promotedTypes = function(gameState)
 {
 	let types = [];
 	let promotion = this.template.promotion();
@@ -167,7 +164,7 @@ m.TrainingPlan.prototype.promotedTypes = function(gameState)
 	return types;
 };
 
-m.TrainingPlan.prototype.Serialize = function()
+DELPHI.TrainingPlan.prototype.Serialize = function()
 {
 	return {
 		"category": this.category,
@@ -180,7 +177,7 @@ m.TrainingPlan.prototype.Serialize = function()
 	};
 };
 
-m.TrainingPlan.prototype.Deserialize = function(gameState, data)
+DELPHI.TrainingPlan.prototype.Deserialize = function(gameState, data)
 {
 	for (let key in data)
 		this[key] = data[key];
@@ -188,6 +185,3 @@ m.TrainingPlan.prototype.Deserialize = function(gameState, data)
 	this.cost = new API3.Resources();
 	this.cost.Deserialize(data.cost);
 };
-
-return m;
-}(DELPHI);

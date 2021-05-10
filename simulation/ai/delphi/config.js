@@ -1,7 +1,4 @@
-var DELPHI = function(m)
-{
-
-m.Config = function(difficulty, behavior)
+DELPHI.Config = function(difficulty, behavior)
 {
 	// 0 is sandbox, 1 is very easy, 2 is easy, 3 is medium, 4 is hard and 5 is very hard.
 	this.difficulty = difficulty !== undefined ? difficulty : 3;
@@ -21,9 +18,17 @@ m.Config = function(difficulty, behavior)
 		"fortressLapseTime": 390,	// Time to wait between building 2 fortresses
 		"popForBarracks1": 25,
 		"popForBarracks2": 95,
-		"popForBlacksmith": 65,
+		"popForForge": 65,
 		"numSentryTowers": 1
 	};
+
+	this.DamageTypeImportance = {
+		"Hack": 0.085,
+		"Pierce": 0.075,
+		"Crush": 0.065,
+		"Fire": 0.095
+	};
+
 	this.Economy = {
 		"popPhase2": 38,	// How many units we want before aging to phase2.
 		"workPhase3": 65,	// How many workers we want before aging to phase3.
@@ -46,29 +51,60 @@ m.Config = function(difficulty, behavior)
 		"armyMergeSize": 1400	// squared.
 	};
 
-	// Additional buildings that the AI does not yet know when to build 
+	// Additional buildings that the AI does not yet know when to build
 	// and that it will try to build on phase 3 when enough resources.
 	this.buildings =
 	{
 		"default": [],
-		"athen": ["structures/{civ}_gymnasion", "structures/{civ}_prytaneion",
-			  "structures/{civ}_theatron", "structures/{civ}_royal_stoa"],
-		"brit": ["structures/{civ}_rotarymill"],
-		"cart": ["structures/{civ}_embassy_celtic", "structures/{civ}_embassy_iberian",
-			 "structures/{civ}_embassy_italiote"],
-		"gaul": ["structures/{civ}_rotarymill", "structures/{civ}_tavern"],
-		"iber": ["structures/{civ}_monument"],
-		"kush": ["structures/{civ}_pyramid_large", "structures/{civ}_blemmye_camp",
-			 "structures/{civ}_nuba_village"],
-		"mace": ["structures/{civ}_library", "structures/{civ}_theatron"],
-		"maur": ["structures/{civ}_pillar_ashoka"],
-		"pers": ["structures/{civ}_apadana", "structures/{civ}_hall"],
-		"ptol": ["structures/{civ}_library"],
-		"rome": ["structures/{civ}_army_camp", "structures/{civ}_arch",
-			"structures/{civ}_thermae"],
-		"sele": ["structures/{civ}_library", "structures/{civ}_theatron"],
-		"spart": ["structures/{civ}_syssiton", "structures/{civ}_theatron",
-		          "structures/{civ}_royal_stoa"]
+		"athen": [
+			"structures/{civ}/gymnasium",
+			"structures/{civ}/prytaneion",
+			"structures/{civ}/theater"
+		],
+		"brit": [],
+		"cart": [
+			"structures/{civ}/embassy_celtic",
+			"structures/{civ}/embassy_iberian",
+			"structures/{civ}/embassy_italic"
+		],
+		"gaul": [
+			"structures/{civ}/assembly"
+		],
+		"iber": [
+			"structures/{civ}/monument"
+		],
+		"kush": [
+			"structures/{civ}/camp_blemmye",
+			"structures/{civ}/camp_noba",
+			"structures/{civ}/pyramid_large",
+			"structures/{civ}/pyramid_small",
+			"structures/{civ}/temple_amun"
+		],
+		"mace": [
+			"structures/{civ}/theater"
+		],
+		"maur": [
+			"structures/{civ}/palace",
+			"structures/{civ}/pillar_ashoka"
+		],
+		"pers": [
+			"structures/{civ}/apadana"
+		],
+		"ptol": [
+			"structures/{civ}/library",
+			"structures/{civ}/theater"
+		],
+		"rome": [
+			"structures/{civ}/army_camp",
+			"structures/{civ}/temple_vesta"
+		],
+		"sele": [
+			"structures/{civ}/theater"
+		],
+		"spart": [
+			"structures/{civ}/syssiton",
+			"structures/{civ}/theater"
+		]
 	};
 
 	this.priorities =
@@ -88,7 +124,7 @@ m.Config = function(difficulty, behavior)
 		"defenseBuilding": 70,
 		"civilCentre": 950,
 		"majorTech": 700,
-		"minorTech": 40,
+		"minorTech": 250,
 		"wonder": 1000,
 		"emergency": 1000    // used only in emergency situations, should be the highest one
 	};
@@ -101,7 +137,7 @@ m.Config = function(difficulty, behavior)
 		"defensive": 0.5
 	};
 
-	// See m.QueueManager.prototype.wantedGatherRates()
+	// See DELPHI.QueueManager.prototype.wantedGatherRates()
 	this.queues =
 	{
 		"firstTurn": {
@@ -125,7 +161,7 @@ m.Config = function(difficulty, behavior)
 	this.garrisonHealthLevel = { "low": 0.4, "medium": 0.55, "high": 0.7 };
 };
 
-m.Config.prototype.setConfig = function(gameState)
+DELPHI.Config.prototype.setConfig = function(gameState)
 {
 	if (this.difficulty > 0)
 	{
@@ -221,7 +257,7 @@ m.Config.prototype.setConfig = function(gameState)
 		this.popScaling = Math.sqrt(maxPop / 300);
 		this.Military.popForBarracks1 = Math.min(Math.max(Math.floor(this.Military.popForBarracks1 * this.popScaling), 12), Math.floor(maxPop/5));
 		this.Military.popForBarracks2 = Math.min(Math.max(Math.floor(this.Military.popForBarracks2 * this.popScaling), 45), Math.floor(maxPop*2/3));
-		this.Military.popForBlacksmith = Math.min(Math.max(Math.floor(this.Military.popForBlacksmith * this.popScaling), 30), Math.floor(maxPop/2));
+		this.Military.popForForge = Math.min(Math.max(Math.floor(this.Military.popForForge * this.popScaling), 30), Math.floor(maxPop/2));
 		this.Economy.popPhase2 = Math.min(Math.max(Math.floor(this.Economy.popPhase2 * this.popScaling), 20), Math.floor(maxPop/2));
 		this.Economy.workPhase3 = Math.min(Math.max(Math.floor(this.Economy.workPhase3 * this.popScaling), 40), Math.floor(maxPop*2/3));
 		this.Economy.workPhase4 = Math.min(Math.max(Math.floor(this.Economy.workPhase4 * this.popScaling), 45), Math.floor(maxPop*2/3));
@@ -237,7 +273,7 @@ m.Config.prototype.setConfig = function(gameState)
 	API3.warn(" >>>  Delphi bot: personality = " + uneval(this.personality));
 };
 
-m.Config.prototype.Serialize = function()
+DELPHI.Config.prototype.Serialize = function()
 {
 	var data = {};
 	for (let key in this)
@@ -246,11 +282,8 @@ m.Config.prototype.Serialize = function()
 	return data;
 };
 
-m.Config.prototype.Deserialize = function(data)
+DELPHI.Config.prototype.Deserialize = function(data)
 {
 	for (let key in data)
 		this[key] = data[key];
 };
-
-return m;
-}(DELPHI);

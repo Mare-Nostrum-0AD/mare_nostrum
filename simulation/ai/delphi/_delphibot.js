@@ -1,9 +1,8 @@
 Engine.IncludeModule("common-api");
 
-var DELPHI = (function() {
-var m = {};
+var DELPHI = {};
 
-m.DelphiBot = function DelphiBot(settings)
+DELPHI.DelphiBot = function(settings)
 {
 	API3.BaseAI.call(this, settings);
 
@@ -17,14 +16,14 @@ m.DelphiBot = function DelphiBot(settings)
 		"transports": 1	// transport plans start at 1 because 0 might be used as none
 	};
 
-	this.Config = new m.Config(settings.difficulty, settings.behavior);
+	this.Config = new DELPHI.Config(settings.difficulty, settings.behavior);
 
 	this.savedEvents = {};
 };
 
-m.DelphiBot.prototype = new API3.BaseAI();
+DELPHI.DelphiBot.prototype = Object.create(API3.BaseAI.prototype);
 
-m.DelphiBot.prototype.CustomInit = function(gameState)
+DELPHI.DelphiBot.prototype.CustomInit = function(gameState)
 {
 	if (this.isDeserialized)
 	{
@@ -52,11 +51,11 @@ m.DelphiBot.prototype.CustomInit = function(gameState)
 
 		this.Config.Deserialize(this.data.config);
 
-		this.queueManager = new m.QueueManager(this.Config, {});
+		this.queueManager = new DELPHI.QueueManager(this.Config, {});
 		this.queueManager.Deserialize(gameState, this.data.queueManager);
 		this.queues = this.queueManager.queues;
 
-		this.HQ = new m.HQ(this.Config);
+		this.HQ = new DELPHI.HQ(this.Config);
 		this.HQ.init(gameState, this.queues);
 		this.HQ.Deserialize(gameState, this.data.HQ);
 
@@ -74,11 +73,11 @@ m.DelphiBot.prototype.CustomInit = function(gameState)
 		// this.queues can only be modified by the queue manager or things will go awry.
 		this.queues = {};
 		for (let i in this.Config.priorities)
-			this.queues[i] = new m.Queue();
+			this.queues[i] = new DELPHI.Queue();
 
-		this.queueManager = new m.QueueManager(this.Config, this.queues);
+		this.queueManager = new DELPHI.QueueManager(this.Config, this.queues);
 
-		this.HQ = new m.HQ(this.Config);
+		this.HQ = new DELPHI.HQ(this.Config);
 
 		this.HQ.init(gameState, this.queues);
 
@@ -87,7 +86,7 @@ m.DelphiBot.prototype.CustomInit = function(gameState)
 	}
 };
 
-m.DelphiBot.prototype.OnUpdate = function(sharedScript)
+DELPHI.DelphiBot.prototype.OnUpdate = function(sharedScript)
 {
 	if (this.gameFinished)
 		return;
@@ -129,7 +128,7 @@ m.DelphiBot.prototype.OnUpdate = function(sharedScript)
 	this.turn++;
 };
 
-m.DelphiBot.prototype.Serialize = function()
+DELPHI.DelphiBot.prototype.Serialize = function()
 {
 	let savedEvents = {};
 	for (let key in this.savedEvents)
@@ -137,7 +136,7 @@ m.DelphiBot.prototype.Serialize = function()
 		savedEvents[key] = this.savedEvents[key].slice();
 		for (let i in savedEvents[key])
 		{
-			if (!savedEvents[key][i].entityObj)
+			if (!savedEvents[key][i] || !savedEvents[key][i].entityObj)
 				continue;
 			let evt = savedEvents[key][i];
 			let evtmod = {};
@@ -160,11 +159,8 @@ m.DelphiBot.prototype.Serialize = function()
 	};
 };
 
-m.DelphiBot.prototype.Deserialize = function(data, sharedScript)
+DELPHI.DelphiBot.prototype.Deserialize = function(data, sharedScript)
 {
 	this.isDeserialized = true;
 	this.data = data;
 };
-
-return m;
-}());

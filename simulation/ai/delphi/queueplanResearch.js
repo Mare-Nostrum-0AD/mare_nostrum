@@ -1,9 +1,6 @@
-var DELPHI = function(m)
+DELPHI.ResearchPlan = function(gameState, type, rush = false)
 {
-
-m.ResearchPlan = function(gameState, type, rush = false)
-{
-	if (!m.QueuePlan.call(this, gameState, type, {}))
+	if (!DELPHI.QueuePlan.call(this, gameState, type, {}))
 		return false;
 
 	if (this.template.researchTime === undefined)
@@ -20,9 +17,9 @@ m.ResearchPlan = function(gameState, type, rush = false)
 	return true;
 };
 
-m.ResearchPlan.prototype = Object.create(m.QueuePlan.prototype);
+DELPHI.ResearchPlan.prototype = Object.create(DELPHI.QueuePlan.prototype);
 
-m.ResearchPlan.prototype.canStart = function(gameState)
+DELPHI.ResearchPlan.prototype.canStart = function(gameState)
 {
 	this.researchers = this.getBestResearchers(gameState);
 	if (!this.researchers)
@@ -31,7 +28,7 @@ m.ResearchPlan.prototype.canStart = function(gameState)
 	return true;
 };
 
-m.ResearchPlan.prototype.getBestResearchers = function(gameState, noRequirementCheck = false)
+DELPHI.ResearchPlan.prototype.getBestResearchers = function(gameState, noRequirementCheck = false)
 {
 	let allResearchers = gameState.findResearchers(this.type, noRequirementCheck);
 	if (!allResearchers || !allResearchers.hasEntities())
@@ -54,12 +51,12 @@ m.ResearchPlan.prototype.getBestResearchers = function(gameState, noRequirementC
 	return researchers;
 };
 
-m.ResearchPlan.prototype.isInvalid = function(gameState)
+DELPHI.ResearchPlan.prototype.isInvalid = function(gameState)
 {
 	return gameState.isResearched(this.type) || gameState.isResearching(this.type);
 };
 
-m.ResearchPlan.prototype.start = function(gameState)
+DELPHI.ResearchPlan.prototype.start = function(gameState)
 {
 	// Prefer researcher with shortest queues (no need to serialize this.researchers
 	// as the functions canStart and start are always called on the same turn)
@@ -71,7 +68,7 @@ m.ResearchPlan.prototype.start = function(gameState)
 	this.onStart(gameState);
 };
 
-m.ResearchPlan.prototype.onStart = function(gameState)
+DELPHI.ResearchPlan.prototype.onStart = function(gameState)
 {
 	if (this.queueToReset)
 		gameState.ai.queueManager.changePriority(this.queueToReset, gameState.ai.Config.priorities[this.queueToReset]);
@@ -86,7 +83,7 @@ m.ResearchPlan.prototype.onStart = function(gameState)
 	}
 };
 
-m.ResearchPlan.prototype.Serialize = function()
+DELPHI.ResearchPlan.prototype.Serialize = function()
 {
 	return {
 		"category": this.category,
@@ -100,7 +97,7 @@ m.ResearchPlan.prototype.Serialize = function()
 	};
 };
 
-m.ResearchPlan.prototype.Deserialize = function(gameState, data)
+DELPHI.ResearchPlan.prototype.Deserialize = function(gameState, data)
 {
 	for (let key in data)
 		this[key] = data[key];
@@ -108,6 +105,3 @@ m.ResearchPlan.prototype.Deserialize = function(gameState, data)
 	this.cost = new API3.Resources();
 	this.cost.Deserialize(data.cost);
 };
-
-return m;
-}(DELPHI);
