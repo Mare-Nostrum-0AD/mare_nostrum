@@ -3,7 +3,7 @@
   <Cost>
     <BuildTime>20</BuildTime>
     <Resources>
-      <metal>100</metal>
+      <wealth>100</wealth>
     </Resources>
   </Cost>
   <GarrisonHolder>
