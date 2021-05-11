@@ -18,6 +18,6 @@
     </Entities>
   </ProductionQueue>
   <VisualActor>
-    <Actor>structures/macedonians/civic_centre.xml</Actor>
+		<Actor>special/greek_stoa_great.xml</Actor>
   </VisualActor>
 </Entity>

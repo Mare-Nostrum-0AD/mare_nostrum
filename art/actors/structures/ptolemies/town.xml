@@ -8,9 +8,9 @@
         <prop actor="structures/ptolemies/house.xml" attachpoint="bottom_left" minheight="0" maxheight="20"/>
         <prop actor="structures/ptolemies/house.xml" attachpoint="bottom_right" minheight="0" maxheight="20"/>
         <prop actor="props/special/eyecandy/well_1_d.xml" attachpoint="center" minheight="0" maxheight="20"/>
-        <prop actor="props/special/eyecandy/well_water.xml" attachpoint="center" minheight="0" maxheight="20"/>
+        <prop actor="props/special/eyecandy/well_darkness.xml" attachpoint="center" minheight="0" maxheight="20"/>
         <prop actor="structures/ptolemies/storehouse.xml" attachpoint="top_left" minheight="0" maxheight="20"/>
-        <prop actor="structures/ptolemies/defense_tower.xml" attachpoint="top_right" minheight="0" maxheight="20"/>
+        <prop actor="structures/ptolemies/tower_bolt.xml" attachpoint="top_right" minheight="0" maxheight="20"/>
         <prop actor="props/structures/decals/gravel_5x5.xml" attachpoint="root"/>
       </props>
       <textures>

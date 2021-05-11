@@ -18,6 +18,6 @@
     </Entities>
   </ProductionQueue>
   <VisualActor>
-    <Actor>structures/spartans/civic_center.xml</Actor>
+    <Actor>structures/spartans/stoa.xml</Actor>
   </VisualActor>
 </Entity>

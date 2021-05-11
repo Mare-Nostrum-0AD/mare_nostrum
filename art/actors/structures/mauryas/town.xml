@@ -8,7 +8,7 @@
         <prop actor="structures/mauryas/house.xml" attachpoint="bottom_left" minheight="0" maxheight="20"/>
         <prop actor="structures/mauryas/house.xml" attachpoint="bottom_right" minheight="0" maxheight="20"/>
         <prop actor="props/special/eyecandy/well_1_a.xml" attachpoint="center" minheight="0" maxheight="20"/>
-        <prop actor="props/special/eyecandy/well_water.xml" attachpoint="center" minheight="0" maxheight="20"/>
+        <prop actor="props/special/eyecandy/well_darkness.xml" attachpoint="center" minheight="0" maxheight="20"/>
         <prop actor="structures/mauryas/storehouse.xml" attachpoint="top_left" minheight="0" maxheight="20"/>
         <prop actor="structures/mauryas/scout_tower.xml" attachpoint="top_right" minheight="0" maxheight="20"/>
         <prop actor="props/structures/decals/dirt_7x7.xml" attachpoint="root"/>

@@ -21,6 +21,6 @@
     </Technologies>
   </ProductionQueue>
   <VisualActor>
-    <Actor>structures/carthaginians/civil_centre.xml</Actor>
+    <Actor>structures/carthaginians/government_centre.xml</Actor>
   </VisualActor>
 </Entity>
