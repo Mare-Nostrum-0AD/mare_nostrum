@@ -12,7 +12,7 @@
     <Templates>
       <Tower>structures/rome/siege_wall_tower</Tower>
       <Gate>structures/rome/siege_wall_gate</Gate>
-      <Fort>structures/rome_army_camp</Fort>
+			<Fort>structures/rome/army_camp</Fort>
       <WallLong>structures/rome/siege_wall_long</WallLong>
       <WallMedium>structures/rome/siege_wall_medium</WallMedium>
       <WallShort>structures/rome/siege_wall_short</WallShort>
