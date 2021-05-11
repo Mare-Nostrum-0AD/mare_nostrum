@@ -23,7 +23,7 @@
     </Entities>
   </ProductionQueue>
   <VisualActor>
-    <Actor>structures/hellenes/town.xml</Actor>
+    <Actor>structures/seleucids/town.xml</Actor>
     <FoundationActor>structures/fndn_8x8.xml</FoundationActor>
   </VisualActor>
 </Entity>

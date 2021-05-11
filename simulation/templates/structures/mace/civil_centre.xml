@@ -24,7 +24,7 @@
     </Entities>
   </ProductionQueue>
   <VisualActor>
-    <Actor>structures/hellenes/village.xml</Actor>
+    <Actor>structures/macedonians/village.xml</Actor>
     <FoundationActor>structures/fndn_8x8.xml</FoundationActor>
   </VisualActor>
 </Entity>
