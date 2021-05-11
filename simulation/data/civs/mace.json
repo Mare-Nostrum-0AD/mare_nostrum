@@ -47,7 +47,7 @@
 			"Template": "units/mace/cavalry_spearman_b"
 		},
 		{
-			"Template": "units/mace_support_wagon"
+			"Template": "units/mace/support_wagon"
 		}
 	],
 	"Formations": [

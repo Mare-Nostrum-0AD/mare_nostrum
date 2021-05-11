@@ -51,7 +51,7 @@
 			"Template": "units/gaul/cavalry_javelineer_b"
 		},
 		{
-			"Template": "units/gaul_support_wagon"
+			"Template": "units/gaul/support_wagon"
 		}
 	],
 	"Formations": [

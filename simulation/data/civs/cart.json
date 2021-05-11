@@ -55,7 +55,7 @@
 			"Template": "units/cart/cavalry_javelineer_b"
 		},
 		{
-			"Template": "units/cart_support_wagon"
+			"Template": "units/cart/support_wagon"
 		}
 	],
 	"Formations": [

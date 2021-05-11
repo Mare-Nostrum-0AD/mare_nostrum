@@ -54,7 +54,7 @@
 			"Template": "units/iber/cavalry_javelineer_b"
 		},
 		{
-			"Template": "units/iber_support_wagon"
+			"Template": "units/iber/support_wagon"
 		}
 	],
 	"Formations": [

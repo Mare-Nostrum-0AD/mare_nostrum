@@ -153,7 +153,7 @@ DELPHI.ConstructionPlan.prototype.findGoodPosition = function(gameState)
 			if (!template.hasClass("Fortress") || gameState.getOwnEntitiesByClass("Fortress", true).hasEntities())
 				return false;
 		}
-		else if (template.hasClass("Market")) // Docks are done before.
+		else if (template.hasClass("Civic")) // Docks are done before.
 		{
 			return HQ.findCivicLocation(gameState, template);
 		}

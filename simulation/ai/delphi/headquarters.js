@@ -918,7 +918,7 @@ DELPHI.HQ.prototype.pickMostNeededResources = function(gameState, allowedResourc
 // should prefer (but not exclusively choose) locations on the shore of
 // large bodies of water in order to take advantage of sea trade.
 // should also take resource needs into account.
-m.HQ.prototype.findGenericCCLocation = function(gameState, template)
+DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
 {
 	Engine.ProfileStart('findGenericCCLocation');
 	let placement = new API3.Map(gameState.sharedScript, "territory");
@@ -937,7 +937,7 @@ m.HQ.prototype.findGenericCCLocation = function(gameState, template)
 		let cityRadius = Number(template.get('City/Radius'));
 		return cityRadius ? Math.floor(cityRadius / cellSize) : Math.floor(128 / cellSize);
 	})();
-	let obstructions = m.createObstructionMap(gameState, 0, template);
+	let obstructions = DELPHI.createObstructionMap(gameState, 0, template);
 	const radius = Math.ceil((template.obstructionRadius().max / obstructions.cellSize));
 	// favor resource supplies
 	for (let res of Resources.GetCodes()) {
@@ -1031,7 +1031,7 @@ m.HQ.prototype.findGenericCCLocation = function(gameState, template)
 	}
 
 	return gameState.ai.accessibility.mapPosToGamePos(bestTile.idx);
-};// end function m.HQ.prototype.findGenericCCLocation
+};// end function DELPHI.HQ.prototype.findGenericCCLocation
 
 /**
  * Returns the best position to build a new Civil Center
@@ -1383,7 +1383,7 @@ DELPHI.HQ.prototype.findStrategicCCLocation = function(gameState, template)
  * @param template template of the structure to be built, as defined in simulation/templates
  * @return None (modifies placement)
  */
-m.HQ.prototype.applyBuildRestrictions = function(placement, gameState, template)
+DELPHI.HQ.prototype.applyBuildRestrictions = function(placement, gameState, template)
 {
 	// distance from similar structures; try to spread out amongst civ centres
 	const cellSize = this.territoryMap.cellSize; // size of each tile
@@ -1407,7 +1407,7 @@ m.HQ.prototype.applyBuildRestrictions = function(placement, gameState, template)
 			}// end for ent
 		}// end for dist
 	}
-};//end m.HQ.prototype.applyBuildRestrictions
+};//end DELPHI.HQ.prototype.applyBuildRestrictions
 
 /**
  * find the nearest base to a given tile
@@ -1415,7 +1415,7 @@ m.HQ.prototype.applyBuildRestrictions = function(placement, gameState, template)
  * @param obstructions (obj) map of obstructions
  * @return (int) id of nearest base; undefined if no nearest base found
  */
-m.HQ.prototype.findNearestBase = function(tileIndex, obstructions)
+DELPHI.HQ.prototype.findNearestBase = function(tileIndex, obstructions)
 {
 	let tileX = (tileIndex % obstructions.width) * obstructions.cellSize;
 	let tileZ = (Math.floor(tileIndex / obstructions.width)) * obstructions.cellSize;
@@ -1436,10 +1436,10 @@ m.HQ.prototype.findNearestBase = function(tileIndex, obstructions)
 		}
 	}// end for base
 	return baseID;
-};// end m.HQ.prototype.findNearestBase
+};// end DELPHI.HQ.prototype.findNearestBase
 
 /** Algorithm taken from the function GetDockAngle in simulation/helpers/Commands.js */
-m.HQ.prototype.getDockAngle = function(gameState, x, z, size)
+DELPHI.HQ.prototype.getDockAngle = function(gameState, x, z, size)
 {
 	let pos = gameState.ai.accessibility.gamePosToMapPos([x, z]);
 	let k = pos[0] + pos[1]*gameState.ai.accessibility.width;
@@ -1501,7 +1501,7 @@ m.HQ.prototype.getDockAngle = function(gameState, x, z, size)
  * to determine the special dock requirements
  * returns {"land": land index for this dock, "water": amount of water around this spot}
  */
-m.HQ.prototype.checkDockPlacement = function(gameState, x, z, halfDepth, halfWidth, angle)
+DELPHI.HQ.prototype.checkDockPlacement = function(gameState, x, z, halfDepth, halfWidth, angle)
 {
 	let sz = halfDepth * Math.sin(angle);
 	let cz = halfDepth * Math.cos(angle);
@@ -1558,7 +1558,7 @@ m.HQ.prototype.checkDockPlacement = function(gameState, x, z, halfDepth, halfWid
 	return { "land": land, "water": water };
 };
 
-m.HQ.prototype.findCivicLocation = function(gameState, template)
+DELPHI.HQ.prototype.findCivicLocation = function(gameState, template)
 {
 	let placement = new API3.Map(gameState.sharedScript, "territory");
 	const isDock = template.buildPlacementType() == 'shore';
@@ -1597,7 +1597,7 @@ m.HQ.prototype.findCivicLocation = function(gameState, template)
 	}// end for civCentre
 	// distance from similar structures; try to spread out amongst civ centres
 	this.applyBuildRestrictions(placement, gameState, template);
-	let obstructions = m.createObstructionMap(gameState, 0, template);
+	let obstructions = DELPHI.createObstructionMap(gameState, 0, template);
 	const radius = Math.ceil((template.obstructionRadius().max * obstructionRatio / obstructions.cellSize));
 	// loop until find valid position (useful for docks)
 	// choose randomly from a number of valid positions
@@ -1645,7 +1645,7 @@ m.HQ.prototype.findCivicLocation = function(gameState, template)
 	return false;
 };// end findCivicLocation
 
-m.HQ.prototype.findMarketLocation = function(gameState, template)
+DELPHI.HQ.prototype.findMarketLocation = function(gameState, template)
 {
 	let pos = this.findCivicLocation(gameState, template);
 	return [pos.x, pos.z, pos.base, 9999];
@@ -1810,7 +1810,7 @@ DELPHI.HQ.prototype.buildTemple = function(gameState, queues)
 	queues.economicBuilding.addPlan(new DELPHI.ConstructionPlan(gameState, templateName));
 };
 
-m.HQ.prototype.buildTemplePatron = function(gameState, queues)
+DELPHI.HQ.prototype.buildTemplePatron = function(gameState, queues)
 {
 	// at least one market (which have the same queue) should be build before any temple
 	if (queues.economicBuilding.hasQueuedUnits() ||
@@ -1822,7 +1822,7 @@ m.HQ.prototype.buildTemplePatron = function(gameState, queues)
 	let templateName = "structures/{civ}/temple_patron_" + chosenTemple;
 	if (!this.canBuild(gameState, templateName))
 		return;
-	queues.economicBuilding.addPlan(new m.ConstructionPlan(gameState, templateName));
+	queues.economicBuilding.addPlan(new DELPHI.ConstructionPlan(gameState, templateName));
 };
 
 DELPHI.HQ.prototype.buildMarket = function(gameState, queues)
@@ -1876,12 +1876,12 @@ DELPHI.HQ.prototype.buildMarket = function(gameState, queues)
 		chosenTemplate = marketTemplateFormat;
 	if (!chosenTemplate)
 		return;
-	let plan = new m.ConstructionPlan(gameState, chosenTemplate);
+	let plan = new DELPHI.ConstructionPlan(gameState, chosenTemplate);
 	plan.queueToReset = "economicBuilding";
 	queues.economicBuilding.addPlan(plan);
 };// end buildMarket
 
-m.HQ.prototype.buildTavern = function(gameState, queues)
+DELPHI.HQ.prototype.buildTavern = function(gameState, queues)
 {
 	let numMarkets = gameState.getOwnStructures().filter(API3.Filters.byClass('Market')).filter(API3.Filters.isBuilt()).length;
 	// at least one market (which have the same queue) should be build before any tavern
@@ -1894,7 +1894,7 @@ m.HQ.prototype.buildTavern = function(gameState, queues)
 	let templateName = "structures/{civ}/tavern";
 	if (!this.canBuild(gameState, templateName))
 		return;
-	queues.economicBuilding.addPlan(new m.ConstructionPlan(gameState, templateName));
+	queues.economicBuilding.addPlan(new DELPHI.ConstructionPlan(gameState, templateName));
 };// end buildTavern
 
 /** Build a farmstead */
@@ -1916,7 +1916,7 @@ DELPHI.HQ.prototype.buildFarmstead = function(gameState, queues)
 	queues.economicBuilding.addPlan(new DELPHI.ConstructionPlan(gameState, "structures/{civ}/farmstead"));
 };
 
-m.HQ.prototype.buildPalace = function(gameState, queues)
+DELPHI.HQ.prototype.buildPalace = function(gameState, queues)
 {
 	if (queues.economicBuilding.hasQueuedUnits() ||
 		gameState.getOwnEntitiesByClass("Palace", true).hasEntities())
@@ -1924,7 +1924,7 @@ m.HQ.prototype.buildPalace = function(gameState, queues)
 	let templateName = "structures/{civ}/palace";
 	if (!this.canBuild(gameState, templateName))
 		return;
-	queues.economicBuilding.addPlan(new m.ConstructionPlan(gameState, templateName));
+	queues.economicBuilding.addPlan(new DELPHI.ConstructionPlan(gameState, templateName));
 };
 
 /**

@@ -43,7 +43,7 @@
 			"Template": "units/sele/cavalry_javelineer_b"
 		},
 		{
-			"Template": "units/sele_support_wagon"
+			"Template": "units/sele/support_wagon"
 		}
 	],
 	"Formations": [

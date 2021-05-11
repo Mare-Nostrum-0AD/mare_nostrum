@@ -58,7 +58,7 @@
 			"Template": "units/pers/cavalry_javelineer_b"
 		},
 		{
-			"Template": "units/pers_support_wagon"
+			"Template": "units/pers/support_wagon"
 		}
 	],
 	"Formations": [

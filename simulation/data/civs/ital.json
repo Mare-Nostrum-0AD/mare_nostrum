@@ -47,7 +47,7 @@
 			"Template": "units/ital_cavalry_spearman_b"
 		},
 		{
-			"Template": "units/ital_support_wagon"
+			"Template": "units/ital/support_wagon"
 		}
 	],
 	"Formations":

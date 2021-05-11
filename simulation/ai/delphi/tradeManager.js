@@ -176,7 +176,7 @@ DELPHI.TradeManager.prototype.setTradingGoods = function(gameState)
 	}// end for res in wantedRates
 	wantedRates = actualWantedRates;
 	let remaining = 100;
-	let targetNum = this.Config.Economy.targetNumTraders;
+	let targetNum = gameState.getPopulationMax() * this.traderRatio;
 	for (let res of resTradeCodes)
 	{
 		if (res == "food")

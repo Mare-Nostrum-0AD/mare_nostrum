@@ -67,7 +67,7 @@
 			"Template": "units/athen/cavalry_javelineer_b"
 		},
 		{
-			"Template": "units/athen_support_wagon"
+			"Template": "units/athen/support_wagon"
 		}
 	],
 	"Formations": [

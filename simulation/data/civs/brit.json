@@ -55,7 +55,7 @@
 			"Template": "units/brit/war_dog"
 		},
 		{
-			"Template": "units/brit_support_wagon"
+			"Template": "units/brit/support_wagon"
 		}
 	],
 	"Formations": [

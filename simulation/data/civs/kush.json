@@ -52,7 +52,7 @@
 			"Template": "units/kush/support_healer_b"
 		},
 		{
-			"Template": "units/kush_support_wagon"
+			"Template": "units/kush/support_wagon"
 		}
 	],
 	"WallSets": [
