@@ -24,7 +24,7 @@
     </Entities>
   </ProductionQueue>
   <VisualActor>
-    <Actor>structures/mauryans/town.xml</Actor>
+    <Actor>structures/mauryas/town.xml</Actor>
     <FoundationActor>structures/fndn_8x8.xml</FoundationActor>
   </VisualActor>
 </Entity>

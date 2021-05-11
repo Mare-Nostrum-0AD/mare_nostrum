@@ -4,6 +4,6 @@
     <Civ>maur</Civ>
   </Identity>
   <VisualActor>
-    <Actor>units/mauryans/supply_wagon.xml</Actor>
+    <Actor>units/mauryas/supply_wagon.xml</Actor>
   </VisualActor>
 </Entity>

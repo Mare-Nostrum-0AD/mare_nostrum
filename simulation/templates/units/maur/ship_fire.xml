@@ -5,6 +5,6 @@
     <Icon>units/ship_fire.png</Icon>
   </Identity>
   <VisualActor>
-    <Actor>structures/mauryans/fireship.xml</Actor>
+    <Actor>structures/mauryas/fireship.xml</Actor>
   </VisualActor>
 </Entity>
