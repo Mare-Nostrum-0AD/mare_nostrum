@@ -3,11 +3,15 @@
   <Attack>
     <Capture disable=""/>
     <Melee>
+      <AttackName>Trunk</AttackName>
       <Damage>
-        <Hack>60</Hack>
+        <Hack>30</Hack>
         <Pierce>0</Pierce>
-        <Crush>90.0</Crush>
+        <Crush>120</Crush>
       </Damage>
+      <MaxRange>5.0</MaxRange>
+      <PrepareTime>750</PrepareTime>
+      <RepeatTime>1500</RepeatTime>
       <PreferredClasses datatype="tokens">Infantry+Melee Siege Structure</PreferredClasses>
       <RestrictedClasses datatype="tokens">Sturdy</RestrictedClasses>
     </Melee>
