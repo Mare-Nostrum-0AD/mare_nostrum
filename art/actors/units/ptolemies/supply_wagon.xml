@@ -12,7 +12,7 @@
       <props>
         <prop actor="units/ptolemies/trader_h.xml" attachpoint="horse_l"/>
         <prop actor="units/ptolemies/trader_h.xml" attachpoint="horse_r"/>
-        <prop actor="props/special/eyecandy/Box_Pile.xml" attachpoint="cargo"/>
+        <prop actor="props/special/eyecandy/box_pile.xml" attachpoint="cargo"/>
       </props>
       <textures>
         <texture file="props/wooden_wagon.png" name="baseTex"/>
