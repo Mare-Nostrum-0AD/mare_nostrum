@@ -29,6 +29,11 @@
     <Classes datatype="tokens">Sturdy VillageCentre TownCentre CityCentre</Classes>
     <VisibleClasses datatype="tokens">MetroCentre</VisibleClasses>
   </Identity>
+	<ResourceTrickle>
+		<Rates>
+			<manpower op="mul">8.0</manpower>
+		</Rates>
+	</ResourceTrickle>
   <TerritoryInfluence merge="">
     <Radius op="mul">1.75</Radius>
   </TerritoryInfluence>

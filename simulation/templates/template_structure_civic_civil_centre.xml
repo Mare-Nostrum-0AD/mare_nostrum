@@ -153,6 +153,12 @@
     <Types>food wood stone metal</Types>
     <Sharable>true</Sharable>
   </ResourceDropsite>
+	<ResourceTrickle>
+		<Rates>
+			<manpower>5</manpower>
+		</Rates>
+		<Interval>60000</Interval>
+	</ResourceTrickle>
   <Sound>
     <SoundGroups>
       <select>interface/select/building/sel_civ_center.xml</select>

@@ -28,6 +28,11 @@
     <Classes datatype="tokens">VillageCentre</Classes>
     <VisibleClasses datatype="tokens">TownCentre</VisibleClasses>
   </Identity>
+	<ResourceTrickle>
+		<Rates>
+			<manpower op="mul">2.0</manpower>
+		</Rates>
+	</ResourceTrickle>
   <TerritoryInfluence merge="">
     <Radius op="mul">1.25</Radius>
   </TerritoryInfluence>
