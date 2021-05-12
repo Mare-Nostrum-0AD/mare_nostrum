@@ -19,6 +19,6 @@
     </Entities>
   </ProductionQueue>
   <VisualActor>
-    <Actor>structures/ptolemies/military_colony.xml</Actor>
+    <Actor>structures/ptolemies/city_centre.xml</Actor>
   </VisualActor>
 </Entity>

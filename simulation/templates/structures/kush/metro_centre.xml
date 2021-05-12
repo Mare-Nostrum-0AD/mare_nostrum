@@ -22,6 +22,6 @@
     </Technologies>
   </ProductionQueue>
   <VisualActor>
-    <Actor>structures/kushites/civic_centre_kush.xml</Actor>
+    <Actor>structures/kushites/civic_centre_egyptian.xml</Actor>
   </VisualActor>
 </Entity>
