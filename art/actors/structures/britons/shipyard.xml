@@ -7,7 +7,7 @@
       <props>
         <prop actor="props/structures/britons/range_shields.xml" attachpoint="root"/>
         <prop actor="props/structures/britons/range_nature.xml" attachpoint="root"/>
-				<prop actor="props/special/eyecandy/shipwreck_sail_boat.xml" attachpoint="root" />
+				<prop actor="structures/celts/rowboat.xml" attachpoint="root" />
       </props>
       <textures>
         <texture file="structural/brit_struct.png" name="baseTex"/>
