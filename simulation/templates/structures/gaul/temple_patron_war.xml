@@ -6,8 +6,8 @@
       <stone>0</stone>
     </Resources>
   </Cost>
-  <Footprint>
-    <Square width="24.5" depth="24.5"/>
+  <Footprint replace="">
+    <Circle radius="17.0"/>
     <Height>8.0</Height>
   </Footprint>
   <Health>
@@ -15,17 +15,17 @@
   </Health>
   <Identity>
     <Civ>gaul</Civ>
-    <SpecificName>Temple of Caturix</SpecificName>
+    <SpecificName>Shrine of Caturix</SpecificName>
   </Identity>
   <Loot>
     <wood>60</wood>
     <stone>0</stone>
   </Loot>
   <Obstruction>
-    <Static width="22.5" depth="22.5"/>
+    <Static width="29.0" depth="29.0"/>
   </Obstruction>
   <VisualActor>
-    <Actor>structures/celts/temple.xml</Actor>
-    <FoundationActor>structures/fndn_5x5.xml</FoundationActor>
+    <Actor>structures/celts/shrine.xml</Actor>
+    <FoundationActor>structures/fndn_9x9.xml</FoundationActor>
   </VisualActor>
 </Entity>

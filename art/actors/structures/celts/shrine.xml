@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actor version="1">
+	<castshadow/>
+	<group>
+		<variant frequency="1" name="Celtic_shrine">
+      <mesh>structural/field_propped_8x8.dae</mesh>
+			<props>
+        <prop actor="props/structures/britons/fortress_wall.xml" attachpoint="root"/>
+				<prop actor="structures/gauls/cult_statue.xml" attachpoint="root"/>
+				<prop actor="props/structures/gauls/wonder_cauldron.xml" attachpoint="patch_024"/>
+				<prop actor="props/structures/gauls/wonder_cauldron.xml" attachpoint="patch_025"/>
+				<prop actor="props/structures/decals/dirt_6x6_gaul_theater.xml" attachpoint="root"/>
+			</props>
+      <textures>
+        <texture file="structural/celt_struct_1.dds" name="baseTex"/>
+        <texture file="structural/celt_struct_1_norm.png" name="normTex"/>
+        <texture file="structural/celt_struct_1_spec.png" name="specTex"/>
+      </textures>
+		</variant>
+	</group>
+  <group>
+    <variant frequency="1" name="alive"/>
+    <variant file="structures/destruction_large.xml"/>
+  </group>
+  <material>player_trans_ao_parallax_spec.xml</material>
+</actor>
