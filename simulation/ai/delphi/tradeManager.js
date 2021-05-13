@@ -170,9 +170,9 @@ DELPHI.TradeManager.prototype.setTradingGoods = function(gameState)
 	let wantedRates = gameState.ai.HQ.GetWantedGatherRates(gameState);
 	let actualWantedRates = new Map();
 	for (let res in wantedRates) {
-		if (validTradingGoods.hasOwnProperty(res)) {
+		if (resTradeCodes.indexOf(res) !== -1) {
 			actualWantedRates[res] = wantedRates[res];
-		}// end if !validTradingGoods.hasOwnProperty(res)
+		}// end if !resTradeCodes.indexOf(res)
 	}// end for res in wantedRates
 	wantedRates = actualWantedRates;
 	let remaining = 100;

@@ -12,6 +12,6 @@
     <Static width="18" depth="30.0"/>
   </Obstruction>
   <VisualActor>
-    <Actor>structures/kushites/temple.xml</Actor>
+    <Actor>structures/kushites/temple_3.xml</Actor>
   </VisualActor>
 </Entity>
