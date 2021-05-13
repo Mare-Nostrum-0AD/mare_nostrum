@@ -4,6 +4,6 @@
     <Civ>iber</Civ>
   </Identity>
   <VisualActor>
-    <Actor>units/iberians/supply_wagon.xml</Actor>
+    <Actor>units/global/supply_wagon_a.xml</Actor>
   </VisualActor>
 </Entity>

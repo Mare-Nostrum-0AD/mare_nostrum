@@ -4,6 +4,6 @@
     <Civ>cart</Civ>
   </Identity>
   <VisualActor>
-    <Actor>units/carthaginians/supply_wagon.xml</Actor>
+    <Actor>units/global/supply_wagon_a.xml</Actor>
   </VisualActor>
 </Entity>

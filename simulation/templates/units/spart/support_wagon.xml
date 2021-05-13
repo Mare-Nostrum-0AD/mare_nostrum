@@ -4,6 +4,6 @@
     <Civ>spart</Civ>
   </Identity>
   <VisualActor>
-    <Actor>units/hellenes/supply_wagon.xml</Actor>
+    <Actor>units/global/supply_wagon_a.xml</Actor>
   </VisualActor>
 </Entity>
