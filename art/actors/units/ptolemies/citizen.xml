@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actor version="1">
+  <castshadow/>
+  <group>
+    <variant frequency="1" name="Female">
+      <mesh>skeletal/celt_trader.dae</mesh>
+      <props>
+        <prop actor="units/ptolemies/female_citizen.xml" attachpoint="root"/>
+      </props>
+      <textures>
+        <texture file="null_white.dds" name="baseTex"/>
+      </textures>
+    </variant>
+    <variant frequency="1" name="Male">
+      <mesh>skeletal/celt_trader.dae</mesh>
+      <props>
+        <prop actor="units/ptolemies/male_citizen.xml" attachpoint="root"/>
+      </props>
+      <textures>
+        <texture file="null_white.dds" name="baseTex"/>
+      </textures>
+    </variant>
+  </group>
+  <material>player_trans_spec.xml</material>
+</actor>
