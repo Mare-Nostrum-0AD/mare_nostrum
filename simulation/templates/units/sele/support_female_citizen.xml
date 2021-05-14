@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_unit_support_female_citizen">
+  <Identity>
+    <Civ>sele</Civ>
+    <Lang>greek</Lang>
+		<Phenotype>
+			female
+			male
+		</Phenotype>
+    <Icon>units/sele_support_female.png</Icon>
+  </Identity>
+	<Replace>
+		<Hellenic>
+			<Template>units/{native}/support_female_citizen_hellenic</Template>
+			<Weight>1</Weight>
+		</Hellenic>
+		<Persian>
+			<Template>units/{native}/support_citizen_persian</Template>
+			<Weight>1</Weight>
+		</Persian>
+		<Syrian>
+			<Template>units/{native}/support_female_citizen_syrian</Template>
+			<Weight>1</Weight>
+		</Syrian>
+	</Replace>
+  <VisualActor>
+		<Actor>units/seleucids/{phenotype}_citizen.xml</Actor>
+  </VisualActor>
+</Entity>
