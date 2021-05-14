@@ -69,11 +69,14 @@
     <Max>25</Max>
   </Health>
   <Identity>
-    <Classes datatype="tokens">FemaleCitizen</Classes>
+    <Classes datatype="tokens">Citizen FemaleCitizen</Classes>
     <VisibleClasses datatype="tokens">Citizen Worker</VisibleClasses>
-    <GenericName>Female Citizen</GenericName>
-    <SelectionGroupName>template_unit_support_female_citizen</SelectionGroupName>
-    <Phenotype>female</Phenotype>
+    <GenericName>Citizen</GenericName>
+    <SelectionGroupName>template_unit_support_citizen</SelectionGroupName>
+    <Phenotype>
+			female
+			male
+		</Phenotype>
     <Formations disable=""/>
   </Identity>
   <Loot>
@@ -118,7 +121,7 @@
       <order_attack>voice/{lang}/civ/civ_{phenotype}_attack.xml</order_attack>
       <order_build>voice/{lang}/civ/civ_{phenotype}_build.xml</order_build>
       <order_repair>voice/{lang}/civ/civ_{phenotype}_repair.xml</order_repair>
-      <trained>interface/alarm/alarm_create_female.xml</trained>
+      <trained>interface/alarm/alarm_create_infantry.xml</trained>
     </SoundGroups>
   </Sound>
   <UnitAI>

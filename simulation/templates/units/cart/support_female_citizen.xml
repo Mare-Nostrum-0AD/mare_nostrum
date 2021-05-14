@@ -11,11 +11,11 @@
   </Builder>
   <Identity>
     <Civ>cart</Civ>
-    <SpecificName>Aštāh</SpecificName>
-    <GenericName>Carthaginian Woman</GenericName>
+    <SpecificName>Madaniyy</SpecificName>
+    <GenericName>Carthaginian Citizen</GenericName>
     <Icon>units/cart_support_female_citizen.png</Icon>
   </Identity>
   <VisualActor>
-    <Actor>units/carthaginians/female_citizen.xml</Actor>
+    <Actor>units/carthaginians/{phenotype}_citizen.xml</Actor>
   </VisualActor>
 </Entity>
