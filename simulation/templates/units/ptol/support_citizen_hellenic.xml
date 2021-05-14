@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="units/ptol/support_female_citizen">
+  <Identity>
+    <Lang>greek</Lang>
+    <SpecificName>Younánis Polítēs</SpecificName>
+    <GenericName>Greek Colonist</GenericName>
+    <Icon>units/hele_support_female_citizen.png</Icon>
+  </Identity>
+	<Replace disable="" />
+  <VisualActor>
+		<Actor>units/macedonians/{phenotype}_citizen.xml</Actor>
+  </VisualActor>
+</Entity>
