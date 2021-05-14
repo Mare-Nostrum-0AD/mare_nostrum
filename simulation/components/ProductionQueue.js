@@ -779,11 +779,19 @@ ProductionQueue.prototype.SpawnUnits = function(templateName, count, metadata)
 	}
 
 	if (createdEnts.length)
+	{
+		for (let ent of createdEnts)
+		{
+			let cmpReplace = Engine.QueryInterface(ent, IID_Replace);
+			if (cmpReplace)
+				cmpReplace.Replace();
+		}
 		Engine.PostMessage(this.entity, MT_TrainingFinished, {
 		    "entities": createdEnts,
 		    "owner": cmpOwnership.GetOwner(),
 		    "metadata": metadata
 		});
+	}
 
 	return createdEnts.length;
 };
