@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_unit_support_female_citizen">
+  <Builder>
+    <Entities datatype="tokens">
+      structures/iber/monument
+    </Entities>
+  </Builder>
+  <Identity>
+    <Civ>iber</Civ>
+    <SpecificName>Langilea</SpecificName>
+    <GenericName>Iberian Labourer</GenericName>
+    <Icon>units/iber_support_female_citizen.png</Icon>
+  </Identity>
+  <VisualActor>
+    <Actor>units/iberians/{phenotype}_citizen.xml</Actor>
+  </VisualActor>
+</Entity>
