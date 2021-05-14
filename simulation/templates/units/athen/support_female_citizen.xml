@@ -9,7 +9,7 @@
     <Civ>athen</Civ>
     <SpecificName>Polítes Athēnaís</SpecificName>
     <GenericName>Athenian Citizen</GenericName>
-    <Icon>units/hele_support_female_citizen.png</Icon>
+		<Icon>units/hele_support_{phenotype}_citizen.png</Icon>
   </Identity>
   <VisualActor>
 		<Actor>units/athenians/{phenotype}_citizen.xml</Actor>
