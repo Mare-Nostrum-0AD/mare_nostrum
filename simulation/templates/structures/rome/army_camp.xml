@@ -4,22 +4,19 @@
     <Ranged>
       <AttackName>Bow</AttackName>
       <Damage>
-        <Hack>0</Hack>
-        <Pierce>25</Pierce>
-        <Crush>0</Crush>
+        <Pierce>10</Pierce>
       </Damage>
       <MaxRange>60</MaxRange>
-      <MinRange>0</MinRange>
       <PrepareTime>1200</PrepareTime>
       <RepeatTime>2000</RepeatTime>
-      <Delay>0</Delay>
       <Projectile>
-        <Speed>100.0</Speed>
+        <Speed>100</Speed>
         <Spread>1.5</Spread>
-        <Gravity>50.0</Gravity>
+        <Gravity>50</Gravity>
         <FriendlyFire>false</FriendlyFire>
         <LaunchPoint y="3"/>
       </Projectile>
+      <PreferredClasses datatype="tokens">Human</PreferredClasses>
       <RangeOverlay>
         <LineTexture>outline_border.png</LineTexture>
         <LineTextureMask>outline_border_mask.png</LineTextureMask>
@@ -28,7 +25,7 @@
     </Ranged>
   </Attack>
   <BuildingAI>
-    <DefaultArrowCount>1</DefaultArrowCount>
+    <DefaultArrowCount>3</DefaultArrowCount>
     <MaxArrowCount>15</MaxArrowCount>
     <GarrisonArrowMultiplier>1</GarrisonArrowMultiplier>
     <GarrisonArrowClasses>Soldier</GarrisonArrowClasses>
@@ -67,14 +64,14 @@
     <LoadingRange>6</LoadingRange>
   </GarrisonHolder>
   <Health>
-    <Max>2500</Max>
+    <Max>2250</Max>
     <SpawnEntityOnDeath>decay|rubble/rubble_rome_sb</SpawnEntityOnDeath>
   </Health>
   <Identity>
     <Civ>rome</Civ>
     <GenericName>Army Camp</GenericName>
     <SpecificName>Castra</SpecificName>
-    <Tooltip>Build in neutral or enemy territory. Train Melee Infantry. Garrison Soldiers for additional arrows.</Tooltip>
+    <Tooltip>Build in neutral or enemy territory. Train Advanced Melee Infantry. Garrison Soldiers for additional arrows.</Tooltip>
     <Classes datatype="tokens">ConquestCritical CivSpecific</Classes>
     <VisibleClasses datatype="tokens">City ArmyCamp</VisibleClasses>
     <Icon>structures/roman_camp.png</Icon>
@@ -99,17 +96,10 @@
     <Entity>
       <Damage>
         <Hack>15</Hack>
-        <Pierce>25</Pierce>
-        <Crush>2</Crush>
+        <Pierce>35</Pierce>
+        <Crush>3</Crush>
       </Damage>
     </Entity>
-    <Foundation>
-      <Damage>
-        <Hack>1</Hack>
-        <Pierce>5</Pierce>
-        <Crush>1</Crush>
-      </Damage>
-    </Foundation>
   </Resistance>
   <Sound>
     <SoundGroups>

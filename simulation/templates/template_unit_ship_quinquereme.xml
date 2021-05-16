@@ -4,23 +4,25 @@
     <Ranged>
       <AttackName>Stone</AttackName>
       <Damage>
-        <Hack>0</Hack>
-        <Pierce>0</Pierce>
         <Crush>150</Crush>
       </Damage>
-      <MaxRange>80</MaxRange>
+      <MaxRange>100</MaxRange>
       <MinRange>40</MinRange>
       <PrepareTime>2000</PrepareTime>
       <RepeatTime>5000</RepeatTime>
-      <Delay>0</Delay>
       <Projectile>
-        <Speed>40.0</Speed>
-        <Spread>6.0</Spread>
-        <Gravity>20.0</Gravity>
+        <Speed>40</Speed>
+        <Spread>6</Spread>
+        <Gravity>20</Gravity>
         <FriendlyFire>false</FriendlyFire>
         <LaunchPoint y="3"/>
       </Projectile>
       <PreferredClasses datatype="tokens">Ship Structure</PreferredClasses>
+      <RangeOverlay>
+        <LineTexture>outline_border.png</LineTexture>
+        <LineTextureMask>outline_border_mask.png</LineTextureMask>
+        <LineThickness>0.175</LineThickness>
+      </RangeOverlay>
       <RestrictedClasses datatype="tokens">Sturdy</RestrictedClasses>
     </Ranged>
   </Attack>
@@ -31,12 +33,11 @@
     <GarrisonArrowClasses>StoneThrower</GarrisonArrowClasses>
   </BuildingAI>
   <Cost>
-    <Population>3</Population>
+    <Population>5</Population>
     <BuildTime>30</BuildTime>
     <Resources>
-      <wood>350</wood>
-      <metal>200</metal>
-      <stone>350</stone>
+      <wood>600</wood>
+      <metal>300</metal>
       <wealth>500</wealth>
       <manpower>20</manpower>
     </Resources>
@@ -55,15 +56,14 @@
     <RequiredTechnology>phase_hegemon</RequiredTechnology>
   </Identity>
   <Loot>
-    <xp>150</xp>
-    <wood>40</wood>
-    <metal>30</metal>
+    <xp>200</xp>
+    <wood>120</wood>
+    <metal>60</metal>
     <wealth>30</wealth>
   </Loot>
   <Position>
     <TurnRate>2</TurnRate>
   </Position>
-  <ResourceGatherer disable=""/>
   <Sound>
     <SoundGroups>
       <attack_ranged>attack/siege/ballist_attack.xml</attack_ranged>

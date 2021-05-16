@@ -6,9 +6,8 @@
       <Damage>
         <Hack>16</Hack>
         <Pierce>12</Pierce>
-        <Crush>0</Crush>
       </Damage>
-      <MaxRange>6</MaxRange>
+      <MaxRange>4</MaxRange>
       <Bonuses>
         <BonusCavMelee>
           <Classes>Cavalry</Classes>

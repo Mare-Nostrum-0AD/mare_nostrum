@@ -5,14 +5,19 @@
     <Color r="204" g="155" b="102"/>
   </Minimap>
   <ResourceSupply>
-    <Amount>600</Amount>
+    <Max>600</Max>
+    <Initial>600</Initial>
     <Type>food.milk</Type>
 		<KillBeforeGather>false</KillBeforeGather>
 		<MaxGatherers>5</MaxGatherers>
-		<RegenRate>
-			<Amount>2</Amount>
-			<Interval>5000</Interval>
-		</RegenRate>
+		<DiminishingReturns>0.9</DiminishingReturns>
+		<Change>
+			<Regrowth>
+				<State>alive gathered</State>
+				<Value>2</Value>
+				<Interval>5000</Interval>
+			</Regrowth>
+		</Change>
   </ResourceSupply>
   <Sound>
     <SoundGroups>

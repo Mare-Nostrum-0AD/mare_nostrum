@@ -57,11 +57,14 @@ ReferencePage.prototype.StatsFunctions = [
 	getHealerTooltip,
 	getResistanceTooltip,
 	getGarrisonTooltip,
+	getTurretsTooltip,
 	getProjectilesTooltip,
 	getSpeedTooltip,
 	getGatherTooltip,
 	getResourceSupplyTooltip,
+	getTreasureTooltip,
 	getPopulationBonusTooltip,
 	getResourceTrickleTooltip,
+	getUpkeepTooltip,
 	getLootTooltip
 ];

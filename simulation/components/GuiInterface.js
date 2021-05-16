@@ -215,6 +215,17 @@ GuiInterface.prototype.GetReplayMetadata = function()
 	};
 };
 
+/**
+ * Called when the game ends if the current game is part of a campaign run.
+ */
+GuiInterface.prototype.GetCampaignGameEndData = function(player)
+{
+	let cmpTrigger = Engine.QueryInterface(SYSTEM_ENTITY, IID_Trigger);
+	if (Trigger.prototype.OnCampaignGameEnd)
+		return Trigger.prototype.OnCampaignGameEnd();
+	return {};
+};
+
 GuiInterface.prototype.GetRenamedEntities = function(player)
 {
 	if (this.miragedEntities[player])
@@ -243,6 +254,9 @@ GuiInterface.prototype.AddMiragedEntity = function(player, entity, mirage)
 GuiInterface.prototype.GetEntityState = function(player, ent)
 {
 	let cmpTemplateManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_TemplateManager);
+
+	if (!ent)
+		return null;
 
 	// All units must have a template; if not then it's a nonexistent entity id.
 	let template = cmpTemplateManager.GetCurrentTemplateName(ent);
@@ -343,7 +357,8 @@ GuiInterface.prototype.GetEntityState = function(player, ent)
 			"entities": cmpProductionQueue.GetEntitiesList(),
 			"technologies": cmpProductionQueue.GetTechnologiesList(),
 			"techCostMultiplier": cmpProductionQueue.GetTechCostMultiplier(),
-			"queue": cmpProductionQueue.GetQueue()
+			"queue": cmpProductionQueue.GetQueue(),
+			"autoqueue": cmpProductionQueue.IsAutoQueueing()
 		};
 
 	let cmpTrader = Engine.QueryInterface(ent, IID_Trader);
@@ -381,7 +396,7 @@ GuiInterface.prototype.GetEntityState = function(player, ent)
 			"buffHeal": cmpGarrisonHolder.GetHealRate(),
 			"allowedClasses": cmpGarrisonHolder.GetAllowedClasses(),
 			"capacity": cmpGarrisonHolder.GetCapacity(),
-			"garrisonedEntitiesCount": cmpGarrisonHolder.GetGarrisonedEntitiesCount()
+			"occupiedSlots": cmpGarrisonHolder.OccupiedSlots()
 		};
 
 	let cmpTurretHolder = Engine.QueryInterface(ent, IID_TurretHolder);
@@ -390,10 +405,18 @@ GuiInterface.prototype.GetEntityState = function(player, ent)
 			"turretPoints": cmpTurretHolder.GetTurretPoints()
 		};
 
+	let cmpTurretable = Engine.QueryInterface(ent, IID_Turretable);
+	if (cmpTurretable)
+		ret.turretable = {
+			"ejectable": cmpTurretable.IsEjectable(),
+			"holder": cmpTurretable.HolderID()
+		};
+
 	let cmpGarrisonable = Engine.QueryInterface(ent, IID_Garrisonable);
 	if (cmpGarrisonable)
 		ret.garrisonable = {
-			"holder": cmpGarrisonable.HolderID()
+			"holder": cmpGarrisonable.HolderID(),
+			"size": cmpGarrisonable.UnitSize()
 		};
 
 	let cmpUnitAI = Engine.QueryInterface(ent, IID_UnitAI);
@@ -553,11 +576,29 @@ GuiInterface.prototype.GetEntityState = function(player, ent)
 			"rates": cmpResourceTrickle.GetRates()
 		};
 
+	let cmpTreasure = Engine.QueryInterface(ent, IID_Treasure);
+	if (cmpTreasure)
+		ret.treasure = {
+			"collectTime": cmpTreasure.CollectionTime(),
+			"resources": cmpTreasure.Resources()
+		};
+
+	let cmpTreasureCollecter = Engine.QueryInterface(ent, IID_TreasureCollecter);
+	if (cmpTreasureCollecter)
+		ret.treasureCollecter = true;
+
 	let cmpUnitMotion = Engine.QueryInterface(ent, IID_UnitMotion);
 	if (cmpUnitMotion)
 		ret.speed = {
 			"walk": cmpUnitMotion.GetWalkSpeed(),
 			"run": cmpUnitMotion.GetWalkSpeed() * cmpUnitMotion.GetRunMultiplier()
+		};
+
+	let cmpUpkeep = Engine.QueryInterface(ent, IID_Upkeep);
+	if (cmpUpkeep)
+		ret.upkeep = {
+			"interval": cmpUpkeep.GetInterval(),
+			"rates": cmpUpkeep.GetRates()
 		};
 
 	return ret;
@@ -604,7 +645,13 @@ GuiInterface.prototype.GetTemplateData = function(player, data)
 	let auraNames = template.Auras._string.split(/\s+/);
 
 	for (let name of auraNames)
-		aurasTemplate[name] = AuraTemplates.Get(name);
+	{
+		let auraTemplate = AuraTemplates.Get(name);
+		if (!auraTemplate)
+			error("Template " + templateName + " has undefined aura " + name);
+		else
+			aurasTemplate[name] = auraTemplate;
+	}
 
 	return GetTemplateDataHelper(template, owner, aurasTemplate);
 };
@@ -1760,6 +1807,18 @@ GuiInterface.prototype.GetFoundationSnapData = function(player, data)
 	return false;
 };
 
+GuiInterface.prototype.PlaySoundForPlayer = function(player, data)
+{
+	let playerEntityID = Engine.QueryInterface(SYSTEM_ENTITY, IID_PlayerManager).GetPlayerByID(player);
+	let cmpSound = Engine.QueryInterface(playerEntityID, IID_Sound);
+	if (!cmpSound)
+		return;
+
+	let soundGroup = cmpSound.GetSoundGroup(data.name);
+	if (soundGroup)
+		Engine.QueryInterface(SYSTEM_ENTITY, IID_SoundManager).PlaySoundGroupForPlayer(soundGroup, player);
+};
+
 GuiInterface.prototype.PlaySound = function(player, data)
 {
 	if (!data.entity)
@@ -1841,7 +1900,11 @@ GuiInterface.prototype.HasIdleUnits = function(player, data)
 GuiInterface.prototype.IdleUnitFilter = function(unit, idleClasses, excludeUnits)
 {
 	let cmpUnitAI = Engine.QueryInterface(unit, IID_UnitAI);
-	if (!cmpUnitAI || !cmpUnitAI.IsIdle() || cmpUnitAI.IsGarrisoned())
+	if (!cmpUnitAI || !cmpUnitAI.IsIdle())
+		return { "idle": false };
+
+	let cmpGarrisonable = Engine.QueryInterface(unit, IID_Garrisonable);
+	if (cmpGarrisonable && cmpGarrisonable.IsGarrisoned())
 		return { "idle": false };
 
 	let cmpIdentity = Engine.QueryInterface(unit, IID_Identity);
@@ -1860,7 +1923,8 @@ GuiInterface.prototype.GetTradingRouteGain = function(player, data)
 	if (!data.firstMarket || !data.secondMarket)
 		return null;
 
-	return CalculateTraderGain(data.firstMarket, data.secondMarket, data.template);
+	let cmpMarket = QueryMiragedInterface(data.firstMarket, IID_Market);
+	return cmpMarket && cmpMarket.CalculateTraderGain(data.secondMarket, data.template);
 };
 
 GuiInterface.prototype.GetTradingDetails = function(player, data)
@@ -2018,6 +2082,7 @@ let exposedFunctions = {
 	"GetExtendedSimulationState": 1,
 	"GetInitAttributes": 1,
 	"GetReplayMetadata": 1,
+	"GetCampaignGameEndData": 1,
 	"GetRenamedEntities": 1,
 	"ClearRenamedEntities": 1,
 	"GetEntityState": 1,
@@ -2052,6 +2117,7 @@ let exposedFunctions = {
 	"SetWallPlacementPreview": 1,
 	"GetFoundationSnapData": 1,
 	"PlaySound": 1,
+	"PlaySoundForPlayer": 1,
 	"FindIdleUnits": 1,
 	"HasIdleUnits": 1,
 	"GetTradingRouteGain": 1,

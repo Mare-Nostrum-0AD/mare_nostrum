@@ -10,19 +10,15 @@
     <Ranged>
       <AttackName>Bow</AttackName>
       <Damage>
-        <Hack>0</Hack>
-        <Pierce>12</Pierce>
-        <Crush>0</Crush>
+        <Pierce>10</Pierce>
       </Damage>
       <MaxRange>60</MaxRange>
-      <MinRange>0</MinRange>
       <PrepareTime>1200</PrepareTime>
       <RepeatTime>2000</RepeatTime>
-      <Delay>0</Delay>
       <Projectile>
-        <Speed>100.0</Speed>
+        <Speed>100</Speed>
         <Spread>1.5</Spread>
-        <Gravity>50.0</Gravity>
+        <Gravity>50</Gravity>
         <FriendlyFire>false</FriendlyFire>
         <LaunchPoint y="3"/>
       </Projectile>
@@ -131,6 +127,7 @@
       unlock_spies
       spy_counter
       archery_tradition
+      hoplite_tradition
       hellenistic_metropolis
     </Technologies>
   </ProductionQueue>
@@ -141,13 +138,6 @@
         <Pierce op="add">5</Pierce>
       </Damage>
     </Entity>
-    <Foundation>
-      <Damage>
-        <Hack>5</Hack>
-        <Pierce>15</Pierce>
-        <Crush>3</Crush>
-      </Damage>
-    </Foundation>
   </Resistance>
   <ResourceDropsite>
     <Types>food wood stone metal</Types>

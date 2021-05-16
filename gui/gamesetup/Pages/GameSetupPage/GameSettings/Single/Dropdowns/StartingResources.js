@@ -1,4 +1,4 @@
-GameSettingControls.StartingResources = class extends GameSettingControlDropdown
+GameSettingControls.StartingResources = class StartingResources extends GameSettingControlDropdown
 {
 	constructor(...args)
 	{
@@ -7,8 +7,11 @@ GameSettingControls.StartingResources = class extends GameSettingControlDropdown
 		this.dropdown.list = g_StartingResources.Title;
 		this.dropdown.list_data = g_StartingResources.Resources.map((_, idx) => idx);
 
-		this.perPlayer = false;
 		this.sprintfArgs = {};
+
+		g_GameSettings.startingResources.watch(() => this.render(), ["resources", "perPlayer"]);
+		g_GameSettings.map.watch(() => this.render(), ["type"]);
+		this.render();
 	}
 
 	// generate label for each resource level
@@ -30,48 +33,12 @@ GameSettingControls.StartingResources = class extends GameSettingControlDropdown
 		this.dropdown.tooltip = tooltip;
 	}
 
-	onMapChange(mapData)
+	render()
 	{
-		let mapValue;
-		if (mapData &&
-			mapData.settings &&
-			mapData.settings.StartingResources !== undefined)
-			mapValue = mapData.settings.StartingResources;
-
-		if (mapValue !== undefined && mapValue != g_GameAttributes.settings.StartingResources)
-		{
-			g_GameAttributes.settings.StartingResources = mapValue;
-			this.gameSettingsControl.updateGameAttributes();
-		}
-
-		let isScenario = g_GameAttributes.mapType == "scenario";
-
-		this.perPlayer =
-			isScenario &&
-			mapData && mapData.settings && mapData.settings.PlayerData &&
-			mapData.settings.PlayerData.some(pData => pData && pData.Resources !== undefined);
-
-		this.setEnabled(!isScenario && !this.perPlayer);
-
-		if (this.perPlayer)
+		this.setEnabled(g_GameSettings.map.type != "scenario" && !g_GameSettings.startingResources.perPlayer);
+		if (g_GameSettings.startingResources.perPlayer)
 			this.label.caption = this.PerPlayerCaption;
-	}
-
-	onGameAttributesChange()
-	{
-		if (g_GameAttributes.settings.StartingResources === undefined)
-		{
-			let resources = g_StartingResources.Resources[g_StartingResources.Default];
-			g_GameAttributes.settings.StartingResources = resources;
-			g_GameAttributes.settings.StartingResourcesIndex = g_StartingResources.Default;
-			g_GameAttributes.settings.StartingResourcesLabel = this.generateLabel(resources);
-			this.gameSettingsControl.updateGameAttributes();
-		}
-	}
-
-	onGameAttributesBatchChange()
-	{
-		if (!this.perPlayer)
+		else
 			this.setSelectedValue(g_GameAttributes.settings.StartingResourcesIndex);
 	}
 
@@ -86,7 +53,7 @@ GameSettingControls.StartingResources = class extends GameSettingControlDropdown
 		g_GameAttributes.settings.StartingResources = resources;
 		g_GameAttributes.settings.StartingResourcesIndex = itemIdx;
 		g_GameAttributes.settings.StartingResourcesLabel = this.generateLabel(resources);
-		this.gameSettingsControl.updateGameAttributes();
+		g_GameSettings.startingResources.setResources(resources);
 		this.gameSettingsControl.setNetworkGameAttributes();
 	}
 };

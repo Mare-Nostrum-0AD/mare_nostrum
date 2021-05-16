@@ -6,7 +6,7 @@
       <Damage>
         <Hack>0</Hack>
         <Pierce>0</Pierce>
-        <Crush>10.5</Crush>
+        <Crush>14</Crush>
       </Damage>
       <PreferredClasses datatype="tokens">!Ship</PreferredClasses>
       <RestrictedClasses datatype="tokens">Sturdy</RestrictedClasses>

@@ -33,6 +33,6 @@
     </Formations>
   </Identity>
   <UnitMotion>
-    <WalkSpeed op="mul">0.835</WalkSpeed>
+    <WalkSpeed op="mul">0.89</WalkSpeed>
   </UnitMotion>
 </Entity>

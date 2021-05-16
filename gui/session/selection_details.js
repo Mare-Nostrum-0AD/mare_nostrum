@@ -10,14 +10,6 @@ function layoutSelectionMultiple()
 	Engine.GetGUIObjectByName("detailsAreaSingle").hidden = true;
 }
 
-function getResourceTypeDisplayName(resourceType)
-{
-	return resourceNameFirstWord(
-		resourceType.generic == "treasure" ?
-			resourceType.specific :
-			resourceType.generic);
-}
-
 // Updates the health bar of garrisoned units
 function updateGarrisonHealthBar(entState, selection)
 {
@@ -59,16 +51,28 @@ function updateGarrisonHealthBar(entState, selection)
 // Fills out information that most entities have
 function displaySingle(entState)
 {
-	// Get general unit and player data
 	let template = GetTemplateData(entState.template);
-	let specificName = template.name.specific;
-	let genericName = template.name.generic;
-	// If packed, add that to the generic name (reduces template clutter)
-	if (genericName && template.pack && template.pack.state == "packed")
-		genericName = sprintf(translate("%(genericName)s — Packed"), { "genericName": genericName });
-	// If has population, add that to generic name
-	if (genericName && entState.city && entState.city.population)
-		genericName = sprintf(translate("%(genName)s | Population %(pop)s"), { "genName": genericName, "pop": entState.city.population });
+
+	let primaryName = g_SpecificNamesPrimary ? template.name.specific : template.name.generic;
+	let secondaryName;
+	if (g_ShowSecondaryNames)
+		secondaryName = g_SpecificNamesPrimary ? template.name.generic : template.name.specific;
+
+	// If packed, add that to the generic name (reduces template clutter).
+	if (template.pack && template.pack.state == "packed")
+	{
+		if (secondaryName && g_ShowSecondaryNames)
+			secondaryName = sprintf(translate("%(secondaryName)s — Packed"), { "secondaryName": secondaryName });
+		else
+			secondaryName = sprintf(translate("Packed"));
+	}
+	if (entState.city && entState.city.population)
+	{
+		if (secondaryName && g_ShowSecondaryNames)
+			secondaryName = sprintf(translate("%(genName)s | Population %(pop)s"), { "genName": secondaryName, "pop": entState.city.population });
+		else
+			secondaryName = sprintf(translate("Population %(pop)s"), { "pop": entState.city.population });
+	}
 	let playerState = g_Players[entState.player];
 
 	let civName = g_CivData[playerState.civ].Name;
@@ -231,7 +235,7 @@ function displaySingle(entState)
 		unitResourceBar.size = resourceSize;
 
 		Engine.GetGUIObjectByName("resourceLabel").caption = sprintf(translate("%(resource)s:"), {
-			"resource": getResourceTypeDisplayName(entState.resourceSupply.type)
+			"resource": resourceNameFirstWord(entState.resourceSupply.type.generic)
 		});
 		Engine.GetGUIObjectByName("resourceStats").caption = resources;
 
@@ -301,19 +305,19 @@ function displaySingle(entState)
 		resourceCarryingText.hidden = true;
 	}
 
-	Engine.GetGUIObjectByName("specific").caption = specificName;
 	Engine.GetGUIObjectByName("player").caption = playerName;
 
 	Engine.GetGUIObjectByName("playerColorBackground").sprite =
 		"color:" + g_DiplomacyColors.getPlayerColor(entState.player, 128);
 
-	Engine.GetGUIObjectByName("generic").caption = genericName == specificName ? "" :
-		sprintf(translate("(%(genericName)s)"), {
-			"genericName": genericName
+	Engine.GetGUIObjectByName("primary").caption = primaryName;
+	Engine.GetGUIObjectByName("secondary").caption = !secondaryName || primaryName == secondaryName ? "" :
+		sprintf(translate("(%(secondaryName)s)"), {
+			"secondaryName": secondaryName
 		});
 
 	let isGaia = playerState.civ == "gaia";
-	Engine.GetGUIObjectByName("playerCivIcon").sprite = isGaia ? "" : "stretched:grayscale:" + civEmblem;
+	Engine.GetGUIObjectByName("playerCivIcon").sprite = isGaia ? "" : "cropped:1.0, 0.15625 center:grayscale:" + civEmblem;
 	Engine.GetGUIObjectByName("player").tooltip = isGaia ? "" : civName;
 
 	// TODO: we should require all entities to have icons
@@ -324,7 +328,7 @@ function displaySingle(entState)
 			"BackgroundBlack";
 	if (template.icon)
 		Engine.GetGUIObjectByName("iconBorder").onPressRight = () => {
-			showTemplateDetails(entState.template);
+			showTemplateDetails(entState.template, playerState.civ);
 		};
 
 	let detailedTooltip = [
@@ -334,9 +338,11 @@ function displaySingle(entState)
 		getGatherTooltip,
 		getSpeedTooltip,
 		getGarrisonTooltip,
+		getTurretsTooltip,
 		getPopulationBonusTooltip,
 		getProjectilesTooltip,
 		getResourceTrickleTooltip,
+		getUpkeepTooltip,
 		getLootTooltip
 	].map(func => func(entState)).filter(tip => tip).join("\n");
 	if (detailedTooltip)
@@ -349,13 +355,12 @@ function displaySingle(entState)
 
 	let iconTooltips = [];
 
-	if (genericName)
-		iconTooltips.push("[font=\"sans-bold-16\"]" + genericName + "[/font]");
-
+	iconTooltips.push(setStringTags(primaryName, g_TooltipTextFormats.namePrimaryBig));
 	iconTooltips = iconTooltips.concat([
 		getVisibleEntityClassesFormatted,
 		getAurasTooltip,
 		getEntityTooltip,
+		getTreasureTooltip,
 		getCityUpgradeText,
 		showTemplateViewerOnRightClickTooltip
 	].map(func => func(template, playerState.civ)));
@@ -376,6 +381,7 @@ function displayMultiple(entStates)
 	let playerID = 0;
 	let totalCarrying = {};
 	let totalLoot = {};
+	let garrisonSize = 0;
 
 	for (let entState of entStates)
 	{
@@ -405,6 +411,12 @@ function displayMultiple(entStates)
 			totalCarrying[type] = (totalCarrying[type] || 0) + carrying[type];
 			totalLoot[type] = (totalLoot[type] || 0) + carrying[type];
 		}
+
+		if (entState.garrisonable)
+			garrisonSize += entState.garrisonable.size;
+
+		if (entState.garrisonHolder)
+			garrisonSize += entState.garrisonHolder.occupiedSlots;
 	}
 
 	Engine.GetGUIObjectByName("healthMultiple").hidden = averageHealth <= 0;
@@ -457,6 +469,12 @@ function displayMultiple(entStates)
 	let numberOfUnits = Engine.GetGUIObjectByName("numberOfUnits");
 	numberOfUnits.caption = entStates.length;
 	numberOfUnits.tooltip = "";
+
+	if (garrisonSize)
+		numberOfUnits.tooltip = sprintf(translate("%(label)s: %(details)s\n"), {
+			"label": headerFont(translate("Garrison Size")),
+			"details": bodyFont(garrisonSize)
+		});
 
 	if (Object.keys(totalCarrying).length)
 		numberOfUnits.tooltip = sprintf(translate("%(label)s %(details)s\n"), {

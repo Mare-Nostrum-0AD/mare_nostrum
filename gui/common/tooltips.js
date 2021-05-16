@@ -3,10 +3,21 @@ var g_TooltipTextFormats = {
 	"header": { "font": "sans-bold-13" },
 	"body": { "font": "sans-13" },
 	"comma": { "font": "sans-12" },
-	"nameSpecificBig": { "font": "sans-bold-16" },
-	"nameSpecificSmall": { "font": "sans-bold-12" },
-	"nameGeneric": { "font": "sans-bold-16" }
+	"namePrimaryBig": { "font": "sans-bold-16" },
+	"namePrimarySmall": { "font": "sans-bold-12" },
+	"nameSecondary": { "font": "sans-bold-16" }
 };
+
+var g_SpecificNamesPrimary = Engine.ConfigDB_GetValue("user", "gui.session.howtoshownames") == 0 || Engine.ConfigDB_GetValue("user", "gui.session.howtoshownames") == 2;
+var g_ShowSecondaryNames = Engine.ConfigDB_GetValue("user", "gui.session.howtoshownames") == 0 || Engine.ConfigDB_GetValue("user", "gui.session.howtoshownames") == 1;
+
+function initDisplayedNames()
+{
+	registerConfigChangeHandler(changes => {
+		if (changes.has("gui.session.howtoshownames"))
+			updateDisplayedNames();
+	});
+}
 
 /**
  * String of four spaces to be used as indentation in gui strings.
@@ -380,7 +391,7 @@ function captureDetails(captureTemplate)
 function splashDetails(splashTemplate)
 {
 	let splashLabel = sprintf(headerFont(translate("%(splashShape)s Splash")), {
-		"splashShape": splashTemplate.shape
+		"splashShape": translate(splashTemplate.shape)
 	});
 	let splashDamageTooltip = sprintf(translate("%(label)s: %(effects)s"), {
 		"label": splashLabel,
@@ -434,9 +445,7 @@ function getAttackTooltip(template)
 
 		let attackTypeTemplate = template.attack[attackType];
 		let attackLabel = sprintf(headerFont(translate("%(attackType)s")), {
-			"attackType": attackTypeTemplate.attackName.context ?
-				translateWithContext(attackTypeTemplate.attackName.context || "Name of an attack, usually the weapon.", attackTypeTemplate.attackName.name) :
-				translate(attackTypeTemplate.attackName.name)
+			"attackType": translateWithContext(attackTypeTemplate.attackName.context || "Name of an attack, usually the weapon.", attackTypeTemplate.attackName.name)
 		});
 
 		let projectiles;
@@ -487,9 +496,9 @@ function getStatusEffectsTooltip(statusCode, template, applier)
 		tooltipAttributes.push(getStatusEffectDurationTooltip(template));
 
 	if (applier && statusData.applierTooltip)
-		tooltipAttributes.push(translate(statusData.applierTooltip));
+		tooltipAttributes.push(translateWithContext("status effect", statusData.applierTooltip));
 	else if (!applier && statusData.receiverTooltip)
-		tooltipAttributes.push(translate(statusData.receiverTooltip));
+		tooltipAttributes.push(translateWithContext("status effect", statusData.receiverTooltip));
 
 	if (applier)
 		return sprintf(translate("%(statusName)s: %(statusInfo)s %(stackability)s"), {
@@ -536,27 +545,55 @@ function getStatusEffectStackabilityTooltip(template)
 
 function getGarrisonTooltip(template)
 {
-	if (!template.garrisonHolder)
-		return "";
-
-	let tooltips = [
-		sprintf(translate("%(label)s: %(garrisonLimit)s"), {
-			"label": headerFont(translate("Garrison Limit")),
-			"garrisonLimit": template.garrisonHolder.capacity
-		})
-	];
-
-	if (template.garrisonHolder.buffHeal)
-		tooltips.push(
-			sprintf(translate("%(healRateLabel)s %(value)s %(health)s / %(second)s"), {
-				"healRateLabel": headerFont(translate("Heal:")),
-				"value": Math.round(template.garrisonHolder.buffHeal),
-				"health": unitFont(translate("Health")),
-				"second": unitFont(translate("second")),
+	let tooltips = [];
+	if (template.garrisonHolder)
+	{
+		tooltips.push (
+			sprintf(translate("%(label)s: %(garrisonLimit)s"), {
+				"label": headerFont(translate("Garrison Limit")),
+				"garrisonLimit": template.garrisonHolder.capacity
 			})
 		);
 
-	return tooltips.join(commaFont(translate(", ")));
+		if (template.garrisonHolder.buffHeal)
+			tooltips.push(
+				sprintf(translate("%(healRateLabel)s %(value)s %(health)s / %(second)s"), {
+					"healRateLabel": headerFont(translate("Heal:")),
+					"value": Math.round(template.garrisonHolder.buffHeal),
+					"health": unitFont(translateWithContext("garrison tooltip", "Health")),
+					"second": unitFont(translate("second")),
+				})
+			);
+
+		tooltips.join(commaFont(translate(", ")));
+	}
+	if (template.garrisonable)
+	{
+		let extraSize;
+		if (template.garrisonHolder)
+			extraSize = template.garrisonHolder.occupiedSlots;
+		if (template.garrisonable.size > 1 || extraSize)
+			tooltips.push (
+				sprintf(translate("%(label)s: %(garrisonSize)s %(extraSize)s"), {
+					"label": headerFont(translate("Garrison Size")),
+					"garrisonSize": template.garrisonable.size,
+					"extraSize": extraSize ?
+						translateWithContext("nested garrison", "+ ") + extraSize : ""
+				})
+			);
+	}
+
+	return tooltips.join("\n");
+}
+
+function getTurretsTooltip(template)
+{
+	if (!template.turretHolder)
+		return "";
+	return sprintf(translate("%(label)s: %(turretsLimit)s"), {
+		"label": headerFont(translate("Turret Positions")),
+		"turretsLimit": Object.keys(template.turretHolder.turretPoints).length
+	});
 }
 
 function getProjectilesTooltip(template)
@@ -743,14 +780,45 @@ function getResourceSupplyTooltip(template)
 		return "";
 
 	let supply = template.supply;
-	let type = supply.type[0] == "treasure" ? supply.type[1] : supply.type[0];
-
 	// Translation: Label in tooltip showing the resource type and quantity of a given resource supply.
 	return sprintf(translate("%(label)s %(component)s %(amount)s"), {
 		"label": headerFont(translate("Resource Supply:")),
-		"component": resourceIcon(type),
+		"component": resourceIcon(supply.type[0]),
 		// Translation: Marks that a resource supply entity has an unending, infinite, supply of its resource.
 		"amount": Number.isFinite(+supply.amount) ? supply.amount : translate("∞")
+	});
+}
+
+/**
+ * @param {Object} template - The entity's template.
+ * @return {string} - The resources this entity rewards to a collecter.
+ */
+function getTreasureTooltip(template)
+{
+	if (!template.treasure)
+		return "";
+
+	let resources = {};
+	for (let resource of g_ResourceData.GetResources())
+	{
+		let type = resource.code;
+		if (template.treasure.resources[type])
+			resources[type] = template.treasure.resources[type];
+	}
+
+	let resourceNames = Object.keys(resources);
+	if (!resourceNames.length)
+		return "";
+
+	return sprintf(translate("%(label)s %(details)s"), {
+		"label": headerFont(translate("Reward:")),
+		"details":
+			resourceNames.map(
+				type => sprintf(translate("%(resourceIcon)s %(reward)s"), {
+					"resourceIcon": resourceIcon(type),
+					"reward": resources[type]
+				})
+			).join("  ")
 	});
 }
 
@@ -774,6 +842,30 @@ function getResourceTrickleTooltip(template)
 					})
 				).join("  "),
 			"time": getSecondsString(template.resourceTrickle.interval / 1000)
+		})
+	});
+}
+
+function getUpkeepTooltip(template)
+{
+	if (!template.upkeep)
+		return "";
+
+	let resCodes = g_ResourceData.GetCodes().filter(res => !!template.upkeep.rates[res]);
+	if (!resCodes.length)
+		return "";
+
+	return sprintf(translate("%(label)s %(details)s"), {
+		"label": headerFont(translate("Upkeep:")),
+		"details": sprintf(translate("%(resources)s / %(time)s"), {
+			"resources":
+				resCodes.map(
+					res => sprintf(translate("%(resourceIcon)s %(rate)s"), {
+						"resourceIcon": resourceIcon(res),
+						"rate": template.upkeep.rates[res]
+					})
+				).join("  "),
+			"time": getSecondsString(template.upkeep.interval / 1000)
 		})
 	});
 }
@@ -997,9 +1089,18 @@ function getEntityNames(template)
 	if (template.name.specific == template.name.generic)
 		return template.name.specific;
 
-	return sprintf(translate("%(specificName)s (%(genericName)s)"), {
-		"specificName": template.name.specific,
-		"genericName": template.name.generic
+	let primaryName = g_SpecificNamesPrimary ? template.name.specific : template.name.generic;
+	let secondaryName;
+	if (g_ShowSecondaryNames)
+		secondaryName = g_SpecificNamesPrimary ? template.name.generic : template.name.specific;
+
+	if (secondaryName)
+		return sprintf(translate("%(primaryName)s (%(secondaryName)s)"), {
+			"primaryName": primaryName,
+			"secondaryName": secondaryName
+		});
+	return sprintf(translate("%(primaryName)s"), {
+		"primaryName": primaryName
 	});
 
 }
@@ -1007,24 +1108,37 @@ function getEntityNames(template)
 function getEntityNamesFormatted(template)
 {
 	if (!template.name.specific)
-		return setStringTags(template.name.generic, g_TooltipTextFormats.nameSpecificBig);
+		return setStringTags(template.name.generic, g_TooltipTextFormats.namePrimaryBig);
+
+	let primaryName = g_SpecificNamesPrimary ? template.name.specific : template.name.generic;
+	let secondaryName;
+	if (g_ShowSecondaryNames)
+		secondaryName = g_SpecificNamesPrimary ? template.name.generic : template.name.specific;
+
+	if (!secondaryName || primaryName == secondaryName)
+		return sprintf(translate("%(primaryName)s"), {
+			"primaryName":
+			setStringTags(primaryName[0], g_TooltipTextFormats.namePrimaryBig) +
+			setStringTags(primaryName.slice(1).toUpperCase(), g_TooltipTextFormats.namePrimarySmall)
+		});
 
 	// Translation: Example: "Epibátēs Athēnaîos [font="sans-bold-16"](Athenian Marine)[/font]"
-	return sprintf(translate("%(specificName)s %(fontStart)s(%(genericName)s)%(fontEnd)s"), {
-		"specificName": getEntitySpecificNameFormatted(template),
-		"genericName": template.name.generic,
-		"fontStart": '[font="' + g_TooltipTextFormats.nameGeneric.font + '"]',
-		"fontEnd": '[/font]'
+	return sprintf(translate("%(primaryName)s (%(secondaryName)s)"), {
+		"primaryName":
+			setStringTags(primaryName[0], g_TooltipTextFormats.namePrimaryBig) +
+			setStringTags(primaryName.slice(1).toUpperCase(), g_TooltipTextFormats.namePrimarySmall),
+		"secondaryName": setStringTags(secondaryName, g_TooltipTextFormats.nameSecondary)
 	});
 }
 
-function getEntitySpecificNameFormatted(template)
+function getEntityPrimaryNameFormatted(template)
 {
-	if (!template.name.specific)
-		return setStringTags(template.name.generic, g_TooltipTextFormats.nameSpecificBig);
+	let primaryName = g_SpecificNamesPrimary ? template.name.specific : template.name.generic;
+	if (!primaryName)
+		return setStringTags(g_SpecificNamesPrimary ? template.name.generic : template.name.specific, g_TooltipTextFormats.namePrimaryBig);
 
-	return setStringTags(template.name.specific[0], g_TooltipTextFormats.nameSpecificBig) +
-		setStringTags(template.name.specific.slice(1).toUpperCase(), g_TooltipTextFormats.nameSpecificSmall);
+	return setStringTags(primaryName[0], g_TooltipTextFormats.namePrimaryBig) +
+		setStringTags(primaryName.slice(1).toUpperCase(), g_TooltipTextFormats.namePrimarySmall);
 }
 
 function getVisibleEntityClassesFormatted(template)

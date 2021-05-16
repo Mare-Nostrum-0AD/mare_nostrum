@@ -6,7 +6,6 @@
       <Damage>
         <Hack>7</Hack>
         <Pierce>2</Pierce>
-        <Crush>0</Crush>
       </Damage>
       <MaxRange>3</MaxRange>
       <PrepareTime>500</PrepareTime>
@@ -43,7 +42,6 @@
     <xp>100</xp>
     <food>10</food>
   </Loot>
-  <ResourceGatherer disable=""/>
   <Selectable>
     <Overlay>
       <Texture>
@@ -70,6 +68,7 @@
   <TrainingRestrictions>
     <Category>WarDog</Category>
   </TrainingRestrictions>
+  <TreasureCollecter disable=""/>
   <UnitMotion>
     <WalkSpeed op="mul">1.5</WalkSpeed>
     <RunMultiplier>2</RunMultiplier>

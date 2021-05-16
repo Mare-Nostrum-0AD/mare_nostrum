@@ -24,7 +24,6 @@
   <Position>
     <TurnRate>4</TurnRate>
   </Position>
-  <ResourceGatherer disable=""/>
   <Selectable>
     <Overlay>
       <Texture>
@@ -33,7 +32,12 @@
       </Texture>
     </Overlay>
   </Selectable>
+  <TrainingRestrictions>
+    <Category>Animal</Category>
+  </TrainingRestrictions>
+  <TreasureCollecter disable=""/>
   <UnitAI>
+    <DefaultStance>passive</DefaultStance>
     <CanGuard>false</CanGuard>
     <CanPatrol>false</CanPatrol>
     <RoamDistance>8.0</RoamDistance>
@@ -50,6 +54,6 @@
     <RetainInFog>true</RetainInFog>
   </Visibility>
   <Vision>
-    <Range>0</Range>
+    <Range>60</Range>
   </Vision>
 </Entity>

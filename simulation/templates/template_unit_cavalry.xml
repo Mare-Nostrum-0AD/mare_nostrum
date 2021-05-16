@@ -14,10 +14,12 @@
         <Hack>1000</Hack>
       </Damage>
       <MaxRange>2</MaxRange>
+      <RepeatTime>1000</RepeatTime>
+      <RestrictedClasses datatype="tokens">!Domestic</RestrictedClasses>
     </Slaughter>
   </Attack>
   <Cost>
-    <BuildTime>16</BuildTime>
+    <BuildTime>15</BuildTime>
     <Resources>
       <food>100</food>
     </Resources>
@@ -65,9 +67,6 @@
     </Rates>
     <Capacities>
       <food>20</food>
-      <wood>20</wood>
-      <stone>20</stone>
-      <metal>20</metal>
     </Capacities>
   </ResourceGatherer>
   <Selectable>

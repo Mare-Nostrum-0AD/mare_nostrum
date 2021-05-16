@@ -9,6 +9,9 @@
         <Pierce>0</Pierce>
         <Crush>50.0</Crush>
       </Damage>
+      <MaxRange>5</MaxRange>
+      <PrepareTime>750</PrepareTime>
+      <RepeatTime>1500</RepeatTime>
       <PreferredClasses datatype="tokens">Infantry+Melee Siege Structure</PreferredClasses>
       <RestrictedClasses datatype="tokens">Sturdy</RestrictedClasses>
     </Melee>

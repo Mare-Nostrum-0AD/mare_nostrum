@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Entity parent="template_unit_support">
+<Entity parent="builder|template_unit_support">
   <Attack>
     <Melee>
       <AttackName>Dagger</AttackName>
       <Damage>
-        <Hack>2.0</Hack>
-        <Pierce>0</Pierce>
-        <Crush>0.0</Crush>
+        <Hack>2</Hack>
       </Damage>
       <MaxRange>3</MaxRange>
       <PrepareTime>500</PrepareTime>
@@ -18,47 +16,10 @@
         <Hack>1000</Hack>
       </Damage>
       <MaxRange>2</MaxRange>
+      <RepeatTime>1000</RepeatTime>
+      <RestrictedClasses datatype="tokens">!Domestic</RestrictedClasses>
     </Slaughter>
   </Attack>
-  <Builder>
-    <Rate>1.0</Rate>
-    <Entities datatype="tokens">
-      structures/{civ}/civil_centre
-      structures/{civ}/crannog
-      structures/{civ}/military_colony
-      structures/{civ}/house
-      structures/{civ}/apartment
-      structures/{civ}/storehouse
-      structures/{civ}/farmstead
-      structures/{civ}/field
-	  	structures/{civ}/field_cash_crop
-      structures/{civ}/corral
-			structures/{civ}/port
-      structures/{civ}/dock
-      structures/{civ}/barracks
-      structures/{civ}/stable
-      structures/{civ}/elephant_stables
-      structures/{civ}/arsenal
-      structures/{civ}/forge
-      structures/{civ}/temple
-      structures/{civ}/market
-      structures/{civ}/outpost
-      structures/{civ}/sentry_tower
-      structures/{civ}/defensive_tower
-      structures/{civ}/fortress
-      structures/wallset_palisade
-      structures/{civ}/wallset_siege
-      structures/{civ}/wallset_stone
-			structures/{civ}/temple_patron_fertility
-      structures/{civ}/temple_patron_war
-      structures/{civ}/temple_patron_trade
-      structures/{civ}/temple_patron_sea
-      structures/{civ}/temple_patron_horse
-			structures/{civ}/palace
-      structures/{civ}/theater
-      structures/{civ}/wonder
-    </Entities>
-  </Builder>
   <Cost>
     <BuildTime>9</BuildTime>
     <Resources>
@@ -101,6 +62,12 @@
       <wealth.wares>0.2</wealth.wares>
       <wealth.crops>0.15</wealth.crops>
     </Rates>
+    <Capacities>
+      <food>10</food>
+      <wood>10</wood>
+      <stone>10</stone>
+      <metal>10</metal>
+    </Capacities>
   </ResourceGatherer>
   <Sound>
     <SoundGroups>
