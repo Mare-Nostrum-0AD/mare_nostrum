@@ -77,6 +77,7 @@
 			female
 			male
 		</Phenotype>
+		<Icon>units/{civ}_support_{phenotype}_citizen.png</Icon>
     <Formations disable=""/>
   </Identity>
   <Loot>

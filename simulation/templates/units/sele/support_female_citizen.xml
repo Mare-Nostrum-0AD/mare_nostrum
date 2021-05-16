@@ -2,8 +2,9 @@
 <Entity parent="template_unit_support_female_citizen">
   <Identity>
     <Civ>sele</Civ>
+		<GenericName>Seleucid Labourer</GenericName>
     <Lang>greek</Lang>
-    <Icon>units/sele_support_female.png</Icon>
+		<Icon>units/sele_support_{phenotype}.png</Icon>
   </Identity>
 	<Replace>
 		<Hellenic>

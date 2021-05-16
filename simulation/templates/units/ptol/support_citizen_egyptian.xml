@@ -4,7 +4,7 @@
     <Lang>napatan</Lang>
     <SpecificName>Ergátēs Aigýptis</SpecificName>
     <GenericName>Egyptian Labourer</GenericName>
-    <Icon>units/ptol_support_female_citizen.png</Icon>
+		<Icon>units/ptol_support_{phenotype}_citizen.png</Icon>
   </Identity>
 	<Replace disable="" />
   <VisualActor>

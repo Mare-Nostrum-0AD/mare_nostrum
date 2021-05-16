@@ -442,7 +442,10 @@ function GetTemplateDataHelper(template, player, auraTemplates, modifiers = {})
 			"specific": (template.Identity.SpecificName || template.Identity.GenericName),
 			"generic": template.Identity.GenericName
 		};
-		ret.icon = template.Identity.Icon;
+		// substitute {phenotype} with first (default) phenotype, if available
+		let [phenotype] = GetPhenotypes(template);
+		ret.icon = template.Identity.Icon.replace(/{civ}/g, template.Identity.Civ);
+		ret.icon = phenotype ? ret.icon.replace(/{phenotype}/g, phenotype) : ret.icon;
 		ret.tooltip = template.Identity.Tooltip;
 		ret.requiredTechnology = template.Identity.RequiredTechnology;
 		ret.visibleIdentityClasses = GetVisibleIdentityClasses(template.Identity);
@@ -522,6 +525,35 @@ function GetTemplateDataHelper(template, player, auraTemplates, modifiers = {})
 			"indent": +(template.WallPiece.Indent || 0),
 			"bend": +(template.WallPiece.Bend || 0) * Math.PI
 		};
+
+	if (template.City)
+	{
+		ret.city = {};
+		ret.city.population = {
+			"initial": +template.City.Population.Init,
+			"max": getEntityValue("City/Population/Max"),
+			"growth": {
+				"rate": getEntityValue("City/Population/Growth/Rate"),
+				"interval": getEntityValue("City/Population/Growth/Interval"),
+				"tradeRate": getEntityValue("City/Population/Growth/TradeRate"),
+			}
+		};
+		ret.city.radius = getEntityValue("City/Radius");
+		if (template.City.ResourceTrickle)
+		{
+			ret.city.resourceTrickle = {
+				"interval": getEntityValue("City/ResourceTrickle/Interval"),
+				"perPop": getEntityValue("City/ResourceTrickle/PerPop"),
+				"rates": {}
+			};
+			for (let res in template.City.ResourceTrickle.Rates)
+			{
+				ret.city.resourceTrickle.rates[res] = getEntityValue("City/ResourceTrickle/Rates/" + res);
+			}
+		}
+		if (template.City.Upgrade)
+			ret.city.upgrade = template.City.Upgrade;
+	}
 
 	return ret;
 }
@@ -610,4 +642,13 @@ function calculateCarriedResources(carriedResources, tradingGoods)
 function removeFiltersFromTemplateName(templateName)
 {
 	return templateName.split("|").pop();
+}
+
+// Get template phenotypes
+// @return [] if no phenotypes defined, [string] if phenotypes defined
+function GetPhenotypes(template)
+{
+	if (!template.Identity.Phenotype)
+		return [];
+	return template.Identity.Phenotype._string.split(/\s+/);
 }

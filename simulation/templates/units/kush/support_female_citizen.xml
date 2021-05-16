@@ -13,7 +13,6 @@
     <Civ>kush</Civ>
     <Lang>napatan</Lang>
     <GenericName>Kushite Commoner</GenericName>
-    <Icon>units/kush_support_female_citizen.png</Icon>
   </Identity>
   <VisualActor>
     <Actor>units/kushites/{phenotype}_citizen.xml</Actor>

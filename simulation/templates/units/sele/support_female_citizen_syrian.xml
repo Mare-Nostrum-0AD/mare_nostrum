@@ -4,7 +4,7 @@
     <Lang>napatan</Lang>
     <SpecificName>Syrías Ergátes</SpecificName>
     <GenericName>Syrian Labourer</GenericName>
-    <Icon>units/sele_support_female.png</Icon>
+		<Icon>units/sele_support_{phenotype}.png</Icon>
   </Identity>
 	<Replace disable="" />
   <VisualActor>

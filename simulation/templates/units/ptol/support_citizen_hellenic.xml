@@ -4,7 +4,7 @@
     <Lang>greek</Lang>
     <SpecificName>Younánis Polítēs</SpecificName>
     <GenericName>Greek Colonist</GenericName>
-    <Icon>units/hele_support_female_citizen.png</Icon>
+		<Icon>units/hele_support_{phenotype}_citizen.png</Icon>
   </Identity>
 	<Replace disable="" />
   <VisualActor>

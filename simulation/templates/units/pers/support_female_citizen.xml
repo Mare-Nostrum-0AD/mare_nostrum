@@ -4,7 +4,6 @@
     <Civ>pers</Civ>
     <Lang>persian</Lang>
     <GenericName>Mesopotamian Commoner</GenericName>
-    <Icon>units/pers_support_female_citizen.png</Icon>
   </Identity>
   <VisualActor>
     <Actor>units/persians/{phenotype}_citizen.xml</Actor>

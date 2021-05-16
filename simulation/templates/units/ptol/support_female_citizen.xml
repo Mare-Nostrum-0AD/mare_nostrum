@@ -8,9 +8,7 @@
   </Builder>
   <Identity>
     <Civ>ptol</Civ>
-    <SpecificName>Gýnē Aigýptia</SpecificName>
-    <GenericName>Egyptian Woman</GenericName>
-    <Icon>units/ptol_support_female_citizen.png</Icon>
+    <GenericName>Ptolemaic Labourer</GenericName>
   </Identity>
 	<Replace>
 		<Hellenic>

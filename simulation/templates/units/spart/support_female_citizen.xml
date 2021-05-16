@@ -24,7 +24,6 @@
     <Lang>greek</Lang>
     <GenericName>Spartan Citizen</GenericName>
     <SpecificName>Polítes Spartiâtis</SpecificName>
-    <Icon>units/spart_support_female_citizen.png</Icon>
   </Identity>
   <UnitAI>
     <CanPatrol>true</CanPatrol>

@@ -9,7 +9,6 @@
   <Identity>
     <Civ>maur</Civ>
     <GenericName>Indian Commoner</GenericName>
-    <Icon>units/maur_support_female_citizen.png</Icon>
   </Identity>
   <VisualActor>
     <Actor>units/mauryas/{phenotype}_citizen.xml</Actor>

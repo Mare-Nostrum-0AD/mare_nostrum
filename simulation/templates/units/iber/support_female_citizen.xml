@@ -9,7 +9,6 @@
     <Civ>iber</Civ>
     <SpecificName>Langilea</SpecificName>
     <GenericName>Iberian Labourer</GenericName>
-    <Icon>units/iber_support_female_citizen.png</Icon>
   </Identity>
   <VisualActor>
     <Actor>units/iberians/{phenotype}_citizen.xml</Actor>

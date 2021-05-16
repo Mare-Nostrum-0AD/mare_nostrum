@@ -13,7 +13,6 @@
     <Civ>cart</Civ>
     <SpecificName>Madaniyy</SpecificName>
     <GenericName>Carthaginian Citizen</GenericName>
-    <Icon>units/cart_support_female_citizen.png</Icon>
   </Identity>
   <VisualActor>
     <Actor>units/carthaginians/{phenotype}_citizen.xml</Actor>

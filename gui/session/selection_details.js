@@ -317,7 +317,11 @@ function displaySingle(entState)
 	Engine.GetGUIObjectByName("player").tooltip = isGaia ? "" : civName;
 
 	// TODO: we should require all entities to have icons
-	Engine.GetGUIObjectByName("icon").sprite = template.icon ? ("stretched:session/portraits/" + template.icon) : "BackgroundBlack";
+	Engine.GetGUIObjectByName("icon").sprite = entState.identity && entState.identity.icon ?
+			("stretched:session/portraits/" + entState.identity.icon) :
+		template.icon ?
+			("stretched:session/portraits/" + template.icon) :
+			"BackgroundBlack";
 	if (template.icon)
 		Engine.GetGUIObjectByName("iconBorder").onPressRight = () => {
 			showTemplateDetails(entState.template);
@@ -352,8 +356,9 @@ function displaySingle(entState)
 		getVisibleEntityClassesFormatted,
 		getAurasTooltip,
 		getEntityTooltip,
+		getCityUpgradeText,
 		showTemplateViewerOnRightClickTooltip
-	].map(func => func(template)));
+	].map(func => func(template, playerState.civ)));
 
 	Engine.GetGUIObjectByName("iconBorder").tooltip = iconTooltips.filter(tip => tip).join("\n");
 

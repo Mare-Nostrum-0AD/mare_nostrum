@@ -4,7 +4,7 @@
     <Lang>persian</Lang>
     <SpecificName>Pérsis Ergátēs</SpecificName>
     <GenericName>Persian Labourer</GenericName>
-    <Icon>units/pers_support_female_citizen.png</Icon>
+		<Icon>units/pers_support_{phenotype}_citizen.png</Icon>
   </Identity>
 	<Replace disable="" />
   <VisualActor>

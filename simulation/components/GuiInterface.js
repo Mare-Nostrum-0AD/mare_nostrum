@@ -70,7 +70,11 @@ GuiInterface.prototype.GetSimulationState = function()
 		let cmpTechnologyManager = QueryPlayerIDInterface(i, IID_TechnologyManager);
 		if (cmpTechnologyManager)
 		{
-			if (cmpTechnologyManager.IsTechnologyResearched("phase_city"))
+			if (cmpTechnologyManager.IsTechnologyResearched("phase_empire"))
+				phase = "empire";
+			else if (cmpTechnologyManager.IsTechnologyResearched("phase_hegemon"))
+				phase = "hegemon";
+			else if (cmpTechnologyManager.IsTechnologyResearched("phase_city"))
 				phase = "city";
 			else if (cmpTechnologyManager.IsTechnologyResearched("phase_town"))
 				phase = "town";
@@ -264,13 +268,16 @@ GuiInterface.prototype.GetEntityState = function(player, ent)
 			"canDelete": !cmpIdentity.IsUndeletable(),
 			"hasSomeFormation": cmpIdentity.HasSomeFormation(),
 			"formations": cmpIdentity.GetFormationsList(),
-			"controllable": cmpIdentity.IsControllable()
+			"controllable": cmpIdentity.IsControllable(),
+			"icon": cmpIdentity.GetIcon()
 		};
 	
 	let cmpCity = Engine.QueryInterface(ent, IID_City);
 	if (cmpCity)
 		ret.city = {
 			"population": cmpCity.GetPopulation(),
+			"max": cmpCity.GetMaxPopulation(),
+			"upgrade": cmpCity.GetUpgradeTemplate()
 		};
 
 	let cmpPosition = Engine.QueryInterface(ent, IID_Position);
