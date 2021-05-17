@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Entity>
+	<Attack>
+		<Capture>
+      <RestrictedClasses datatype="tokens">Field Palisade Wall Elephant</RestrictedClasses>
+		</Capture>
+	</Attack>
+</Entity>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Entity parent="soldier">
+	<Attack>
+		<Melee>
+      <RestrictedClasses datatype="tokens">Sturdy</RestrictedClasses>
+		</Melee>
+	</Attack>
+</Entity>

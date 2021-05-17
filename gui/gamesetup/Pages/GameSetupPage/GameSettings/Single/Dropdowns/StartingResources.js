@@ -39,7 +39,7 @@ GameSettingControls.StartingResources = class StartingResources extends GameSett
 		if (g_GameSettings.startingResources.perPlayer)
 			this.label.caption = this.PerPlayerCaption;
 		else
-			this.setSelectedValue(g_GameAttributes.settings.StartingResourcesIndex);
+			this.setSelectedValue(g_GameSettings.startingResources.index);
 	}
 
 	getAutocompleteEntries()
@@ -50,11 +50,10 @@ GameSettingControls.StartingResources = class StartingResources extends GameSett
 	onSelectionChange(itemIdx)
 	{
 		let resources = g_StartingResources.Resources[itemIdx];
-		g_GameAttributes.settings.StartingResources = resources;
-		g_GameAttributes.settings.StartingResourcesIndex = itemIdx;
-		g_GameAttributes.settings.StartingResourcesLabel = this.generateLabel(resources);
+		g_GameSettings.startingResources.index = itemIdx;
+		g_GameSettings.startingResources.label = this.generateLabel(resources);
 		g_GameSettings.startingResources.setResources(resources);
-		this.gameSettingsControl.setNetworkGameAttributes();
+		this.gameSettingsController.setNetworkInitAttributes();
 	}
 };
 

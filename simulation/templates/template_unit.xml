@@ -87,20 +87,6 @@
       </Damage>
     </Entity>
   </Resistance>
-  <ResourceGatherer>
-    <MaxDistance>2.0</MaxDistance>
-    <BaseSpeed>1.0</BaseSpeed>
-    <Rates>
-      <treasure>1</treasure>
-    </Rates>
-    <Capacities>
-      <food>10</food>
-      <wood>10</wood>
-      <stone>10</stone>
-      <metal>10</metal>
-      <wealth>10</wealth>
-    </Capacities>
-  </ResourceGatherer>
   <Selectable>
     <Overlay>
       <Texture>

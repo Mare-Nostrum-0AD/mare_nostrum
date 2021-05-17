@@ -27,11 +27,9 @@
     <GenericName>Grand Temple of Amun</GenericName>
     <SpecificName>Pr-ʿImn</SpecificName>
     <Tooltip>Train Amun Champions and Elite Healers. Research healing technologies.</Tooltip>
-    <Classes datatype="tokens">CivSpecific</Classes>
-    <VisibleClasses datatype="tokens">-Town City TempleOfAmun</VisibleClasses>
     <Icon>structures/temple_epic.png</Icon>
-    <Classes datatype="tokens">TempleOfAmun</Classes>
-    <VisibleClasses datatype="tokens">Hegemon -Town</VisibleClasses>
+    <Classes datatype="tokens">CivSpecific</Classes>
+    <VisibleClasses datatype="tokens">-Town Hegemon TempleOfAmun</VisibleClasses>
     <RequiredTechnology>phase_hegemon</RequiredTechnology>
   </Identity>
   <Loot>

@@ -16,7 +16,7 @@
   </Health>
   <Identity>
     <GenericName>Forge</GenericName>
-    <SelectionGroupName>template_structure_military_forge</SelectionGroupName>
+    <SelectionGroupName>template_structure_civic_forge</SelectionGroupName>
     <Tooltip>Research attack damage and damage resistance technologies.</Tooltip>
     <VisibleClasses datatype="tokens">Town Forge</VisibleClasses>
     <Icon>structures/blacksmith.png</Icon>
@@ -43,7 +43,7 @@
   </ProductionQueue>
   <ResourceSupply>
     <KillBeforeGather>false</KillBeforeGather>
-    <Amount>Infinity</Amount>
+    <Max>Infinity</Max>
     <Type>wealth.wares</Type>
     <MaxGatherers>5</MaxGatherers>
     <DiminishingReturns>1.0</DiminishingReturns>

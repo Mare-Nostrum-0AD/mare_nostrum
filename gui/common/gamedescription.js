@@ -357,8 +357,8 @@ function getGameDescription(initAttributes, mapCache)
 				initAttributes.settings.PlayerData.some(pData => pData && pData.Resources !== undefined) ?
 					translateWithContext("starting resources", "Per Player") :
 					sprintf(translate("%(startingResourcesTitle)s\n%(amounts)s"), {
-						"startingResourcesTitle":	g_StartingResources.Title[g_GameAttributes.settings.StartingResourcesIndex],
-						"amounts":					g_GameAttributes.settings.StartingResourcesLabel
+						"startingResourcesTitle":	g_StartingResources.Title[initAttributes.settings.StartingResourcesIndex],
+						"amounts":					initAttributes.settings.StartingResourcesLabel
 					})
 		});
 

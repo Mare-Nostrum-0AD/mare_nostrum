@@ -67,11 +67,17 @@ Resources.prototype.BuildChoicesSchema = function(subtypes = false, treasure = f
 			resCodes.push("treasure");
 		for (let res of resCodes)
 			schema += "<value>" + res + "</value>";
+	}
 	else
+	{
 		for (let res of this.resourceData.filter(filter))
 		{
 			for (let subtype in res.subtypes)
+			{
 				schema += "<value>" + res.code + "." + subtype + "</value>";
+			}
+		}
+	}
 
 	return "<choice>" + schema + "</choice>";
 };

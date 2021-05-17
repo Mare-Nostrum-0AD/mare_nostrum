@@ -59,7 +59,7 @@
       <metal.ore>0.35</metal.ore>
       <wealth.gold>1</wealth.gold>
       <wealth.silver>0.7</wealth.silver>
-      <wealth.wares>0.2</wealth.wares>
+      <wealth.wares>0.25</wealth.wares>
       <wealth.crops>0.15</wealth.crops>
     </Rates>
     <Capacities>
@@ -67,6 +67,7 @@
       <wood>10</wood>
       <stone>10</stone>
       <metal>10</metal>
+			<wealth>10</wealth>
     </Capacities>
   </ResourceGatherer>
   <Sound>

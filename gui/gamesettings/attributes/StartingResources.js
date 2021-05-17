@@ -28,12 +28,18 @@ GameSettings.prototype.Attributes.StartingResources = class StartingResources ex
 					attribs.settings.PlayerData[i].Resources = this.perPlayer[i];
 		}
 		attribs.settings.StartingResources = this.resources;
+		attribs.settings.StartingResourcesIndex = this.index;
+		attribs.settings.StartingResourcesLabel = this.label;
 	}
 
 	fromInitAttributes(attribs)
 	{
 		if (this.getLegacySetting(attribs, "StartingResources") !== undefined)
+		{
 			this.setResources(this.getLegacySetting(attribs, "StartingResources"));
+			this.index = +this.getLegacySetting(attribs, "StartingResourcesIndex");
+			this.label = this.getLegacySetting(attribs, "StartingResourcesLabel");
+		}
 	}
 
 	onMapChange()
