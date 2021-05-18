@@ -6,7 +6,7 @@
   <Capturable merge="">
     <CapturePoints op="mul">2.0</CapturePoints>
   </Capturable>
-  <City merge="">
+  <City>
     <Population>
 			<Growth>
 				<Rate>2</Rate>
@@ -25,9 +25,17 @@
   <Identity>
     <GenericName>Town</GenericName>
     <Tooltip>Build to acquire new tracts of territory. Train citizens.</Tooltip>
-    <Classes datatype="tokens">VillageCentre</Classes>
+    <Classes datatype="tokens">PhaseTown VillageCentre</Classes>
     <VisibleClasses datatype="tokens">TownCentre</VisibleClasses>
   </Identity>
+  <Resistance>
+    <Entity>
+      <Damage>
+        <Hack op="mul">0.75</Hack>
+        <Pierce op="mul">0.75</Pierce>
+      </Damage>
+    </Entity>
+  </Resistance>
 	<ResourceTrickle>
 		<Rates>
 			<manpower op="mul">2.0</manpower>

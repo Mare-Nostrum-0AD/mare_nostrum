@@ -3,6 +3,8 @@
   <Auras datatype="tokens">
   	structures/village_radius
   </Auras>
+	<Attack disable="" />
+	<BuildingAI disable="" />
   <City merge="">
     <Initial>true</Initial>
     <Population>
@@ -16,4 +18,12 @@
     <Tooltip>Build to acquire new tracts of territory. Train citizens.</Tooltip>
     <VisibleClasses datatype="tokens">VillageCentre</VisibleClasses>
   </Identity>
+  <Resistance>
+    <Entity>
+      <Damage>
+        <Hack op="mul">0.5</Hack>
+        <Pierce op="mul">0.5</Pierce>
+      </Damage>
+    </Entity>
+  </Resistance>
 </Entity>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Entity parent="template_structure_civic">
   <AlertRaiser>
-    <List datatype="tokens">FemaleCitizen</List>
+    <List datatype="tokens">Citizen</List>
     <RaiseAlertRange>120</RaiseAlertRange>
     <EndOfAlertRange>180</EndOfAlertRange>
     <SearchRange>100</SearchRange>
@@ -31,7 +31,7 @@
     </Ranged>
   </Attack>
   <BuildingAI>
-    <DefaultArrowCount>3</DefaultArrowCount>
+    <DefaultArrowCount>1</DefaultArrowCount>
     <GarrisonArrowMultiplier>1</GarrisonArrowMultiplier>
     <GarrisonArrowClasses>Soldier</GarrisonArrowClasses>
   </BuildingAI>
@@ -53,8 +53,9 @@
     </DistancesInclusive>
   </BuildRestrictions>
   <Capturable>
-    <CapturePoints>2500</CapturePoints>
+    <CapturePoints>1000</CapturePoints>
     <RegenRate>5.0</RegenRate>
+    <GarrisonRegenRate>2.0</GarrisonRegenRate>
   </Capturable>
   <City>
     <Population>
@@ -71,7 +72,7 @@
   </City>
   <CityMember disable=""/>
   <Cost>
-    <BuildTime>500</BuildTime>
+    <BuildTime>200</BuildTime>
     <Resources>
       <wood>300</wood>
       <stone>300</stone>
@@ -82,7 +83,7 @@
     <Height>8.0</Height>
   </Footprint>
   <GarrisonHolder>
-    <Max>20</Max>
+    <Max>10</Max>
     <EjectHealth>0.4</EjectHealth>
     <EjectClassesOnDestroy datatype="tokens">Unit</EjectClassesOnDestroy>
     <List datatype="tokens">Support Infantry Cavalry</List>
@@ -90,7 +91,7 @@
     <LoadingRange>1</LoadingRange>
   </GarrisonHolder>
   <Health>
-    <Max>3000</Max>
+    <Max>1200</Max>
     <SpawnEntityOnDeath>decay|rubble/rubble_stone_6x6</SpawnEntityOnDeath>
   </Health>
   <Identity>
@@ -104,7 +105,6 @@
   <Loot>
     <wood>100</wood>
     <stone>100</stone>
-    <metal>100</metal>
   </Loot>
   <Obstruction>
     <Static width="30.0" depth="30.0"/>

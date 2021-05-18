@@ -12,11 +12,6 @@
     <Static width="31.0" depth="31"/>
   </Obstruction>
   <ProductionQueue>
-    <Entities datatype="tokens">
-      units/{civ}/infantry_spearman_b
-      units/{civ}/infantry_archer_b
-      units/{civ}/cavalry_javelineer_b
-    </Entities>
     <Technologies datatype="tokens">
       architecture_kush
     </Technologies>

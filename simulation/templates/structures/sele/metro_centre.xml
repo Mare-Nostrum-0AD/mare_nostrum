@@ -4,13 +4,6 @@
     <Civ>sele</Civ>
     <SpecificName>Agorā́</SpecificName>
   </Identity>
-  <ProductionQueue>
-    <Entities datatype="tokens">
-			units/{civ}/infantry_spearman_b
-      units/{civ}/infantry_javelinist_b
-      units/{civ}/cavalry_javelinist_b
-    </Entities>
-  </ProductionQueue>
   <VisualActor>
     <Actor>structures/seleucids/civic_center_metropolitan.xml</Actor>
   </VisualActor>

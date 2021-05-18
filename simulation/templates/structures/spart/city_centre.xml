@@ -10,13 +10,6 @@
     <Civ>spart</Civ>
     <SpecificName>Agorá</SpecificName>
   </Identity>
-  <ProductionQueue>
-    <Entities datatype="tokens">
-      units/{civ}/infantry_spearman_b
-      units/{civ}/infantry_javelinist_b
-      units/{civ}/cavalry_javelinist_b
-    </Entities>
-  </ProductionQueue>
   <VisualActor>
     <Actor>structures/spartans/stoa.xml</Actor>
   </VisualActor>

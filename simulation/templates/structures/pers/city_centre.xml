@@ -12,11 +12,6 @@
     <SpecificName>Xšaçapāvan</SpecificName>
   </Identity>
   <ProductionQueue>
-    <Entities datatype="tokens">
-      units/{civ}/infantry_spearman_b
-      units/{civ}/infantry_archer_b
-      units/{civ}/cavalry_javelinist_b
-    </Entities>
     <Technologies datatype="tokens">
       architecture_pers
     </Technologies>

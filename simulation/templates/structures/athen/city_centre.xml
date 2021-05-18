@@ -10,13 +10,6 @@
     <Civ>athen</Civ>
     <SpecificName>Agorá</SpecificName>
   </Identity>
-  <ProductionQueue>
-    <Entities datatype="tokens">
-      units/{civ}/infantry_spearman_b
-      units/{civ}/infantry_slinger_b
-      units/{civ}/cavalry_javelinist_b
-    </Entities>
-  </ProductionQueue>
   <VisualActor>
 		<Actor>special/greek_stoa_great.xml</Actor>
   </VisualActor>

@@ -10,13 +10,6 @@
     <Civ>mace</Civ>
     <SpecificName>Agorá</SpecificName>
   </Identity>
-  <ProductionQueue>
-    <Entities datatype="tokens">
-      units/{civ}/infantry_pikeman_b
-      units/{civ}/infantry_javelinist_b
-      units/{civ}/cavalry_spearman_b
-    </Entities>
-  </ProductionQueue>
   <VisualActor>
 		<Actor>special/greek_stoa_great.xml</Actor>
   </VisualActor>

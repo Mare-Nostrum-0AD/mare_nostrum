@@ -7,13 +7,6 @@
     <Civ>spart</Civ>
     <SpecificName>Agora</SpecificName>
   </Identity>
-  <ProductionQueue>
-    <Entities datatype="tokens">
-      units/{civ}/infantry_spearman_b
-      units/{civ}/infantry_javelineer_b
-      units/{civ}/cavalry_javelineer_b
-    </Entities>
-  </ProductionQueue>
   <VisualActor>
     <Actor>structures/spartans/civic_center.xml</Actor>
   </VisualActor>

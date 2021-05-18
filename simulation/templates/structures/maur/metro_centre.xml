@@ -16,9 +16,6 @@
   </Obstruction>
   <ProductionQueue>
     <Entities datatype="tokens">
-      units/{civ}/infantry_spearman_b
-      units/{civ}/infantry_archer_b
-      units/{civ}/cavalry_javelineer_b
       units/{civ}/support_elephant
     </Entities>
   </ProductionQueue>

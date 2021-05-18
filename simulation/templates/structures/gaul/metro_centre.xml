@@ -14,13 +14,6 @@
   <Obstruction>
     <Static width="25.0" depth="25.0"/>
   </Obstruction>
-  <ProductionQueue>
-    <Entities datatype="tokens">
-      units/{civ}/infantry_spearman_b
-      units/{civ}/infantry_javelineer_b
-      units/{civ}/cavalry_javelineer_b
-    </Entities>
-  </ProductionQueue>
   <VisualActor>
     <Actor>structures/gauls/fortress.xml</Actor>
   </VisualActor>

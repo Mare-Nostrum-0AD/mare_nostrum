@@ -16,12 +16,6 @@
   <Obstruction>
     <Static width="37.0" depth="37.0"/>
   </Obstruction>
-  <ProductionQueue>
-    <Entities datatype="tokens">
-	  	units/{civ}/infantry_spearman_b
-      units/{civ}/infantry_javelinist_b
-    </Entities>
-  </ProductionQueue>
   <VisualActor>
     <Actor>structures/spartans/town.xml</Actor>
     <FoundationActor>structures/fndn_8x8.xml</FoundationActor>
