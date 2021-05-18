@@ -30,7 +30,7 @@
     <Max>25</Max>
   </Health>
   <Identity>
-    <Classes datatype="tokens">Citizen FemaleCitizen</Classes>
+    <Classes datatype="tokens">FemaleCitizen</Classes>
     <VisibleClasses datatype="tokens">Citizen Worker</VisibleClasses>
     <GenericName>Citizen</GenericName>
     <SelectionGroupName>template_unit_support_citizen</SelectionGroupName>
@@ -50,7 +50,7 @@
     <BaseSpeed>1.0</BaseSpeed>
     <Rates>
       <food.fruit>1</food.fruit>
-      <food.grain>0.5</food.grain>
+      <food.grain>0.4</food.grain>
       <food.meat>1</food.meat>
       <wood.tree>0.7</wood.tree>
       <wood.ruins>5</wood.ruins>

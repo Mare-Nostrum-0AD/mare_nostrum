@@ -137,7 +137,7 @@ ResourceSupply.prototype.GetCurrentAmount = function()
 
 ResourceSupply.prototype.GetMaxGatherers = function()
 {
-	return +this.template.MaxGatherers;
+	return ApplyValueModificationsToEntity("ResourceSupply/MaxGatherers", +this.template.MaxGatherers, this.entity);
 };
 
 ResourceSupply.prototype.GetNumGatherers = function()
@@ -499,27 +499,6 @@ ResourceSupply.prototype.Mirage = function()
 	let mirage = new ResourceSupplyMirage();
 	mirage.Init(this);
 	return mirage;
-};
-
-ResourceSupply.prototype.Regenerate = function()
-{
-	let amount = ApplyValueModificationsToEntity("ResourceSupply/RegenRate/Amount", Math.round(this.template.RegenRate.Amount), this.entity);
-	let interval = ApplyValueModificationsToEntity("ResourceSupply/RegenRate/Interval", +this.template.RegenRate.Interval, this.entity);
-	this.TakeResources(-amount);
-	let cmpTimer = Engine.QueryInterface(SYSTEM_ENTITY, IID_Timer);
-	if (this.regenTimer)
-		cmpTimer.CancelTimer(this.regenTimer);
-	this.regenTimer = cmpTimer.SetInterval(this.entity, IID_ResourceSupply, "Regenerate",
-		interval, interval, null);
-};
-
-ResourceSupply.prototype.OnDestroy = function()
-{
-	if (this.regenTimer)
-	{
-		let cmpTimer = Engine.QueryInterface(SYSTEM_ENTITY, IID_Timer);
-		cmpTimer.CancelTimer(this.regenTimer);
-	}
 };
 
 Engine.RegisterComponentType(IID_ResourceSupply, "ResourceSupply", ResourceSupply);

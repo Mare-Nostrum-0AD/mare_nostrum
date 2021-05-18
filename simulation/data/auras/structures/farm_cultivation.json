@@ -1,0 +1,11 @@
+{
+	"type": "range",
+	"radius": 60,
+	"affects": ["Resource+Field"],
+	"modifications": [
+		{ "value": "ResourceSupply/MaxGatherers", "add": 2 }
+	],
+	"auraName": "Intensive Cultivation",
+	"auraDescription": "Resource fields +2 max gatherers.",
+	"overlayIcon": "art/textures/ui/session/auras/farm_bonus.png"
+}
