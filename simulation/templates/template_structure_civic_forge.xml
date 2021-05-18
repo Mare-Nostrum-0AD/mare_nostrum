@@ -4,6 +4,7 @@
     <BuildTime>120</BuildTime>
     <Resources>
       <wood>200</wood>
+      <metal>300</metal>
     </Resources>
   </Cost>
   <Footprint>
