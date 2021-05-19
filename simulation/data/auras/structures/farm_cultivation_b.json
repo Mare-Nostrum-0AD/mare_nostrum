@@ -3,10 +3,10 @@
 	"radius": 30,
 	"affects": ["Field"],
 	"modifications": [
-		{ "value": "ResourceSupply/MaxGatherers", "add": 2 }
+		{ "value": "ResourceSupply/MaxGatherers", "add": 4 }
 	],
-	"auraDescription": "Resource fields +2 max gatherers.",
-	"auraName": "Intensive Farming",
+	"auraDescription": "Resource fields +4 max gatherers.",
+	"auraName": "Intensive Farming II",
 	"overlayIcon": "art/textures/ui/session/auras/farming.png",
 	"stackable": false
 }

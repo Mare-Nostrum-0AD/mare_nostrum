@@ -99,6 +99,7 @@ ResourceSupply.prototype.Schema =
 
 ResourceSupply.prototype.Init = function()
 {
+	this.maxGatherers = ApplyValueModificationsToEntity("ResourceSupply/MaxGatherers", +this.template.MaxGatherers, this.entity);
 	this.amount = +(this.template.Initial || this.template.Max);
 
 	// Includes the ones that are tasked but not here yet, i.e. approaching.
@@ -137,7 +138,7 @@ ResourceSupply.prototype.GetCurrentAmount = function()
 
 ResourceSupply.prototype.GetMaxGatherers = function()
 {
-	return ApplyValueModificationsToEntity("ResourceSupply/MaxGatherers", +this.template.MaxGatherers, this.entity);
+	return this.maxGatherers;
 };
 
 ResourceSupply.prototype.GetNumGatherers = function()
@@ -423,6 +424,7 @@ ResourceSupply.prototype.TimerTick = function(changeKey)
 ResourceSupply.prototype.RecalculateValues = function()
 {
 	this.maxAmount = ApplyValueModificationsToEntity("ResourceSupply/Max", +this.template.Max, this.entity);
+	this.maxGatherers = ApplyValueModificationsToEntity("ResourceSupply/MaxGatherers", +this.template.MaxGatherers, this.entity);
 	if (!this.template.Change || this.IsInfinite())
 		return;
 
@@ -437,7 +439,7 @@ ResourceSupply.prototype.RecalculateValues = function()
  */
 ResourceSupply.prototype.OnValueModification = function(msg)
 {
-	if (msg.component != "ResourceSupply")
+	if (msg.component !== "ResourceSupply")
 		return;
 
 	this.RecalculateValues();

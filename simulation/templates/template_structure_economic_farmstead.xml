@@ -64,6 +64,17 @@
     <Radius>20</Radius>
     <Weight>30000</Weight>
   </TerritoryInfluence>
+  <Upgrade>
+    <Granary>
+      <Entity>structures/{civ}/farmstead_b</Entity>
+      <Tooltip>Greater farming bonuses.</Tooltip>
+      <Cost>
+        <wood>400</wood>
+        <stone>400</stone>
+      </Cost>
+      <Time>40</Time>
+    </Granary>
+  </Upgrade>
   <Vision>
     <Range>20</Range>
   </Vision>

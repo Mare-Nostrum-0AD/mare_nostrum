@@ -63,7 +63,7 @@
     <DecayRate>5.0</DecayRate>
   </TerritoryDecay>
   <Vision>
-    <Range>0</Range>
+    <Range>1</Range>
   </Vision>
   <VisualActor>
     <FoundationActor>structures/plot_field_found.xml</FoundationActor>
