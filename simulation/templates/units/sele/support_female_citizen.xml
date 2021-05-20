@@ -4,7 +4,6 @@
     <Civ>sele</Civ>
 		<GenericName>Seleucid Labourer</GenericName>
     <Lang>greek</Lang>
-		<Icon>units/sele_support_{phenotype}.png</Icon>
   </Identity>
 	<Replace>
 		<Hellenic>
