@@ -30,6 +30,7 @@
     <wood>40</wood>
     <stone>40</stone>
   </Loot>
+	<Upgrade disable="" />
   <VisualActor>
     <FoundationActor>structures/fndn_5x5.xml</FoundationActor>
   </VisualActor>

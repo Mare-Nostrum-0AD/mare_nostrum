@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Entity parent="template_structure_economic_farmstead_b">
   <Footprint>
-    <Square width="20.0" depth="18.0"/>
+    <Square width="18.0" depth="18.0"/>
+    <Height>8.0</Height>
   </Footprint>
   <Identity>
     <Civ>ptol</Civ>
@@ -11,6 +12,6 @@
     <Static width="18.0" depth="16.0"/>
   </Obstruction>
   <VisualActor>
-    <Actor>structures/ptolemies/farmstead.xml</Actor>
+    <Actor>structures/kushites/farmstead.xml</Actor>
   </VisualActor>
 </Entity>

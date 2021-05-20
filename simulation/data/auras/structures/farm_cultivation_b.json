@@ -1,6 +1,6 @@
 {
 	"type": "range",
-	"radius": 30,
+	"radius": 40,
 	"affects": ["Field"],
 	"modifications": [
 		{ "value": "ResourceSupply/MaxGatherers", "add": 4 }

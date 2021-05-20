@@ -14,7 +14,7 @@
     <Static width="27.0" depth="27.0"/>
   </Obstruction>
   <VisualActor>
-    <Actor>structures/persians/alt_building_01.xml</Actor>
+		<Actor>props/structures/persians/alt_building_01.xml</Actor>
     <FoundationActor>structures/fndn_6x6.xml</FoundationActor>
   </VisualActor>
 </Entity>

@@ -9,6 +9,15 @@
   <Auras datatype="tokens">
 		structures/farm_cultivation
 	</Auras>
+  <BuildRestrictions>
+    <Category>Farmstead</Category>
+    <DistancesExclusive>
+      <Farmstead>
+        <FromClass>Farmstead</FromClass>
+        <MinDistance>80</MinDistance>
+      </Farmstead>
+    </DistancesExclusive>
+  </BuildRestrictions>
   <Capturable>
     <CapturePoints>300</CapturePoints>
   </Capturable>
@@ -72,6 +81,7 @@
         <wood>400</wood>
         <stone>400</stone>
       </Cost>
+			<RequiredTechnology>phase_town</RequiredTechnology>
       <Time>40</Time>
     </Granary>
   </Upgrade>

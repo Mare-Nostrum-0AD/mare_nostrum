@@ -28,6 +28,7 @@
     <Tooltip>Build to acquire large tracts of territory. Train citizens.</Tooltip>
     <Classes datatype="tokens">PhaseHegemon Sturdy VillageCentre TownCentre CityCentre</Classes>
     <VisibleClasses datatype="tokens">MetroCentre</VisibleClasses>
+    <Icon>structures/civic_centre_iv.png</Icon>
   </Identity>
 	<ResourceTrickle>
 		<Rates>
