@@ -1,5 +1,0 @@
-LICENSE
-
-All artwork and scripts in this directory are licensed under the Creative Commons Attribution-Share Alike 3.0
-(CC-by-sa) license, available at http://creativecommons.org/licenses/by-sa/3.0/
-

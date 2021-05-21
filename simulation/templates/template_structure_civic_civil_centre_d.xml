@@ -7,15 +7,18 @@
   <Capturable merge="">
     <CapturePoints op="mul">4.0</CapturePoints>
   </Capturable>
-  <City merge="">
+  <City>
     <Population>
       <Growth>
-        <Rate>0</Rate>
+        <Amount>0</Amount>
+        <DecayAmount>24</DecayAmount>
       </Growth>
       <Init>25000</Init>
+      <Min>24000</Min>
       <Max>1000000</Max>
     </Population>
     <Radius op="add">60</Radius>
+		<Downgrade>structures/{native}/city_centre</Downgrade>
   </City>
   <GarrisonHolder merge="">
     <Max op="mul">4.0</Max>

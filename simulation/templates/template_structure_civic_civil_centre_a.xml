@@ -5,7 +5,7 @@
   </Auras>
 	<Attack disable="" />
 	<BuildingAI disable="" />
-  <City merge="">
+  <City>
     <Initial>true</Initial>
     <Population>
       <Init>100</Init>

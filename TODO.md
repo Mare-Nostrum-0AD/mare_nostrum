@@ -2,59 +2,93 @@
 Please feel free to contribute if you see anything you can do here. If there is anything you would like to see added to this list, please create an issue.
 
 ## First priorities
-- Fix trader gui
-- Choose specific names for Persian, Carthaginian merchant temples
-- Integrate distance build restrictions into delphi bot, especially for choosing market locations
-- Create monuments for all civs:
-	- Celts
-	- Iberians
-	- Carthaginians
-	- Mauryans
+- Balance city growth rate
+	- Implement City population drainage as part of growth rate
+	- Add house limit, tied to number of civ centres
+- Ensure city growth rate is readily apparent in gui
+- Rewrite City.js to use event listeneres to register new/destroyed city members
+- Rewrite Market.js to trigger event listeners when trade takes place; use listeners in City.js
+- Implement archer skill growth; archers should start off weaker than other ranged units when first trained, then become stronger through experience
+	- Create advanced, elite archer mixins
+- Remove building ai from siege tower, ensure only usable for taking walls/other structures
+	- Modify Attack component to allow garrisoned units to increase attack, allowing garrisoned infantry to increase siege tower capture attack
+- Create champion mixin, refactor champion templates to inherit from standard unit templates and apply champion mixin
 - Create library/academy monument for Athenians
-- Change walls to low/high distinction instead of three phases
-	- Create meshes for low walls
-	- Implement walls for Mauryans
-- Create "light battering ram" for town phase, trainable at barracks or blacksmith
+- Create new palace actors for Hellenistic civs, kushites
+- Rename Carthaginian embassies to Mercenary Camps
+	- Allow to build one per town centre
+	- Give them the same actors as Iberian/Gauls/Roman barracks/army camp
+- Create gold, silver resource supplies
+- Implement directional resistance, allowing weaker flank and rear armor
+- Improve Delphi bot
+	- Make sure delphi bot mixes up trade routes
+	- Allow building all available civic buildings via generic buildCivicBuilding function, replacing buildForge, buildTemple, etc.
+	- Allow to build wealth resource supplies (olive groves, vineyards, etc.)
+	- Make sure it can train merchant ships
 
 ## Secondary priorities
-- Create statistics tracker for city population
+- Choose specific names for Persian, Carthaginian merchant temples
+- Create monuments for all civs:
+	- Mauryas
+	- Celts
+	- Iberians
+	- Alternatively, give Celts and Iberians rushing bonuses to offset their weaker city-building abilities
+- Add "thrust" damage, for spear units
+- Implement "Charge" attack. One-time, extremely strong attack that a unit generates by running a certain distance. Used for spear cav and ships
+- Create city name manager, implement random city naming
+	- Create gui widget for renaming cities (start with a cheat in the short run)
+- Create dropdown sub-menus for random civ groups, to reduce clutter. Implement by adding "Category" to each civ.json, naming which sub-menu the group will be sorted into.
 - Create unique structure artwork for special temples.
-- Implement population resource trickle for cities
-- Fix structure tree display to not double-display phase V
-- Create "port" structure - a dock that functions as a bartermarket, can only be build near cities, and can only train fisherman and merchants
-	- Turn current dock into separate military "shipyard" structure
 - Create builder/engineer unit to build structures of city level and higher
-- Create gold, silver resource supplies
-- Create palaces for all civs
 - Create civ-specific auras for palaces
 - Allow training native units from captured cities, which can themselves build native structures
 - Ensure loyalty decreasing aura for burning pigs works
 - Implement plagues (see below)
 - Create "Advancement Victory" where goal is to reach the Empire Phase
-- Create government pair technologies for palace
-- Create "manpower" resource - untradeable, unbarterable, and unsharable. Only gained through a per-population trickle at cities. Necessary for creating all units plus founding colonies.
 
 ## General priorities
 - Ensure accuracy of patron deity choices. This should be a continuous process.
+- Create more unique patron temples, instead of 4-5 cookie cutter temple types.
+
+## Classification of soldier strengths/weaknesses
+- Infantry
+	- Spearmen: cheap, quick to train; weak on their own, fairly strong in phalanx formation with heavy armor, available to certain civs. Strong vs. light cav, weak vs. swordsmen, light infantry
+	- Pikemen: tank units, nearly invulnerable to pierce damage. especially strong in phalanx. However, slow-moving and vulnerable to outmaneuvering/flanking. Strong vs. cav, light infantry, weak vs. swordsmen
+	- Swordsmen: most maneuverable melee infantry; relatively fast-moving. However, wear relatively light armor. Strong vs spearmen, pikemen, weak vs. ranged infantry, cavalry
+	- Javelineer: cheap, quick to train. Maneuverable, fastest infantry unit. Starts off with strong attack straight out of training. Strong vs swordsmen, spearmen, weak vs pikemen, cavalry
+	- Slinger: Medium train time and cost, deadly force to light infantry and cavalry over short distance. Moderate attack out of training, moderate skill acquisition through experience. Strong vs spearmen, swordsmen, javelineer, ranged cav, Weak vs. Pikemen, melee cav
+	- Archer: Long train time and cost, eventually grows to be deadly at a long range. Weak attack and accuracy out of training, but will eventually become extremely strong through experience. Strong vs all light units, weak vs. pikemen, heavy cavalry
+- Cavalry
+	- Spear: strongest cavalry unit in formation; has strong charge attack that can mow over disorganized and light infantry. Strong vs swordsmen, ranged infantry, weak vs pikemen, massed spearmen
+	- Sword: maneuverable, good raiders, possible counter to individual heavy cavalry. Strong vs light infantry, spear cavalry, ranged cavalry, weak vs spearmen, pikemen
+	- Javelin: maneuverable, good raiders. Strong vs disorganized infantry, weak vs spearmen, pikemen, swordsmen, sword cavalry
+	- Archer: Like foot archers, start off weak and become very strong through experience. Strong vs. All non-pike infantry at peak experience, weak-ish vs sword cavalry
+- Implement GUIInterface for popup dialogs to be called from Trigger scripts
 
 ## New Civs
 ### Near East
 - Phoenicians
-- Assyrians
 - Nabatean Arabs
 - Judeans
 - Armenians
 ### Europe
+- Syracusans
+- Rhodians
+- Epirotes
 - Etruscans
-- Italics (Latins + Umbrii + Samnites)
-- Ionian Greeks
-- Dorian Greeks
-- Thracians
+- Ionian Greeks (non-selectable)
+- Dorian Greeks (non-selectable)
+### Asia
+- Qin/Han China
+- Vietnamese
+- Kushans
+- Greco-Bactrians
 ### Africa
 - Numidians
 ### Nomads
+- Xiongnu
 - Scythians
-- Bedouin Arabs
+- Bedouin Arabs (non-selectable?)
 
 ### New Feature - Plagues
 Every city will have a chance of starting a plague at a given interval. In cities with a low population, the likelihood will be extremely small,

@@ -1,5 +1,6 @@
 {
 	"genericName": "Hegemon Phase",
 	"description": "Dummy technology for use in templates requirements, replaced by phase_hegemon_generic or phase_hegemon_{civ}.",
+	"silent": true,
 	"icon": "hegemon_phase.png"
 }

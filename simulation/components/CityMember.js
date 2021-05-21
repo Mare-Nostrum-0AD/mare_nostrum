@@ -16,23 +16,25 @@ CityMember.prototype.Schema = "<a:help>Identifies this entity as a potential mem
 CityMember.prototype.Init = function()
 {
 	const modifier = this.template.GrowthContrib.Operation;
-	const growthVal = Number(this.template.GrowthContrib.Value);
-	this.growthRateModifier = modifier === 'add' ?
-		({growthRate, growthRateMultiplier}) => ({
-			'growthRate': growthRate + growthVal,
-			growthRateMultiplier
-		}) :
-		({growthRate, growthRateMultiplier}) => ({
-			growthRate,
-			'growthRateMultiplier': growthRateMultiplier * growthVal
-		});
+	const growthVal = +this.template.GrowthContrib.Value;
+	this.growthAmountModifier = ((() => {
+		switch (modifier)
+		{
+			case 'add':
+				return ({ growthAmount, growthAmountMultiplier }) => ({ 'growthAmount': growthAmount + growthVal, growthAmountMultiplier });
+			case 'multiply':
+				return ({ growthAmount, growthAmountMultiplier }) => ({ growthAmount, 'growthAmountMultiplier': growthAmountMultiplier * growthVal });
+			default:
+				return ({ growthAmount, growthAmountMultiplier }) => ({ growthAmount, growthAmountMultiplier });
+		}
+	})());
 };
 
-CityMember.prototype.ModifyGrowthRate = function({growthRate, growthRateMultiplier})
+CityMember.prototype.ModifyGrowthRate = function({growthAmount, growthAmountMultiplier})
 {
-	if (!this.growthRateModifier)
-		return ({growthRate, growthRateMultiplier})
-	return this.growthRateModifier({growthRate, growthRateMultiplier});
+	if (!this.growthAmountModifier)
+		return ({growthAmount, growthAmountMultiplier})
+	return this.growthAmountModifier({growthAmount, growthAmountMultiplier});
 };
 
 // no dynamic state to save

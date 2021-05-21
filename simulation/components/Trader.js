@@ -213,8 +213,11 @@ Trader.prototype.PerformTrade = function(currentMarket)
 {
 	if (this.goods && this.goods.amount)
 	{
-		let cmpMarket = Engine.QueryInterface(currentMarket, IID_Market);
-		cmpMarket.RegisterTrade(this.goods);
+		Engine.BroadcastMessage(MT_TradePerformed, {
+			"trader":	this.entity,
+			"market":	currentMarket,
+			"goods":	this.goods
+		});
 	}
 	let previousMarket = this.markets[this.index];
 	if (previousMarket != currentMarket)  // Inconsistent markets

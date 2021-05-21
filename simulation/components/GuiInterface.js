@@ -290,6 +290,10 @@ GuiInterface.prototype.GetEntityState = function(player, ent)
 	if (cmpCity)
 		ret.city = {
 			"population": cmpCity.GetPopulation(),
+			"growth": {
+				"amount": cmpCity.GetPopulationGrowthAmount(),
+				"interval": cmpCity.GetPopulationGrowthInterval()
+			},
 			"max": cmpCity.GetMaxPopulation(),
 			"upgrade": cmpCity.GetUpgradeTemplate()
 		};

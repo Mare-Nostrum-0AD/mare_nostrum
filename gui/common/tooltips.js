@@ -1204,10 +1204,10 @@ function getCityPopulationText(template)
 	if (!template || !template.city || !template.population)
 		return "";
 
-	let tooltip = sprintf("Initial: %(init)s, Maximum: %(max)s, Growth Rate: %(growth)s / %(interval)s", {
+	let tooltip = sprintf("Initial: %(init)s, Maximum: %(max)s, Growth Rate: %(amount)s / %(interval)s", {
 		"init": template.city.population.initial,
 		"max": template.city.population.max,
-		"growth": template.city.population.growth.rate,
+		"amount": template.city.population.growth.amount,
 		"interval": getSecondsString(template.city.population.growth.interval / 1000)
 	});
 	if (template.city.population.growth.tradeRate)

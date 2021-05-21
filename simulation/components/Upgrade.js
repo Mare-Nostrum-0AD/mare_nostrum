@@ -357,7 +357,13 @@ Upgrade.prototype.UpgradeProgress = function(data, lateness)
 	let newEntity = ChangeEntityTemplate(this.entity, this.upgrading);
 
 	if (newEntity)
+	{
+		Engine.BroadcastMessage(MT_EntitiesCreated, {
+		    "entities": [newEntity],
+		    "owner": QueryOwnerEntityID(newEntity)
+		});
 		PlaySound("upgraded", newEntity);
+	}
 };
 
 Engine.RegisterComponentType(IID_Upgrade, "Upgrade", Upgrade);

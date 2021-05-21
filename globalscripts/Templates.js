@@ -449,8 +449,11 @@ function GetTemplateDataHelper(template, player, auraTemplates, modifiers = {})
 		};
 		// substitute {phenotype} with first (default) phenotype, if available
 		let [phenotype] = GetPhenotypes(template);
-		ret.icon = template.Identity.Icon.replace(/{civ}/g, template.Identity.Civ);
-		ret.icon = phenotype ? ret.icon.replace(/{phenotype}/g, phenotype) : ret.icon;
+		if (template.Identity.Icon)
+		{
+			ret.icon = template.Identity.Icon.replace(/{civ}/g, template.Identity.Civ);
+			ret.icon = phenotype ? ret.icon.replace(/{phenotype}/g, phenotype) : ret.icon;
+		}
 		ret.tooltip = template.Identity.Tooltip;
 		ret.requiredTechnology = template.Identity.RequiredTechnology;
 		ret.visibleIdentityClasses = GetVisibleIdentityClasses(template.Identity);
@@ -563,7 +566,7 @@ function GetTemplateDataHelper(template, player, auraTemplates, modifiers = {})
 			"initial": +template.City.Population.Init,
 			"max": getEntityValue("City/Population/Max"),
 			"growth": {
-				"rate": getEntityValue("City/Population/Growth/Rate"),
+				"amount": getEntityValue("City/Population/Growth/Amount"),
 				"interval": getEntityValue("City/Population/Growth/Interval"),
 				"tradeRate": getEntityValue("City/Population/Growth/TradeRate"),
 			}

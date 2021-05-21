@@ -146,36 +146,6 @@ Market.prototype.CalculateTraderGain = function(secondMarket, traderTemplate, tr
 	return gain;
 };
 
-Market.prototype.RegisterTrade = function(goods)
-{
-	if (!this.cityEntity)
-		return;
-	let cmpOwnership = Engine.QueryInterface(this.entity, IID_Ownership);
-	if (!cmpOwnership)
-		return;
-	let marketOwner = cmpOwnership.GetOwner();
-	cmpOwnership = Engine.QueryInterface(this.cityEntity, IID_Ownership);
-	if (!cmpOwnership)
-		return;
-	let cityOwner = cmpOwnership.GetOwner();
-	if (marketOwner !== cityOwner)
-		return;
-	let cmpCity = Engine.QueryInterface(this.cityEntity, IID_City);
-	if (!cmpCity)
-		return;
-	let tradeGrowthRate = cmpCity.GetTradeGrowthRate();
-	let tradeGrowthAmount = goods.amount.traderGain * tradeGrowthRate;
-	let oldPopulation = cmpCity.GetPopulation();
-	if (!tradeGrowthAmount || !oldPopulation)
-		return;
-	cmpCity.SetPopulation(oldPopulation + tradeGrowthAmount);
-};
-
-Market.prototype.SetCity = function(cityEntity)
-{
-	this.cityEntity = cityEntity;
-};
-
 Market.prototype.OnDiplomacyChanged = function(msg)
 {
 	this.UpdateTraders(false);

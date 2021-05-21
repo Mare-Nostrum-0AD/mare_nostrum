@@ -9,12 +9,15 @@
   <City>
     <Population>
 			<Growth>
-				<Rate>2</Rate>
+				<Amount>0</Amount>
+				<DecayAmount>6</DecayAmount>
 			</Growth>
       <Init>500</Init>
+      <Min>400</Min>
       <Max>5000</Max>
     </Population>
     <Upgrade>structures/{native}/city_centre</Upgrade>
+    <Downgrade>structures/{native}/civil_centre</Downgrade>
   </City>
   <GarrisonHolder merge="">
     <Max op="mul">2.0</Max>

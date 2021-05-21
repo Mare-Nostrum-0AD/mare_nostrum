@@ -1,6 +1,12 @@
 function City() {}
 
+// City.prototype.Schema = Components.ParseSchema('City');
 City.prototype.Schema = "<a:help>Identifies this entity as a city centre.</a:help>" +
+"<optional>" +
+	"<element name='Downgrade' a:help='Entity to downgrade to upon reaching min population.'>" +
+		"<text />" +
+	"</element>" +
+"</optional>" +
 "<optional>" +
 "<element name='Influence' a:help='Modifications to surrounding structures'>" +
 	"<zeroOrMore>" +
@@ -43,26 +49,32 @@ City.prototype.Schema = "<a:help>Identifies this entity as a city centre.</a:hel
 "</optional>" +
 "<element name='Population' a:help='Population of city (does not relate to player population number)'>" +
 	"<element name='Growth' a:help='Population growth rate'>" +
+		"<element name='Amount' a:help='Amount to grow population per interval'>" +
+			"<data type='nonNegativeInteger' />" +
+		"</element>" +
 		"<optional>" +
 			"<element name='AttackMultiplier' a:help='Modify growth rate when city attacked'>" +
 				"<ref name='decimal' />" +
 			"</element>" +
 		"</optional>" +
-		"<element name='Interval' a:help='Interval in milliseconds'>" +
-			"<ref name='nonNegativeDecimal' />" +
+		"<element name='DecayAmount' a:help='Amount to detract from population per interval'>" +
+			"<data type='nonNegativeInteger' />" +
 		"</element>" +
-		"<element name='Rate' a:help='Amount to grow population per interval'>" +
-			"<ref name='decimal' />" +
+		"<element name='Interval' a:help='Interval in milliseconds'>" +
+			"<data type='positiveInteger' />" +
 		"</element>" +
 		"<element name='TradeRate' a:help='Amount to modify population per arriving trader as percentage of trade gain.'>" +
-			"<ref name='decimal' />" +
+			"<ref name='nonNegativeDecimal' />" +
 		"</element>" +
 	"</element>" +
 	"<element name='Init' a:help='Initial population'>" +
-		"<ref name='nonNegativeDecimal' />" +
+		"<data type='nonNegativeInteger' />" +
 	"</element>" +
 	"<element name='Max' a:help='Maximum population'>" +
-		"<ref name='nonNegativeDecimal' />" +
+		"<data type='nonNegativeInteger' />" +
+	"</element>" +
+	"<element name='Min' a:help='Minimum population'>" +
+		"<data type='nonNegativeInteger' />" +
 	"</element>" +
 "</element>" +
 "<element name='Radius' a:help='Radius in which structures will belong to this city'>" +
@@ -89,17 +101,19 @@ City.prototype.Schema = "<a:help>Identifies this entity as a city centre.</a:hel
 		Resources.BuildSchema('nonNegativeDecimal') +
 	"</element>" +
 "</element>" +
-"</optional>" + 
+"</optional>" +
 "<optional>" +
 	"<element name='Upgrade' a:help='Entity to upgrade to upon reaching max population.'>" +
 		"<text />" +
 	"</element>" +
 "</optional>";
 
+
 City.prototype.Init = function()
 {
-	let initPop = ApplyValueModificationsToEntity("City/Population/Init", Math.floor(this.template.Population.Init), this.entity);
+	let initPop = ApplyValueModificationsToEntity("City/Population/Init", +this.template.Population.Init, this.entity);
 	initPop = this.SetPopulation(initPop);
+	this.cityMembers = new Set();
 	// set timer this.growthTimer to grow population at interval
 	this.ResetGrowthTimer();
 	this.ResetResourceTrickleTimer();
@@ -125,7 +139,7 @@ City.prototype.ResetGrowthTimer = function()
 	let cmpTimer = Engine.QueryInterface(SYSTEM_ENTITY, IID_Timer);
 	if (this.growthTimer)
 		cmpTimer.CancelTimer(this.growthTimer);
-	let growthTimerInterval = Math.round(this.template.Population.Growth.Interval);
+	let growthTimerInterval = this.GetPopulationGrowthInterval();
 	this.growthTimer = cmpTimer.SetInterval(this.entity, IID_City, "GrowPopulation", growthTimerInterval, growthTimerInterval, null);
 };
 
@@ -136,7 +150,7 @@ City.prototype.ResetResourceTrickleTimer = function()
 	let cmpTimer = Engine.QueryInterface(SYSTEM_ENTITY, IID_Timer);
 	if (this.resourceTrickleTimer)
 		cmpTimer.CancelTimer(this.resourceTrickleTimer);
-	let timerInterval = ApplyValueModificationsToEntity("City/ResourceTrickle/Interval", Math.round(this.template.ResourceTrickle.Interval), this.entity);
+	let timerInterval = ApplyValueModificationsToEntity("City/ResourceTrickle/Interval", Math.round(+this.template.ResourceTrickle.Interval), this.entity);
 	this.resourceTrickleTimer = cmpTimer.SetInterval(this.entity, IID_City, "TrickleResources", timerInterval, timerInterval, null);
 };
 
@@ -152,7 +166,12 @@ City.prototype.GetPopulation = function()
 
 City.prototype.GetMaxPopulation = function()
 {
-	return Math.round(ApplyValueModificationsToEntity("City/Population/Max", this.template.Population.Max, this.entity));
+	return Math.round(ApplyValueModificationsToEntity("City/Population/Max", +this.template.Population.Max, this.entity));
+};
+
+City.prototype.GetMinPopulation = function()
+{
+	return Math.max(Math.round(ApplyValueModificationsToEntity("City/Population/Min", +this.template.Population.Min, this.entity)), 0);
 };
 
 City.prototype.SetPopulation = function(value)
@@ -161,10 +180,16 @@ City.prototype.SetPopulation = function(value)
 	let val = Math.round(value);
 	if (typeof(val) !== 'number')
 		return this.population;
-	let min = 0;
-	let max = Math.round(this.template.Population.Max);
-	if (value < 0) {
-		this.population = 0;
+	let min = this.GetMinPopulation();
+	let max = this.GetMaxPopulation();
+	if (value < min) {
+		if (this.template.Downgrade) {
+			let replacement = this.Downgrade();
+			let cmpNewCity = Engine.QueryInterface(replacement, IID_City);
+			if (cmpNewCity)
+				return cmpNewCity.SetPopulation(value);
+		}
+		this.population = min;
 	} else if (value > max) {
 		if (this.template.Upgrade) {
 			let replacement = this.Upgrade();
@@ -187,39 +212,80 @@ City.prototype.SetPopulation = function(value)
 	return this.population;
 };
 
-City.prototype.GetCityMembers = function()
+City.prototype.SetupCityMembersQuery = function()
 {
-	let cmpOwnership = Engine.QueryInterface(this.entity, IID_Ownership);
-	let owner = cmpOwnership.GetOwner();
+	const cmpOwner = Engine.QueryInterface(this.entity, IID_Ownership);
+	const owner = cmpOwner.GetOwner();
+	const radius = this.GetRadius();
+
 	let cmpRangeManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_RangeManager);
-	return cmpRangeManager.ExecuteQuery(
+
+	if (this.cityMembersQuery)
+		cmpRangeManager.DestroyActiveQuery(this.cityMembersQuery);
+
+	// Only find entities with IID_CityMember interface
+	this.cityMembersQuery = cmpRangeManager.CreateActiveQuery(
 		this.entity,
 		0,
-		ApplyValueModificationsToEntity("City/Radius", +this.template.Radius, this.entity),
+		radius,
 		[owner],
-		IID_CityMember
+		IID_CityMember,
+		cmpRangeManager.GetEntityFlagMask("normal"),
+		true
 	);
+	cmpRangeManager.EnableActiveQuery(this.cityMembersQuery);
 };
 
-City.prototype.GetPopulationGrowthRate = function()
+// check for when city members added/removed
+City.prototype.OnRangeUpdate = function({ tag, added, removed })
 {
-	let growthRate = Math.floor(this.template.Population.Growth.Rate);
-	let growthRateMultiplier = 1;
-	for (let cityMember of this.GetCityMembers()) {
+	if (tag !== this.cityMembersQuery)
+		return;
+
+	if (added.length > 0)
+		added.forEach((ent) => this.cityMembers.add(ent));
+
+	if (removed.length > 0)
+		removed.forEach((ent) => this.cityMembers.delete(ent));
+};
+
+City.prototype.GetCityMembers = function()
+{
+	return [...this.cityMembers.keys()];
+};
+
+City.prototype.GetPopulationGrowthInterval = function()
+{
+	return ApplyValueModificationsToEntity("City/Population/Growth/Interval", +this.template.Population.Growth.Interval, this.entity);
+};
+
+City.prototype.GetPopulationGrowthAmount = function()
+{
+	let growthAmount = +this.template.Population.Growth.Amount;
+	let growthAmountMultiplier = 1;
+	for (let cityMember of this.GetCityMembers())
+	{
 		let cmpCityMember = Engine.QueryInterface(cityMember, IID_CityMember);
+		if (!cmpCityMember)
+			continue;
 		let mods = cmpCityMember.ModifyGrowthRate({
-			growthRate,
-			growthRateMultiplier
+			growthAmount,
+			growthAmountMultiplier
 		});
-		growthRate = mods['growthRate'];
-		growthRateMultiplier = mods['growthRateMultiplier'];
+		growthAmount = mods['growthAmount'];
+		growthAmountMultiplier = mods['growthAmountMultiplier'];
 	}
-	return Math.round(ApplyValueModificationsToEntity("City/Population/Growth/Rate", growthRate * growthRateMultiplier, this.entity));
+	return Math.round(ApplyValueModificationsToEntity("City/Population/Growth/Amount", growthAmount * growthAmountMultiplier, this.entity));
+};
+
+City.prototype.GetPopulationDecayAmount = function()
+{
+	return ApplyValueModificationsToEntity('City/Population/Growth/DecayAmount', +this.template.Population.Growth.DecayAmount, this.entity);
 };
 
 City.prototype.GetTradeGrowthRate = function()
 {
-	return ApplyValueModificationsToEntity('City/Population/Growth/TradeRate', this.template.Population.Growth.TradeRate, this.entity);
+	return ApplyValueModificationsToEntity('City/Population/Growth/TradeRate', +this.template.Population.Growth.TradeRate, this.entity);
 };
 
 City.prototype.GetEntitiesByClasses = function(classList)
@@ -230,26 +296,21 @@ City.prototype.GetEntitiesByClasses = function(classList)
 	return cmpRangeManager.ExecuteQuery(
 		this.entity,
 		0,
-		ApplyValueModificationsToEntity("City/Radius", +this.template.Radius, this.entity),
+		this.GetRadius(),
 		[owner],
 		IID_Identity
 	).filter(ent => MatchesClassList(Engine.QueryInterface(ent, IID_Identity).GetClassesList(), classList.join(' ')));
 };
 
+City.prototype.GetRadius = function()
+{
+	return ApplyValueModificationsToEntity("City/Radius", +this.template.Radius, this.entity);
+}
+
 City.prototype.GrowPopulation = function()
 {
-	// first, set market trade listeners
-	let target = this;
-	let markets = this.GetEntitiesByClasses(['Market']);
-	for (let market of markets) {
-		let cmpMarket = Engine.QueryInterface(market, IID_Market);
-		if (!cmpMarket)
-			continue;
-		cmpMarket.SetCity(this.entity);
-	}
-	// get base growth rate + modifiers
 	let oldPopulation = this.population;
-	return this.SetPopulation(oldPopulation + this.GetPopulationGrowthRate());
+	return this.SetPopulation(oldPopulation + this.GetPopulationGrowthAmount() - this.GetPopulationDecayAmount());
 };
 
 City.prototype.ComputeResourceTrickleRates = function()
@@ -312,12 +373,41 @@ City.prototype.Upgrade = function()
 	return newEntity;
 };
 
+City.prototype.GetDowngradeTemplate = function()
+{
+	if (!this.template.Downgrade)
+		return null;
+	let cmpPlayer = QueryOwnerInterface(this.entity);
+	let cmpIdentity = Engine.QueryInterface(this.entity, IID_Identity);
+	let templateName = this.template.Downgrade;
+	let parsedTemplate = templateName.indexOf('{native}') != -1 ?
+		parseCivTemplate(templateName, /\{native\}/g, cmpIdentity.GetCiv()) :
+		parseCivTemplate(templateName, /\{civ\}/g, cmpPlayer.GetCiv());
+	return parsedTemplate;
+};
+
+City.prototype.Downgrade = function()
+{
+	if (!this.template.Downgrade)
+		return null;
+	
+	let downgradeTemplate = this.GetDowngradeTemplate();
+	if (!downgradeTemplate)
+		return null;
+	
+	let newEntity = ChangeEntityTemplate(this.entity, downgradeTemplate);
+	if (newEntity)
+		PlaySound('downgraded', newEntity);
+	
+	return newEntity;
+};
+
 City.prototype.GetRangeOverlays = function()
 {
 	if (!this.template.RangeOverlay)
 		return [];
 	
-	let radius = ApplyValueModificationsToEntity("City/Radius", this.template.Radius, this.entity);
+	let radius = this.GetRadius();
 	let rangeOverlay = {
 		"radius": radius,
 		"texture": this.template.RangeOverlay.LineTexture,
@@ -349,6 +439,7 @@ City.prototype.CancelResourceTrickleTimer = function()
 
 City.prototype.OnOwnershipChanged = function(msg)
 {
+	this.SetupCityMembersQuery();
 	let prevOwnerStatisticsTracker = QueryPlayerIDInterface(msg.from, IID_StatisticsTracker);
 	if (prevOwnerStatisticsTracker)
 		prevOwnerStatisticsTracker.IncreaseCivicPopulation(-this.population);
@@ -359,11 +450,32 @@ City.prototype.OnOwnershipChanged = function(msg)
 
 City.prototype.OnDestroy = function(msg)
 {
+	let cmpRangeManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_RangeManager);
+	if (this.cityMembersQuery)
+		cmpRangeManager.DestroyActiveQuery(this.cityMembersQuery);
 	this.CancelGrowthTimer();
 	this.CancelResourceTrickleTimer();
 	let cmpStatisticsTracker = QueryOwnerInterface(this.entity, IID_StatisticsTracker);
 	if (cmpStatisticsTracker)
 		cmpStatisticsTracker.IncreaseCivicPopulation(-this.population);
+};
+
+City.prototype.OnInitGame = function()
+{
+	this.SetupCityMembersQuery();
+};
+
+City.prototype.OnTradePerformed = function({ market, goods })
+{
+	const cmpOwnerSelf = Engine.QueryInterface(this.entity, IID_Ownership);
+	const cmpOwnerMarket = Engine.QueryInterface(market, IID_Ownership);
+	if (cmpOwnerSelf.GetOwner() !== cmpOwnerMarket.GetOwner())
+		return;
+	if (PositionHelper.DistanceBetweenEntities(this.entity, market) > this.GetRadius())
+		return;
+	const oldPopulation = this.population;
+	const tradeGrowthAmount = Math.round(goods.amount.traderGain * this.GetTradeGrowthRate());
+	this.SetPopulation(oldPopulation + tradeGrowthAmount);
 };
 
 City.prototype.Serialize = function()

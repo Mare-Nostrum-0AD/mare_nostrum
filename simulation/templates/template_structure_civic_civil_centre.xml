@@ -60,13 +60,15 @@
   <City>
     <Population>
       <Growth>
+        <Amount>5</Amount>
         <AttackMultiplier>0</AttackMultiplier>
-        <Rate>5</Rate>
+        <DecayAmount>0</DecayAmount>
         <TradeRate>2.0</TradeRate>
         <Interval>10000</Interval>
       </Growth>
       <Init>100</Init>
       <Max>10000</Max>
+      <Min>0</Min>
     </Population>
     <Radius>90</Radius>
   </City>

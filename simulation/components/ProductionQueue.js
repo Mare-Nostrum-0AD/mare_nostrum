@@ -758,6 +758,10 @@ ProductionQueue.prototype.SpawnUnits = function(item)
 		    "owner": item.player,
 		    "metadata": item.metadata
 		});
+		Engine.BroadcastMessage(MT_EntitiesCreated, {
+		    "entities": createdEnts,
+		    "owner": item.player
+		});
 	}
 
 	return createdEnts.length;

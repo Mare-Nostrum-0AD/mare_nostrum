@@ -1,0 +1,12 @@
+{
+	"Title": "Terra Magna",
+	"Code": "terra_magna",
+	"Color": "green",
+	"GUIOrder": 2,
+	"Tooltip": "Civs from Terra Magna.",
+	"Weights": {
+		"chin": 1,
+		"xion": 1,
+		"zapo": 1
+	}
+}
