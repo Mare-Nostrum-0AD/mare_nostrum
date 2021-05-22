@@ -57,33 +57,6 @@
     <List datatype="tokens">Ranged+Infantry Hero+Infantry Hero+Cavalry</List>
     <BuffHeal>0</BuffHeal>
     <LoadingRange>2</LoadingRange>
-    <VisibleGarrisonPoints>
-      <Archer1>
-        <X>-2.0</X>
-        <Y>14.0</Y>
-        <Z>2.0</Z>
-      </Archer1>
-      <Archer2>
-        <X>0</X>
-        <Y>14.0</Y>
-        <Z>2.0</Z>
-      </Archer2>
-      <Archer3>
-        <X>2.0</X>
-        <Y>14.0</Y>
-        <Z>2.0</Z>
-      </Archer3>
-      <Archer4>
-        <X>-2.0</X>
-        <Y>14.0</Y>
-        <Z>0</Z>
-      </Archer4>
-      <Archer5>
-        <X>-2.0</X>
-        <Y>14.0</Y>
-        <Z>-2.0</Z>
-      </Archer5>
-    </VisibleGarrisonPoints>
   </GarrisonHolder>
   <Health>
     <Max>500</Max>

@@ -306,7 +306,7 @@ DELPHI.ConstructionPlan.prototype.findGoodPosition = function(gameState)
 
 	let radius = 0;
 	if (template.hasClass("Fortress") || template.hasClass("Arsenal") ||
-		this.type == gameState.applyCiv("structures/{civ}/elephant_stables"))
+		this.type == gameState.applyCiv("structures/{civ}/elephant_stable"))
 		radius = Math.floor((template.obstructionRadius().max + 8) / obstructions.cellSize);
 	else if (template.resourceDropsiteTypes() === undefined && !template.hasClass("House") &&
 		!template.hasClass("Field") && !template.hasClass("Market"))
@@ -886,7 +886,8 @@ DELPHI.ConstructionPlan.prototype.isGo = function(gameState)
 {
 	if (this.goRequirement && this.goRequirement == "houseNeeded")
 	{
-		if (!gameState.ai.HQ.canBuild(gameState, "structures/{civ}/house"))
+		if (!gameState.ai.HQ.canBuild(gameState, "structures/{civ}/house") &&
+		    !gameState.ai.HQ.canBuild(gameState, "structures/{civ}/apartment"))
 			return false;
 		if (gameState.getPopulationMax() <= gameState.getPopulationLimit())
 			return false;

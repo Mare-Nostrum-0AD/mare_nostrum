@@ -91,10 +91,7 @@ DELPHI.HQ.prototype.init = function(gameState, queues)
 	this.navalMap = false;
 	this.navalRegions = {};
 
-	this.treasures = gameState.getEntities().filter(ent => {
-		let type = ent.resourceSupplyType();
-		return type && type.generic == "treasure";
-	});
+	this.treasures = gameState.getEntities().filter(ent => ent.isTreasure());
 	this.treasures.registerUpdates();
 	this.currentPhase = gameState.currentPhase();
 	this.decayingStructures = new Set();
@@ -437,8 +434,7 @@ DELPHI.HQ.prototype.checkEvents = function(gameState, events)
 			if (!ent.position())
 			{
 				// we are autogarrisoned, check that the holder is registered in the garrisonManager
-				let holderId = ent.unitAIOrderData()[0].target;
-				let holder = gameState.getEntityById(holderId);
+				let holder = gameState.getEntityById(ent.garrisonHolderID());
 				if (holder)
 					this.garrisonManager.registerHolder(gameState, holder);
 			}
@@ -2010,14 +2006,21 @@ DELPHI.HQ.prototype.manageCorral = function(gameState, queues)
  */
 DELPHI.HQ.prototype.buildMoreHouses = function(gameState, queues)
 {
-	if (!gameState.isTemplateAvailable(gameState.applyCiv("structures/{civ}/house")) ||
-	    gameState.getPopulationMax() <= gameState.getPopulationLimit())
+	let houseTemplateString = "structures/{civ}/apartment";
+	if (!gameState.isTemplateAvailable(gameState.applyCiv(houseTemplateString)) ||
+		!this.canBuild(gameState, houseTemplateString))
+	{
+		houseTemplateString = "structures/{civ}/house";
+		if (!gameState.isTemplateAvailable(gameState.applyCiv(houseTemplateString)))
+			return;
+	}
+	if (gameState.getPopulationMax() <= gameState.getPopulationLimit())
 		return;
 
 	let numPlanned = queues.house.length();
 	if (numPlanned < 3 || numPlanned < 5 && gameState.getPopulation() > 80)
 	{
-		let plan = new DELPHI.ConstructionPlan(gameState, "structures/{civ}/house");
+		let plan = new DELPHI.ConstructionPlan(gameState, houseTemplateString);
 		// change the starting condition according to the situation.
 		plan.goRequirement = "houseNeeded";
 		queues.house.addPlan(plan);
@@ -2025,7 +2028,7 @@ DELPHI.HQ.prototype.buildMoreHouses = function(gameState, queues)
 
 	if (numPlanned > 0 && this.phasing && gameState.getPhaseEntityRequirements(this.phasing).length)
 	{
-		let houseTemplateName = gameState.applyCiv("structures/{civ}/house");
+		let houseTemplateName = gameState.applyCiv(houseTemplateString);
 		let houseTemplate = gameState.getTemplate(houseTemplateName);
 
 		let needed = 0;
@@ -2058,7 +2061,7 @@ DELPHI.HQ.prototype.buildMoreHouses = function(gameState, queues)
 
 	if (this.requireHouses)
 	{
-		let houseTemplate = gameState.getTemplate(gameState.applyCiv("structures/{civ}/house"));
+		let houseTemplate = gameState.getTemplate(gameState.applyCiv(houseTemplateString));
 		if (!this.phasing || gameState.getPhaseEntityRequirements(this.phasing).every(req =>
 			!houseTemplate.hasClass(req.class) || gameState.getOwnStructures().filter(API3.Filters.byClass(req.class)).length >= req.count))
 			this.requireHouses = undefined;
@@ -2067,7 +2070,7 @@ DELPHI.HQ.prototype.buildMoreHouses = function(gameState, queues)
 	// When population limit too tight
 	//    - if no room to build, try to improve with technology
 	//    - otherwise increase temporarily the priority of houses
-	let house = gameState.applyCiv("structures/{civ}/house");
+	let house = gameState.applyCiv(houseTemplateString);
 	let HouseNb = gameState.getOwnFoundations().filter(API3.Filters.byClass("House")).length;
 	let popBonus = gameState.getTemplate(house).getPopulationBonus();
 	let freeSlots = gameState.getPopulationLimit() + HouseNb*popBonus - this.getAccountedPopulation(gameState);
@@ -2231,7 +2234,7 @@ DELPHI.HQ.prototype.buildForge = function(gameState, queues)
 };
 
 /**
- * Deals with constructing military buildings (barracks, stables…)
+ * Deals with constructing military buildings (e.g. barracks, stable).
  * They are mostly defined by Config.js. This is unreliable since changes could be done easily.
  */
 DELPHI.HQ.prototype.constructTrainingBuildings = function(gameState, queues)
@@ -2254,7 +2257,7 @@ DELPHI.HQ.prototype.constructTrainingBuildings = function(gameState, queues)
 	if (this.getAccountedPopulation(gameState) > this.Config.Military.popForBarracks1 ||
 	    this.phasing == 2 && gameState.getOwnStructures().filter(API3.Filters.byClass("Village")).length < 5)
 	{
-		// first barracks/range and stables.
+		// First barracks/range and stable.
 		if (numBarracks + numRanges == 0)
 		{
 			let template = barracksTemplate || rangeTemplate;
@@ -2273,7 +2276,7 @@ DELPHI.HQ.prototype.constructTrainingBuildings = function(gameState, queues)
 			return;
 		}
 
-		// Second range/barracks and stables
+		// Second barracks/range and stable.
 		if (numBarracks + numRanges == 1 && this.getAccountedPopulation(gameState) > this.Config.Military.popForBarracks2)
 		{
 			let template = numBarracks == 0 ? (barracksTemplate || rangeTemplate) : (rangeTemplate || barracksTemplate);
@@ -2289,7 +2292,7 @@ DELPHI.HQ.prototype.constructTrainingBuildings = function(gameState, queues)
 			return;
 		}
 
-		// Then 3rd barracks/range/stables if needed
+		// Third barracks/range and stable if needed.
 		if (numBarracks + numRanges + numStables == 2 && this.getAccountedPopulation(gameState) > this.Config.Military.popForBarracks2 + 30)
 		{
 			let template = barracksTemplate || stableTemplate || rangeTemplate;
@@ -2307,9 +2310,9 @@ DELPHI.HQ.prototype.constructTrainingBuildings = function(gameState, queues)
 	if (this.currentPhase < 3)
 		return;
 
-	if (this.canBuild(gameState, "structures/{civ}/elephant_stables") && !gameState.getOwnEntitiesByClass("ElephantStable", true).hasEntities())
+	if (this.canBuild(gameState, "structures/{civ}/elephant_stable") && !gameState.getOwnEntitiesByClass("ElephantStable", true).hasEntities())
 	{
-		queues.militaryBuilding.addPlan(new DELPHI.ConstructionPlan(gameState, "structures/{civ}/elephant_stables", { "militaryBase": true }));
+		queues.militaryBuilding.addPlan(new DELPHI.ConstructionPlan(gameState, "structures/{civ}/elephant_stable", { "militaryBase": true }));
 		return;
 	}
 
@@ -2766,7 +2769,7 @@ DELPHI.HQ.prototype.assignGatherers = function()
 	{
 		for (let worker of base.workers.values())
 		{
-			if (worker.unitAIState().split(".")[1] != "RETURNRESOURCE")
+			if (worker.unitAIState().split(".").indexOf("RETURNRESOURCE") === -1)
 				continue;
 			let orders = worker.unitAIOrderData();
 			if (orders.length < 2 || !orders[1].target || orders[1].target != worker.getMetadata(PlayerID, "supply"))

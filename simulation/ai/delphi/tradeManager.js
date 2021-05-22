@@ -111,7 +111,7 @@ DELPHI.TradeManager.prototype.trainMoreTraders = function(gameState, queues)
 DELPHI.TradeManager.prototype.updateTrader = function(gameState, ent)
 {
 	if (ent.hasClass("Ship") && gameState.ai.playedTurn % 5 == 0 &&
-	    !ent.unitAIState().startsWith("INDIVIDUAL.GATHER") &&
+	    !ent.unitAIState().startsWith("INDIVIDUAL.COLLECTTREASURE") &&
 	    DELPHI.gatherTreasure(gameState, ent, true))
 		return;
 

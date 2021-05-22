@@ -16,6 +16,6 @@
   </Obstruction>
   <VisualActor>
     <Actor>structures/spartans/shipyard.xml</Actor>
-    <FoundationActor>structures/fndn_6x4_shipyard.xml</FoundationActor>
+    <FoundationActor>structures/fndn_6x4_dock.xml</FoundationActor>
   </VisualActor>
 </Entity>

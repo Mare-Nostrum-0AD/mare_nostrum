@@ -13,6 +13,6 @@
   </Obstruction>
   <VisualActor>
     <Actor>structures/seleucids/shipyard.xml</Actor>
-    <FoundationActor>structures/fndn_6x4_shipyard.xml</FoundationActor>
+    <FoundationActor>structures/fndn_6x4_dock.xml</FoundationActor>
   </VisualActor>
 </Entity>
