@@ -17,6 +17,8 @@
     <Limits>
       <Animal>50</Animal>
       <CivilCentre>1</CivilCentre>
+			<House>6</House>
+			<HouseBig>3</HouseBig>
       <Council>1</Council>
       <Fortress>10</Fortress>
       <Wonder>1</Wonder>
@@ -33,8 +35,6 @@
       <Juggernaut>1</Juggernaut>
       <Library>1</Library>
       <Lighthouse>1</Lighthouse>
-      <Monument>5</Monument>
-      <Palace>1</Palace>
       <Pillar>0</Pillar>
       <PyramidLarge>2</PyramidLarge>
       <TemplePatron>1</TemplePatron>
@@ -47,6 +47,18 @@
       <Wonder>1</Wonder>
     </Limits>
     <LimitChangers>
+			<House>
+				<VillageCentre>6</VillageCentre>
+				<TownCentre>6</TownCentre>
+				<CityCentre>6</CityCentre>
+				<MetroCentre>6</MetroCentre>
+			</House>
+			<HouseBig>
+				<VillageCentre>3</VillageCentre>
+				<TownCentre>3</TownCentre>
+				<CityCentre>3</CityCentre>
+				<MetroCentre>3</MetroCentre>
+			</HouseBig>
       <Gladiator>
         <Amphitheater>15</Amphitheater>
       </Gladiator>

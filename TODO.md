@@ -3,11 +3,11 @@ Please feel free to contribute if you see anything you can do here. If there is 
 
 ## First priorities
 - Balance city growth rate
-	- Implement City population drainage as part of growth rate
+	- Implement City population drainage as part of growth rate /
 	- Add house limit, tied to number of civ centres
 - Ensure city growth rate is readily apparent in gui
-- Rewrite City.js to use event listeneres to register new/destroyed city members
-- Rewrite Market.js to trigger event listeners when trade takes place; use listeners in City.js
+- Rewrite City.js to use event listeneres to register new/destroyed city members /
+- Rewrite Market.js to trigger event listeners when trade takes place; use listeners in City.js /
 - Implement archer skill growth; archers should start off weaker than other ranged units when first trained, then become stronger through experience
 	- Create advanced, elite archer mixins
 - Remove building ai from siege tower, ensure only usable for taking walls/other structures
@@ -25,8 +25,12 @@ Please feel free to contribute if you see anything you can do here. If there is 
 	- Allow building all available civic buildings via generic buildCivicBuilding function, replacing buildForge, buildTemple, etc.
 	- Allow to build wealth resource supplies (olive groves, vineyards, etc.)
 	- Make sure it can train merchant ships
+- Rename "Population Limit" to "Command Limit", change icon
+- Rebalance city manpower trickle
 
 ## Secondary priorities
+- Create resource caps, which can be expanded by building structures and researching technologies
+- Create local resources, which are stored locally by each resource dropsite and can only be used by nearby productionqueues and builders
 - Choose specific names for Persian, Carthaginian merchant temples
 - Create monuments for all civs:
 	- Mauryas
