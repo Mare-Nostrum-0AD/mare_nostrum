@@ -9,7 +9,7 @@
 function extract_diff() {
 	(
 	cd "${OAD_PARENT_DIR}"
-	git diff "${OAD_GIT_BASE}" -- binaries/data/mods/public
+	git diff --patch --binary "${OAD_GIT_BASE}" -- binaries/data/mods/public
 	)
 }
 
