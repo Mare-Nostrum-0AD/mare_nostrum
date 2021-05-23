@@ -27,16 +27,20 @@ if [[ ! ${parent_dir} ]]; then
 	exit 1
 fi
 
+# clone 0ad repo into parent dir if it doesn't already exist
 if [[ ! -d "${parent_dir}" ]]; then
 	git clone $([[ "${git_base}" != 'master' ]] && echo --shallow-exclude="${git_base}" || echo --depth=1) "${oad_git_server}" "${parent_dir}"
 fi
 
 # setup new branch, save latest master commit to child dir dev files
 cd "${parent_dir}"
-git log -n 1 "${git_base}" > "${child_dir}/dev/git_base.txt"
+git log -n 1 "${git_base}" > "${git_base_file}"
+# set git_base to exact commit hash
+git_base="$(grep -m 1 -o -e '^commit \S\+' < "${git_base_file}" | cut -c8-)"
 git checkout "${git_base}"
 git switch -c "${OAD_MOD_NAME}"
 
+# apply patch if it exists, else port all files individually
 if [[ -f "${oad_git_patch}" ]]; then
 	git apply "${oad_git_patch}"
 else
@@ -50,8 +54,10 @@ else
 	done
 fi
 
+# copy dev scripts for parent into $parent_dir/dev
 cp -rf "${child_dir}/dev/parent" "${parent_dir}/dev"
 
+# append important variables to $parent_dir/dev/utils.sh
 echo "\
 OAD_PARENT_DIR=\"${parent_dir}\"
 OAD_MOD_DIR=\"${mod_dir}\"

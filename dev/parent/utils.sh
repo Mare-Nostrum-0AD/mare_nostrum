@@ -21,6 +21,7 @@ function extract_files() {
 	)
 }
 
+# sync changes to parent repo into child repo
 function sync_to_child() {
 	(
 	cd "${OAD_CHILD_DIR}"
@@ -28,7 +29,10 @@ function sync_to_child() {
 	cd "${OAD_MOD_DIR}"
 	IFS=$'\n\r'
 	files=($(extract_files))
+	IFS=$'\n\r' moved_files=()
 	for file in ${files[@]}; do
+		[[ ! -f "${file}" ]] && continue
+		moved_files+=("${file}")
 		outfile="${OAD_CHILD_DIR}/${file}"
 		outdir="$(dirname "${outfile}")"
 		[[ ! -d "${outdir}" ]] && mkdir -p "${outdir}"
@@ -37,11 +41,11 @@ function sync_to_child() {
 	extract_diff > "${OAD_CHILD_DIR}/dev/mod.diff"
 	git log -n 1 "${OAD_GIT_BASE}" > "${OAD_CHILD_DIR}/dev/git_base.txt"
 	cd "${OAD_CHILD_DIR}"
-	git add ${files[@]}
+	git add ${moved_files[@]}
 	)
 }
 
-
+# sync changes to child repo into parent repo
 function sync_from_child() {
 	(
 	cd "${OAD_CHILD_DIR}"
@@ -55,6 +59,7 @@ function sync_from_child() {
 	)
 }
 
+# commit, with message, in both parent repo and child repo
 function commit() {
 	(
 	[[ ! $1 ]] && echo 'please enter commit message' >&2
@@ -65,4 +70,12 @@ function commit() {
 	cd "${OAD_CHILD_DIR}"
 	git commit -am "${commit_msg}"
 	)
+}
+
+# rebase onto another revision, changing variables accordingly
+function rebase() {
+	[[ $1 ]] && local git_base="$1" || local git_base='master'
+	OAD_GIT_BASE="$(git log -n 1 "${git_base}" | grep -m 1 -o -e '^commit \S\+' < "${OAD_GIT_BASE_FILE}" | cut -c8-)"
+	git rebase "${OAD_GIT_BASE}"
+	echo "OAD_GIT_BASE=\"${OAD_GIT_BASE}\"" >> "${OAD_PARENT_DIR}/dev/utils.sh"
 }
