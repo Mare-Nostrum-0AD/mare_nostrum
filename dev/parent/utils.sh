@@ -27,7 +27,8 @@ function sync_to_child() {
 	rm -rf ./*
 	cd "${OAD_MOD_DIR}"
 	IFS=$'\n\r'
-	for file in $(extract_files); do
+	files=($(extract_files))
+	for file in ${files[@]}; do
 		outfile="${OAD_CHILD_DIR}/${file}"
 		outdir="$(dirname "${outfile}")"
 		[[ ! -d "${outdir}" ]] && mkdir -p "${outdir}"
@@ -35,8 +36,11 @@ function sync_to_child() {
 	done
 	extract_diff > "${OAD_CHILD_DIR}/dev/mod.diff"
 	git log -n 1 "${OAD_GIT_BASE}" > "${OAD_CHILD_DIR}/dev/git_base.txt"
+	cd "${OAD_CHILD_DIR}"
+	git add ${files[@]}
 	)
 }
+
 
 function sync_from_child() {
 	(
