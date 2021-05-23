@@ -15,7 +15,7 @@
     </DamageVariants>
   </Health>
   <Identity>
-    <Civ>ital</Civ>
+    <Civ>rome</Civ>
     <Lang>latin</Lang>
     <SelectionGroupName>units/rome/infantry_spearman_b</SelectionGroupName>
     <GenericName>Veteran Spearman</GenericName>
