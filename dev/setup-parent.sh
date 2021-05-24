@@ -15,6 +15,7 @@ if [[ $2 ]]; then
 	git_base="$2"
 elif [[ -f "${git_base_file}" ]]; then
 	git_base="$(grep -m 1 -o -e '^commit \S\+' < "${git_base_file}" | cut -c8-)"
+	git_base_date="$(grep -m 1 -e '^Date: ' < "${git_base_file}" | sed -e 's#^Date:\s*##')"
 else
 	git_base='master'
 fi
@@ -29,7 +30,7 @@ fi
 
 # clone 0ad repo into parent dir if it doesn't already exist
 if [[ ! -d "${parent_dir}" ]]; then
-	git clone $([[ "${git_base}" != 'master' ]] && echo --shallow-exclude="${git_base}" || echo --depth=1) "${oad_git_server}" "${parent_dir}"
+	git clone $([[ ${git_base_date} ]] && echo --shallow-since="${git_base_date}" || [[ "${git_base}" = 'master' ]] && echo --depth=1) "${oad_git_server}" "${parent_dir}"
 fi
 
 # setup new branch, save latest master commit to child dir dev files
