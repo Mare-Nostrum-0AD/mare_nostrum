@@ -25,7 +25,7 @@
       <Palace>1</Palace>
       <Hero>1</Hero>
       <Apadana>1</Apadana>
-      <Embassy>2</Embassy>
+      <Embassy>0</Embassy>
       <Monument>0</Monument>
       <Pillar>0</Pillar>
       <WarDog>0</WarDog>
@@ -71,6 +71,9 @@
       <Pillar>
         <Ashoka>5</Ashoka>
       </Pillar>
+			<Embassy>
+				<TownCentre>1</TownCentre>
+			</Embassy>
     </LimitChangers>
     <LimitRemovers>
       <CivilCentre>
