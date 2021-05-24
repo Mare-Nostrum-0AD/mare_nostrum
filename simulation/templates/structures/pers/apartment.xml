@@ -11,6 +11,7 @@
     <Civ>pers</Civ>
     <GenericName>Apartment Block</GenericName>
 		<Icon>structures/apartment.png</Icon>
+		<RequiredTechnology>phase_town</RequiredTechnology>
   </Identity>
   <Obstruction>
     <Static width="23.0" depth="12.0"/>

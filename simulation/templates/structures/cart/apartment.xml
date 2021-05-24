@@ -15,6 +15,7 @@
   <Identity>
     <GenericName>Apartment Building</GenericName>
 		<Icon>structures/apartment.png</Icon>
+		<RequiredTechnology>phase_town</RequiredTechnology>
   </Identity>
   <Loot>
     <wood>30</wood>
