@@ -2,7 +2,7 @@
 <Entity parent="template_structure_special_monument">
   <Auras datatype="tokens">
 		-structures/monument_population
-		structures/monument_pers
+		structures/monument_pers_trade
   	structures/courier_post
   </Auras>
   <Footprint>
