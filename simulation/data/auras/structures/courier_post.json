@@ -1,0 +1,12 @@
+{
+	"type": "range",
+	"radius": 500,
+	"affects": ["Trader+!Ship"],
+	"modifications": [
+		{ "value": "Trader/GainMultiplier", "multiply": 1.1 },
+		{ "value": "UnitMotion/WalkSpeed", "multiply": 1.4 }
+	],
+	"auraDescription": "Increase land traders' gain multiplier by 10%, walk speed by 40%.",
+	"auraName": "Courier Post",
+	"stackable": false
+}

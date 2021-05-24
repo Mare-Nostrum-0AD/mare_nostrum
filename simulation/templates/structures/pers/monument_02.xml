@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Entity parent="template_structure_special_monument">
   <Auras datatype="tokens">
-  	structures/tavern_trade
+		-structures/monument_population
+		structures/monument_pers
+  	structures/courier_post
   </Auras>
   <Footprint>
     <Square width="30.0" depth="17.0"/>
@@ -14,6 +16,7 @@
     <Civ>pers</Civ>
     <SpecificName>Chapar Khaneh</SpecificName>
     <GenericName>Courier House</GenericName>
+		<Tooltip>Provides shelter and fresh horses to travellers. Speeds up traders and improves city growth rate from trade.</Tooltip>
 		<Icon>technologies/horse_rider.png</Icon>
   </Identity>
   <Obstruction>
@@ -22,6 +25,15 @@
     <Population>
     <Bonus>15</Bonus>
   </Population>
+  <Sound>
+    <SoundGroups>
+      <select>interface/select/building/sel_market.xml</select>
+      <constructed>interface/complete/building/complete_market.xml</constructed>
+      <death>attack/destruction/building_collapse_large.xml</death>
+      <alert_raise>interface/alarm/alarm_alert_0.xml</alert_raise>
+      <alert_end>interface/alarm/alarm_alert_1.xml</alert_end>
+    </SoundGroups>
+  </Sound>
   <TerritoryInfluence>
     <Radius>26</Radius>
   </TerritoryInfluence>

@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Entity parent="template_structure_special_monument">
+	<Auras datatype="tokens">
+		-structures/monument_population
+		structures/monument_pers
+	</Auras>
   <Footprint>
     <Square width="25.0" depth="25.0"/>
     <Height>8.0</Height>
@@ -16,7 +20,8 @@
     <GenericName>Gate of All Nations</GenericName>
     <SpecificName>Duvarθi Visadahyu</SpecificName>
     <VisibleClasses datatype="tokens">Hall</VisibleClasses>
-    <Icon>structures/pers_hall.png</Icon>
+		<Tooltip>Monument representing the diversity of the Achaemenid Empire. Inspires immigration to the city, improving city growth rate.</Tooltip>
+    <Icon>structures/lamassu.png</Icon>
   </Identity>
   <Loot>
     <stone>50</stone>
@@ -27,8 +32,8 @@
   </Obstruction>
   <Sound>
     <SoundGroups>
-      <select>interface/select/building/sel_broch.xml</select>
-      <constructed>interface/complete/building/complete_broch.xml</constructed>
+      <select>interface/select/building/sel_temple.xml</select>
+      <constructed>interface/complete/building/complete_temple.xml</constructed>
     </SoundGroups>
   </Sound>
   <TerritoryDecay disable=""/>
