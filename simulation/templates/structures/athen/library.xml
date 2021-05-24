@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Entity parent="template_structure_special_monument_library">
-  <Identity>
-    <Civ>athen</Civ>
-    <SpecificName>Akademia</SpecificName>
-    <GenericName>Academy</GenericName>
-  </Identity>
-</Entity>

@@ -14,6 +14,7 @@
   </Health>
   <Identity>
     <GenericName>Apartment Building</GenericName>
+		<Icon>structures/apartment.png</Icon>
   </Identity>
   <Loot>
     <wood>30</wood>

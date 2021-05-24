@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_structure_special_monument_library">
+  <Footprint>
+    <Square width="40.0" depth="40.0"/>
+    <Height>15.0</Height>
+  </Footprint>
+  <Identity>
+    <Civ>cart</Civ>
+    <SpecificName>Maktabah</SpecificName>
+  </Identity>
+  <ProductionQueue>
+    <BatchTimeModifier>0.7</BatchTimeModifier>
+  </ProductionQueue>
+  <VisualActor>
+    <Actor>structures/carthaginians/palace.xml</Actor>
+    <FoundationActor>structures/fndn_8x8.xml</FoundationActor>
+  </VisualActor>
+</Entity>
