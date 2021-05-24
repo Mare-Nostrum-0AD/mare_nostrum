@@ -39,7 +39,6 @@
 			structures/{civ}/monument_03
 			structures/{civ}/monument_04
 			structures/{civ}/palace
-      structures/{civ}/theater
       structures/{civ}/wonder
     </Entities>
   </Builder>
