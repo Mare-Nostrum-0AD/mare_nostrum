@@ -1,7 +1,7 @@
 {
 	"type": "range",
 	"radius": 500,
-	"affects": ["Trader+!Ship"],
+	"affects": ["Trader !Ship"],
 	"modifications": [
 		{ "value": "Trader/GainMultiplier", "multiply": 1.1 },
 		{ "value": "UnitMotion/WalkSpeed", "multiply": 1.4 }

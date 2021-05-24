@@ -1,0 +1,10 @@
+{
+	"type": "global",
+	"affects": ["Elephant Soldier"],
+	"modifications": [
+		{ "value": "Health/RegenRate", "replace": -10 },
+		{ "value": "Health/IdleRegenRate", "replace": -10 }
+	],
+	"auraName": "Death by Mahout",
+	"auraDescription": "Rogue elephants are eventually killed by their riders."
+}

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Entity>
+	<Auras datatype="tokens">
+		player/gaia_elephant_soldier_decay
+	</Auras>
   <Player>
     <SharedLosTech/>
     <SharedDropsitesTech/>
