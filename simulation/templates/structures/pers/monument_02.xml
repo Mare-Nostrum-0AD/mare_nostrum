@@ -14,6 +14,7 @@
     <Civ>pers</Civ>
     <SpecificName>Chapar Khaneh</SpecificName>
     <GenericName>Courier House</GenericName>
+		<Icon>technologies/horse_rider.png</Icon>
   </Identity>
   <Obstruction>
     <Static width="28.0" depth="15.0"/>
