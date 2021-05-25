@@ -412,6 +412,8 @@ GarrisonHolder.prototype.ApplyValueModifiers = function()
 		let modName = sprintf("%d/GarrisonHolder/ValueModifiers/%s", this.entity, key);
 		if (this.appliedValueModifiers.has(key))
 			cmpModifiersManager.RemoveAllModifiers(modName, this.entity);
+		else
+			this.appliedValueModifiers.add(key);
 		cmpModifiersManager.AddModifiers(modName, mod, this.entity);
 	}
 };
@@ -652,6 +654,11 @@ GarrisonHolder.prototype.OnValueModification = function(msg)
 		this.EjectOrKill(this.entities.filter(entity => !this.IsAllowedToBeGarrisoned(entity)));
 	}
 
+	if (msg.valueNames.some((valueName) => valueName.indexOf("GarrisonHolder/ValueModifiers") !== -1))
+	{
+		this.ApplyValueModifiers();
+	}
+
 	if (msg.valueNames.indexOf("GarrisonHolder/BuffHeal") === -1)
 		return;
 
@@ -660,5 +667,10 @@ GarrisonHolder.prototype.OnValueModification = function(msg)
 	else if (!this.timer && this.GetHealRate())
 		this.StartTimer();
 };
+
+GarrisonHolder.prototype.OnGarrisonedUnitsChanged = function()
+{
+	this.ApplyValueModifiers();
+}
 
 Engine.RegisterComponentType(IID_GarrisonHolder, "GarrisonHolder", GarrisonHolder);
