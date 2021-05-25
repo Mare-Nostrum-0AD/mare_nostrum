@@ -155,6 +155,7 @@
     <SoundGroups>
       <select>interface/select/building/sel_civ_center.xml</select>
       <constructed>interface/complete/building/complete_civ_center.xml</constructed>
+			<upgraded>interface/alarm/alarm_phase.xml</upgraded>
       <alert_raise>interface/alarm/alarm_alert_0.xml</alert_raise>
       <alert_end>interface/alarm/alarm_alert_1.xml</alert_end>
       <attack_ranged>attack/weapon/bow_attack.xml</attack_ranged>

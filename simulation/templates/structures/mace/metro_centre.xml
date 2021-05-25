@@ -5,7 +5,6 @@
   </Health>
   <Identity>
     <Civ>mace</Civ>
-    <SpecificName>Agora</SpecificName>
   </Identity>
   <VisualActor>
     <Actor>structures/macedonians/civic_centre.xml</Actor>

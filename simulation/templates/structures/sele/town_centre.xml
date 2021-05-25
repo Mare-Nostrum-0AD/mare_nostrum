@@ -12,6 +12,7 @@
   </Health>
   <Identity>
     <Civ>sele</Civ>
+		<SpecificName>Kōmopolis</SpecificName>
   </Identity>
   <Obstruction>
     <Static width="37.0" depth="37.0"/>

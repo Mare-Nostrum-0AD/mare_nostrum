@@ -6,7 +6,6 @@
   </Footprint>
   <Identity>
     <Civ>ptol</Civ>
-    <SpecificName>pr-'a</SpecificName>
   </Identity>
   <Obstruction>
     <Static width="39" depth="31"/>

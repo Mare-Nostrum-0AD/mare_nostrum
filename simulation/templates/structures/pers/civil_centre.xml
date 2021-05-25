@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Entity parent="template_structure_civic_civil_centre_a">
-  <City merge="">
-    <Upgrade>structures/{native}/town_centre</Upgrade>
-  </City>
   <Footprint>
     <Square width="40.0" depth="40.0"/>
     <Height>8.0</Height>
   </Footprint>
   <Health>
-    <SpawnEntityOnDeath>decay|rubble/rubble_rome_cc</SpawnEntityOnDeath>
+    <SpawnEntityOnDeath>decay|rubble/rubble_pers_cc</SpawnEntityOnDeath>
   </Health>
   <Identity>
     <Civ>pers</Civ>
-    <GenericName>Village</GenericName>
+    <SpecificName>Rusta</SpecificName>
   </Identity>
   <Obstruction>
     <Static width="37.0" depth="37.0"/>

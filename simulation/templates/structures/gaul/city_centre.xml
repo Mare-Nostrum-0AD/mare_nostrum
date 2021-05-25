@@ -10,6 +10,7 @@
   <Identity>
     <Civ>gaul</Civ>
     <SpecificName>Caer</SpecificName>
+		<Classes datatype="tokens">-Sturdy</Classes>
   </Identity>
   <Obstruction>
     <Static width="25.0" depth="25.0"/>

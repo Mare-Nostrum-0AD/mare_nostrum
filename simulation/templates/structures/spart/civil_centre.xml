@@ -12,7 +12,7 @@
   </Health>
   <Identity>
     <Civ>spart</Civ>
-    <GenericName>Village</GenericName>
+		<SpecificName>Xorióu</SpecificName>
   </Identity>
   <Obstruction>
     <Static width="37.0" depth="37.0"/>

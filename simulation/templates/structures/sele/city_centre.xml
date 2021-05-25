@@ -2,7 +2,7 @@
 <Entity parent="template_structure_civic_civil_centre_c">
   <Identity>
     <Civ>sele</Civ>
-    <SpecificName>Agorā́</SpecificName>
+		<SpecificName>Pōlis</SpecificName>
   </Identity>
   <VisualActor>
     <Actor>structures/seleucids/civic_center.xml</Actor>

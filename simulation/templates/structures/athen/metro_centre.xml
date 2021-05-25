@@ -5,7 +5,6 @@
   </Health>
   <Identity>
     <Civ>athen</Civ>
-    <SpecificName>Agora</SpecificName>
   </Identity>
   <VisualActor>
     <Actor>structures/athenians/civil_centre.xml</Actor>

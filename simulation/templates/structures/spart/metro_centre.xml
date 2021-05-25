@@ -5,7 +5,6 @@
   </Health>
   <Identity>
     <Civ>spart</Civ>
-    <SpecificName>Agora</SpecificName>
   </Identity>
   <VisualActor>
     <Actor>structures/spartans/civic_center.xml</Actor>

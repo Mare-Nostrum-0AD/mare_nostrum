@@ -4,7 +4,7 @@
     <BuildTime>300</BuildTime>
   </Cost>
   <Footprint>
-    <Square width="28.0" depth="28.0"/>
+    <Square width="30.0" depth="30.0"/>
     <Height>15.0</Height>
   </Footprint>
   <GarrisonHolder>
@@ -20,7 +20,7 @@
     <GenericName>Carthaginian Senate</GenericName>
   </Identity>
   <Obstruction>
-    <Static width="40.0" depth="40.0"/>
+    <Static width="28.0" depth="28.0"/>
   </Obstruction>
   <ProductionQueue>
     <BatchTimeModifier>0.8</BatchTimeModifier>

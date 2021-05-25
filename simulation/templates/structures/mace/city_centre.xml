@@ -8,7 +8,7 @@
   </Health>
   <Identity>
     <Civ>mace</Civ>
-    <SpecificName>Agorá</SpecificName>
+    <SpecificName>Pōlis</SpecificName>
   </Identity>
   <VisualActor>
 		<Actor>special/greek_stoa_great.xml</Actor>

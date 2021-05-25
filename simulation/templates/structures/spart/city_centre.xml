@@ -8,7 +8,7 @@
   </Health>
   <Identity>
     <Civ>spart</Civ>
-    <SpecificName>Agorá</SpecificName>
+		<SpecificName>Pōlis</SpecificName>
   </Identity>
   <VisualActor>
     <Actor>structures/spartans/stoa.xml</Actor>

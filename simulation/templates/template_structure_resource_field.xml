@@ -48,7 +48,7 @@
     <Max>Infinity</Max>
     <Type>food.grain</Type>
     <MaxGatherers>3</MaxGatherers>
-    <DiminishingReturns>1.10</DiminishingReturns>
+    <DiminishingReturns>1.05</DiminishingReturns>
   </ResourceSupply>
   <Sound>
     <SoundGroups>
