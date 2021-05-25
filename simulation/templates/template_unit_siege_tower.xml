@@ -4,7 +4,7 @@
     <Capture>
 			<AttackName>Capture</AttackName>
       <Capture>10</Capture>
-      <MaxRange>8</MaxRange>
+      <MaxRange>4</MaxRange>
       <RepeatTime>1000</RepeatTime>
       <PreferredClasses datatype="tokens">Gates CivilCentre Fortress Tower</PreferredClasses>
       <RestrictedClasses datatype="tokens">Unit</RestrictedClasses>
@@ -35,9 +35,6 @@
       </RangeOverlay>
     </Ranged>
   </Attack>
-  <Auras datatype="tokens">
-    units/siege_tower_garrisoned
-  </Auras>
   <Cost>
     <BuildTime>40</BuildTime>
     <Resources>
@@ -54,9 +51,27 @@
     <Max>20</Max>
     <EjectHealth>0.1</EjectHealth>
     <EjectClassesOnDestroy datatype="tokens">Unit</EjectClassesOnDestroy>
-    <List datatype="tokens">Ranged+Infantry Hero+Infantry Hero+Cavalry</List>
+    <List datatype="tokens">Infantry Hero+Infantry Hero+Cavalry</List>
     <BuffHeal>0</BuffHeal>
     <LoadingRange>2</LoadingRange>
+		<ValueModifiers>
+			<Arrows>
+				<!-- replaces building ai -->
+				<Paths datatype="tokens">
+					Attack/Ranged/RepeatTime
+					Attack/Ranged/PrepareTime
+				</Paths>
+				<Classes datatype="tokens">Ranged</Classes>
+				<Multiply>0.9</Multiply>
+				<MaxStackable>10</MaxStackable>
+			</Arrows>
+			<Capture>
+				<!-- Added value should be greater than default infantry capture attack of 2.5 -->
+				<Paths datatype="tokens">Attack/Capture/Capture</Paths>
+				<Classes datatype="tokens">Soldier</Classes>
+				<Add>4</Add>
+			</Capture>
+		</ValueModifiers>
   </GarrisonHolder>
   <Health>
     <Max>500</Max>
@@ -64,7 +79,7 @@
   <Identity>
     <VisibleClasses datatype="tokens">Ranged SiegeTower</VisibleClasses>
     <GenericName>Siege Tower</GenericName>
-    <Tooltip>Garrison units for transport and to increase firepower.</Tooltip>
+    <Tooltip>Garrison units for increase firepower and capture attack.</Tooltip>
   </Identity>
   <Loot>
     <xp>250</xp>

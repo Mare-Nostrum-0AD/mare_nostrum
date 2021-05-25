@@ -1,0 +1,72 @@
+<element name='Max' a:help='Maximum number of entities which can be garrisoned in this holder'>
+	<data type='positiveInteger'/>
+</element>
+<element name='List' a:help='Classes of entities which are allowed to garrison in this holder (from Identity)'>
+	<attribute name='datatype'>
+		<value>tokens</value>
+	</attribute>
+	<text/>
+</element>
+<element name='EjectClassesOnDestroy' a:help='Classes of entities to be ejected on destroy. Others are killed'>
+	<attribute name='datatype'>
+		<value>tokens</value>
+	</attribute>
+	<text/>
+</element>
+<element name='BuffHeal' a:help='Number of hitpoints that will be restored to this holder&apos;s garrisoned units each second'>
+	<ref name='nonNegativeDecimal'/>
+</element>
+<element name='LoadingRange' a:help='The maximum distance from this holder at which entities are allowed to garrison. Should be about 2.0 for land entities and preferably greater for ships'>
+	<ref name='nonNegativeDecimal'/>
+</element>
+<optional>
+	<element name='EjectHealth' a:help='Percentage of maximum health below which this holder no longer allows garrisoning'>
+		<ref name='nonNegativeDecimal'/>
+	</element>
+</optional>
+<optional>
+	<element name='Pickup' a:help='This garrisonHolder will move to pick up units to be garrisoned'>
+		<data type='boolean'/>
+	</element>
+</optional>
+<optional>
+	<!-- Source: globalscripts/ModificationTemplates.js:ModificationSchema  -->
+	<!-- Value modifiers for this entity, which scale with number of garrisoned units.  -->
+	<element name='ValueModifiers' a:help='List of value modifiers for this entity, scaling with number of garrisoned entities.'>
+		<oneOrMore>
+			<element>
+				<anyName />
+				<interleave>
+					<element name='Paths' a:help='Space separated value paths to modify.'>
+						<attribute name='datatype'>
+							<value>tokens</value>
+						</attribute>
+						<text/>
+					</element>
+					<element name='Classes' a:help='Classes of garrisoned units that affect this aura.'>
+						<attribute name='datatype'>
+							<value>tokens</value>
+						</attribute>
+						<text/>
+					</element>
+					<choice>
+						<element name='Add'>
+							<data type='decimal' />
+						</element>
+						<element name='Multiply'>
+							<data type='decimal' />
+						</element>
+						<element name='Replace'>
+							<text/>
+						</element>
+					</choice>
+					<optional>
+						<element name='MaxStackable' a:help='Maximum number of times to stack this aura; unlimited by default.'>
+							<data type='positiveInteger'/>
+						</element>
+					</optional>
+				</interleave>
+			</element>
+		</oneOrMore>
+	</element>
+</optional>

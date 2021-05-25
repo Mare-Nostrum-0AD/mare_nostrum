@@ -355,7 +355,7 @@ GarrisonHolder.prototype.GetValueModifiers = function()
 		return [];
 	let modifierTemplates = this.template.ValueModifiers;
 	let ents = this.GetEntities();
-	let output = modifiers;
+	let output = {};
 	for (let name in modifierTemplates)
 	{
 		let mod = modifierTemplates[name];
@@ -407,7 +407,7 @@ GarrisonHolder.prototype.ApplyValueModifiers = function()
 		}
 	}
 	// next, add or modify other modifiers. if modifier already applied in some form, make sure to remove before reapplying, as scalar may be off
-	for (let [key, mod] of valueModifiers)
+	for (let [key, mod] of Object.entries(valueModifiers))
 	{
 		let modName = sprintf("%d/GarrisonHolder/ValueModifiers/%s", this.entity, key);
 		if (this.appliedValueModifiers.has(key))
