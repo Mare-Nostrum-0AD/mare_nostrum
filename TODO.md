@@ -16,7 +16,7 @@ Please feel free to contribute if you see anything you can do here. If there is 
 	- Make sure it can train merchant ships
 - Implement archer skill growth; archers should start off weaker than other ranged units when first trained, then become stronger through experience
 	- Create advanced, elite archer mixins
-- Modify GarrisonHolder component to enable value modifications based on number, type of units garrisoned
+- Modify GarrisonHolder component to enable value modifications based on number, type of units garrisoned /
 - Remove building ai from siege tower, ensure only usable for taking walls/other structures
 	- Modify Attack component to allow garrisoned units to increase attack, allowing garrisoned infantry to increase siege tower capture attack
 - Create champion mixin, refactor champion templates to inherit from standard unit templates and apply champion mixin

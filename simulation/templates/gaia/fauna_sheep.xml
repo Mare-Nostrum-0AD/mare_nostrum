@@ -16,6 +16,7 @@
   <Identity>
     <GenericName>Sheep</GenericName>
     <SpecificName>Ovis aries</SpecificName>
+		<VisibleClasses datatype="tokens">Sheep</VisibleClasses>
     <Icon>gaia/fauna_sheep.png</Icon>
   </Identity>
   <ResourceSupply>

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Entity parent="template_unit_fauna_herd_domestic_grazer">
+	<Identity>
+		<VisibleClasses datatype="tokens">Cattle</VisibleClasses>
+	</Identity>
   <Sound>
     <SoundGroups>
       <select>actor/fauna/animal/cattle_select.xml</select>

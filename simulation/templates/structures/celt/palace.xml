@@ -15,7 +15,7 @@
     <SpawnEntityOnDeath>decay|rubble/rubble_stone_6x6</SpawnEntityOnDeath>
   </Health>
   <Identity>
-    <Civ>gaul</Civ>
+    <Civ>gaia</Civ>
     <GenericName>Assembly of Princes</GenericName>
     <SpecificName>Remogantion</SpecificName>
     <Tooltip>Train Champion Trumpeters and Heroes.</Tooltip>

@@ -41,6 +41,7 @@
       <wood>1.0</wood>
       <stone>0.75</stone>
       <metal>0.75</metal>
+			<wealth>0.50</wealth>
     </Rates>
     <Interval>1000</Interval>
   </ResourceTrickle>

@@ -62,7 +62,7 @@
 					Attack/Ranged/PrepareTime
 				</Paths>
 				<Classes datatype="tokens">Ranged</Classes>
-				<Multiply>0.9</Multiply>
+				<Multiply>0.85</Multiply>
 				<MaxStackable>10</MaxStackable>
 			</Arrows>
 			<Capture>
