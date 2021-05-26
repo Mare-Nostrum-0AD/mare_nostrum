@@ -2,9 +2,7 @@
 <Entity parent="template_unit_infantry_melee_pikeman">
   <Builder>
     <Entities datatype="tokens">
-      structures/sele_military_colony
-      structures/sele_library
-	  structures/sele_theatron
+			structures/sele/military_colony
     </Entities>
   </Builder>
   <Identity>

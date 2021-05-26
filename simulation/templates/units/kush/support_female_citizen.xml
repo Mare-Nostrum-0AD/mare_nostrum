@@ -3,7 +3,6 @@
   <Builder>
     <Entities datatype="tokens">
       structures/kush/pyramid_small
-      structures/kush/pyramid_large
       structures/kush/temple_amun
       structures/kush/camp_blemmye
       structures/kush/camp_noba
