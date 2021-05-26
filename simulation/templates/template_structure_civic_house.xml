@@ -3,10 +3,6 @@
   <BuildRestrictions>
     <Category>House</Category>
 	</BuildRestrictions>
-  <Capturable>
-    <CapturePoints>300</CapturePoints>
-    <GarrisonRegenRate>4.0</GarrisonRegenRate>
-  </Capturable>
   <Cost>
     <BuildTime>30</BuildTime>
     <Resources>
@@ -65,9 +61,6 @@
   <StatusBars>
     <HeightOffset>8.0</HeightOffset>
   </StatusBars>
-  <TerritoryDecay>
-    <DecayRate>10</DecayRate>
-  </TerritoryDecay>
   <TerritoryInfluence>
     <Root>false</Root>
     <Radius>16</Radius>

@@ -35,9 +35,6 @@
       <constructed>interface/complete/building/complete_wall.xml</constructed>
     </SoundGroups>
   </Sound>
-  <TerritoryDecay>
-    <DecayRate>20.0</DecayRate>
-  </TerritoryDecay>
   <TerritoryInfluence>
     <Root>false</Root>
     <Radius>20</Radius>
