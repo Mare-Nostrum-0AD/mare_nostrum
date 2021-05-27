@@ -7,9 +7,8 @@
     <Category>Temple</Category>
   </BuildRestrictions>
   <CityMember>
-    <GrowthContrib>
-      <Operation>multiply</Operation>
-      <Value>1.2</Value>
+    <GrowthContrib replace="">
+      <Multiply>1.2</Multiply>
     </GrowthContrib>
   </CityMember>
   <Cost>

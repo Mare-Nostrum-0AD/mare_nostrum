@@ -23,8 +23,7 @@
   </BuildRestrictions>
   <CityMember>
     <GrowthContrib>
-      <Operation>add</Operation>
-      <Value>2</Value>
+      <Add>2</Add>
     </GrowthContrib>
   </CityMember>
   <Identity>

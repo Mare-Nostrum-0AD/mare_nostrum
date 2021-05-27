@@ -1201,7 +1201,7 @@ function getResourceDropsiteTooltip(template)
 
 function getCityPopulationText(template)
 {
-	if (!template || !template.city || !template.population)
+	if (!template || !template.city || !template.city.population)
 		return "";
 
 	let tooltip = sprintf("Initial: %(init)s, Maximum: %(max)s, Growth Rate: %(amount)s / %(interval)s", {
@@ -1215,6 +1215,27 @@ function getCityPopulationText(template)
 	return translate(sprintf("%(label)s %(text)s", {
 		"label": headerFont("City Population:"),
 		"text": tooltip
+	}));
+}
+
+function getCityPopulationTooltip(entState)
+{
+	if (!entState || !entState.city || !entState.city.population || !entState.city.growth)
+		return "";
+
+	let netGrowthAmount = entState.city.growth.amount - entState.city.growth.decayAmount;
+	let tooltip = sprintf(["Population: %(pop)s", "Maximum: %(max)s", "Growth Rate: %(direction)s%(amount)s/%(interval)s"].join("\n" + g_Indent), {
+		"pop": entState.city.population.toLocaleString(),
+		"max": entState.city.maxPopulation.toLocaleString(),
+		"direction": netGrowthAmount < 0 ? '' : '+',
+		"amount": netGrowthAmount.toLocaleString(),
+		"interval": getSecondsString(entState.city.growth.interval / 1000)
+	});
+	if (entState.city.growth.tradeRate)
+		tooltip += sprintf(" + %(rate)s per unit trade income", { "rate": entState.city.growth.tradeRate });
+	return translate(sprintf("%(label)s\n%(text)s", {
+		"label": headerFont("City:"),
+		"text": g_Indent + tooltip
 	}));
 }
 
@@ -1238,6 +1259,25 @@ function getCityUpgradeText(template, playerCiv)
 		"genericName": translate(upgrade.Identity.GenericName),
 		"maxPop": template.city.population.max ? "population " + template.city.population.max : "maximum population"
 	});
+}
+
+function getCityMemberText(template)
+{
+	if (!template.cityMember || !template.cityMember.growthContrib)
+		return;
+	let { growthContrib } = template.cityMember;
+	let text = (() => {
+		if (growthContrib.add)
+			return sprintf("Increases city growth rate by %d.", growthContrib.add);
+		if (growthContrib.multiply)
+			return sprintf("Multiplies city growth rate by %s.", growthContrib.multiply);
+		// there should always be some valid growthContrib value
+		throw new Error("No valid growth contrib value for template CityMember component");
+	})();
+	return translate(sprintf("%(label)s %(text)s", {
+		"label": headerFont("City Member:"),
+		"text": bodyFont(text)
+	}));
 }
 
 function showTemplateViewerOnRightClickTooltip()

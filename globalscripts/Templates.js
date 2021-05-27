@@ -588,6 +588,15 @@ function GetTemplateDataHelper(template, player, auraTemplates, modifiers = {})
 			ret.city.upgrade = template.City.Upgrade;
 	}
 
+	if (template.CityMember)
+	{
+		ret.cityMember = {};
+		if (template.CityMember.GrowthContrib.Add)
+			ret.cityMember.growthContrib = {"add": getEntityValue("CityMember/GrowthContrib/Add")};
+		else if (template.CityMember.GrowthContrib.Multiply)
+			ret.cityMember.growthContrib = {"multiply": getEntityValue("CityMember/GrowthContrib/Multiply")};
+	}
+
 	return ret;
 }
 

@@ -167,7 +167,8 @@ ViewerPage.prototype.InfoFunctions = [
 	getResearchText,
 	getUpgradeText,
 	getCityPopulationText,
-	getCityUpgradeText
+	getCityUpgradeText,
+	getCityMemberText
 ];
 
 ViewerPage.prototype.CloseButtonTooltip =

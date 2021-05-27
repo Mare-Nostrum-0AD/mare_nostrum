@@ -5,44 +5,9 @@
 	</element>
 </optional>
 <optional>
-<element name='Influence' a:help='Modifications to surrounding structures'>
-	<zeroOrMore>
-		<element a:help='One modification'>
-			<anyName />
-			<element name='Attribute' a:help='Attribute to modify'>
-				<text />
-			</element>
-			<element name='List' a:help='Classes to modify'>
-				<attribute name='datatype'>
-					<value>tokens</value>
-				</attribute>
-				<text />
-			</element>
-			<element name='Modifier' a:help='Modification to make'>
-				<element name='Base' a:help='Basic value of modification'>
-					<ref name='decimal' />
-				</element>
-				<element name='PerPop' a:help='Apply bonus per X amount population'>
-					<ref name='nonNegativeDecimal' />
-				</element>
-				<element name='Type' a:help='Add or Multiply'>
-					<choice>
-						<value>add</value>
-						<value>multiply</value>
-					</choice>
-				</element>
-				<element name='Value' a:help='Population bonus value'>
-					<ref name='decimal' />
-				</element>
-			</element>
-		</element>
-	</zeroOrMore>
-</element>
-</optional>
-<optional>
-<element name='Initial' a:help='Whether or not this is the initial buildable city in a progression of city types.'>
-	<data type='boolean' />
-</element>
+	<element name='Initial' a:help='Whether or not this is the initial buildable city in a progression of city types.'>
+		<data type='boolean' />
+	</element>
 </optional>
 <element name='Population' a:help='Population of city (does not relate to player population number)'>
 	<element name='Growth' a:help='Population growth rate'>
@@ -51,6 +16,7 @@
 		</element>
 		<optional>
 			<element name='AttackMultiplier' a:help='Modify growth rate when city attacked'>
+				<!-- TODO: implement -->
 				<ref name='decimal' />
 			</element>
 		</optional>
@@ -78,29 +44,51 @@
 	<ref name='nonNegativeDecimal' />
 </element>
 <optional>
-<element name='RangeOverlay'>
-	<interleave>
-		<element name='LineTexture'><text/></element>
-		<element name='LineTextureMask'><text/></element>
-		<element name='LineThickness'><ref name='nonNegativeDecimal'/></element>
-	</interleave>
-</element>
-</optional>
-<optional>
-<element name='ResourceTrickle' a:help='Resource trickle, modified by population'>
-	<element name='Interval' a:help='Interval to collect resources in milliseconds'>
-		<ref name='nonNegativeDecimal' />
+	<element name='RangeOverlay'>
+		<interleave>
+			<element name='LineTexture'><text/></element>
+			<element name='LineTextureMask'><text/></element>
+			<element name='LineThickness'><ref name='nonNegativeDecimal'/></element>
+		</interleave>
 	</element>
-	<element name='PerPop' a:help='Multiply rates per X number of people'>
-		<ref name='nonNegativeDecimal' />
-	</element>
-	<element name='Rates' a:help='Rates at which to gather resources'>
-		{{ Resources.BuildSchema('nonNegativeDecimal') }}
-	</element>
-</element>
 </optional>
 <optional>
 	<element name='Upgrade' a:help='Entity to upgrade to upon reaching max population.'>
 		<text />
+	</element>
+</optional>
+<optional>
+	<!-- Source: globalscripts/ModificationTemplates.js:ModificationSchema  -->
+	<!-- Value modifiers for this entity, which scale with number of garrisoned units. Can affect either self or entities within city radius.  -->
+	<element name='ValueModifiers' a:help='List of value modifiers for this entity, scaling by {PerPop} units population.'>
+		<oneOrMore>
+			<element>
+				<anyName />
+				<interleave>
+					<element name='Paths' a:help='Space separated value paths to modify.'>
+						<attribute name='datatype'>
+							<value>tokens</value>
+						</attribute>
+						<text/>
+					</element>
+					<choice>
+						<element name='Add'>
+							<data type='decimal' />
+						</element>
+						<element name='Multiply'>
+							<data type='decimal' />
+						</element>
+					</choice>
+					<element name='PerPop' a:help='Modifier will scale per {PerPop} citizens living in city.'>
+						<data type='positiveInteger'/>
+					</element>
+					<optional>
+						<element name='MaxStackable' a:help='Maximum number of times to stack this value modifier; unlimited by default.'>
+							<data type='positiveInteger'/>
+						</element>
+					</optional>
+				</interleave>
+			</element>
+		</oneOrMore>
 	</element>
 </optional>

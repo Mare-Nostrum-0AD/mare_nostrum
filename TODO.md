@@ -27,6 +27,9 @@ Please feel free to contribute if you see anything you can do here. If there is 
 - Create gold, silver resource supplies
 	- icons as well
 - Create milk resource icon
+- Implement value modifiers for City, scaling by population (see GarrisonHolder for example)
+- Implement DeficitTriggers, DeficitValueModifiers for Upkeep (see GarrisonHolder for example)
+	- Should replace/augment HandleInsufficientUpkeep
 - Implement directional resistance, allowing weaker flank and rear armor
 - Rename "Population Limit" to "Command Limit", change icon
 - Rebalance city manpower trickle

@@ -5,7 +5,7 @@
   </BuildRestrictions>
   <CityMember>
     <GrowthContrib>
-      <Value>1.5</Value>
+      <Multiply>1.5</Multiply>
     </GrowthContrib>
   </CityMember>
   <Cost>

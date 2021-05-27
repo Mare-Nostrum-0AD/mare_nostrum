@@ -66,12 +66,45 @@ function displaySingle(entState)
 		else
 			secondaryName = sprintf(translate("Packed"));
 	}
+	// City population
 	if (entState.city && entState.city.population)
 	{
 		if (secondaryName && g_ShowSecondaryNames)
-			secondaryName = sprintf(translate("%(genName)s | Population %(pop)s"), { "genName": secondaryName, "pop": entState.city.population });
+			secondaryName = sprintf(translate("%(genName)s | Population %(pop)s"), { "genName": secondaryName, "pop": entState.city.population.toLocaleString() });
 		else
-			secondaryName = sprintf(translate("Population %(pop)s"), { "pop": entState.city.population });
+			secondaryName = sprintf(translate("Population %(pop)s"), { "pop": entState.city.population.toLocaleString() });
+	}
+	// City population growth rate
+	if (entState.city && entState.city.growth)
+	{
+		let netGrowth = entState.city.growth.amount - entState.city.growth.decayAmount;
+		let interval = entState.city.growth.interval;
+		let tradeRate = entState.city.growth.tradeRate;
+		let portraitCaption = Engine.GetGUIObjectByName(netGrowth < 0 ? "portraitCaptionNegative" : "portraitCaption");
+		let portraitCaptionAlt = Engine.GetGUIObjectByName(netGrowth < 0 ? "portraitCaption" : "portraitCaptionNegative");
+		portraitCaption.caption = sprintf(translate("%(direction)s%(amount)s/%(interval)s"), {
+			"direction": netGrowth < 0 ? '' : '+',
+			"amount": netGrowth.toLocaleString(),
+			"interval": getSecondsString(interval < 1 ? interval : Math.floor(interval / 1000))
+		});
+		portraitCaption.tooltip = sprintf(translate("Population %(direction)s%(amount)s/%(interval)s + %(tradeRate)s per unit trade income."), {
+			"direction": netGrowth < 0 ? '' : '+',
+			"amount": netGrowth.toLocaleString(),
+			"interval": getSecondsString(interval < 1 ? interval : Math.floor(interval / 1000)),
+			"tradeRate": tradeRate.toLocaleString()
+		});
+		portraitCaption.hidden = false;
+		portraitCaptionAlt.hidden = true;
+		portraitCaptionAlt.tooltip = "";
+	}
+	else
+	{
+		Engine.GetGUIObjectByName("portraitCaption").hidden = true;
+		Engine.GetGUIObjectByName("portraitCaption").caption = "";
+		Engine.GetGUIObjectByName("portraitCaption").tooltip = "";
+		Engine.GetGUIObjectByName("portraitCaptionNegative").hidden = true;
+		Engine.GetGUIObjectByName("portraitCaptionNegative").caption = "";
+		Engine.GetGUIObjectByName("portraitCaptionNegative").tooltip = "";
 	}
 	let playerState = g_Players[entState.player];
 
@@ -343,7 +376,9 @@ function displaySingle(entState)
 		getProjectilesTooltip,
 		getResourceTrickleTooltip,
 		getUpkeepTooltip,
-		getLootTooltip
+		getLootTooltip,
+		getCityPopulationTooltip,
+		getCityMemberText
 	].map(func => func(entState)).filter(tip => tip).join("\n");
 	if (detailedTooltip)
 	{

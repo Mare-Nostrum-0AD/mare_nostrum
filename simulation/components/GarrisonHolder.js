@@ -381,10 +381,18 @@ GarrisonHolder.prototype.GetValueModifiers = function()
 		let ret = {};
 		for (let path of mod.Paths._string.split(/\s+/g))
 		{
+			// prevents infinite loops
+			if (path.match(/^GarrisonHolder\/ValueModifiers/))
+			{
+				error(sprintf('GarrisonHolder ValueModifiers cannot modify other GarrisonHolder ValueModifiers (got %s); ignoring %s', path, name));
+				ret = undefined;
+				continue;
+			}
 			ret[path] = [effect];
 		}
 
-		output[name] = ret;
+		if (ret)
+			output[name] = ret;
 	}
 	return output;
 };
@@ -399,7 +407,7 @@ GarrisonHolder.prototype.ApplyValueModifiers = function()
 	// first, remove any modifiers that are no longer needed
 	for (let key of this.appliedValueModifiers.keys())
 	{
-		let modName = sprintf("%d/GarrisonHolder/ValueModifiers/%s", this.entity, key);
+		let modName = sprintf("%d:GarrisonHolder/ValueModifiers/%s", this.entity, key);
 		if (!valueModifiers.hasOwnProperty(modName))
 		{
 			cmpModifiersManager.RemoveAllModifiers(modName, this.entity);
@@ -409,7 +417,7 @@ GarrisonHolder.prototype.ApplyValueModifiers = function()
 	// next, add or modify other modifiers. if modifier already applied in some form, make sure to remove before reapplying, as scalar may be off
 	for (let [key, mod] of Object.entries(valueModifiers))
 	{
-		let modName = sprintf("%d/GarrisonHolder/ValueModifiers/%s", this.entity, key);
+		let modName = sprintf("%d:GarrisonHolder/ValueModifiers/%s", this.entity, key);
 		if (this.appliedValueModifiers.has(key))
 			cmpModifiersManager.RemoveAllModifiers(modName, this.entity);
 		else
@@ -500,7 +508,7 @@ GarrisonHolder.prototype.OnDestroy = function()
 	let cmpModifiersManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_ModifiersManager);
 	for (let key of this.appliedValueModifiers.keys())
 	{
-		let modName = sprintf("%d/GarrisonHolder/ValueModifiers/%s", this.entity, key);
+		let modName = sprintf("%d:GarrisonHolder/ValueModifiers/%s", this.entity, key);
 		cmpModifiersManager.RemoveAllModifiers(modName, this.entity);
 	}
 };

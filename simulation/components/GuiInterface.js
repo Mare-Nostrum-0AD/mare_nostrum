@@ -292,11 +292,23 @@ GuiInterface.prototype.GetEntityState = function(player, ent)
 			"population": cmpCity.GetPopulation(),
 			"growth": {
 				"amount": cmpCity.GetPopulationGrowthAmount(),
-				"interval": cmpCity.GetPopulationGrowthInterval()
+				"decayAmount": cmpCity.GetPopulationDecayAmount(),
+				"interval": cmpCity.GetPopulationGrowthInterval(),
+				"tradeRate": cmpCity.GetTradeGrowthRate()
 			},
-			"max": cmpCity.GetMaxPopulation(),
-			"upgrade": cmpCity.GetUpgradeTemplate()
+			"maxPopulation": cmpCity.GetMaxPopulation(),
+			"minPopulation": cmpCity.GetMinPopulation(),
+			"upgrade": cmpCity.GetUpgradeTemplate(),
+			"downgrade": cmpCity.GetDowngradeTemplate()
 		};
+
+	let cmpCityMember = Engine.QueryInterface(ent, IID_CityMember);
+	if (cmpCityMember)
+	{
+		let [growthModifier, growthVal] = cmpCityMember.GetGrowthContrib();
+		ret.cityMember = {"growthContrib": {}};
+		ret.cityMember.growthContrib[growthModifier] = growthVal;
+	}
 
 	let cmpPosition = Engine.QueryInterface(ent, IID_Position);
 	if (cmpPosition && cmpPosition.IsInWorld())
