@@ -11,9 +11,11 @@ Market.prototype.Schema =
 			"</oneOrMore>" +
 		"</list>" +
 	"</element>" +
-	"<element name='DemandMultiplier' a:help='Multiplies trader gain.'>" +
-		"<ref name='nonNegativeDecimal' />" +
-	"</element>" +
+	"<optional>" +
+		"<element name='DemandMultiplier' a:help='Multiplies trader gain.'>" +
+			"<ref name='nonNegativeDecimal' />" +
+		"</element>" +
+	"</optional>" +
 	"<element name='InternationalBonus' a:help='Additional part of the gain donated when two different players trade'>" +
 		"<ref name='nonNegativeDecimal'/>" +
 	"</element>";
@@ -36,6 +38,8 @@ Market.prototype.RemoveTrader = function(ent)
 
 Market.prototype.GetDemandMultiplier = function()
 {
+	if (!this.template.DemandMultiplier)
+		return 1;
 	return ApplyValueModificationsToEntity("Market/DemandMultiplier", +this.template.DemandMultiplier, this.entity);
 };
 
@@ -137,9 +141,10 @@ Market.prototype.CalculateTraderGain = function(secondMarket, traderTemplate, tr
 
 	if (gain.market1Owner != gain.market2Owner)
 	{
+		let demandMultiplier1 = this.GetDemandMultiplier();
 		let internationalBonus1 = this.GetInternationalBonus();
 		let internationalBonus2 = cmpMarket2.GetInternationalBonus();
-		gain.market1Gain = Math.round(gain.traderGain * internationalBonus1);
+		gain.market1Gain = Math.round(gain.traderGain * demandMultiplier1 * internationalBonus1);
 		gain.market2Gain = Math.round(gain.traderGain * internationalBonus2);
 	}
 

@@ -1,0 +1,18 @@
+<element name='TradeType' a:help='Specifies the type of possible trade route (land or naval).'>
+	<list>
+		<oneOrMore>
+			<choice>
+				<value>land</value>
+				<value>naval</value>
+			</choice>
+		</oneOrMore>
+	</list>
+</element>
+<optional>
+	<element name='DemandMultiplier' a:help='Multiplies trader gain.'>
+		<ref name='nonNegativeDecimal' />
+	</element>
+</optional>
+<element name='InternationalBonus' a:help='Additional part of the gain donated when two different players trade'>
+	<ref name='nonNegativeDecimal'/>
+</element>

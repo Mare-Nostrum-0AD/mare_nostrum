@@ -5,10 +5,10 @@ CityMember.prototype.Schema =
 	"<element name='GrowthContrib' a:help='How much this entity contributes to city growth rate.'>" +
 		"<choice>" +
 			"<element name='Add' a:help='Value to add to city growth rate.'>" +
-				"<ref name='decimal' />" +
+				"<data type='positiveInteger' />" +
 			"</element>" +
 			"<element name='Multiply' a:help='Value by which to multiply city growth rate.'>" +
-				"<ref name='decimal' />" +
+				"<ref name='nonNegativeDecimal' />" +
 			"</element>" +
 		"</choice>" +
 	"</element>";
