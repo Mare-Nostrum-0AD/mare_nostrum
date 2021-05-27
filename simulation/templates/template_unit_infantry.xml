@@ -67,6 +67,7 @@
       <stone.rock>0.5</stone.rock>
       <stone.ruins>2</stone.ruins>
       <metal.ore>0.5</metal.ore>
+      <metal.ruins>2</metal.ruins>
       <wealth.gold>1</wealth.gold>
       <wealth.silver>0.7</wealth.silver>
     </Rates>
