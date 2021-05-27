@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Entity parent="structures/cart/house">
+<Entity parent="template_structure_civic_house_apartment">
   <Cost>
     <BuildTime>75</BuildTime>
     <Resources>
@@ -13,16 +13,12 @@
     <Max>1500</Max>
   </Health>
   <Identity>
-    <GenericName>Apartment Building</GenericName>
-		<Icon>structures/apartment.png</Icon>
-		<RequiredTechnology>phase_town</RequiredTechnology>
+		<Civ>cart</Civ>
+		<SpecificName>Bet</SpecificName>
   </Identity>
   <Loot>
     <wood>30</wood>
   </Loot>
-	<Population>
-    <Bonus>15</Bonus>
-	</Population>
   <VisualActor>
     <Actor>structures/carthaginians/apartment.xml</Actor>
   </VisualActor>
