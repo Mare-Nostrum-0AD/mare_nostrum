@@ -3,15 +3,11 @@
   <Auras datatype="tokens">
   	structures/town_radius
   </Auras>
-  <Capturable merge="">
+  <Capturable>
     <CapturePoints op="mul">2.0</CapturePoints>
   </Capturable>
   <City>
     <Population>
-			<Growth>
-				<Amount>0</Amount>
-				<DecayAmount>6</DecayAmount>
-			</Growth>
       <Init>500</Init>
       <Min>400</Min>
       <Max>5000</Max>
@@ -19,10 +15,10 @@
     <Upgrade>structures/{native}/city_centre</Upgrade>
     <Downgrade>structures/{native}/civil_centre</Downgrade>
   </City>
-  <GarrisonHolder merge="">
+  <GarrisonHolder>
     <Max op="mul">2.0</Max>
   </GarrisonHolder>
-  <Health merge="">
+  <Health>
     <Max op="mul">2.0</Max>
   </Health>
   <Identity>
@@ -45,7 +41,7 @@
 			<manpower op="mul">2.0</manpower>
 		</Rates>
 	</ResourceTrickle>
-  <TerritoryInfluence merge="">
+  <TerritoryInfluence>
     <Radius op="mul">1.25</Radius>
   </TerritoryInfluence>
 </Entity>

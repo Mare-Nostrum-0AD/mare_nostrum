@@ -19,6 +19,7 @@
     <Icon>gaia/fauna_cow.png</Icon>
   </Identity>
   <ResourceSupply>
+		<Initial>150</Initial>
     <Max>300</Max>
     <MaxGatherers>5</MaxGatherers>
   </ResourceSupply>

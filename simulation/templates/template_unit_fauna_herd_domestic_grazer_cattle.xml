@@ -3,6 +3,14 @@
 	<Identity>
 		<VisibleClasses datatype="tokens">Cattle</VisibleClasses>
 	</Identity>
+  <ResourceGatherer>
+    <Rates>
+      <food.milk op="mul">1.5</food.milk>
+    </Rates>
+    <Capacities>
+      <food op="mul">2.0</food>
+    </Capacities>
+  </ResourceGatherer>
   <Sound>
     <SoundGroups>
       <select>actor/fauna/animal/cattle_select.xml</select>

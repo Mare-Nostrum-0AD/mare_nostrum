@@ -15,21 +15,16 @@
   </BattleDetection>
   <EntityLimits>
     <Limits>
-      <Animal>50</Animal>
+      <Animal>0</Animal>
       <CivilCentre>1</CivilCentre>
 			<House>6</House>
 			<HouseBig>3</HouseBig>
-      <Council>1</Council>
       <Fortress>10</Fortress>
-      <Wonder>1</Wonder>
       <Palace>1</Palace>
       <Hero>1</Hero>
       <Apadana>1</Apadana>
       <Embassy>0</Embassy>
       <Monument>0</Monument>
-      <Pillar>0</Pillar>
-      <WarDog>0</WarDog>
-      <Theater>1</Theater>
       <Council>1</Council>
       <Gladiator>0</Gladiator>
       <Juggernaut>1</Juggernaut>
@@ -47,13 +42,18 @@
       <Wonder>1</Wonder>
     </Limits>
     <LimitChangers>
+			<Animal>
+				<Corral>5</Corral>
+			</Animal>
 			<House>
+				<HouseBig>-2</HouseBig>
 				<VillageCentre>6</VillageCentre>
 				<TownCentre>6</TownCentre>
 				<CityCentre>6</CityCentre>
 				<MetroCentre>6</MetroCentre>
 			</House>
 			<HouseBig>
+				<HouseSmall>-1</HouseSmall>
 				<VillageCentre>3</VillageCentre>
 				<TownCentre>3</TownCentre>
 				<CityCentre>3</CityCentre>
@@ -114,11 +114,14 @@
       <wood>0.0</wood>
       <stone>0.0</stone>
       <metal>0.0</metal>
+      <wealth>0.0</wealth>
+      <manpower>0.0</manpower>
     </Rates>
     <Interval>1000</Interval>
   </ResourceTrickle>
   <Sound>
     <SoundGroups>
+			<phase_up>interface/alarm/alarm_phase.xml</phase_up>
       <defeated>interface/alarm/alarm_defeated.xml</defeated>
       <defeated_ally>interface/alarm/alarm_defeated_ally.xml</defeated_ally>
       <defeated_enemy>interface/alarm/alarm_defeated_enemy.xml</defeated_enemy>

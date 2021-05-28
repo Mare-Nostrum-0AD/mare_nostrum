@@ -34,7 +34,7 @@
 	"Gaia": {
 		"tree1": "gaia/tree/oak",
 		"fruitBush": "gaia/fruit/grapes",
-		"pasture": "gaia/flora_pasture",
+		"pasture": "gaia/pasture",
 		"mainHuntableAnimal": "gaia/fauna_camel",
 		"secondaryHuntableAnimal": "gaia/fauna_sheep",
 		"thirdHuntableAnimal": "gaia/fauna_goat",

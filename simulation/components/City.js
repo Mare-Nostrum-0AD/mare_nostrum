@@ -104,8 +104,6 @@ City.prototype.Init = function()
 	this.cityMembers = new Set();
 	// set timer this.growthTimer to grow population at interval
 	this.ResetGrowthTimer();
-	// maps ModifierName => PopulationScalar
-	this.appliedValueModifiers = this.GetValueModifierPopScalars();
 	// count initial pop for statistics tracker
 	// only if initial city, not for city upgrades
 	if (!this.IsInitial())
@@ -392,6 +390,10 @@ City.prototype.GetValueModifiers = function()
 			if (mod.Multiply)
 				return ["multiply", Math.pow(ApplyValueModificationsToEntity("City/ValueModifiers/" + name + "/Multiply", +mod.Multiply, this.entity), scalar)];
 		})();
+		if (type === 'add' && !value)
+			continue;
+		if (type === 'multiply' && value === 1)
+			continue;
 		let effect = {};
 		effect[type] = value;
 
@@ -436,8 +438,9 @@ City.prototype.GetValueModifierPopScalars = function()
 // @return none
 City.prototype.ApplyValueModifiers = function()
 {
-	let valueModifierPopScalars = this.GetValueModifierPopScalars();
-	this.valueModifierPopScalars = valueModifierPopScalars;
+	// maps ModifierName => PopulationScalar
+	if (!this.appliedValueModifiers)
+		this.appliedValueModifiers = this.GetValueModifierPopScalars();
 	let valueModifiers = this.GetValueModifiers();
 	let cmpModifiersManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_ModifiersManager);
 	// first, remove any modifiers that are no longer needed
@@ -456,9 +459,8 @@ City.prototype.ApplyValueModifiers = function()
 		let modName = sprintf("%d:City/ValueModifiers/%s", this.entity, key);
 		if (this.appliedValueModifiers.has(key))
 			cmpModifiersManager.RemoveAllModifiers(modName, this.entity);
-		else
-			this.appliedValueModifiers.set(key, scalar);
 		cmpModifiersManager.AddModifiers(modName, mod, this.entity);
+		this.appliedValueModifiers.set(key, scalar);
 	}
 };
 
@@ -470,7 +472,7 @@ City.prototype.OnCityPopulationChanged = function()
 	let valueModifierPopScalars = this.GetValueModifierPopScalars();
 	for (let [name, scalar] of valueModifierPopScalars.entries())
 	{
-		if (this.valueModifierPopScalars.get(name) !== scalar)
+		if (!this.appliedValueModifiers || this.appliedValueModifiers.get(name) !== scalar)
 		{
 			this.ApplyValueModifiers();
 			return;

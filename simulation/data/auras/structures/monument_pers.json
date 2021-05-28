@@ -3,7 +3,7 @@
 	"radius": 150,
 	"affects": ["CivilCentre"],
 	"modifications": [
-		{ "value": "City/Population/Growth/Rate", "multiply": 2.5 },
+		{ "value": "City/Population/Growth/Amount", "multiply": 2.5 },
 		{ "value": "City/Population/Growth/TradeRate", "multiply": 1.5 }
 	],
 	"auraDescription": "City +150% increased population growth rate, +50% trade growth rate.",

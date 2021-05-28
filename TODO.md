@@ -5,8 +5,8 @@ Please feel free to contribute if you see anything you can do here. If there is 
 - Balance city growth rate
 	- Implement City population drainage as part of growth rate /
 	- Add house limit, tied to number of civ centres /
-- Remove redundant additions of special buildings to civ-specific Production Queues
-- Ensure city growth rate is readily apparent in gui
+- Remove redundant additions of special buildings to civ-specific Production Queues /
+- Ensure city growth rate is readily apparent in gui /
 - Rewrite City.js to use event listeneres to register new/destroyed city members /
 - Rewrite Market.js to trigger event listeners when trade takes place; use listeners in City.js /
 - Improve Delphi bot
@@ -17,34 +17,38 @@ Please feel free to contribute if you see anything you can do here. If there is 
 - Implement archer skill growth; archers should start off weaker than other ranged units when first trained, then become stronger through experience
 	- Create advanced, elite archer mixins
 - Modify GarrisonHolder component to enable value modifications based on number, type of units garrisoned /
-- Remove building ai from siege tower, ensure only usable for taking walls/other structures
-	- Modify Attack component to allow garrisoned units to increase attack, allowing garrisoned infantry to increase siege tower capture attack
+- Remove building ai from siege tower, ensure only usable for taking walls/other structures /
+	- Modify Attack component to allow garrisoned units to increase attack, allowing garrisoned infantry to increase siege tower capture attack /
 - Create champion mixin, refactor champion templates to inherit from standard unit templates and apply champion mixin
 - Create library/academy monument for Athenians /
 - Create new palace actors for Hellenistic civs, kushites
 - Rename Carthaginian embassies to Mercenary Camps /
 	- Allow to build one per town centre /
 - Create gold, silver resource supplies
-	- icons as well
-- Create milk resource icon
-- Implement value modifiers for City, scaling by population (see GarrisonHolder for example)
+	- icons as well /
+- Create milk resource icon /
+- Resolve infinite queue entity limit exploit (try infinite queueing animals)
+- Make sure all civ centre actors have projectiles
+- Implement value modifiers for City, scaling by population (see GarrisonHolder for example)/ 
 - Implement DeficitTriggers, DeficitValueModifiers for Upkeep (see GarrisonHolder for example)
 	- Should replace/augment HandleInsufficientUpkeep
 - Implement directional resistance, allowing weaker flank and rear armor
 - Rename "Population Limit" to "Command Limit", change icon
-- Rebalance city manpower trickle
+- Rebalance city manpower trickle /
 - Create skirmish replacers for different levels of civ centre
 - Create range of different starting levels, selectable from a dropdown list:
 	- Nomad
 	- Village
 	- Town
 	- City
+- Give pastures decal to make them more distinctive
 - Document changes in CHANGELOG.md
 - Document unique features in README.md or FEATURES.md
 - Document development scripts in CONTRIBUTING.md
 
 ## Secondary priorities
 - Ensure phase upgrade notifications are displayed correctly
+- Implement AutoSpawn component
 - Create resource caps, which can be expanded by building structures and researching technologies
 - Create local resources, which are stored locally by each resource dropsite and can only be used by nearby production queues and builders
 - Choose specific names for Persian, Carthaginian merchant temples

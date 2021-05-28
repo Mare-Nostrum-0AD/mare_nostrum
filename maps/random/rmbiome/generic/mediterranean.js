@@ -29,5 +29,5 @@ function setupBiome_mediterranean()
 		"gaia/fruit/grapes"
 	]);
 	
-	g_Gaia.pasture = "gaia/flora_pasture";
+	g_Gaia.pasture = "gaia/pasture";
 }

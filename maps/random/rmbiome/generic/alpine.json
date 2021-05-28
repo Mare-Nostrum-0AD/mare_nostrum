@@ -72,7 +72,7 @@
         "tree4": "gaia/tree/fir_sapling",
         "tree5": "gaia/tree/elm",
 		"fruitBush": "gaia/fruit/berry_01",
-		"pasture": "gaia/flora_pasture",
+		"pasture": "gaia/pasture",
 		"chicken": "gaia/fauna_chicken",
 		"mainHuntableAnimal": "gaia/fauna_goat",
 		"fish": "gaia/fish/tuna",

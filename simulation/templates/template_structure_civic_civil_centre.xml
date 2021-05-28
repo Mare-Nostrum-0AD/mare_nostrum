@@ -71,6 +71,19 @@
       <Min>0</Min>
     </Population>
     <Radius>90</Radius>
+		<ValueModifiers>
+			<PopulationDecay>
+				<Paths datatype="tokens">City/Population/Growth/DecayAmount</Paths>
+				<Add>2</Add>
+				<PerPop>250</PerPop>
+			</PopulationDecay>
+			<TrickleManpower>
+				<!-- TODO: make sure either resource caps are implemented or this has diminishing returns -->
+				<Paths datatype="tokens">ResourceTrickle/Rates/manpower</Paths>
+				<Add>1</Add>
+				<PerPop>1000</PerPop>
+			</TrickleManpower>
+		</ValueModifiers>
   </City>
   <CityMember disable=""/>
   <Cost>
@@ -147,15 +160,20 @@
   </ResourceDropsite>
 	<ResourceTrickle>
 		<Rates>
-			<manpower>5</manpower>
+			<food>0</food>
+			<wood>0</wood>
+			<stone>0</stone>
+			<metal>0</metal>
+			<wealth>0</wealth>
+			<manpower>1</manpower>
 		</Rates>
-		<Interval>60000</Interval>
+		<Interval>30000</Interval>
 	</ResourceTrickle>
   <Sound>
     <SoundGroups>
       <select>interface/select/building/sel_civ_center.xml</select>
       <constructed>interface/complete/building/complete_civ_center.xml</constructed>
-			<upgraded>interface/alarm/alarm_phase.xml</upgraded>
+			<upgraded>interface/complete/building/complete_civ_center.xml</upgraded>
       <alert_raise>interface/alarm/alarm_alert_0.xml</alert_raise>
       <alert_end>interface/alarm/alarm_alert_1.xml</alert_end>
       <attack_ranged>attack/weapon/bow_attack.xml</attack_ranged>

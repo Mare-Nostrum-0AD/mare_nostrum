@@ -4,15 +4,11 @@
   	structures/city_radius
   	structures/city_industry
   </Auras>
-  <Capturable merge="">
+  <Capturable>
     <CapturePoints op="mul">3.0</CapturePoints>
   </Capturable>
   <City>
     <Population>
-      <Growth>
-        <Amount>0</Amount>
-        <DecayAmount>12</DecayAmount>
-      </Growth>
       <Init>5000</Init>
       <Min>4000</Min>
       <Max>25000</Max>
@@ -21,10 +17,10 @@
     <Upgrade>structures/{native}/metro_centre</Upgrade>
     <Downgrade>structures/{native}/town_centre</Downgrade>
   </City>
-  <GarrisonHolder merge="">
+  <GarrisonHolder>
     <Max op="mul">3.0</Max>
   </GarrisonHolder>
-  <Health merge="">
+  <Health>
     <Max op="mul">3.0</Max>
   </Health>
   <Identity>
@@ -39,7 +35,7 @@
 			<manpower op="mul">3.0</manpower>
 		</Rates>
 	</ResourceTrickle>
-  <TerritoryInfluence merge="">
+  <TerritoryInfluence>
     <Radius op="mul">1.5</Radius>
   </TerritoryInfluence>
 </Entity>

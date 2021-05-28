@@ -3,10 +3,10 @@
 	"radius": 150,
 	"affects": ["CivilCentre"],
 	"modifications": [
-		{ "value": "City/Population/Growth/Rate", "multiply": 1.5 },
+		{ "value": "City/Population/Growth/Amount", "multiply": 1.5 },
 		{ "value": "City/Population/Growth/TradeRate", "multiply": 2.5 }
 	],
 	"auraDescription": "City +50% increased population growth rate, +150% trade growth rate.",
-	"auraName": "Royal Road Networks",
+	"auraName": "Royal Roads",
 	"stackable": true
 }

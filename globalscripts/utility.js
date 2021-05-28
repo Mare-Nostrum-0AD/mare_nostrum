@@ -85,7 +85,7 @@ function listFiles(path, extension, recurse)
  */
 function getCivInfo(civCode)
 {
-	if (civCode === 'gaia')
+	if (civCode === 'gaia' || civCode === 'skirm')
 		return undefined;
 	let civFileName = sprintf('simulation/data/civs/%s.json', civCode);
 	return Engine.ReadJSONFile(civFileName);

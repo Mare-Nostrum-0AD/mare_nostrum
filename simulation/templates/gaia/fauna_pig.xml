@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Entity parent="template_unit_fauna_herd_domestic_grazer">
+<Entity parent="template_unit_fauna_herd_domestic">
   <Cost>
-    <BuildTime>50</BuildTime>
+    <BuildTime>30</BuildTime>
     <Resources>
       <food>75</food>
     </Resources>
@@ -19,8 +19,14 @@
     <Icon>gaia/fauna_pig.png</Icon>
   </Identity>
   <ResourceSupply>
-    <Max>150</Max>
+		<Initial>75</Initial>
+    <Max>200</Max>
     <MaxGatherers>4</MaxGatherers>
+		<Change>
+			<Fattening>
+				<Value>10</Value>
+			</Fattening>
+		</Change>
   </ResourceSupply>
   <Sound>
     <SoundGroups>

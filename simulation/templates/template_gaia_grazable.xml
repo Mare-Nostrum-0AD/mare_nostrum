@@ -5,8 +5,8 @@
     <Color r="204" g="155" b="102"/>
   </Minimap>
   <ResourceSupply>
-    <Max>600</Max>
-    <Initial>600</Initial>
+    <Max>400</Max>
+    <Initial>400</Initial>
     <Type>food.milk</Type>
 		<KillBeforeGather>false</KillBeforeGather>
 		<MaxGatherers>5</MaxGatherers>

@@ -3,7 +3,7 @@
   <Identity>
     <SpecificName>Pasture</SpecificName>
     <Tooltip>Have domestic animals graze here to produce food.</Tooltip>
-    <Icon>gaia/flora_bamboo.png</Icon>
+    <Icon>gaia/flora_pasture_temp.png</Icon>
   </Identity>
   <Footprint>
     <Circle radius="4.0"/>

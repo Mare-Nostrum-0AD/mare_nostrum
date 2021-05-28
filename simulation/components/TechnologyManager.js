@@ -273,6 +273,7 @@ TechnologyManager.prototype.ResearchTechnology = function(tech)
 			"phaseName": tech,
 			"phaseState": "completed"
 		});
+		PlaySound('phase_up', this.entity);
 	}
 };
 

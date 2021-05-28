@@ -28,6 +28,7 @@
   <Identity>
     <GenericName>House</GenericName>
     <SelectionGroupName>template_structure_civic_house</SelectionGroupName>
+    <Classes datatype="tokens">HouseSmall</Classes>
     <VisibleClasses datatype="tokens">Village House</VisibleClasses>
     <Icon>structures/house.png</Icon>
     <RequiredTechnology>phase_village</RequiredTechnology>

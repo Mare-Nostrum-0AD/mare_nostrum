@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <setup>
 	<icon name="icon_wealth_crops"
-		sprite="stretched:session/icons/resources/wealth_small.png"
+		sprite="stretched:session/icons/resources/crops_small.png"
 		size="16 16"
 	/>
 </setup>

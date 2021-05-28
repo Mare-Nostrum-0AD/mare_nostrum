@@ -62,7 +62,7 @@
 	},
 	"Gaia": {
 		"fruitBush": "gaia/fruit/berry_05",
-		"pasture": "gaia/flora_pasture",
+		"pasture": "gaia/pasture",
 		"chicken": "gaia/fauna_chicken",
 		"mainHuntableAnimal": "gaia/fauna_camel",
 		"fish": "gaia/fish/generic",

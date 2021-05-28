@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Entity parent="template_unit_fauna_herd_domestic_grazer">
   <Cost>
-    <BuildTime>30</BuildTime>
+    <BuildTime>20</BuildTime>
     <Resources>
       <food>35</food>
     </Resources>
@@ -18,8 +18,18 @@
     <SpecificName>Capra aegagrus hircus</SpecificName>
     <Icon>gaia/fauna_goat.png</Icon>
   </Identity>
+  <ResourceGatherer>
+    <Rates>
+      <food.milk op="mul">0.5</food.milk>
+      <food.fruit op="mul">0.5</food.fruit>
+    </Rates>
+    <Capacities>
+      <food>8</food>
+    </Capacities>
+  </ResourceGatherer>
   <ResourceSupply>
-    <Max>70</Max>
+    <Initial>35</Initial>
+    <Max>75</Max>
     <MaxGatherers>2</MaxGatherers>
   </ResourceSupply>
   <Sound>

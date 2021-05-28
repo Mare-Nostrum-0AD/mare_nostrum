@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<variant name="gather_milk">
+  <animations>
+    <animation file="quadraped/bovidae_feeding.dae" name="gather_milk" speed="100"/>
+  </animations>
+</variant>

@@ -1,29 +1,38 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="utf-8"?>
 <actor version="1">
+	<group>
+		<variant frequency="1" name="pasture">
+			<props>
+				<prop actor="props/special/eyecandy/ground_tree_decal_01.xml" attachpoint="root" minheight="0" maxheight="20"/>
+			</props>
+		</variant>
+	</group>
   <group>
-    <variant frequency="1" name="large-short-a">
+    <variant name="large-short-a">
       <mesh>gaia/grass_la_a.dae</mesh>
     </variant>
-    <variant frequency="1" name="large-short-b">
+    <variant name="large-short-b">
       <mesh>gaia/grass_la_b.dae</mesh>
     </variant>
-    <variant frequency="1" name="large-tall-a">
+    <variant name="large-tall-a">
       <mesh>gaia/grass_la_tall_a.dae</mesh>
     </variant>
-    <variant frequency="1" name="large-tall-b">
+    <variant name="large-tall-b">
       <mesh>gaia/grass_la_tall_b.dae</mesh>
     </variant>
   </group>
   <group>
-    <variant frequency="1" name="green">
-      <textures>
-        <texture file="gaia/grass_field_temperate.dds" name="baseTex"/>
-      </textures>
+    <variant name="Dry">
+      <textures><texture file="gaia/grass_field_dry.dds" name="baseTex"/></textures>
     </variant>
-    <variant frequency="1" name="greener">
-      <textures>
-        <texture file="gaia/grass_field_temperate_2.dds" name="baseTex"/>
-      </textures>
+    <variant name="Green">
+      <textures><texture file="gaia/grass_field_medit.dds" name="baseTex"/></textures>
+    </variant>
+    <variant name="Mixed">
+      <textures><texture file="gaia/grass_field_mixed.dds" name="baseTex"/></textures>
+    </variant>
+    <variant name="flowery">
+      <textures><texture file="gaia/grass_field_medit_flowering.dds" name="baseTex"/></textures>
     </variant>
   </group>
   <material>basic_trans_wind.xml</material>
