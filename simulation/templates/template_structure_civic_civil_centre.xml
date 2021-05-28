@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Entity parent="template_structure_civic">
   <AlertRaiser>
-    <List datatype="tokens">Citizen</List>
+    <List datatype="tokens">Support Citizen</List>
     <RaiseAlertRange>120</RaiseAlertRange>
     <EndOfAlertRange>180</EndOfAlertRange>
     <SearchRange>100</SearchRange>
@@ -32,6 +32,7 @@
   </Attack>
   <BuildingAI>
     <DefaultArrowCount>1</DefaultArrowCount>
+		<MaxArrowCount>10</MaxArrowCount>
     <GarrisonArrowMultiplier>1</GarrisonArrowMultiplier>
     <GarrisonArrowClasses>Soldier</GarrisonArrowClasses>
   </BuildingAI>
@@ -83,6 +84,62 @@
 				<Add>1</Add>
 				<PerPop>1000</PerPop>
 			</TrickleManpower>
+			<!-- The modifiers below can be utilized by auras and technologies, but are set to zero by default -->
+			<TrickleFood>
+				<Paths datatype="tokens">ResourceTrickle/Rates/food</Paths>
+				<Add>0</Add>
+				<PerPop>1000</PerPop>
+			</TrickleFood>
+			<TrickleWood>
+				<Paths datatype="tokens">ResourceTrickle/Rates/wood</Paths>
+				<Add>0</Add>
+				<PerPop>1000</PerPop>
+			</TrickleWood>
+			<TrickleStone>
+				<Paths datatype="tokens">ResourceTrickle/Rates/stone</Paths>
+				<Add>0</Add>
+				<PerPop>1000</PerPop>
+			</TrickleStone>
+			<TrickleMetal>
+				<Paths datatype="tokens">ResourceTrickle/Rates/metal</Paths>
+				<Add>0</Add>
+				<PerPop>1000</PerPop>
+			</TrickleMetal>
+			<TrickleWealth>
+				<Paths datatype="tokens">ResourceTrickle/Rates/wealth</Paths>
+				<Add>0</Add>
+				<PerPop>1000</PerPop>
+			</TrickleWealth>
+			<UpkeepFood>
+				<Paths datatype="tokens">Upkeep/Rates/food</Paths>
+				<Add>0</Add>
+				<PerPop>1000</PerPop>
+			</UpkeepFood>
+			<UpkeepWood>
+				<Paths datatype="tokens">Upkeep/Rates/wood</Paths>
+				<Add>0</Add>
+				<PerPop>1000</PerPop>
+			</UpkeepWood>
+			<UpkeepStone>
+				<Paths datatype="tokens">Upkeep/Rates/stone</Paths>
+				<Add>0</Add>
+				<PerPop>1000</PerPop>
+			</UpkeepStone>
+			<UpkeepMetal>
+				<Paths datatype="tokens">Upkeep/Rates/metal</Paths>
+				<Add>0</Add>
+				<PerPop>1000</PerPop>
+			</UpkeepMetal>
+			<UpkeepWealth>
+				<Paths datatype="tokens">Upkeep/Rates/wealth</Paths>
+				<Add>0</Add>
+				<PerPop>1000</PerPop>
+			</UpkeepWealth>
+			<UpkeepManpower>
+				<Paths datatype="tokens">Upkeep/Rates/manpower</Paths>
+				<Add>0</Add>
+				<PerPop>1000</PerPop>
+			</UpkeepManpower>
 		</ValueModifiers>
   </City>
   <CityMember disable=""/>
@@ -173,7 +230,6 @@
     <SoundGroups>
       <select>interface/select/building/sel_civ_center.xml</select>
       <constructed>interface/complete/building/complete_civ_center.xml</constructed>
-			<upgraded>interface/complete/building/complete_civ_center.xml</upgraded>
       <alert_raise>interface/alarm/alarm_alert_0.xml</alert_raise>
       <alert_end>interface/alarm/alarm_alert_1.xml</alert_end>
       <attack_ranged>attack/weapon/bow_attack.xml</attack_ranged>
@@ -185,6 +241,18 @@
     <Radius>140</Radius>
     <Weight>10000</Weight>
   </TerritoryInfluence>
+	<Upkeep>
+		<Rates>
+			<food>0</food>
+			<wood>0</wood>
+			<stone>0</stone>
+			<metal>0</metal>
+			<wealth>0</wealth>
+			<manpower>0</manpower>
+		</Rates>
+		<!-- Every 30 seconds -->
+		<Interval>30000</Interval>
+	</Upkeep>
   <Vision>
     <Range>90</Range>
   </Vision>

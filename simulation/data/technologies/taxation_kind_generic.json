@@ -5,13 +5,13 @@
 	"requirements": {"tech": "phase_empire"},
 	"icon": "cornucopia.png",
 	"researchTime": 60,
-	"tooltip": "Gather 2 food, wood, stone, and metal per 1000 city population every minute.",
+	"tooltip": "Gather 2 food, wood, stone, and metal per 1000 city population every 30 seconds.",
 	"affects": ["CivilCentre"],
 	"modifications": [
-		{"value": "City/ResourceTrickle/Rates/food", "add": 2},
-		{"value": "City/ResourceTrickle/Rates/wood", "add": 2},
-		{"value": "City/ResourceTrickle/Rates/stone", "add": 2},
-		{"value": "City/ResourceTrickle/Rates/metal", "add": 2}
+		{"value": "City/ValueModifiers/TrickleFood/Add", "add": 2},
+		{"value": "City/ValueModifiers/TrickleWood/Add", "add": 2},
+		{"value": "City/ValueModifiers/TrickleStone/Add", "add": 2},
+		{"value": "City/ValueModifiers/TrickleMetal/Add", "add": 2}
 	],
 	"soundComplete": "interface/complete/building/complete_tholos.xml"
 }

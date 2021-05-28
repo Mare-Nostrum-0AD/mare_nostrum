@@ -312,8 +312,10 @@ City.prototype.Upgrade = function()
 		return null;
 	
 	let newEntity = ChangeEntityTemplate(this.entity, upgradeTemplate);
-	if (newEntity)
-		PlaySound('upgraded', newEntity);
+	// Disabling because it interferes with phase up sound notification
+	// TODO: find a way to play sound without interfering with phaseup
+	// if (newEntity)
+	// 	PlaySound('upgraded', newEntity);
 	
 	return newEntity;
 };

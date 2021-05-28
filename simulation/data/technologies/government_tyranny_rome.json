@@ -8,7 +8,7 @@
 	"requirements": {"tech": "phase_hegemon"},
 	"icon": "political_face.png",
 	"researchTime": 60,
-	"tooltip": "Champion units -20% cost and training time.",
+	"tooltip": "Champion units -20% cost and training time. Unlocks Legionaries at the barracks.",
 	"affects": ["Champion"],
 	"modifications": [
 		{"value": "Cost/BuildTime", "multiply": 0.80},
