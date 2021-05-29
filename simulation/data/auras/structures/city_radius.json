@@ -1,9 +1,9 @@
 {
 	"type": "range",
 	"radius": 150,
-	"affects": ["Structure Civic !CivilCentre"],
+	"affects": ["Market"],
 	"modifications": [
-		{ "value": "BuildRestrictions/Distance/MaxDistance", "add": 60 }
+		{ "value": "Market/DemandMultiplier", "replace": 1 }
 	],
 	"auraName": "City Radius",
 	"auraDescription": "Cities have +30 radius compared to towns."

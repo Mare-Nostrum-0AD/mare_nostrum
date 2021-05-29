@@ -1,9 +1,9 @@
 {
 	"type": "range",
 	"radius": 120,
-	"affects": ["Structure Civic !CivilCentre"],
+	"affects": ["Market"],
 	"modifications": [
-		{ "value": "BuildRestrictions/Distance/MaxDistance", "add": 0 }
+		{ "value": "Market/DemandMultiplier", "replace": 1 }
 	],
 	"auraName": "Town Radius",
 	"auraDescription": "Towns have a radius of 120 meters."

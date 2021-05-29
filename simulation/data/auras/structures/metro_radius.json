@@ -1,9 +1,9 @@
 {
 	"type": "range",
 	"radius": 180,
-	"affects": ["Structure Civic !CivilCentre"],
+	"affects": ["Market"],
 	"modifications": [
-		{ "value": "BuildRestrictions/Distance/MaxDistance", "add": 90 }
+		{ "value": "Market/DemandMultiplier", "replace": 1 }
 	],
 	"auraName": "Metropolis Radius",
 	"auraDescription": "Metropoli have +30 radius compared to cities."

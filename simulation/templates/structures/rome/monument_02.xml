@@ -24,6 +24,14 @@
       units/{civ}/champion_infantry_spear_gladiator
       units/{civ}/champion_infantry_sword_gladiator
     </Entities>
+    <TechCostMultiplier>
+      <food>1.0</food>
+      <wood>1.0</wood>
+      <stone>1.0</stone>
+      <metal>1.0</metal>
+      <wealth>1.0</wealth>
+      <time>1.0</time>
+    </TechCostMultiplier>
   </ProductionQueue>
   <TerritoryInfluence>
     <Root>false</Root>

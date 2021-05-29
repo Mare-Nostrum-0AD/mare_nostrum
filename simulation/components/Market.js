@@ -38,7 +38,7 @@ Market.prototype.RemoveTrader = function(ent)
 
 Market.prototype.GetDemandMultiplier = function()
 {
-	if (!this.template.DemandMultiplier)
+	if (!this.template.hasOwnProperty('DemandMultiplier'))
 		return 1;
 	return ApplyValueModificationsToEntity("Market/DemandMultiplier", +this.template.DemandMultiplier, this.entity);
 };

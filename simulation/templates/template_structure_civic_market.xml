@@ -39,15 +39,11 @@
     <VisibleClasses datatype="tokens">Town Market</VisibleClasses>
   </Identity>
   <Loot>
-    <food>25</food>
-    <wood>25</wood>
-    <stone>25</stone>
-    <metal>25</metal>
-    <wealth>25</wealth>
+    <wealth>100</wealth>
   </Loot>
   <Market>
     <TradeType>land</TradeType>
-    <DemandMultiplier>1.0</DemandMultiplier>
+    <DemandMultiplier>0.0</DemandMultiplier>
     <InternationalBonus>0.2</InternationalBonus>
   </Market>
   <Obstruction>
