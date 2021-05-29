@@ -25,7 +25,7 @@ TILE_CENTERED_HEIGHT_MAP = true;
 
 const tWater = "medit_sand_wet";
 const tSnowedRocks = ["alpine_cliff_b", "alpine_cliff_snow"];
-setBiome("generic/mediterranean");
+setBiome("generic/aegean");
 
 const heightScale = num => num * g_MapSettings.Size / 320;
 
@@ -67,7 +67,7 @@ var climateZones = [
 		"tileClass": g_TileClasses.southern_europe,
 		"position1": new Vector2D(mapBounds.left, southernEuroTop),
 		"position2": new Vector2D(mapBounds.right, africaTop),
-		"biome": "generic/mediterranean",
+		"biome": "generic/aegean",
 		"constraint": new NullConstraint(),
 		"amounts": {
 			"berries": ["few"],
@@ -82,7 +82,7 @@ var climateZones = [
 		"tileClass": g_TileClasses.africa,
 		"position1": new Vector2D(mapBounds.left, africaTop),
 		"position2": new Vector2D(mapBounds.right, mapBounds.bottom),
-		"biome": "generic/desert",
+		"biome": "generic/sahara",
 		"constraint": new NullConstraint(),
 		"amounts": {
 			"berries": ["scarce"],
@@ -429,7 +429,7 @@ createArea(
 Engine.SetProgress(70);
 
 g_Map.log("Placing fish");
-g_Gaia.fish = "gaia/fauna_fish";
+g_Gaia.fish = "gaia/fish/generic";
 addElements([
 	{
 		"func": addFish,
@@ -482,7 +482,7 @@ setWaterWaviness(8);
 setWaterMurkiness(0.87);
 setWaterType("ocean");
 
-setTerrainAmbientColor(0.72, 0.72, 0.82);
+setAmbientColor(0.72, 0.72, 0.82);
 
 setSunColor(0.733, 0.746, 0.574);
 setSunRotation(Math.PI * 0.95);
