@@ -22,6 +22,7 @@ var g_PlayerBaseFunctions = [
 	"Mines",
 	"Treasures",
 	"Berries",
+	"Pasture",
 	"Chicken",
 	"Decoratives"
 ];
@@ -293,6 +294,26 @@ function placePlayerBaseBerries(args)
 	}
 
 	error("Could not place berries for player " + args.playerID);
+}
+
+function placePlayerBasePasture(args)
+{
+	let [get, basePosition, baseResourceConstraint] = getPlayerBaseArgs(args);
+	for (let tries = 0; tries < get("maxTries", 30); ++tries)
+	{
+		let position = new Vector2D(0, get("distance", 12)).rotate(randomAngle()).add(basePosition);
+		if (createObjectGroup(
+			new SimpleGroup(
+				[new SimpleObject(args.template, get("minCount", 5), get("maxCount", 5), get("maxDist", 1), get("maxDist", 3))],
+				true,
+				args.BaseResourceClass,
+				position),
+			0,
+			baseResourceConstraint))
+			return;
+	}
+
+	error("Could not place pastures for player " + args.playerID);
 }
 
 function placePlayerBaseMines(args)

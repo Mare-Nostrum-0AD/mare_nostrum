@@ -751,19 +751,20 @@ ProductionQueue.prototype.SpawnUnits = function(item)
 	{
 		// Play a sound, but only for the first in the batch (to avoid nasty phasing effects).
 		PlaySound("trained", createdEnts[0]);
-		for (let ent of createdEnts)
-		{
+		// replace entities with Replace component
+		let actualCreatedEnts = createdEnts.map((ent) => {
 			let cmpReplace = Engine.QueryInterface(ent, IID_Replace);
 			if (cmpReplace)
-				cmpReplace.Replace();
-		}
+				return cmpReplace.Replace();
+			return ent;
+		});
 		Engine.PostMessage(this.entity, MT_TrainingFinished, {
-		    "entities": createdEnts,
+		    "entities": actualCreatedEnts,
 		    "owner": item.player,
 		    "metadata": item.metadata
 		});
 		Engine.BroadcastMessage(MT_EntitiesCreated, {
-		    "entities": createdEnts,
+		    "entities": actualCreatedEnts,
 		    "owner": item.player
 		});
 	}
