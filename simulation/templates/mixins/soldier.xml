@@ -2,6 +2,7 @@
 <Entity>
 	<Attack>
 		<Capture>
+			<AttackName>Capture</AttackName>
       <RestrictedClasses datatype="tokens">Field Palisade Wall Elephant</RestrictedClasses>
 		</Capture>
 	</Attack>
