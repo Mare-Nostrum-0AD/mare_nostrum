@@ -7,6 +7,6 @@
     <Civ>athen</Civ>
   </Identity>
   <VisualActor>
-    <Actor>structures/athenians/civil_centre.xml</Actor>
+		<Actor>structures/athenians/metro_centre.xml</Actor>
   </VisualActor>
 </Entity>

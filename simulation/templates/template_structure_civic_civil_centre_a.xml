@@ -11,7 +11,7 @@
       <Init>100</Init>
       <Max>500</Max>
     </Population>
-    <Upgrade>structures/{native}/town_centre</Upgrade>
+    <Upgrade>structures/{civ}/town_centre</Upgrade>
   </City>
   <Identity>
     <GenericName>Village</GenericName>

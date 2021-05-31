@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <asset>
+    <contributor>
+      <author>hopeless-ponderer</author>
+      <authoring_tool>Blender 2.82.7 commit date:2020-03-12, commit time:05:06, hash:375c7dc4caf4</authoring_tool>
+    </contributor>
+    <created>2020-06-12T09:00:32</created>
+    <modified>2020-06-12T09:00:32</modified>
+    <unit name="meter" meter="1"/>
+    <up_axis>Z_UP</up_axis>
+  </asset>
+  <library_images/>
+  <library_geometries>
+    <geometry id="hele_temple_patron-mesh" name="hele_temple_patron">
+      <mesh>
+        <source id="hele_temple_patron-mesh-positions">
+          <float_array id="hele_temple_patron-mesh-positions-array" count="9">0.002253293 -0.04146367 -5 -0.05909466 0.02633929 -5 0.05684131 0.01512432 -5</float_array>
+          <technique_common>
+            <accessor source="#hele_temple_patron-mesh-positions-array" count="3" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="hele_temple_patron-mesh-normals">
+          <float_array id="hele_temple_patron-mesh-normals-array" count="3">0 0 -1</float_array>
+          <technique_common>
+            <accessor source="#hele_temple_patron-mesh-normals-array" count="1" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="hele_temple_patron-mesh-map-0">
+          <float_array id="hele_temple_patron-mesh-map-0-array" count="6">1 1 1 1 1 1</float_array>
+          <technique_common>
+            <accessor source="#hele_temple_patron-mesh-map-0-array" count="3" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="hele_temple_patron-mesh-vertices">
+          <input semantic="POSITION" source="#hele_temple_patron-mesh-positions"/>
+        </vertices>
+        <triangles count="1">
+          <input semantic="VERTEX" source="#hele_temple_patron-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#hele_temple_patron-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#hele_temple_patron-mesh-map-0" offset="2" set="0"/>
+          <p>0 0 0 1 0 1 2 0 2</p>
+        </triangles>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_visual_scenes>
+    <visual_scene id="Scene" name="Scene">
+      <node id="hele_temple_patron" name="hele_temple_patron" type="NODE">
+        <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+        <instance_geometry url="#hele_temple_patron-mesh" name="hele_temple_patron"/>
+        <node id="prop_tree_left_a" name="prop_tree_left_a" type="NODE">
+          <matrix sid="transform">
+						1 0 0 -10.0
+						0 1 0 -6.0
+						0 0 1 0
+						0 0 0 1
+					</matrix>
+        </node>
+        <node id="prop_tree_left_b" name="prop_tree_left_b" type="NODE">
+          <matrix sid="transform">
+						1 0 0 -10.0
+						0 1 0 -2.0
+						0 0 1 0
+						0 0 0 1
+					</matrix>
+        </node>
+        <node id="prop_tree_left_c" name="prop_tree_left_c" type="NODE">
+          <matrix sid="transform">
+						1 0 0 -10.0
+						0 1 0 2.0
+						0 0 1 0
+						0 0 0 1
+					</matrix>
+        </node>
+        <node id="prop_tree_left_d" name="prop_tree_left_d" type="NODE">
+          <matrix sid="transform">
+						1 0 0 -10.0
+						0 1 0 6.0
+						0 0 1 0
+						0 0 0 1
+					</matrix>
+        </node>
+        <node id="prop_tree_right_a" name="prop_tree_right_a" type="NODE">
+          <matrix sid="transform">
+						1 0 0 10.0
+						0 1 0 -6.0
+						0 0 1 0
+						0 0 0 1
+					</matrix>
+        </node>
+        <node id="prop_tree_right_b" name="prop_tree_right_b" type="NODE">
+          <matrix sid="transform">
+						1 0 0 10.0
+						0 1 0 -2.0
+						0 0 1 0
+						0 0 0 1
+					</matrix>
+        </node>
+        <node id="prop_tree_right_c" name="prop_tree_right_c" type="NODE">
+          <matrix sid="transform">
+						1 0 0 10.0
+						0 1 0 2.0
+						0 0 1 0
+						0 0 0 1
+					</matrix>
+        </node>
+        <node id="prop_tree_right_d" name="prop_tree_right_d" type="NODE">
+          <matrix sid="transform">
+						1 0 0 10.0
+						0 1 0 6.0
+						0 0 1 0
+						0 0 0 1
+					</matrix>
+        </node>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#Scene"/>
+  </scene>
+</COLLADA>

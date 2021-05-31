@@ -13,7 +13,7 @@
       </CivilCentre>
     </DistancesExclusive>
   </BuildRestrictions>
-  <City merge="">
+  <City>
     <Initial>true</Initial>
   </City>
   <Cost>
