@@ -4,7 +4,7 @@
     <Rank>Advanced</Rank>
   </Identity>
   <Promotion>
-    <Entity>units/maur_infantry_spearman_e</Entity>
+		<Entity>units/maur/infantry_spearman_e</Entity>
   </Promotion>
   <VisualActor>
     <Actor>units/mauryas/infantry_spearman_a.xml</Actor>
