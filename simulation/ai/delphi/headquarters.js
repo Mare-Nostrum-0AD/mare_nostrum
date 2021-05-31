@@ -370,7 +370,7 @@ DELPHI.HQ.prototype.checkEvents = function(gameState, events)
 			}
 			if (ent.hasClass("Ship"))
 				DELPHI.setSeaAccess(gameState, ent);
-			if (!ent.hasClass("Support") && !ent.hasClass("Ship") && ent.attackTypes() !== undefined)
+			if (!ent.hasClasses(["Support", "Ship"]) && ent.attackTypes() !== undefined)
 				ent.setMetadata(PlayerID, "plan", -1);
 			continue;
 		}
@@ -546,13 +546,27 @@ DELPHI.HQ.prototype.checkPhaseRequirements = function(gameState, queues)
 		{
 		case "Town":
 			if (!queues.economicBuilding.hasQueuedUnits() &&
-			    !queues.militaryBuilding.hasQueuedUnits() &&
-			    !queues.defenseBuilding.hasQueuedUnits())
+			    !queues.militaryBuilding.hasQueuedUnits())
 			{
-				if (this.canBuild(gameState, "structures/{civ}/defense_tower"))
+				if (!gameState.getOwnEntitiesByClass("Market", true).hasEntities() &&
+				    this.canBuild(gameState, "structures/{civ}/market"))
 				{
-					plan = new DELPHI.ConstructionPlan(gameState, "structures/{civ}/defense_tower", { "phaseUp": true });
-					queue = "defenseBuilding";
+					plan = new DELPHI.ConstructionPlan(gameState, "structures/{civ}/market", { "phaseUp": true });
+					queue = "economicBuilding";
+					break;
+				}
+				if (!gameState.getOwnEntitiesByClass("Temple", true).hasEntities() &&
+				    this.canBuild(gameState, "structures/{civ}/temple"))
+				{
+					plan = new DELPHI.ConstructionPlan(gameState, "structures/{civ}/temple", { "phaseUp": true });
+					queue = "economicBuilding";
+					break;
+				}
+				if (!gameState.getOwnEntitiesByClass("Forge", true).hasEntities() &&
+				    this.canBuild(gameState, "structures/{civ}/forge"))
+				{
+					plan = new DELPHI.ConstructionPlan(gameState, "structures/{civ}/forge", { "phaseUp": true });
+					queue = "militaryBuilding";
 					break;
 				}
 			}
@@ -1050,7 +1064,7 @@ DELPHI.HQ.prototype.findEconomicCCLocation = function(gameState, template, resou
 		halfSize = +template.get("Footprint/Circle/@radius");
 
 	let ccEnts = gameState.updatingGlobalCollection("allCCs", API3.Filters.byClass("CivCentre"));
-	let dpEnts = gameState.getOwnDropsites().filter(API3.Filters.not(API3.Filters.byClassesOr(["CivCentre", "Unit"])));
+	const dpEnts = gameState.getOwnDropsites().filter(API3.Filters.not(API3.Filters.byClasses(["CivCentre", "Unit"])));
 	let ccList = [];
 	for (let cc of ccEnts.values())
 		ccList.push({ "ent": cc, "pos": cc.position(), "ally": gameState.isPlayerAlly(cc.owner()) });
@@ -1657,16 +1671,16 @@ DELPHI.HQ.prototype.findDefensiveLocation = function(gameState, template)
 	// but requiring a minimal distance with our other defensive structures
 	// and not in range of any enemy defensive structure to avoid building under fire.
 
-	let ownStructures = gameState.getOwnStructures().filter(API3.Filters.byClassesOr(["Fortress", "Tower"])).toEntityArray();
+	const ownStructures = gameState.getOwnStructures().filter(API3.Filters.byClasses(["Fortress", "Tower"])).toEntityArray();
 	let enemyStructures = gameState.getEnemyStructures().filter(API3.Filters.not(API3.Filters.byOwner(0))).
-		filter(API3.Filters.byClassesOr(["CivCentre", "Fortress", "Tower"]));
+		filter(API3.Filters.byClasses(["CivCentre", "Fortress", "Tower"]));
 	if (!enemyStructures.hasEntities())	// we may be in cease fire mode, build defense against neutrals
 	{
 		enemyStructures = gameState.getNeutralStructures().filter(API3.Filters.not(API3.Filters.byOwner(0))).
-			filter(API3.Filters.byClassesOr(["CivCentre", "Fortress", "Tower"]));
+			filter(API3.Filters.byClasses(["CivCentre", "Fortress", "Tower"]));
 		if (!enemyStructures.hasEntities() && !gameState.getAlliedVictory())
 			enemyStructures = gameState.getAllyStructures().filter(API3.Filters.not(API3.Filters.byOwner(PlayerID))).
-				filter(API3.Filters.byClassesOr(["CivCentre", "Fortress", "Tower"]));
+				filter(API3.Filters.byClasses(["CivCentre", "Fortress", "Tower"]));
 		if (!enemyStructures.hasEntities())
 			return undefined;
 	}
@@ -2456,9 +2470,9 @@ DELPHI.HQ.prototype.trainEmergencyUnits = function(gameState, positions)
 		if (gameState.isTemplateDisabled(trainable))
 			continue;
 		let template = gameState.getTemplate(trainable);
-		if (!template || !template.hasClass("Infantry") || !template.hasClass("CitizenSoldier"))
+		if (!template || !template.hasClasses(["Infantry+CitizenSoldier"]))
 			continue;
-		if (autogarrison && !MatchesClassList(template.classes(), garrisonArrowClasses))
+		if (autogarrison && !template.hasClasses(garrisonArrowClasses))
 			continue;
 		if (!total.canAfford(new API3.Resources(template.cost())))
 			continue;

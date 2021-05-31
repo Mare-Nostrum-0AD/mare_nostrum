@@ -254,7 +254,7 @@ DELPHI.DefenseManager.prototype.checkEnemyUnits = function(gameState)
 		}
 
 		// TODO what to do for ships ?
-		if (ent.hasClass("Ship") || ent.hasClass("Trader"))
+		if (ent.hasClasses(["Ship", "Trader"]))
 			continue;
 
 		// Check if unit is dangerous "a priori".
@@ -431,9 +431,7 @@ DELPHI.DefenseManager.prototype.assignDefenders = function(gameState)
 			return;
 		if (ent.hasClass("Support") || ent.attackTypes() === undefined)
 			return;
-		if (ent.hasClass("StoneThrower"))
-			return;
-		if (ent.hasClass("FishingBoat") || ent.hasClass("Trader"))
+		if (ent.hasClasses(["StoneThrower", "Support", "FishingBoat"]))
 			return;
 		if (ent.getMetadata(PlayerID, "transport") !== undefined ||
 		    ent.getMetadata(PlayerID, "transporter") !== undefined)
@@ -627,7 +625,7 @@ DELPHI.DefenseManager.prototype.checkEvents = function(gameState, events)
 		// Signal this attacker to our defense manager, except if we are in enemy territory.
 		// TODO treat ship attack.
 		if (attacker && attacker.position() && attacker.getMetadata(PlayerID, "PartOfArmy") === undefined &&
-			!attacker.hasClass("Structure") && !attacker.hasClass("Ship"))
+			!attacker.hasClasses(["Structure", "Ship"]))
 		{
 			let territoryOwner = this.territoryMap.getOwner(attacker.position());
 			if (territoryOwner == 0 || gameState.isPlayerAlly(territoryOwner))
@@ -698,7 +696,7 @@ DELPHI.DefenseManager.prototype.checkEvents = function(gameState, events)
 				let unitAIState = target.unitAIState();
 				let unitAIStateOrder = unitAIState ? unitAIState.split(".")[1] : "";
 				if (unitAIStateOrder == "COMBAT" && (currentTarget == attacker.id() ||
-					!currentTarget.hasClass("Structure") && !currentTarget.hasClass("Support")))
+					!currentTarget.hasClasses(["Structure", "Support"])))
 					continue;
 				if (unitAIStateOrder == "REPAIR" && currentTarget.hasDefensiveFire())
 					continue;
@@ -779,7 +777,7 @@ DELPHI.DefenseManager.prototype.garrisonUnitsInside = function(gameState, target
 	let units = gameState.getOwnUnits().filter(ent => {
 		if (!ent.position())
 			return false;
-		if (!MatchesClassList(ent.classes(), garrisonArrowClasses))
+		if (!ent.hasClasses(garrisonArrowClasses))
 			return false;
 		if (typeGarrison != "decay" && !allowMelee && ent.attackTypes().indexOf("Melee") != -1)
 			return false;
@@ -831,7 +829,7 @@ DELPHI.DefenseManager.prototype.garrisonSiegeUnit = function(gameState, unit)
 	{
 		if (!ent.isGarrisonHolder())
 			continue;
-		if (!MatchesClassList(unit.classes(), ent.garrisonableClasses()))
+		if (!unit.hasClasses(ent.garrisonableClasses()))
 			continue;
 		if (garrisonManager.numberOfGarrisonedSlots(ent) >= ent.garrisonMax())
 			continue;
@@ -867,7 +865,7 @@ DELPHI.DefenseManager.prototype.garrisonAttackedUnit = function(gameState, unit,
 			continue;
 		if (!emergency && !ent.buffHeal())
 			continue;
-		if (!MatchesClassList(unit.classes(), ent.garrisonableClasses()))
+		if (!unit.hasClasses(ent.garrisonableClasses()))
 			continue;
 		if (garrisonManager.numberOfGarrisonedSlots(ent) >= ent.garrisonMax() &&
 		    (!emergency || !ent.garrisoned().length))

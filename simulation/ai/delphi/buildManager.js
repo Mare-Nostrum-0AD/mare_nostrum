@@ -96,6 +96,21 @@ DELPHI.BuildManager.prototype.checkEvents = function(gameState, events)
 	}
 };
 
+DELPHI.BuildManager.prototype.findStructuresByFilter = function(gameState, filter)
+{
+	const result = [];
+	for (let [templateName, count] of this.builderCounters)
+	{
+		if (!count || gameState.isTemplateDisabled(templateName))
+			continue;
+		let template = gameState.getTemplate(templateName);
+		if (!template || !template.available(gameState))
+			continue;
+		if (filter.func(template))
+			result.push(templateName);
+	}
+	return result;
+};
 
 /**
  * Get the first buildable structure with a given class
@@ -103,17 +118,7 @@ DELPHI.BuildManager.prototype.checkEvents = function(gameState, events)
  */
 DELPHI.BuildManager.prototype.findStructureWithClass = function(gameState, classes)
 {
-	for (let [templateName, count] of this.builderCounters)
-	{
-		if (count == 0 || gameState.isTemplateDisabled(templateName))
-			continue;
-		let template = gameState.getTemplate(templateName);
-		if (!template || !template.available(gameState))
-			continue;
-		if (MatchesClassList(template.classes(), classes))
-			return templateName;
-	}
-	return undefined;
+	return this.findStructuresByFilter(gameState, API3.Filters.byClasses(classes))[0];
 };
 
 DELPHI.BuildManager.prototype.hasBuilder = function(template)
