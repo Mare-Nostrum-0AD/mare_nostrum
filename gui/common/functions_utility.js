@@ -58,9 +58,9 @@ function parseCivTemplate(templateName, subPattern, civCode)
 	if (civInfo && civInfo.Culture)
 		codes = codes.concat(civInfo.Culture);
 	codes.push('generic');
-	for (let i in codes) {
-		let code = codes[i];
+	for (let code of codes) {
 		let parsedTemplateName = templateName.replace(subPattern, code);
+		warnf('Parsed template name: %s', parsedTemplateName);
 		if (Engine.TemplateExists(parsedTemplateName))
 			return parsedTemplateName;
 	}// end for i

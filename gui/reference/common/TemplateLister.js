@@ -139,9 +139,11 @@ class TemplateLister
 
 		if (template.City && template.City.Upgrade)
 		{
+			warn(sprintf('City civCode: %s (native: %s)', civCode, template.Identity.Civ));// TODO: remove debug
 			let upgrade = template.City.Upgrade.indexOf('{native}') !== 1 ?
 				parseCivTemplate(template.City.Upgrade, /\{native\}/g, template.Identity.Civ) :
 				parseCivTemplate(template.City.Upgrade, /\{civ\}/g, civCode);
+			warn(sprintf('City upgrade: %s (from: %s)', upgrade, template.City.Upgrade));// TODO: remove debug
 			if (upgrade)
 				templateLists.structures.unshift(upgrade);
 		}

@@ -178,3 +178,8 @@ function parseEntityTokens(entity, tokenList)
 
 	return entities;
 }// end parseEntityTokens
+
+function warnf(fmt, ..args)
+{
+	warn(sprintf(fmt, ...args));
+}
