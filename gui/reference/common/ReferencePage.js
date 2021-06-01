@@ -36,9 +36,9 @@ class ReferencePage
 	 * @param {string} joiner
 	 * @return {string} The built text.
 	 */
-	static buildText(template, textFunctions=[], joiner="\n")
+	static buildText(template, textFunctions=[], joiner="\n", civ='gaia')
 	{
-		return textFunctions.map(func => func(template, this.activeCiv)).filter(tip => tip).join(joiner);
+		return textFunctions.map(func => func(template, civ)).filter(tip => tip).join(joiner);
 	}
 }
 

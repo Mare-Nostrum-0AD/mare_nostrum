@@ -118,14 +118,14 @@ class ViewerPage extends ReferencePage
 		entityIcon.sprite = "stretched:" + this.IconPath + this.currentTemplate.icon;
 
 		let entityStats = this.guiElements.entityStats;
-		entityStats.caption = this.constructor.buildText(this.currentTemplate, this.StatsFunctions);
+		entityStats.caption = this.constructor.buildText(this.currentTemplate, this.StatsFunctions, "\n", this.activeCiv);
 
 		let infoSize = this.guiElements.entityInfo.size;
 		// The magic '8' below provides a gap between the bottom of the icon, and the start of the info text.
 		infoSize.top = Math.max(entityIcon.size.bottom + 8, entityStats.size.top + entityStats.getTextSize().height);
 		this.guiElements.entityInfo.size = infoSize;
 
-		this.guiElements.entityInfo.caption = this.constructor.buildText(this.currentTemplate, this.InfoFunctions, "\n\n");
+		this.guiElements.entityInfo.caption = this.constructor.buildText(this.currentTemplate, this.InfoFunctions, "\n\n", this.activeCiv);
 
 		if (this.currentTemplate.promotion)
 			this.guiElements.entityRankGlyph.sprite = "stretched:" + this.RankIconPath + this.currentTemplate.promotion.current_rank + ".png";

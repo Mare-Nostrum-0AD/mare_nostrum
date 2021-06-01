@@ -1244,10 +1244,9 @@ function getCityUpgradeText(template, playerCiv)
 	if (!template || !template.city || !template.city.upgrade)
 		return "";
 	let templateNameRaw = template.city.upgrade;
-	let civ = templateNameRaw.indexOf("{native}") !== -1 ? template.nativeCiv : playerCiv;
-	let templateName = civ === playerCiv ?
-		parseCivTemplate(templateNameRaw, /{civ}/g, civ) :
-		parseCivTemplate(templateNameRaw, /{native}/g, civ);
+	let templateName = templateNameRaw.indexOf("{native}") !== -1 ?
+		parseCivTemplate(templateNameRaw, /\{native\}/g, template.nativeCiv) :
+		parseCivTemplate(templateNameRaw, /\{civ\}/g, playerCiv);
 	if (!templateName)
 		return "";
 	let upgrade = Engine.GetTemplate(templateName);
