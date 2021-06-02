@@ -2,7 +2,7 @@
 	"genericName": "Taxes in Kind",
 	"description": "Gather taxes from your cities' population in the four basic resources.",
 	"cost": {"food": 750, "wood": 750, "stone": 750, "metal": 750},
-	"requirements": {"tech": "phase_empire"},
+	"requirements": {"tech": "phase_hegemon"},
 	"icon": "cornucopia.png",
 	"researchTime": 60,
 	"tooltip": "Gather 2 food, wood, stone, and metal per 1000 city population every 30 seconds.",

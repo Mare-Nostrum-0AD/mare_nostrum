@@ -2,7 +2,7 @@
 	"genericName": "Monetary Taxes",
 	"description": "Gather taxes from your cities' population in wealth.",
 	"cost": {"wealth": 1000},
-	"requirements": {"tech": "phase_empire"},
+	"requirements": {"tech": "phase_hegemon"},
 	"icon": "coinage.png",
 	"researchTime": 60,
 	"tooltip": "Gather 5 wealth per 1000 city population every 30 seconds.",
