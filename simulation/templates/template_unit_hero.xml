@@ -25,7 +25,7 @@
     <Classes datatype="tokens">Human</Classes>
     <GenericName>Hero</GenericName>
     <Icon>technologies/laurel_wreath.png</Icon>
-    <RequiredTechnology>phase_hegemon</RequiredTechnology>
+    <RequiredTechnology>phase_city</RequiredTechnology>
     <VisibleClasses datatype="tokens">Soldier Hero</VisibleClasses>
   </Identity>
   <Loot>
