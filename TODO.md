@@ -36,17 +36,21 @@ Please feel free to contribute if you see anything you can do here. If there is 
 - Rename "Population Limit" to "Command Limit", change icon
 - Rebalance city manpower trickle /
 - Create skirmish replacers for different levels of civ centre /
-- Create range of different starting levels, selectable from a dropdown list:
-	- Nomad
-	- Village
-	- Town
-	- City
-- Give pastures decal to make them more distinctive
+- Create separate "govcentre" template, from which two templates inherit – palace and assembly
+	- palace available in Hegemon phase
+	- assembly available in City phase
+	- civs with assembly get patron temples in hegemon phase
 - Document changes in CHANGELOG.md
 - Document unique features in README.md or FEATURES.md
 - Document development scripts in CONTRIBUTING.md
 
 ## Secondary priorities
+- Give pastures decal to make them more distinctive
+- Create range of different starting levels, selectable from a dropdown list:
+	- Nomad
+	- Village
+	- Town
+	- City
 - Ensure phase upgrade notifications are displayed correctly
 - Implement AutoSpawn component
 - Create resource caps, which can be expanded by building structures and researching technologies

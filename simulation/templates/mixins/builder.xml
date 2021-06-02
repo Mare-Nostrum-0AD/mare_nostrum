@@ -38,7 +38,7 @@
 			structures/{civ}/monument_02
 			structures/{civ}/monument_03
 			structures/{civ}/monument_04
-			structures/{civ}/palace
+			structures/{civ}/govcentre
       structures/{civ}/wonder
     </Entities>
   </Builder>

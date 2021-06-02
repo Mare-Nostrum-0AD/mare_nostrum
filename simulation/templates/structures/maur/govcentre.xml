@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_structure_civic_govcentre_palace">
+  <Footprint>
+    <Square width="40.0" depth="16.0"/>
+    <Height>5.0</Height>
+  </Footprint>
+  <Identity>
+    <Civ>maur</Civ>
+    <SpecificName>Harmya</SpecificName>
+  </Identity>
+  <Obstruction>
+    <Static width="36.0" depth="12.0"/>
+  </Obstruction>
+  <ProductionQueue>
+    <BatchTimeModifier>0.7</BatchTimeModifier>
+    <Entities datatype="tokens">
+      units/{civ}/support_female_citizen
+      units/{civ}/champion_maiden_archer
+    </Entities>
+  </ProductionQueue>
+  <VisualActor>
+    <Actor>structures/mauryas/misc_structure_01.xml</Actor>
+  </VisualActor>
+</Entity>

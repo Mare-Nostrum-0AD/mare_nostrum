@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_structure_civic_govcentre">
+  <Cost>
+    <BuildTime op="mul">2</BuildTime>
+    <Resources>
+      <wood op="mul">2</wood>
+      <stone op="mul">2</stone>
+      <wealth op="mul">2</wealth>
+    </Resources>
+  </Cost>
+  <GarrisonHolder>
+    <Max op="mul">2</Max>
+  </GarrisonHolder>
+  <Health>
+    <Max op="mul">2</Max>
+  </Health>
+  <Identity>
+    <GenericName>Palace</GenericName>
+    <VisibleClasses datatype="tokens">Palace</VisibleClasses>
+    <RequiredTechnology>phase_hegemon</RequiredTechnology>
+  </Identity>
+  <Loot>
+    <stone op="mul">2</stone>
+    <wealth op="mul">2</wealth>
+  </Loot>
+  <VisualActor>
+    <FoundationActor>structures/fndn_8x9.xml</FoundationActor>
+  </VisualActor>
+</Entity>

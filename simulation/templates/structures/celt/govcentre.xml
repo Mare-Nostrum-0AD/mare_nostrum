@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_structure_civic_govcentre_assembly">
+  <Cost>
+    <BuildTime>200</BuildTime>
+    <Resources>
+      <stone>0</stone>
+    </Resources>
+  </Cost>
+  <Footprint replace="">
+    <Circle radius="15.0"/>
+    <Height>10.0</Height>
+  </Footprint>
+  <Health>
+    <Max>2000</Max>
+    <SpawnEntityOnDeath>decay|rubble/rubble_stone_6x6</SpawnEntityOnDeath>
+  </Health>
+  <Identity>
+    <Civ>gaia</Civ>
+    <GenericName>Assembly of Princes</GenericName>
+    <SpecificName>Remogantion</SpecificName>
+    <Tooltip>Train Champion Trumpeters and Heroes. Research government technologies.</Tooltip>
+  </Identity>
+  <Loot replace="">
+		<wood>160</wood>
+    <wealth>300</wealth>
+  </Loot>
+  <Obstruction>
+    <Static width="25.0" depth="25.0"/>
+  </Obstruction>
+  <ProductionQueue>
+    <BatchTimeModifier>0.7</BatchTimeModifier>
+    <Entities datatype="tokens">
+      units/{civ}/champion_infantry_trumpeter
+    </Entities>
+    <Technologies datatype="tokens">
+			-pair_government_{civ}
+    </Technologies>
+  </ProductionQueue>
+  <Resistance>
+    <Entity>
+      <Damage>
+        <Hack>20</Hack>
+        <Pierce>30</Pierce>
+        <Crush>3</Crush>
+      </Damage>
+    </Entity>
+  </Resistance>
+  <VisualActor>
+    <Actor>structures/gauls/theater.xml</Actor>
+    <FoundationActor>structures/fndn_6x6.xml</FoundationActor>
+  </VisualActor>
+</Entity>

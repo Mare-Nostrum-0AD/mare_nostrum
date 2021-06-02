@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_structure_civic_govcentre_assembly">
+  <Footprint replace="">
+    <Circle radius="12.0"/>
+    <Height>8.0</Height>
+  </Footprint>
+  <Identity>
+    <Civ>spart</Civ>
+    <GenericName>Spartan Senate</GenericName>
+    <SpecificName>Gerousia</SpecificName>
+    <Tooltip>Train heroes.</Tooltip>
+  </Identity>
+  <Obstruction>
+    <Static width="20.0" depth="20.0"/>
+  </Obstruction>
+  <VisualActor>
+    <Actor>structures/spartans/gerousia.xml</Actor>
+  </VisualActor>
+</Entity>

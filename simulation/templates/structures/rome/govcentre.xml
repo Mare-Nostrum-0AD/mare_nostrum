@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_structure_civic_govcentre_assembly">
+  <Footprint>
+    <Square width="20.0" depth="30.0"/>
+    <Height>8.0</Height>
+  </Footprint>
+  <Identity>
+    <Civ>rome</Civ>
+    <GenericName>Roman Senate</GenericName>
+    <SpecificName>Curia</SpecificName>
+  </Identity>
+  <Obstruction>
+    <Static width="24.0" depth="30.0"/>
+  </Obstruction>
+  <ProductionQueue>
+    <Technologies datatype="tokens">
+			grain_dole
+    </Technologies>
+  </ProductionQueue>
+  <VisualActor>
+    <Actor>structures/romans/curia.xml</Actor>
+  </VisualActor>
+</Entity>
