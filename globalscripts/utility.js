@@ -179,7 +179,39 @@ function parseEntityTokens(entity, tokenList)
 	return entities;
 }// end parseEntityTokens
 
+// logs a warning message formatted via sprintf
 function warnf(fmt, ...args)
 {
 	warn(sprintf(fmt, ...args));
+}
+
+// logs an error message formatted via sprintf
+function errorf(fmt, ...args)
+{
+	error(sprintf(fmt, ...args));
+}
+
+// formats a number with commas every three digits
+// @param num		Number		number to format
+// @return			String		comma-formatted string
+// example: fmtNum(13200) => "13,200"
+function fmtNum(num)
+{
+	if (typeof num !== 'number')
+		throw new Error(sprintf('%s is not a number!', num))
+	let [integer, remainder] = ("" + num).split('.');
+	let outputIntegerCharsReversed = [];
+	let idx = 0;
+	for (let ch of integer.split('').reverse())
+	{
+		if (idx === 3)
+		{
+			outputIntegerCharsReversed.push(',');
+			idx = 1;
+		} else {
+			idx += 1;
+		}
+		outputIntegerCharsReversed.push(ch);
+	}
+	return [outputIntegerCharsReversed.reverse().join(''), remainder].filter(n => n).join('.');
 }

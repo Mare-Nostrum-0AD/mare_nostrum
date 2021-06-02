@@ -1204,10 +1204,10 @@ function getCityPopulationText(template)
 	if (!template || !template.city || !template.city.population)
 		return "";
 
-	let tooltip = sprintf("Initial: %(init)s, Maximum: %(max)s, Growth Rate: %(amount)s / %(interval)s", {
-		"init": template.city.population.initial,
-		"max": template.city.population.max,
-		"amount": template.city.population.growth.amount,
+	let tooltip = sprintf("Initial: %(init)s; Maximum: %(max)s; Growth Rate: %(amount)s / %(interval)s", {
+		"init": fmtNum(template.city.population.initial),
+		"max": fmtNum(template.city.population.max),
+		"amount": fmtNum(template.city.population.growth.amount),
 		"interval": getSecondsString(template.city.population.growth.interval / 1000)
 	});
 	if (template.city.population.growth.tradeRate)
@@ -1225,14 +1225,14 @@ function getCityPopulationTooltip(entState)
 
 	let netGrowthAmount = entState.city.growth.amount - entState.city.growth.decayAmount;
 	let tooltip = sprintf(["Population: %(pop)s", "Maximum: %(max)s", "Growth Rate: %(direction)s%(amount)s/%(interval)s"].join("\n" + g_Indent), {
-		"pop": entState.city.population.toLocaleString(),
-		"max": entState.city.maxPopulation.toLocaleString(),
+		"pop": fmtNum(entState.city.population),
+		"max": fmtNum(entState.city.maxPopulation),
 		"direction": netGrowthAmount < 0 ? '' : '+',
-		"amount": netGrowthAmount.toLocaleString(),
+		"amount": fmtNum(netGrowthAmount),
 		"interval": getSecondsString(entState.city.growth.interval / 1000)
 	});
 	if (entState.city.growth.tradeRate)
-		tooltip += sprintf(" + %(rate)s per unit trade income", { "rate": entState.city.growth.tradeRate });
+		tooltip += sprintf(" + %(rate)s per unit trade income", { "rate": fmtNum(entState.city.growth.tradeRate) });
 	return translate(sprintf("%(label)s\n%(text)s", {
 		"label": headerFont("City:"),
 		"text": g_Indent + tooltip
@@ -1256,7 +1256,7 @@ function getCityUpgradeText(template, playerCiv)
 	return sprintf(translate(text), {
 		"specificName": upgrade.Identity.SpecificName,
 		"genericName": translate(upgrade.Identity.GenericName),
-		"maxPop": template.city.population.max ? "population " + template.city.population.max : "maximum population"
+		"maxPop": template.city.population.max ? "population " + fmtNum(template.city.population.max) : "maximum population"
 	});
 }
 
@@ -1267,7 +1267,7 @@ function getCityMemberText(template)
 	let { growthContrib } = template.cityMember;
 	let text = (() => {
 		if (growthContrib.add)
-			return sprintf("Increases city growth rate by %d.", growthContrib.add);
+			return sprintf("Increases city growth rate by %d.", fmtNum(growthContrib.add));
 		if (growthContrib.multiply)
 			return sprintf("Multiplies city growth rate by %s.", growthContrib.multiply);
 		// there should always be some valid growthContrib value

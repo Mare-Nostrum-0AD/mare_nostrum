@@ -70,9 +70,9 @@ function displaySingle(entState)
 	if (entState.city && entState.city.population)
 	{
 		if (secondaryName && g_ShowSecondaryNames)
-			secondaryName = sprintf(translate("%(genName)s | Population %(pop)s"), { "genName": secondaryName, "pop": entState.city.population.toLocaleString() });
+			secondaryName = sprintf(translate("%(genName)s | Population %(pop)s"), { "genName": secondaryName, "pop": fmtNum(entState.city.population) });
 		else
-			secondaryName = sprintf(translate("Population %(pop)s"), { "pop": entState.city.population.toLocaleString() });
+			secondaryName = sprintf(translate("Population %(pop)s"), { "pop": fmtNum(entState.city.population) });
 	}
 	// City population growth rate
 	if (entState.city && entState.city.growth)

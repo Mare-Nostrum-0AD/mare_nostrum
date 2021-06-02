@@ -23,6 +23,7 @@ const g_RandomCivGroups = loadRandomCivGroups().map((group) => {
 		return null;
 	}
 	let weights = {};
+	// "*" signifies a standard weight to apply to all available civs; can be overridden later
 	if (group.Weights.hasOwnProperty('*') && group.Weights['*'] !== 0) {
 		let std_weight = group.Weights['*'];
 		if (std_weight < 0) {
@@ -41,15 +42,18 @@ const g_RandomCivGroups = loadRandomCivGroups().map((group) => {
 			error(sprintf('Random civ group weights must be >= 0 (got "%s": %d); disabling %s', civ, group.Weights[civ], group.Title));
 			return null;
 		}
+		// this is where std weight overriding takes place, if applicable
 		if (g_CivData.hasOwnProperty(civ) && g_CivData[civ].SelectableInGameSetup)
 			weights[civ] = group.Weights[civ];
 		if (weights[civ] === 0)
 			delete weights[civ];
 	}// end for civ
+	// filter out any selection group with less than two available civs
 	if (Object.keys(weights).length < 2)
 	{
 		return null;
 	}
+	// copy group to new object; set defaults for non-essential properties
 	let filtered_group = {};
 	for (let property in group) {
 		if (property !== 'Weights')
@@ -62,6 +66,8 @@ const g_RandomCivGroups = loadRandomCivGroups().map((group) => {
 	filtered_group.Weights = weights;
 	return filtered_group;
 }).filter((group) => group).map((() => {
+	// if two group codes collide, append a suffix to the second group code
+	// implemented as a closure
 	let group_codes = {};
 	return (group) => {
 		if (group_codes.hasOwnProperty(group.Code)) {
