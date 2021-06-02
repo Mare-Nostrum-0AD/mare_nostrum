@@ -2,6 +2,7 @@
 <Entity parent="template_structure_civic_govcentre_palace">
   <Footprint>
     <Square width="24.0" depth="36.0"/>
+    <Height>8.0</Height>
   </Footprint>
   <Identity>
     <Civ>gaia</Civ>

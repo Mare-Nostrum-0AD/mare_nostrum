@@ -1,23 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Entity parent="template_structure_military_dock">
   <Footprint>
-    <Square width="27.0" depth="27.0"/>
+    <Square width="26.0" depth="30.0"/>
     <Height>8.0</Height>
   </Footprint>
+  <Health>
+    <SpawnEntityOnDeath>decay|rubble/rubble_hele_dock</SpawnEntityOnDeath>
+  </Health>
   <Identity>
-    <Civ>ptol</Civ>
+    <Civ>athen</Civ>
     <SpecificName>Neōsoikoi</SpecificName>
   </Identity>
   <Obstruction>
-    <Static width="26.0" depth="26.0"/>
+    <Static width="22.0" depth="26.0"/>
   </Obstruction>
   <ProductionQueue>
+    <BatchTimeModifier>0.7</BatchTimeModifier>
     <Entities datatype="tokens">
-      units/{civ}/champion_juggernaut
+      units/{civ}/infantry_marine_archer_b
+      units/{civ}/champion_marine
     </Entities>
   </ProductionQueue>
   <VisualActor>
-    <Actor>structures/ptolemies/shipyard.xml</Actor>
+    <Actor>structures/athenians/dock.xml</Actor>
     <FoundationActor>structures/fndn_6x4_dock.xml</FoundationActor>
   </VisualActor>
 </Entity>
