@@ -1,31 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Entity parent="template_structure_civic_temple_patron_war">
-  <Cost>
-    <Resources>
-      <wood>300</wood>
-      <stone>0</stone>
-    </Resources>
-  </Cost>
-  <Footprint replace="">
-    <Circle radius="17.0"/>
-    <Height>8.0</Height>
-  </Footprint>
-  <Health>
-    <SpawnEntityOnDeath>decay|rubble/rubble_stone_5x5</SpawnEntityOnDeath>
-  </Health>
+<Entity parent="civ/celt/temple_patron|template_structure_civic_temple_patron_war">
   <Identity>
     <Civ>gaul</Civ>
     <SpecificName>Shrine of Caturix</SpecificName>
   </Identity>
-  <Loot>
-    <wood>60</wood>
-    <stone>0</stone>
-  </Loot>
-  <Obstruction>
-    <Static width="29.0" depth="29.0"/>
-  </Obstruction>
-  <VisualActor>
-    <Actor>structures/celts/shrine.xml</Actor>
-    <FoundationActor>structures/fndn_9x9.xml</FoundationActor>
-  </VisualActor>
 </Entity>

@@ -1,17 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Entity parent="template_structure_civic_temple_patron_fertility">
-  <Footprint>
-    <Square width="24.0" depth="36.0"/>
-  </Footprint>
+<Entity parent="civ/kush/temple_patron|template_structure_civic_temple_patron_fertility">
   <Identity>
-    <Civ>kush</Civ>
     <GenericName>Temple of Osiris</GenericName>
-    <Tooltip>Train Healers and research healing technologies. Provides food production bonuses.</Tooltip>
   </Identity>
-  <Obstruction>
-    <Static width="18" depth="30.0"/>
-  </Obstruction>
-  <VisualActor>
-    <Actor>structures/kushites/temple_3.xml</Actor>
-  </VisualActor>
 </Entity>

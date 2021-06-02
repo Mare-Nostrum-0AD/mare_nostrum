@@ -1,21 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Entity parent="template_structure_civic_temple_patron_fertility">
-  <Footprint>
-    <Square width="23.0" depth="24"/>
-    <Height>12.0</Height>
-  </Footprint>
-  <Health>
-    <SpawnEntityOnDeath>decay|rubble/rubble_stone_4x6</SpawnEntityOnDeath>
-  </Health>
+<Entity parent="civ/ptol/temple_patron|template_structure_civic_temple_patron_fertility">
   <Identity>
-    <Civ>ptol</Civ>
     <SpecificName>Shrine of Serapis</SpecificName>
   </Identity>
-  <Obstruction>
-    <Static width="20" depth="21"/>
-  </Obstruction>
-  <VisualActor>
-    <Actor>structures/ptolemies/shrine.xml</Actor>
-    <FoundationActor>structures/fndn_6x6.xml</FoundationActor>
-  </VisualActor>
 </Entity>
