@@ -21,7 +21,7 @@ Please feel free to contribute if you see anything you can do here. If there is 
 	- Modify Attack component to allow garrisoned units to increase attack, allowing garrisoned infantry to increase siege tower capture attack /
 - Create champion mixin, refactor champion templates to inherit from standard unit templates and apply champion mixin
 - Create library/academy monument for Athenians /
-- Create new palace actors for Hellenistic civs, kushites
+- Create new palace actors for Hellenistic civs, kushites /
 - Rename Carthaginian embassies to Mercenary Camps /
 	- Allow to build one per town centre /
 - Create gold, silver resource supplies
@@ -45,6 +45,8 @@ Please feel free to contribute if you see anything you can do here. If there is 
 - Document development scripts in CONTRIBUTING.md
 
 ## Secondary priorities
+- Create Maurya monument(s)
+- Create government technologies for celts, iberians, various other civs
 - Give pastures decal to make them more distinctive
 - Create range of different starting levels, selectable from a dropdown list:
 	- Nomad
