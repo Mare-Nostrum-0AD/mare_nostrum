@@ -4,8 +4,23 @@
 		"Properties": ["capital"]
 	},
 	"ostia": "Ostia",
-	"naples": "Neapolis",
-	"bologna": "Bononia",
-	"milan": "Mediolanum",
-	"benevento": "Beneventum"
+	"tusculum": "Tusculum",
+	"anzio": "Antium",
+	"alba_longa": "Alba Longa",
+	"laurentum": "Laurentum",
+	"mentana": "Nomentum",
+	"velletri": "Velitrae",
+	"benevento": "Beneventum",
+	"milan": {
+		"Name": "Mediolanum",
+		"Properties": ["phase_city"]
+	},
+	"naples": {
+		"Name": "Neapolis",
+		"Properties": ["phase_city"]
+	},
+	"bologna": {
+		"Name": "Bononia",
+		"Properties": ["phase_city"]
+	}
 }
