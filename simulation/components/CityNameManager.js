@@ -34,7 +34,7 @@ CityNameManager.prototype.ChooseCityNameByFilter = function(civCode, filter)
 	if (!cityNames)
 		return "";
 	let candidates = [...cityNames.entries()].filter(([cityCode, cityName]) => {
-		if (this.takenNameCodes.has(cityCode))
+		if (this.IsCityCodeTaken(cityCode))
 			return false;
 		return filter(cityName);
 	});
@@ -42,7 +42,7 @@ CityNameManager.prototype.ChooseCityNameByFilter = function(civCode, filter)
 		return "";
 	let [chosenCityCode, chosenCityName] = pickRandom(candidates);
 	cityNames.delete(chosenCityCode);
-	this.takenNameCodes.add(chosenCityCode);
+	this.SetCityCodeTaken(chosenCityCode);
 	return typeof chosenCityName === 'object' ? chosenCityName.Name : chosenCityName;
 };
 
@@ -54,15 +54,50 @@ CityNameManager.prototype.ChooseCityName = function(cityEntity)
 		return "";
 	const playerID = cmpPlayer.GetPlayerID();
 	const civCode = cmpIdentity.GetCiv();
+	// applies filters defined in CityNameManager.CityEntityFilters, if available
+	const cityEntityFilter = (cityName) => !CityNameManager.CityEntityFilters ||
+		Object.values(CityNameManager.CityEntityFilters).every((f) => f(cityEntity, cityName));
 	const filter = this.playersWithNamedCapital.has(playerID) ?
-		() => true :
-		(cityName) => typeof cityName === 'object' && cityName.Properties && cityName.Properties.indexOf("capital") !== -1;
+		(cityName) => cityEntityFilter(cityName) :
+		(cityName) => typeof cityName === 'object' && cityName.Properties && cityName.Properties.indexOf("capital") !== -1 && cityEntityFilter(cityName);
 	this.playersWithNamedCapital.add(playerID);
 	let candidate = this.ChooseCityNameByFilter(civCode, filter);
 	if (candidate && candidate.length)
 		return candidate;
 	// if no eligible capital name found, default to any city name
-	return this.ChooseCityNameByFilter(civCode, () => true);
+	return this.ChooseCityNameByFilter(civCode, cityEntityFilter);
+};
+
+CityNameManager.prototype.IsCityCodeTaken = function(cityCode)
+{
+	return this.takenNameCodes.has(cityCode);
+};
+
+CityNameManager.prototype.SetCityCodeTaken = function(cityCode)
+{
+	this.takenNameCodes.add(cityCode);
+};
+
+// Miscellaneous filters to apply in ChooseCityName
+// form: (cityEntity<Number>, cityName<String||Object>) => boolean
+CityNameManager.CityEntityFilters = {
+	// filters by whether city owner has researched the required phase tech
+	// returns true by default
+	"phase": (ent, cityName) => {
+		if (typeof cityName !== 'object' || !cityName.Properties)
+			return true;
+		// should only be one phase property; if there are multiple, only the first will be counted
+		let [phase] = cityName.Properties.filter((prop) => prop.match(/^phase_/g));
+		if (!phase)
+			return true;
+		let cmpPlayer = QueryOwnerInterface(ent);
+		if (!cmpPlayer)
+			return true;
+		let cmpTechnologyManager = Engine.QueryInterface(cmpPlayer.GetPlayerID(), IID_TechnologyManager);
+		if (!cmpTechnologyManager)
+			return true;
+		return cmpTechnologyManager.GetResearchedTechs().has(phase);
+	}
 };
 
 Engine.RegisterSystemComponentType(IID_CityNameManager, "CityNameManager", CityNameManager);
