@@ -67,12 +67,22 @@ function displaySingle(entState)
 			secondaryName = sprintf(translate("Packed"));
 	}
 	// City population
-	if (entState.city && entState.city.population)
+	if (entState.city)
 	{
+		// include city name in primary name, if applicable
+		if (entState.city.name && entState.city.name.length)
+			primaryName = sprintf("%(primaryName)s — \"%(cityName)s\"", {
+				"primaryName": primaryName,
+				"cityName": entState.city.name
+			});
+		// include city population in secondary name
+		if (entState.city.population)
+		{
 		if (secondaryName && g_ShowSecondaryNames)
 			secondaryName = sprintf(translate("%(genName)s | Population %(pop)s"), { "genName": secondaryName, "pop": fmtNum(entState.city.population) });
 		else
 			secondaryName = sprintf(translate("Population %(pop)s"), { "pop": fmtNum(entState.city.population) });
+		}
 	}
 	// City population growth rate
 	if (entState.city && entState.city.growth)

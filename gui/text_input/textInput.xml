@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<objects>
+
+	<script directory="gui/common/"/>
+	<script directory="gui/text_input/"/>
+
+	<!-- Fade out the background because it's non-interactable -->
+	<object sprite="ModernFade" type="image"/>
+	<object name="textInputCancelHotkey" hotkey="cancel" />
+	<object name="textInputMain" style="ModernDialog" type="image">
+		<object name="textInputTitleBar"
+				style="ModernLabelText"
+				type="text"
+				size="50%-128 -18 50%+128 14"
+		/>
+		<object name="textInputText"
+				type="text"
+				style="ModernLabelText"
+				size="18 18 100%-18 100%-64"
+		/>
+		<object name="textInputInput"
+				type="input"
+				style="ModernInput"
+				size="16 60% 100%-16 60%+24"
+		/>
+		<!-- The size of the following buttons is set dynamically in msgbox.js -->
+		<object name="textInputButton1"
+				style="ModernButtonRed"
+				type="button"
+				hidden="true"
+		/>
+		<object name="textInputButton2"
+				style="ModernButtonRed"
+				type="button"
+				hidden="true"
+		/>
+		<object name="textInputButton3"
+				style="ModernButtonRed"
+				type="button"
+				hidden="true"
+		/>
+	</object>
+</objects>

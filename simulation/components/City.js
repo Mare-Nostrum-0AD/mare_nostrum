@@ -171,7 +171,10 @@ City.prototype.SetPopulation = function(value)
 			let replacement = this.Upgrade();
 			let cmpNewCity = Engine.QueryInterface(replacement, IID_City);
 			if (cmpNewCity)
+			{
+				cmpNewCity.SetName(this.name || "");
 				return cmpNewCity.SetPopulation(value);
+			}
 		}
 		this.population = max;
 	} else {
@@ -237,20 +240,10 @@ City.prototype.GetPopulationGrowthInterval = function()
 
 City.prototype.GetPopulationGrowthAmount = function()
 {
-	let growthAmount = +this.template.Population.Growth.Amount;
-	let growthAmountMultiplier = 1;
-	for (let cityMember of this.GetCityMembers())
-	{
-		let cmpCityMember = Engine.QueryInterface(cityMember, IID_CityMember);
-		if (!cmpCityMember)
-			continue;
-		let mods = cmpCityMember.ModifyGrowthRate({
-			growthAmount,
-			growthAmountMultiplier
-		});
-		growthAmount = mods['growthAmount'];
-		growthAmountMultiplier = mods['growthAmountMultiplier'];
-	}
+	const { growthAmount, growthAmountMultiplier } = this.GetCityMembers().map((ent) => Engine.QueryInterface(ent, IID_CityMember)).reduce((data, ent) => ent.ModifyGrowthRate(data), {
+		"growthAmount": +this.template.Population.Growth.Amount,
+		"growthAmountMultiplier": 1
+	});
 	return Math.round(ApplyValueModificationsToEntity("City/Population/Growth/Amount", growthAmount * growthAmountMultiplier, this.entity));
 };
 
@@ -464,6 +457,21 @@ City.prototype.ApplyValueModifiers = function()
 		cmpModifiersManager.AddModifiers(modName, mod, this.entity);
 		this.appliedValueModifiers.set(key, scalar);
 	}
+};
+
+// Gets the city's name
+// @return		String		name of the city ("" if not named"
+City.prototype.GetName = function()
+{
+	return this.name ? this.name : "";
+};
+
+// Sets the city's name
+// @param	name		String		new city name
+// @return none
+City.prototype.SetName = function(name)
+{
+	this.name = name;
 };
 
 City.prototype.OnCityPopulationChanged = function()

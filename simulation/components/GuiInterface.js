@@ -299,7 +299,8 @@ GuiInterface.prototype.GetEntityState = function(player, ent)
 			"maxPopulation": cmpCity.GetMaxPopulation(),
 			"minPopulation": cmpCity.GetMinPopulation(),
 			"upgrade": cmpCity.GetUpgradeTemplate(),
-			"downgrade": cmpCity.GetDowngradeTemplate()
+			"downgrade": cmpCity.GetDowngradeTemplate(),
+			"name": cmpCity.GetName()
 		};
 
 	let cmpCityMember = Engine.QueryInterface(ent, IID_CityMember);

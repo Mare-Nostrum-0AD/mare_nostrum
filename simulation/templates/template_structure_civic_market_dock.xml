@@ -21,7 +21,7 @@
     <GenericName>Port</GenericName>
     <Tooltip>Build upon a shoreline to open sea trade.</Tooltip>
     <Classes datatype="tokens">NavalMarket</Classes>
-    <VisibleClasses datatype="tokens">Dock</VisibleClasses>
+    <VisibleClasses datatype="tokens">Naval Dock</VisibleClasses>
     <Icon>structures/dock.png</Icon>
   </Identity>
   <Loot>
