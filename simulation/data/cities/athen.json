@@ -1,0 +1,17 @@
+{
+	"athens": {
+		"Name": "Athenai",
+		"Properties": ["capital"]
+	},
+	"piraeus": "Peiraieus",
+	"erechtheis": "Erechtheis",
+	"aigeis": "Aigeis",
+	"pandionis": "Pandionis",
+	"leontis": "Leontis",
+	"acamantis": "Acamantis",
+	"oineis": "Oineis",
+	"kekropis": "Kekropis",
+	"hippothontis": "Hippothontis",
+	"aiantis": "Aiantis",
+	"antiochis": "Antiochis"
+}

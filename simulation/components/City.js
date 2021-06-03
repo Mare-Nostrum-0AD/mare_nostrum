@@ -104,6 +104,11 @@ City.prototype.Init = function()
 	this.cityMembers = new Set();
 	// set timer this.growthTimer to grow population at interval
 	this.ResetGrowthTimer();
+	// get city name from city name manager, if possible
+	// if not, try again on game startup
+	let cmpCityNameManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_CityNameManager);
+	if (cmpCityNameManager)
+		this.SetName(cmpCityNameManager.ChooseCityName(this.entity));
 	// count initial pop for statistics tracker
 	// only if initial city, not for city upgrades
 	if (!this.IsInitial())
@@ -532,6 +537,13 @@ City.prototype.OnDestroy = function(msg)
 City.prototype.OnInitGame = function()
 {
 	this.SetupCityMembersQuery();
+	// try to set city name
+	if (!this.GetName() || !this.GetName().length)
+	{
+		let cmpCityNameManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_CityNameManager);
+		if (cmpCityNameManager)
+			this.SetName(cmpCityNameManager.ChooseCityName(this.entity));
+	}
 };
 
 City.prototype.OnTradePerformed = function({ market, goods })

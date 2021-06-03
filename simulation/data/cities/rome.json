@@ -1,0 +1,11 @@
+{
+	"rome": {
+		"Name": "Roma",
+		"Properties": ["capital"]
+	},
+	"ostia": "Ostia",
+	"naples": "Neapolis",
+	"bologna": "Bononia",
+	"milan": "Mediolanum",
+	"benevento": "Beneventum"
+}
