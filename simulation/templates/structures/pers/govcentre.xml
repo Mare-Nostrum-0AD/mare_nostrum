@@ -35,7 +35,7 @@
       <metal>0.75</metal>
 			<wealth>0.50</wealth>
     </Rates>
-    <Interval>1000</Interval>
+    <Interval>2000</Interval>
   </ResourceTrickle>
   <Sound>
     <SoundGroups>

@@ -47,7 +47,6 @@
       -phase_hegemon_{civ}
       -phase_empire_{civ}
       -hellenistic_metropolis
-      upgrade_rank_advanced_mercenary
     </Technologies>
   </ProductionQueue>
   <Sound>
