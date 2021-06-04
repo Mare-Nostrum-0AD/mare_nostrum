@@ -1,0 +1,19 @@
+{
+	"carthage": {
+		"Name":				"Qart Hadasht",
+		"Capital":		true
+	},
+	"cartagena":		"Qart Hadasht",
+	"leptis_magna":	"Leptis Magna",
+	"mehidya":			"Thymaterion",
+	"el_jadida": 		"Gytte",
+	"oualidia":			"Melitta",
+	"utica":				"Utica",
+	"bizerte":			"Hippo",
+	"zama":					"Zama",
+	"motya":				"Motya",
+	"marsala":			"Lilybaeum",
+	"lampedusa":		"Lampas",
+	"pantelleria":	"Kosyra",
+	"cadiz":				"Gades"
+}

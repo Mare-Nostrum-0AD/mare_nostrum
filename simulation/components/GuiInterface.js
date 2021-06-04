@@ -302,6 +302,21 @@ GuiInterface.prototype.GetEntityState = function(player, ent)
 			"downgrade": cmpCity.GetDowngradeTemplate(),
 			"name": cmpCity.GetName()
 		};
+	
+	// get city name for miraged entities
+	if (ret.mirage)
+	{
+		let cmpMirage = Engine.QueryInterface(ent, IID_Mirage);
+		let cmpCity = Engine.QueryInterface(cmpMirage.GetParent(), IID_City);
+		if (cmpCity)
+			ret.city = {
+				"maxPopulation": cmpCity.GetMaxPopulation(),
+				"minPopulation": cmpCity.GetMinPopulation(),
+				"upgrade": cmpCity.GetUpgradeTemplate(),
+				"downgrade": cmpCity.GetDowngradeTemplate(),
+				"name": cmpCity.GetName()
+			};
+	}
 
 	let cmpCityMember = Engine.QueryInterface(ent, IID_CityMember);
 	if (cmpCityMember)

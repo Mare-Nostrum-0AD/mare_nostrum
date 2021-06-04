@@ -48,6 +48,8 @@ Please feel free to contribute if you see anything you can do here. If there is 
 - Create Maurya monument(s)
 - Create government technologies for celts, iberians, various other civs
 - Give pastures decal to make them more distinctive
+- Create second set of heroes for Rome, consisting of dictatorial figures from the late Republic (Sulla, Julius Caesar, Mark Antony?)
+	- Romans get to choose from two different sets of heroes by choosing Res Publica or Dictatura
 - Create range of different starting levels, selectable from a dropdown list:
 	- Nomad
 	- Village

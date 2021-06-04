@@ -2,9 +2,10 @@ function CityNameManager() {}
 
 // City names are stored in simulation/data/cities/<CIV>.json files
 // Each <CIV>.json file should contain an object mapping city name codes to either a string containing a city name
-// or an object of the format { "Name": String, "Properties": [String ...] }
-// Each city name code should be the city's name in modern English, lowercase, without diacritics, and with spaces replaced with underscores (_)
-// The purpose of this is to prevent situations where two separate names referring to the same city in different languages or time periods are chosen in the same game.
+// or an object of the format { "Name": String, EXTRA_PROPERTIES... }
+// Each city name code should be the city's modern name in English, lowercase, without diacritics, and with spaces replaced with underscores (_)
+// The purpose of this is to prevent situations where two names referring to the same city in different languages or time periods are chosen in the same game.
+// ex: { "istanbul": "Byzantium" } vs. { "istanbul": "Constantinople" } vs. { "istanbul": "Istanbul" }
 
 CityNameManager.prototype.Schema = "<a:component type='system'/><empty/>";
 
@@ -59,12 +60,12 @@ CityNameManager.prototype.ChooseCityName = function(cityEntity)
 		Object.values(CityNameManager.CityEntityFilters).every((f) => f(cityEntity, cityName));
 	const filter = this.playersWithNamedCapital.has(playerID) ?
 		(cityName) => cityEntityFilter(cityName) :
-		(cityName) => typeof cityName === 'object' && cityName.Properties && cityName.Properties.indexOf("capital") !== -1 && cityEntityFilter(cityName);
+		(cityName) => typeof cityName === 'object' && cityName.Capital && cityEntityFilter(cityName);
 	this.playersWithNamedCapital.add(playerID);
 	let candidate = this.ChooseCityNameByFilter(civCode, filter);
 	if (candidate && candidate.length)
 		return candidate;
-	// if no eligible capital name found, default to any city name
+	// if no eligible capital name found, default to any city name that satisfies cityEntityFilter
 	return this.ChooseCityNameByFilter(civCode, cityEntityFilter);
 };
 
@@ -84,16 +85,10 @@ CityNameManager.CityEntityFilters = {
 	// filters by whether city owner has researched the required phase tech
 	// returns true by default
 	"phase": (ent, cityName) => {
-		if (typeof cityName !== 'object' || !cityName.Properties)
+		if (typeof cityName !== 'object' || !cityName.Phase)
 			return true;
-		// should only be one phase property; if there are multiple, only the first will be counted
-		let [phase] = cityName.Properties.filter((prop) => prop.match(/^phase_/g));
-		if (!phase)
-			return true;
-		let cmpPlayer = QueryOwnerInterface(ent);
-		if (!cmpPlayer)
-			return true;
-		let cmpTechnologyManager = Engine.QueryInterface(cmpPlayer.GetPlayerID(), IID_TechnologyManager);
+		const phase = "phase_" + cityName.Phase;
+		let cmpTechnologyManager = QueryOwnerInterface(ent, IID_TechnologyManager);
 		if (!cmpTechnologyManager)
 			return true;
 		return cmpTechnologyManager.GetResearchedTechs().has(phase);

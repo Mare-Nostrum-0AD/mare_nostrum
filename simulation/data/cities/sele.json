@@ -1,0 +1,36 @@
+{
+	"antioch": {
+		"Name": "Antiókheia",
+		"Capital": true
+	},
+	"seleucia": {
+		"Name": "Seleúkeia",
+		"Capital": true
+	},
+	"nysa": 				"Nysa",
+	"stratonicea":					"Stratonicea",
+	"magnesia":					"Magnesia",
+	"palaemagnesia":					"Palaemagnesia",
+	"thyatira":					"Thyatira",
+	"acrasus":					"Acrasus",
+	"doedye":					"Doedye",
+	"cobedyle":					"Cobedyle",
+	"hyrcanis":					"Hyrcanis",
+	"hierapolis":					"Hierapolis",
+	"themisonium":					"Themisonium",
+	"apollonia":					"Apollonia",
+	"peltae":					"Peltae",
+	"docimium":					"Docimium",
+	"apamea":					"Apamea",
+	"arethusa":					"Arethusa",
+	"chalcis":					"Chalcis",
+	"beroea":					"Beroea",
+	"ichnae":					"Ichnae",
+	"nicephorium":					"Nicephorium",
+	"larissa":					"Larissa",
+	"chalcis":					"Chalcis",
+	"hecatompylos":					"Hecatompylos",
+	"calliope":					"Calliope",
+	"soteira":					"Soteira",
+	"achaea":					"Achaea"
+}

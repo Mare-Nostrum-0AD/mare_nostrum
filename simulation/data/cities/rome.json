@@ -1,26 +1,287 @@
 {
 	"rome": {
-		"Name": "Roma",
-		"Properties": ["capital"]
+		"Name":				"Roma",
+		"Capital":		true
 	},
-	"ostia": "Ostia",
-	"tusculum": "Tusculum",
-	"anzio": "Antium",
-	"alba_longa": "Alba Longa",
-	"laurentum": "Laurentum",
-	"mentana": "Nomentum",
-	"velletri": "Velitrae",
-	"benevento": "Beneventum",
+	"ostia":				"Ostia",
+	"tusculum":			"Tusculum",
+	"anzio":				"Antium",
+	"alba_longa":		"Alba Longa",
+	"laurentum":		"Laurentum",
+	"mentana":			"Nomentum",
+	"velletri":			"Velitrae",
+	"benevento":		"Beneventum",
+	"fidenae":			"Fidenae",
+	"le_ferriere":	"Satricum",
+	"palestrina":		"Praeneste",
+	"labicum":			"Labicum",
+	"capua":				"Capua",
 	"milan": {
-		"Name": "Mediolanum",
-		"Properties": ["phase_city"]
+		"Name":				"Mediolanum",
+		"Phase":			"city"
 	},
-	"naples": {
-		"Name": "Neapolis",
-		"Properties": ["phase_city"]
+	"naples":							{
+		"Name":				"Neapolis",
+		"Phase":			"city"
 	},
-	"bologna": {
-		"Name": "Bononia",
-		"Properties": ["phase_city"]
+	"rimini":             {
+		"Name":				"Ariminum",
+		"Phase":			"city"
+	},
+	"belluno":            {
+		"Name":				"Belum",
+		"Phase":			"city"
+	},
+	"piacenza":           {
+		"Name":				"Placentia",
+		"Phase":			"city"
+	},
+	"santiponce":         {
+		"Name":				"Italica",
+		"Phase":			"city"
+	},
+	"monza":              {
+		"Name":				"Modoetia",
+		"Phase":			"city"
+	},
+	"salerno":            {
+		"Name":				"Salernum",
+		"Phase":			"city"
+	},
+	"bologna":            {
+		"Name":				"Bononia",
+		"Phase":			"city"
+	},
+	"forli":              {
+		"Name":				"Forum Livii",
+		"Phase":			"city"
+	},
+	"reggio_emilia":      {
+		"Name":				"Regium Lepidi",
+		"Phase":			"city"
+	},
+	"aquileia":           {
+		"Name":				"Aquileia",
+		"Phase":			"city"
+	},
+	"massa":              {
+		"Name":				"Massa",
+		"Phase":			"city"
+	},
+	"pistoia":            {
+		"Name":				"Pistoria",
+		"Phase":			"city"
+	},
+	"florence":           {
+		"Name":				"Florentia",
+		"Phase":			"city"
+	},
+	"turin":              {
+		"Name":				"Augusta Taurinorum",
+		"Phase":			"city"
+	},
+	"aosta":              {
+		"Name":				"Augusta Praetoria Salassorum",
+		"Phase":			"city"
+	},
+	"bolzano":            {
+		"Name":				"Pons Drusi",                          
+		"Phase":			"city"
+	},
+	"narbonne":           {
+		"Name":				"Colonia Narbo Martius",
+		"Phase":			"hegemon"
+	},
+	"barcelona":          {
+		"Name":				"Faventia Paterna Barcino",
+		"Phase":			"hegemon"
+	},
+	"tarragona":          {
+		"Name":				"Tarraco",
+		"Phase":			"hegemon"
+	},
+	"cordoba":            {
+		"Name":				"Colonia Patricia Corduba",
+		"Phase":			"hegemon"
+	},
+	"kotor":              {
+		"Name":				"Ascrivium",
+		"Phase":			"hegemon"
+	},
+	"valencia":           {
+		"Name":				"Valentia Edetanorum",
+		"Phase":			"hegemon"
+	},
+	"santarem":           {
+		"Name":				"Scalabis",
+		"Phase":			"hegemon"
+	},
+	"povoa_de_varzim":    {
+		"Name":				"Villa Euracini",
+		"Phase":			"hegemon"
+	},
+	"palma_de_mallorca":  {
+		"Name":				"Palma",
+		"Phase":			"hegemon"
+	},
+	"duraton":            {
+		"Name":				"Confloenta",
+		"Phase":			"hegemon"
+	},
+	"girona":             {
+		"Name":				"Gerunda",
+		"Phase":			"hegemon"
+	},
+	"pamplona":           {
+		"Name":				"Pompaelo",
+		"Phase":			"hegemon"
+	},
+	"nis":                {
+		"Name":				"Naissus",
+		"Phase":			"hegemon"
+	},
+	"besancon":           {
+		"Name":				"Vesontio",
+		"Phase":			"hegemon"
+	},
+	"seville":            {
+		"Name":				"Iulia Romula Hispalis",
+		"Phase":			"hegemon"
+	},
+	"nyon":               {
+		"Name":				"Noviodunum",
+		"Phase":			"hegemon"
+	},
+	"sisak":              {
+		"Name":				"Siscia",
+		"Phase":			"hegemon"
+	},
+	"slavonski_brod":     {
+		"Name":				"Marsonia",
+		"Phase":			"hegemon"
+	},
+	"wels":               {
+		"Name":				"Ovilava",
+		"Phase":			"empire"
+	},
+	"salzburg":           {
+		"Name":				"Iuvavum",
+		"Phase":			"empire"
+	},
+	"augsburg":           {
+		"Name":				"Augusta Vindelicorum",
+		"Phase":			"empire"
+	},
+	"zurich":             {
+		"Name":				"Turicum",
+		"Phase":			"empire"
+	},
+	"astorga":            {
+		"Name":				"Asturica Augusta",
+		"Phase":			"empire"
+	},
+	"worms":              {
+		"Name":				"Borbetomagus",
+		"Phase":			"empire"
+	},
+	"zaragoza":           {
+		"Name":				"Caesaraugusta",
+		"Phase":			"empire"
+	},
+	"sremska_mitrovica":  {
+		"Name":				"Sirmium",
+		"Phase":			"empire"
+	},
+	"straubing":          {
+		"Name":				"Sorviodurum",
+		"Phase":			"empire"
+	},
+	"mainz":              {
+		"Name":				"Mogontiacum",
+		"Phase":			"empire"
+	},
+	"strasbourg":         {
+		"Name":				"Argentoratum",                        
+		"Phase":			"empire"
+	},
+	"bonn":               {
+		"Name":				"Bonna",
+		"Phase":			"empire"
+	},
+	"speyer":             {
+		"Name":				"Noviomagus",
+		"Phase":			"empire"
+	},
+	"koblenz":            {
+		"Name":				"Castellum apud Confluentes",
+		"Phase":			"empire"
+	},
+	"metz":               {
+		"Name":				"Divodurum",
+		"Phase":			"empire"
+	},
+	"beauvais":           {
+		"Name":				"Caesaromagus",
+		"Phase":			"empire"
+	},
+	"amiens":             {
+		"Name":				"Ambianum",
+		"Phase":			"empire"
+	},
+	"paris":              {
+		"Name":				"Lutetia Parisiorum",
+		"Phase":			"empire"
+	},
+	"tongeren":           {
+		"Name":				"Atuatuca Tungrorum",
+		"Phase":			"empire"
+	},
+	"augst":              {
+		"Name":				"Augusta Raurica",
+		"Phase":			"empire"
+	},
+	"lyon":               {
+		"Name":				"Lugdunum",
+		"Phase":			"empire"
+	},
+	"trier":              {
+		"Name":				"Augusta Treverorum",
+		"Phase":			"empire"
+	},
+	"leon":               {
+		"Name":				"Castra Legionis",
+		"Phase":			"empire"
+	},
+	"sofia":              {
+		"Name":				"Ulpia Serdica",
+		"Phase":			"empire"
+	},
+	"merida":             {
+		"Name":				"Emerita Augusta",
+		"Phase":			"empire"
+	},
+	"caceres":            {
+		"Name":				"Norba Caesarina",
+		"Phase":			"empire"
+	},
+	"lugo":               {
+		"Name":				"Lucus Augusta",
+		"Phase":			"empire"
+	},
+	"caesarea":           {
+		"Name":				"Caesarea",
+		"Phase":			"empire"
+	},
+	"braga":              {
+		"Name":				"Bracara Augusta",
+		"Phase":			"empire"
+	},
+	"neuss":              {
+		"Name":				"Novaesium",
+		"Phase":			"empire"
+	},
+	"a_coruna":           {
+		"Name":				"Brigantium",
+		"Phase":			"empire"
 	}
 }

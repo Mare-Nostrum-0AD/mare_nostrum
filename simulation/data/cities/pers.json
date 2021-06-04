@@ -1,0 +1,37 @@
+{
+  "pasargadae": {
+		"Name":			"Pasargadae",
+		"Capital":	true
+	},
+  "persepolis": {
+		"Name":			"Pārsa",
+		"Capital":	true
+	},
+	"ecbatana":		"Hagmatāna",
+	"ardericca": "Ardericca",
+	"boryza":			"Boryza",
+	"celaenae":			"Celaenae",
+	"cyropolis":			"Kurush Bazarg",
+	"dahan-e_gholaman":			"Dahan-e Gholaman",
+	"darab":			"Darab",
+	"dascylium":			"Dascylium",
+	"eion":			"Eion",
+	"ganzak":			"Ganzak",
+	"gonabad":			"Gonabad",
+	"isfahan":			"Isfahan",
+	"issus":			"Issus",
+	"istakhr":			"Istakhr",
+	"kashmar":			"Kashmar",
+	"nahavand":			"Nahavand",
+	"neyriz":			"Neyriz",
+	"paishiyauvada":			"Paishiyauvada",
+	"panjakent":			"Panjakent",
+	"ray":			"Ray",
+	"sardis":			"Sardis",
+	"susa":			"Susa",
+	"ulug_depe":			"Ulug Depe",
+	"halicarnassus": {
+		"Name":			"Halikarnas",
+		"Phase":		"hegemon"
+	}
+}

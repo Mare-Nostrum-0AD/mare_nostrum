@@ -1,0 +1,21 @@
+{
+	"pella": {
+		"Name":				"Pella",
+		"Capital":		true
+	},
+	"avdira":							"Abdera",
+	"enez":								"Aenus",
+	"amfipoli":						"Amphipolis",
+	"bitola":							"Heraclea Lyncestis",
+	"iolcus":              "Iolcus",
+	"larissa":             "Larissa",
+	"leibethra":           "Leibethra",
+	"maroneia":						"Maroneia",
+	"orestias":						"Orestias",
+	"pherae":							"Pherae",
+	"destroyed":						"Pteleum",
+	"pydna":								"Pydna",
+	"serres":							"Siris",
+	"thassos":							"Thassos",
+	"tripolis":						"Tripolis"
+}

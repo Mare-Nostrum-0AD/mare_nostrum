@@ -99,31 +99,15 @@ City.prototype.Schema =
 
 City.prototype.Init = function()
 {
-	let initPop = ApplyValueModificationsToEntity("City/Population/Init", +this.template.Population.Init, this.entity);
-	initPop = this.SetPopulation(initPop);
+	this.population = ApplyValueModificationsToEntity("City/Population/Init", +this.template.Population.Init, this.entity);
 	this.cityMembers = new Set();
 	// set timer this.growthTimer to grow population at interval
 	this.ResetGrowthTimer();
-	// get city name from city name manager, if possible
-	// if not, try again on game startup
-	let cmpCityNameManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_CityNameManager);
-	if (cmpCityNameManager)
-		this.SetName(cmpCityNameManager.ChooseCityName(this.entity));
-	// count initial pop for statistics tracker
-	// only if initial city, not for city upgrades
-	if (!this.IsInitial())
-		return;
-	let cmpTimer = Engine.QueryInterface(SYSTEM_ENTITY, IID_Timer);
-	let initPopTimerInterval = 1;
-	cmpTimer.SetTimeout(this.entity, IID_City, 'TrackInitialPop', initPopTimerInterval, initPop);
 };
 
-// messy workaround for statistics tracker to count initial city pop
-City.prototype.TrackInitialPop = function(initPop)
+City.prototype.SetInitialized = function()
 {
-	let cmpStatisticsTracker = QueryOwnerInterface(this.entity, IID_StatisticsTracker);
-	if (cmpStatisticsTracker)
-		cmpStatisticsTracker.IncreaseCivicPopulation(initPop);
+	this.initialized = true;
 };
 
 City.prototype.ResetGrowthTimer = function()
@@ -155,9 +139,9 @@ City.prototype.GetMinPopulation = function()
 	return Math.max(Math.round(ApplyValueModificationsToEntity("City/Population/Min", +this.template.Population.Min, this.entity)), 0);
 };
 
-City.prototype.SetPopulation = function(value)
+City.prototype.SetPopulation = function(value, toTrack=true)
 {
-	let oldPopulation = this.population;
+	const oldPopulation = this.population;
 	let val = Math.round(value);
 	if (typeof(val) !== 'number')
 		return this.population;
@@ -165,6 +149,7 @@ City.prototype.SetPopulation = function(value)
 	let max = this.GetMaxPopulation();
 	if (value < min) {
 		if (this.template.Downgrade) {
+			this.SetPopulation(min);// for statistics tracker
 			let replacement = this.Downgrade();
 			let cmpNewCity = Engine.QueryInterface(replacement, IID_City);
 			if (cmpNewCity)
@@ -173,13 +158,11 @@ City.prototype.SetPopulation = function(value)
 		this.population = min;
 	} else if (value > max) {
 		if (this.template.Upgrade) {
+			this.SetPopulation(max);// for statistics tracker
 			let replacement = this.Upgrade();
 			let cmpNewCity = Engine.QueryInterface(replacement, IID_City);
 			if (cmpNewCity)
-			{
-				cmpNewCity.SetName(this.name || "");
 				return cmpNewCity.SetPopulation(value);
-			}
 		}
 		this.population = max;
 	} else {
@@ -187,12 +170,15 @@ City.prototype.SetPopulation = function(value)
 	}
 	Engine.PostMessage(this.entity, MT_CityPopulationChanged, {
 		"entity": this.entity,
+		"from": oldPopulation,
 		"to": this.population
 	});
 	let popChange = this.population - oldPopulation;
-	let cmpStatisticsTracker = QueryOwnerInterface(this.entity, IID_StatisticsTracker);
-	if (cmpStatisticsTracker)
-		cmpStatisticsTracker.IncreaseCivicPopulation(popChange);
+	if (toTrack) {
+		let cmpStatisticsTracker = QueryOwnerInterface(this.entity, IID_StatisticsTracker);
+		if (cmpStatisticsTracker)
+			cmpStatisticsTracker.IncreaseCivicPopulation(popChange);
+	}
 	return this.population;
 };
 
@@ -245,7 +231,7 @@ City.prototype.GetPopulationGrowthInterval = function()
 
 City.prototype.GetPopulationGrowthAmount = function()
 {
-	const { growthAmount, growthAmountMultiplier } = this.GetCityMembers().map((ent) => Engine.QueryInterface(ent, IID_CityMember)).reduce((data, ent) => ent.ModifyGrowthRate(data), {
+	const { growthAmount, growthAmountMultiplier } = this.GetCityMembers().map((ent) => Engine.QueryInterface(ent, IID_CityMember)).filter((cmp) => cmp).reduce((data, cmp) => cmp.ModifyGrowthRate(data), {
 		"growthAmount": +this.template.Population.Growth.Amount,
 		"growthAmountMultiplier": 1
 	});
@@ -310,10 +296,12 @@ City.prototype.Upgrade = function()
 		return null;
 	
 	let newEntity = ChangeEntityTemplate(this.entity, upgradeTemplate);
-	// Disabling because it interferes with phase up sound notification
-	// TODO: find a way to play sound without interfering with phaseup
-	// if (newEntity)
-	// 	PlaySound('upgraded', newEntity);
+	let cmpNewCity = Engine.QueryInterface(newEntity, IID_City);
+	if (cmpNewCity)
+	{
+		cmpNewCity.SetInitialized();
+		cmpNewCity.SetName(this.name || "");
+	}
 	
 	return newEntity;
 };
@@ -341,8 +329,12 @@ City.prototype.Downgrade = function()
 		return null;
 	
 	let newEntity = ChangeEntityTemplate(this.entity, downgradeTemplate);
-	if (newEntity)
-		PlaySound('downgraded', newEntity);
+	let cmpNewCity = Engine.QueryInterface(newEntity, IID_City);
+	if (cmpNewCity)
+	{
+		cmpNewCity.SetInitialized();
+		cmpNewCity.SetName(this.name || "");
+	}
 	
 	return newEntity;
 };
@@ -512,6 +504,16 @@ City.prototype.OnOwnershipChanged = function(msg)
 	let newOwnerStatisticsTracker = QueryPlayerIDInterface(msg.to, IID_StatisticsTracker);
 	if (newOwnerStatisticsTracker)
 		newOwnerStatisticsTracker.IncreaseCivicPopulation(+this.population);
+	// post-init of certain values
+	if (this.initialized)
+		return;
+	this.initialized = true;
+	if ((!this.GetName() || !this.GetName().length) && msg.to)
+	{
+		let cmpCityNameManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_CityNameManager);
+		if (cmpCityNameManager)
+			this.SetName(cmpCityNameManager.ChooseCityName(this.entity));
+	}
 };
 
 City.prototype.OnDestroy = function(msg)
@@ -537,13 +539,6 @@ City.prototype.OnDestroy = function(msg)
 City.prototype.OnInitGame = function()
 {
 	this.SetupCityMembersQuery();
-	// try to set city name
-	if (!this.GetName() || !this.GetName().length)
-	{
-		let cmpCityNameManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_CityNameManager);
-		if (cmpCityNameManager)
-			this.SetName(cmpCityNameManager.ChooseCityName(this.entity));
-	}
 };
 
 City.prototype.OnTradePerformed = function({ market, goods })

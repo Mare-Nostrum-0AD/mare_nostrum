@@ -1,9 +1,9 @@
 {
 	"athens": {
-		"Name": "Athenai",
-		"Properties": ["capital"]
+		"Name":			"Athênai",
+		"Capital":	true
 	},
-	"piraeus": "Peiraieus",
+	"piraeus": "Peiraieús",
 	"erechtheis": "Erechtheis",
 	"aigeis": "Aigeis",
 	"pandionis": "Pandionis",
@@ -13,5 +13,946 @@
 	"kekropis": "Kekropis",
 	"hippothontis": "Hippothontis",
 	"aiantis": "Aiantis",
-	"antiochis": "Antiochis"
+	"antiochis": "Antiochis",
+	"marathon": "Marathon",
+  "aegina": {
+		"Name": "Aegina",
+		"Phase": "city"
+	},
+	"athenae_diades": {
+		"Name": "Athenae Diades",
+		"Phase": "city"
+	},
+	"carystus": {
+		"Name": "Carystus",
+		"Phase": "city"
+	},
+	"airaies": {
+		"Name": "Airaies",
+		"Phase": "city"
+	},
+	"amorgioi": {
+		"Name": "Amorgioi",
+		"Phase": "city"
+	},
+	"amynandes": {
+		"Name": "Amynandes",
+		"Phase": "city"
+	},
+	"anaphe": {
+		"Name": "Anaphe",
+		"Phase": "city"
+	},
+	"andros": {
+		"Name": "Andros",
+		"Phase": "city"
+	},
+	"belbina": {
+		"Name": "Belbina",
+		"Phase": "city"
+	},
+	"boutheia": {
+		"Name": "Boutheia",
+		"Phase": "city"
+	},
+	"chalcis": {
+		"Name": "Chalcis",
+		"Phase": "city"
+	},
+	"chalkeatai": {
+		"Name": "Chalkeatai",
+		"Phase": "city"
+	},
+	"cheronnesioi": {
+		"Name": "Cheronnesioi",
+		"Phase": "city"
+	},
+	"chios": {
+		"Name": "Chios",
+		"Phase": "city"
+	},
+	"clazomenae": {
+		"Name": "Clazomenae",
+		"Phase": "city"
+	},
+	"colophon": {
+		"Name": "Colophon",
+		"Phase": "city"
+	},
+	"cyme": {
+		"Name": "Cyme",
+		"Phase": "city"
+	},
+	"diakrioi": {
+		"Name": "Diakrioi",
+		"Phase": "city"
+	},
+	"diosiritai": {
+		"Name": "Diosiritai",
+		"Phase": "city"
+	},
+	"edries_messes": {
+		"Name": "Edries Messes",
+		"Phase": "city"
+	},
+	"ephesus": {
+		"Name": "Ephesus",
+		"Phase": "city"
+	},
+	"eretria": {
+		"Name": "Eretria",
+		"Phase": "city"
+	},
+	"erines": {
+		"Name": "Erines",
+		"Phase": "city"
+	},
+	"erythrae": {
+		"Name": "Erythrae",
+		"Phase": "city"
+	},
+	"gargares": {
+		"Name": "Gargares",
+		"Phase": "city"
+	},
+	"grynches": {
+		"Name": "Grynches",
+		"Phase": "city"
+	},
+	"hephaestia": {
+		"Name": "Hephaestia",
+		"Phase": "city"
+	},
+	"heraioi": {
+		"Name": "Heraioi",
+		"Phase": "city"
+	},
+	"hiera_para_sidymeas": {
+		"Name": "Hiera para Sidymeas",
+		"Phase": "city"
+	},
+	"hyblisses": {
+		"Name": "Hyblisses",
+		"Phase": "city"
+	},
+	"idymes": {
+		"Name": "Idymes",
+		"Phase": "city"
+	},
+	"imbros": {
+		"Name": "Imbros",
+		"Phase": "city"
+	},
+	"ios": {
+		"Name": "Ios",
+		"Phase": "city"
+	},
+	"isindioi": {
+		"Name": "Isindioi",
+		"Phase": "city"
+	},
+	"karbasyandes": {
+		"Name": "Karbasyandes",
+		"Phase": "city"
+	},
+	"karyes": {
+		"Name": "Karyes",
+		"Phase": "city"
+	},
+	"kasolabes": {
+		"Name": "Kasolabes",
+		"Phase": "city"
+	},
+	"keos": {
+		"Name": "Keos",
+		"Phase": "city"
+	},
+	"keria": {
+		"Name": "Keria",
+		"Phase": "city"
+	},
+	"killares": {
+		"Name": "Killares",
+		"Phase": "city"
+	},
+	"kimolos": {
+		"Name": "Kimolos",
+		"Phase": "city"
+	},
+	"kindyes": {
+		"Name": "Kindyes",
+		"Phase": "city"
+	},
+	"klaundes": {
+		"Name": "Klaundes",
+		"Phase": "city"
+	},
+	"kodapes": {
+		"Name": "Kodapes",
+		"Phase": "city"
+	},
+	"koioi": {
+		"Name": "Koioi",
+		"Phase": "city"
+	},
+	"krosa": {
+		"Name": "Krosa",
+		"Phase": "city"
+	},
+	"kyrbissos": {
+		"Name": "Kyrbissos",
+		"Phase": "city"
+	},
+	"kyromes": {
+		"Name": "Kyromes",
+		"Phase": "city"
+	},
+	"kythnos": {
+		"Name": "Kythnos",
+		"Phase": "city"
+	},
+	"lebedus": {
+		"Name": "Lebedus",
+		"Phase": "city"
+	},
+	"lepsimandes": {
+		"Name": "Lepsimandes",
+		"Phase": "city"
+	},
+	"maiandrioi": {
+		"Name": "Maiandrioi",
+		"Phase": "city"
+	},
+	"marathesioi": {
+		"Name": "Marathesioi",
+		"Phase": "city"
+	},
+	"melos": {
+		"Name": "Melos",
+		"Phase": "city"
+	},
+	"miletus": {
+		"Name": "Miletus",
+		"Phase": "city"
+	},
+	"myesos": {
+		"Name": "Myesos",
+		"Phase": "city"
+	},
+	"mykonos": {
+		"Name": "Mykonos",
+		"Phase": "city"
+	},
+	"myrina": {
+		"Name": "Myrina",
+		"Phase": "city"
+	},
+	"naxos": {
+		"Name": "Naxos",
+		"Phase": "city"
+	},
+	"nisyrioi": {
+		"Name": "Nisyrioi",
+		"Phase": "city"
+	},
+	"notion": {
+		"Name": "Notion",
+		"Phase": "city"
+	},
+	"oinaioi": {
+		"Name": "Oinaioi",
+		"Phase": "city"
+	},
+	"oranietai": {
+		"Name": "Oranietai",
+		"Phase": "city"
+	},
+	"pactyes": {
+		"Name": "Pactyes",
+		"Phase": "city"
+	},
+	"paros": {
+		"Name": "Paros",
+		"Phase": "city"
+	},
+	"pasandes": {
+		"Name": "Pasandes",
+		"Phase": "city"
+	},
+	"phocaea": {
+		"Name": "Phocaea",
+		"Phase": "city"
+	},
+	"pholegandros": {
+		"Name": "Pholegandros",
+		"Phase": "city"
+	},
+	"pitane": {
+		"Name": "Pitane",
+		"Phase": "city"
+	},
+	"pladases": {
+		"Name": "Pladases",
+		"Phase": "city"
+	},
+	"polichnitai": {
+		"Name": "Polichnitai",
+		"Phase": "city"
+	},
+	"poseideion": {
+		"Name": "Poseideion",
+		"Phase": "city"
+	},
+	"priene": {
+		"Name": "Priene",
+		"Phase": "city"
+	},
+	"pteleosioi": {
+		"Name": "Pteleosioi",
+		"Phase": "city"
+	},
+	"pygeles": {
+		"Name": "Pygeles",
+		"Phase": "city"
+	},
+	"rineia": {
+		"Name": "Rineia",
+		"Phase": "city"
+	},
+	"seriphos": {
+		"Name": "Seriphos",
+		"Phase": "city"
+	},
+	"sidosioi": {
+		"Name": "Sidosioi",
+		"Phase": "city"
+	},
+	"sifnos": {
+		"Name": "Sifnos",
+		"Phase": "city"
+	},
+	"sikinos": {
+		"Name": "Sikinos",
+		"Phase": "city"
+	},
+	"styra": {
+		"Name": "Styra",
+		"Phase": "city"
+	},
+	"syros": {
+		"Name": "Syros",
+		"Phase": "city"
+	},
+	"taramptos": {
+		"Name": "Taramptos",
+		"Phase": "city"
+	},
+	"tarbanes": {
+		"Name": "Tarbanes",
+		"Phase": "city"
+	},
+	"teichiossa": {
+		"Name": "Teichiossa",
+		"Phase": "city"
+	},
+	"tenos": {
+		"Name": "Tenos",
+		"Phase": "city"
+	},
+	"teos": {
+		"Name": "Teos",
+		"Phase": "city"
+	},
+	"thera": {
+		"Name": "Thera",
+		"Phase": "city"
+	},
+	"thermaioi": {
+		"Name": "Thermaioi",
+		"Phase": "city"
+	},
+	"abdera": {
+		"Name": "Abdera",
+		"Phase": "hegemon"
+	},
+	"acanthus": {
+		"Name": "Acanthus",
+		"Phase": "hegemon"
+	},
+	"aeneia": {
+		"Name": "Aeneia",
+		"Phase": "hegemon"
+	},
+	"aenus": {
+		"Name": "Aenus",
+		"Phase": "hegemon"
+	},
+	"alinda": {
+		"Name": "Alinda",
+		"Phase": "hegemon"
+	},
+	"amynandeis": {
+		"Name": "Amynandeis",
+		"Phase": "hegemon"
+	},
+	"aphytis": {
+		"Name": "Aphytis",
+		"Phase": "hegemon"
+	},
+	"argilus": {
+		"Name": "Argilus",
+		"Phase": "hegemon"
+	},
+	"aspendos": {
+		"Name": "Aspendos",
+		"Phase": "hegemon"
+	},
+	"asseritai": {
+		"Name": "Asseritai",
+		"Phase": "hegemon"
+	},
+	"astypalaia": {
+		"Name": "Astypalaia",
+		"Phase": "hegemon"
+	},
+	"bormiscus": {
+		"Name": "Bormiscus",
+		"Phase": "hegemon"
+	},
+	"caryanda": {
+		"Name": "Caryanda",
+		"Phase": "hegemon"
+	},
+	"chalketores": {
+		"Name": "Chalketores",
+		"Phase": "hegemon"
+	},
+	"chedrolioi": {
+		"Name": "Chedrolioi",
+		"Phase": "hegemon"
+	},
+	"dicaea": {
+		"Name": "Dicaea",
+		"Phase": "hegemon"
+	},
+	"dion": {
+		"Name": "Dion",
+		"Phase": "hegemon"
+	},
+	"eteocarpathians": {
+		"Name": "Eteocarpathians",
+		"Phase": "hegemon"
+	},
+	"galaia": {
+		"Name": "Galaia",
+		"Phase": "hegemon"
+	},
+	"haisa": {
+		"Name": "Haisa",
+		"Phase": "hegemon"
+	},
+	"halicarnassus": {
+		"Name": "Halicarnassus",
+		"Phase": "hegemon"
+	},
+	"heracleium": {
+		"Name": "Heraklion",
+		"Phase": "hegemon"
+	},
+	"ialysos": {
+		"Name": "Ialysos",
+		"Phase": "hegemon"
+	},
+	"ikos": {
+		"Name": "Ikos",
+		"Phase": "hegemon"
+	},
+	"ityra": {
+		"Name": "Ityra",
+		"Phase": "hegemon"
+	},
+	"kalindoia": {
+		"Name": "Kalindoia",
+		"Phase": "hegemon"
+	},
+	"kalymnos": {
+		"Name": "Kalyndos",
+		"Phase": "hegemon"
+	},
+	"kameiros": {
+		"Name": "Kameiros",
+		"Phase": "hegemon"
+	},
+	"kaunians": {
+		"Name": "Kaunians",
+		"Phase": "hegemon"
+	},
+	"kedriatai": {
+		"Name": "Kedriatai",
+		"Phase": "hegemon"
+	},
+	"kelenderis": {
+		"Name": "Kelenderis",
+		"Phase": "hegemon"
+	},
+	"knidos": {
+		"Name": "Knidos",
+		"Phase": "hegemon"
+	},
+	"kossaioi": {
+		"Name": "Kossaioi",
+		"Phase": "hegemon"
+	},
+	"kryes": {
+		"Name": "Kryes",
+		"Phase": "hegemon"
+	},
+	"kyllandios": {
+		"Name": "Kyllandios",
+		"Phase": "hegemon"
+	},
+	"latmus": {
+		"Name": "Latmus",
+		"Phase": "hegemon"
+	},
+	"leros": {
+		"Name": "Leros",
+		"Phase": "hegemon"
+	},
+	"lindos": {
+		"Name": "Lindos",
+		"Phase": "hegemon"
+	},
+	"mekyberna": {
+		"Name": "Mekyberna",
+		"Phase": "hegemon"
+	},
+	"mende": {
+		"Name": "Mende",
+		"Phase": "hegemon"
+	},
+	"methone": {
+		"Name": "Methone",
+		"Phase": "hegemon"
+	},
+	"miltorioi": {
+		"Name": "Miltorioi",
+		"Phase": "hegemon"
+	},
+	"myndus": {
+		"Name": "Myndus",
+		"Phase": "hegemon"
+	},
+	"neapolis": {
+		"Name": "Neapolis",
+		"Phase": "hegemon"
+	},
+	"olophyxus": {
+		"Name": "Olophyxus",
+		"Phase": "hegemon"
+	},
+	"olynthus": {
+		"Name": "Olynthus",
+		"Phase": "hegemon"
+	},
+	"othorioi": {
+		"Name": "Othorioi",
+		"Phase": "hegemon"
+	},
+	"pedassus": {
+		"Name": "Pedassus",
+		"Phase": "hegemon"
+	},
+	"pedies": {
+		"Name": "Pedies",
+		"Phase": "hegemon"
+	},
+	"peparethos": {
+		"Name": "Peparethos",
+		"Phase": "hegemon"
+	},
+	"perga": {
+		"Name": "Perga",
+		"Phase": "hegemon"
+	},
+	"pergamoteichitai": {
+		"Name": "Pergamoteichitai",
+		"Phase": "hegemon"
+	},
+	"pharbelioi": {
+		"Name": "Pharbelioi",
+		"Phase": "hegemon"
+	},
+	"phaselis": {
+		"Name": "Phaselis",
+		"Phase": "hegemon"
+	},
+	"potidaea": {
+		"Name": "Potidaea",
+		"Phase": "hegemon"
+	},
+	"samothrace": {
+		"Name": "Samothrace",
+		"Phase": "hegemon"
+	},
+	"sane": {
+		"Name": "Sane",
+		"Phase": "hegemon"
+	},
+	"sarioi": {
+		"Name": "Sarioi",
+		"Phase": "hegemon"
+	},
+	"scione": {
+		"Name": "Scione",
+		"Phase": "hegemon"
+	},
+	"sermaies": {
+		"Name": "Sermaies",
+		"Phase": "hegemon"
+	},
+	"sermylia": {
+		"Name": "Sermylia",
+		"Phase": "hegemon"
+	},
+	"sillyon": {
+		"Name": "Sillyon",
+		"Phase": "hegemon"
+	},
+	"singeion": {
+		"Name": "Singeion",
+		"Phase": "hegemon"
+	},
+	"skablaioi": {
+		"Name": "Skablaioi",
+		"Phase": "hegemon"
+	},
+	"skiathos": {
+		"Name": "Skiathos",
+		"Phase": "hegemon"
+	},
+	"spartolos": {
+		"Name": "Spartolos",
+		"Phase": "hegemon"
+	},
+	"stolos": {
+		"Name": "Stolos",
+		"Phase": "hegemon"
+	},
+	"strepsa": {
+		"Name": "Strepsa",
+		"Phase": "hegemon"
+	},
+	"syagella": {
+		"Name": "Syagella",
+		"Phase": "hegemon"
+	},
+	"syme": {
+		"Name": "Syme",
+		"Phase": "hegemon"
+	},
+	"telandros": {
+		"Name": "Telandros",
+		"Phase": "hegemon"
+	},
+	"telmessos": {
+		"Name": "Telmessos",
+		"Phase": "hegemon"
+	},
+	"telos": {
+		"Name": "Telos",
+		"Phase": "hegemon"
+	},
+	"termeres": {
+		"Name": "Termeres",
+		"Phase": "hegemon"
+	},
+	"thasos": {
+		"Name": "Thasos",
+		"Phase": "hegemon"
+	},
+	"thyssioi": {
+		"Name": "Thyssioi",
+		"Phase": "hegemon"
+	},
+	"tinda": {
+		"Name": "Tinda",
+		"Phase": "hegemon"
+	},
+	"torone": {
+		"Name": "Torone",
+		"Phase": "hegemon"
+	},
+	"tragilus": {
+		"Name": "Tragilus",
+		"Phase": "hegemon"
+	},
+	"tymnessos": {
+		"Name": "Tymnessos",
+		"Phase": "hegemon"
+	},
+	"imrali": {
+		"Name": "Bysbikos",
+		"Phase": "empire"
+	},
+	"abydos": {
+		"Name": "Abydos",
+		"Phase": "empire"
+	},
+	"achilleion": {
+		"Name": "Achilleion",
+		"Phase": "empire"
+	},
+	"alopeconnesus": {
+		"Name": "Alopeconnesus",
+		"Phase": "empire"
+	},
+	"antandros": {
+		"Name": "Antandros",
+		"Phase": "empire"
+	},
+	"apollonia": {
+		"Name": "Apollonia",
+		"Phase": "empire"
+	},
+	"arisbaioi": {
+		"Name": "Arisbaioi",
+		"Phase": "empire"
+	},
+	"artaioteichitai": {
+		"Name": "Artaioteichitai",
+		"Phase": "empire"
+	},
+	"artake": {
+		"Name": "Artake",
+		"Phase": "empire"
+	},
+	"azeies": {
+		"Name": "Azeies",
+		"Phase": "empire"
+	},
+	"bisanthe": {
+		"Name": "Bisanthe",
+		"Phase": "empire"
+	},
+	"brylleianoi": {
+		"Name": "Brylleianoi",
+		"Phase": "empire"
+	},
+	"istanbul": {
+		"Name": "Byzantium",
+		"Phase": "empire"
+	},
+	"chalcedon": {
+		"Name": "Chalcedon",
+		"Phase": "empire"
+	},
+	"cyzicus": {
+		"Name": "Cyzicus",
+		"Phase": "empire"
+	},
+	"dandakes": {
+		"Name": "Dandakes",
+		"Phase": "empire"
+	},
+	"dardaneis": {
+		"Name": "Dardaneis",
+		"Phase": "empire"
+	},
+	"daskyleion": {
+		"Name": "Daskyleion",
+		"Phase": "empire"
+	},
+	"daunioteichitai": {
+		"Name": "Daunioteichitai",
+		"Phase": "empire"
+	},
+	"didymoteichitai": {
+		"Name": "Didymoteichitai",
+		"Phase": "empire"
+	},
+	"elaeus": {
+		"Name": "Elaeus",
+		"Phase": "empire"
+	},
+	"gentinioi": {
+		"Name": "Gentinioi",
+		"Phase": "empire"
+	},
+	"halonesioi": {
+		"Name": "Halonesioi",
+		"Phase": "empire"
+	},
+	"hamaxitus": {
+		"Name": "Hamaxitus",
+		"Phase": "empire"
+	},
+	"harpagianoi": {
+		"Name": "Harpagianoi",
+		"Phase": "empire"
+	},
+	"kallipolis": {
+		"Name": "Kallipolis",
+		"Phase": "empire"
+	},
+	"karosa": {
+		"Name": "Karosa",
+		"Phase": "empire"
+	},
+	"kerasus": {
+		"Name": "Kerasus",
+		"Phase": "empire"
+	},
+	"kianoi": {
+		"Name": "Kianoi",
+		"Phase": "empire"
+	},
+	"kolonai": {
+		"Name": "Kolonai",
+		"Phase": "empire"
+	},
+	"kolones": {
+		"Name": "Kolones",
+		"Phase": "empire"
+	},
+	"lamponeies": {
+		"Name": "Lamponeies",
+		"Phase": "empire"
+	},
+	"lampsacus": {
+		"Name": "Lampsacus",
+		"Phase": "empire"
+	},
+	"larisa": {
+		"Name": "Larisa",
+		"Phase": "empire"
+	},
+	"limnaioi": {
+		"Name": "Limnaioi",
+		"Phase": "empire"
+	},
+	"madytus": {
+		"Name": "Madytus",
+		"Phase": "empire"
+	},
+	"mesembria": {
+		"Name": "Mesembria",
+		"Phase": "empire"
+	},
+	"mysians": {
+		"Name": "Mysians",
+		"Phase": "empire"
+	},
+	"neandreies": {
+		"Name": "Neandreies",
+		"Phase": "empire"
+	},
+	"nesos": {
+		"Name": "Nesos",
+		"Phase": "empire"
+	},
+	"niphsa": {
+		"Name": "Niphsa",
+		"Phase": "empire"
+	},
+	"olbia": {
+		"Name": "Olbia",
+		"Phase": "empire"
+	},
+	"ophryneion": {
+		"Name": "Ophryneion",
+		"Phase": "empire"
+	},
+	"otlenoi": {
+		"Name": "Otlenoi",
+		"Phase": "empire"
+	},
+	"paisenoi": {
+		"Name": "Paisenoi",
+		"Phase": "empire"
+	},
+	"palaiperkosioi": {
+		"Name": "Palaiperkosioi",
+		"Phase": "empire"
+	},
+	"palamedeion": {
+		"Name": "Palamedeion",
+		"Phase": "empire"
+	},
+	"patrasys": {
+		"Name": "Patrasys",
+		"Phase": "empire"
+	},
+	"perinthus": {
+		"Name": "Perinthus",
+		"Phase": "empire"
+	},
+	"petra": {
+		"Name": "Petra",
+		"Phase": "empire"
+	},
+	"pordoselene": {
+		"Name": "Pordoselene",
+		"Phase": "empire"
+	},
+	"priapos": {
+		"Name": "Priapos",
+		"Phase": "empire"
+	},
+	"proconnesus": {
+		"Name": "Proconnesus",
+		"Phase": "empire"
+	},
+	"pythopolis": {
+		"Name": "Pythopolis",
+		"Phase": "empire"
+	},
+	"rhoiteion": {
+		"Name": "Rhoiteion",
+		"Phase": "empire"
+	},
+	"selymbra": {
+		"Name": "Selymbra",
+		"Phase": "empire"
+	},
+	"serioteichitai": {
+		"Name": "Serioteichitai",
+		"Phase": "empire"
+	},
+	"sestus": {
+		"Name": "Sestus",
+		"Phase": "empire"
+	},
+	"sigeion": {
+		"Name": "Sigeion",
+		"Phase": "empire"
+	},
+	"skapsioi": {
+		"Name": "Skapsioi",
+		"Phase": "empire"
+	},
+	"sombia": {
+		"Name": "Sombia",
+		"Phase": "empire"
+	},
+	"tamyrake": {
+		"Name": "Tamyrake",
+		"Phase": "empire"
+	},
+	"tenedos": {
+		"Name": "Tenedos",
+		"Phase": "empire"
+	},
+	"thymbra": {
+		"Name": "Thymbra",
+		"Phase": "empire"
+	},
+	"tyrodiza": {
+		"Name": "Tyrodiza",
+		"Phase": "empire"
+	},
+	"zeleia": {
+		"Name": "Zeleia",
+		"Phase": "empire"
+	}
 }

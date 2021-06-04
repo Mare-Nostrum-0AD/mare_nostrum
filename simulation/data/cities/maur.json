@@ -1,0 +1,9 @@
+{
+	"patna": {
+		"Name":				"Pataliputra",
+		"Capital":		true
+	},
+	"taxila":				"Taxila",
+	"ujjain":				"Ujjain",
+	"tosali":				"Tosali"
+}

@@ -439,7 +439,7 @@ StatisticsTracker.prototype.IncreaseCivicPopulation = function(amount)
 {
 	this.civicPopulation += amount;
 	if (this.civicPopulation < 0)
-		warn(sprintf('civic population should not drop below zero (currently %d, after increase of %d)', this.civicPopulation, amount));
+		warnf('civic population should not drop below zero (currently %d, after increase of %d)', this.civicPopulation, amount);
 };
 
 StatisticsTracker.prototype.GetPercentMapExplored = function()
