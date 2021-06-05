@@ -17,6 +17,13 @@
   <Obstruction>
     <Static width="30.0" depth="28.0"/>
   </Obstruction>
+	<ResourceTrickle>
+		<!-- Pays for a little over 10 mercenaries' upkeep -->
+		<Interval>1000</Interval>
+		<Rates>
+			<wealth>3</wealth>
+		</Rates>
+	</ResourceTrickle>
   <VisualActor>
     <Actor>structures/carthaginians/market.xml</Actor>
     <FoundationActor>structures/fndn_7x7.xml</FoundationActor>
