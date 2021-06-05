@@ -38,6 +38,11 @@ Replace.prototype.Replace = function()
 	return ChangeEntityTemplate(this.entity, template);
 };// end Replace.prototype.Replace
 
+// no dynamic state to init or save
+Replace.prototype.Init = function() {};
+
+Replace.prototype.Serialize = null;
+
 Replace.prototype.OnUpdate = function(msg)
 {
 	this.Replace();
