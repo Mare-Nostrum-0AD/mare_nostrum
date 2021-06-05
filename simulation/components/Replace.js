@@ -43,21 +43,9 @@ Replace.prototype.Init = function() {};
 
 Replace.prototype.Serialize = null;
 
-Replace.prototype.OnUpdate = function(msg)
+Replace.prototype.OnInitGame = function()
 {
 	this.Replace();
-};
-
-Replace.prototype.OnTrainingFinished = function({ entities })
-{
-	if (entities && entities.indexOf(this.entity) !== -1)
-		this.Replace();
-};
-
-Replace.prototype.OnConstructionFinished = function({ newentity })
-{
-	if (newentity && newentity === this.entity)
-		this.Replace();
 };
 
 Engine.RegisterComponentType(IID_Replace, "Replace", Replace);
