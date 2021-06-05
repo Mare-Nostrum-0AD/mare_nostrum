@@ -1,0 +1,30 @@
+<a:help>Miscellaneous event handlers. Can call methods of any component.</a:help>
+<oneOrMore>
+	<element a:help='One entity handler'>
+		<anyName />
+		<choice>
+			<element name='EntityComponent' a:help='Component of this entity.'>
+				<text />
+			</element>
+			<element name='OwnerComponent' a:help='Component of this entity`s owner.'>
+				<text />
+			</element>
+			<element name='SystemComponent' a:help='System (global) component.'>
+				<text />
+			</element>
+		</choice>
+		<element name='Method' a:help='Function of component to call'>
+			<text />
+		</element>
+		<optional>
+			<element name='ExtraArgs' a:help='Extra args to add to event handler message.'>
+				<oneOrMore>
+					<element a:help='One additional arg.'>
+						<anyName />
+						<text />
+					</element>
+				</oneOrMore>
+			</element>
+		</optional>
+	</element>
+</oneOrMore>

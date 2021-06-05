@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Entity parent="mercenary">
+  <Cost>
+    <Resources>
+      <wealth>80</wealth>
+    </Resources>
+  </Cost>
+  <Loot>
+    <wealth>8</wealth>
+  </Loot>
+</Entity>
