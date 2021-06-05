@@ -22,7 +22,7 @@
 	<Upkeep>
 		<Interval>20000</Interval>
 		<Rates>
-			<wealth>1</wealth>
+			<wealth>5</wealth>
 		</Rates>
 	</Upkeep>
 </Entity>
