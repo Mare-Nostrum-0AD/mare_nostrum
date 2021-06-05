@@ -43,7 +43,7 @@ Replace.prototype.Init = function() {};
 
 Replace.prototype.Serialize = null;
 
-Replace.prototype.OnInitGame = function()
+Replace.prototype.OnOwnershipChanged = function()
 {
 	this.Replace();
 };
