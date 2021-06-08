@@ -3,7 +3,7 @@
   <Identity>
     <Civ>rome</Civ>
     <SpecificName>Castellum</SpecificName>
-    <Tooltip>Train Heroes. Garrison Soldiers for additional arrows.</Tooltip>
+    <Tooltip>Garrison Soldiers for additional arrows.</Tooltip>
   </Identity>
   <ProductionQueue>
     <Entities datatype="tokens">

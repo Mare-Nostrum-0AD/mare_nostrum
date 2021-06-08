@@ -32,7 +32,7 @@
     <GenericName>Government Centre</GenericName>
     <VisibleClasses datatype="tokens">GovernmentCentre</VisibleClasses>
     <Icon>structures/tholos.png</Icon>
-    <Tooltip>Train hero units.</Tooltip>
+    <Tooltip>Train heroes. Choose governing institutions and policies.</Tooltip>
     <RequiredTechnology>phase_city</RequiredTechnology>
   </Identity>
   <Loot>
