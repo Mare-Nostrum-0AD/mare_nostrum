@@ -105,11 +105,6 @@ City.prototype.Init = function()
 	this.ResetGrowthTimer();
 };
 
-City.prototype.SetInitialized = function()
-{
-	this.initialized = true;
-};
-
 City.prototype.ResetGrowthTimer = function()
 {
 	let cmpTimer = Engine.QueryInterface(SYSTEM_ENTITY, IID_Timer);
@@ -149,7 +144,6 @@ City.prototype.SetPopulation = function(value, toTrack=true)
 	let max = this.GetMaxPopulation();
 	if (value < min) {
 		if (this.template.Downgrade) {
-			this.SetPopulation(min);// for statistics tracker
 			let replacement = this.Downgrade();
 			let cmpNewCity = Engine.QueryInterface(replacement, IID_City);
 			if (cmpNewCity)
@@ -158,7 +152,6 @@ City.prototype.SetPopulation = function(value, toTrack=true)
 		this.population = min;
 	} else if (value > max) {
 		if (this.template.Upgrade) {
-			this.SetPopulation(max);// for statistics tracker
 			let replacement = this.Upgrade();
 			let cmpNewCity = Engine.QueryInterface(replacement, IID_City);
 			if (cmpNewCity)
@@ -295,15 +288,7 @@ City.prototype.Upgrade = function()
 	if (!upgradeTemplate)
 		return null;
 	
-	let newEntity = ChangeEntityTemplate(this.entity, upgradeTemplate);
-	let cmpNewCity = Engine.QueryInterface(newEntity, IID_City);
-	if (cmpNewCity)
-	{
-		cmpNewCity.SetInitialized();
-		cmpNewCity.SetName(this.name || "");
-	}
-	
-	return newEntity;
+	return ChangeEntityTemplate(this.entity, upgradeTemplate);
 };
 
 City.prototype.GetDowngradeTemplate = function()
@@ -328,15 +313,25 @@ City.prototype.Downgrade = function()
 	if (!downgradeTemplate)
 		return null;
 	
-	let newEntity = ChangeEntityTemplate(this.entity, downgradeTemplate);
-	let cmpNewCity = Engine.QueryInterface(newEntity, IID_City);
-	if (cmpNewCity)
-	{
-		cmpNewCity.SetInitialized();
-		cmpNewCity.SetName(this.name || "");
-	}
-	
-	return newEntity;
+	return ChangeEntityTemplate(this.entity, downgradeTemplate);
+};
+
+City.prototype.OnEntityRenamed = function({ entity, newentity })
+{
+	const cmpOldOwnership = Engine.QueryInterface(entity, IID_Ownership);
+	const cmpOldCity = Engine.QueryInterface(entity, IID_City);
+	const cmpNewCity = Engine.QueryInterface(newentity, IID_City);
+	if (!cmpOldCity || !cmpNewCity)
+		return;
+	const population = cmpOldCity.GetPopulation();
+	cmpOldCity.population = 0;
+	cmpNewCity.population = population;
+	const statisticsTracker = QueryPlayerIDInterface(cmpOldOwnership.GetOwner(), IID_StatisticsTracker);
+	if (statisticsTracker)
+		statisticsTracker.IncreaseCivicPopulation(-population);
+	const name = cmpOldCity.GetName();
+	if (name && name.length)
+		cmpNewCity.SetName(name);
 };
 
 City.prototype.GetRangeOverlays = function()
@@ -504,13 +499,9 @@ City.prototype.OnOwnershipChanged = function(msg)
 	let newOwnerStatisticsTracker = QueryPlayerIDInterface(msg.to, IID_StatisticsTracker);
 	if (newOwnerStatisticsTracker)
 		newOwnerStatisticsTracker.IncreaseCivicPopulation(+this.population);
-	// post-init of certain values
-	if (this.initialized)
-		return;
-	this.initialized = true;
-	if ((!this.GetName() || !this.GetName().length) && msg.to)
+	if (!Engine.QueryInterface(this.entity, IID_SkirmishReplacer) && (!this.GetName() || !this.GetName().length))
 	{
-		let cmpCityNameManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_CityNameManager);
+		const cmpCityNameManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_CityNameManager);
 		if (cmpCityNameManager)
 			this.SetName(cmpCityNameManager.ChooseCityName(this.entity));
 	}
@@ -522,10 +513,13 @@ City.prototype.OnDestroy = function(msg)
 	if (this.cityMembersQuery)
 		cmpRangeManager.DestroyActiveQuery(this.cityMembersQuery);
 	let cmpModifiersManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_ModifiersManager);
-	for (let key of this.appliedValueModifiers.keys())
+	if (this.appliedValueModifiers)
 	{
-		let modName = sprintf("%d/GarrisonHolder/ValueModifiers/%s", this.entity, key);
-		cmpModifiersManager.RemoveAllModifiers(modName, this.entity);
+		for (let key of this.appliedValueModifiers.keys())
+		{
+			let modName = sprintf("%d/GarrisonHolder/ValueModifiers/%s", this.entity, key);
+			cmpModifiersManager.RemoveAllModifiers(modName, this.entity);
+		}
 	}
 	let cityMemberModName = sprintf('%d:CityMemberGrowthModifiers', this.entity);
 	if (cmpModifiersManager.HasAnyModifier(cityMemberModName, this.entity))

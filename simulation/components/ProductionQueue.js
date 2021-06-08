@@ -673,7 +673,7 @@ ProductionQueue.prototype.SpawnUnits = function(item)
 	{
 		item.entityCache = [];
 		for (let i = 0; i < item.count; ++i)
-			item.entityCache.push(Engine.AddEntity(item.unitTemplate));
+			item.entityCache.push(((ent) => EntityTransformer.GetEntityReplacement(ent) || ent)(CreateEntity(item.unitTemplate)));
 	}
 
 	let autoGarrison;

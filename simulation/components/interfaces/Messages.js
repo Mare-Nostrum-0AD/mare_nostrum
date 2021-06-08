@@ -18,6 +18,10 @@ Engine.RegisterMessageType("EntityRenamed");
 // - from Upgrade when an entity is upgraded
 Engine.RegisterMessageType("EntitiesCreated");
 
+// Message sent to an entity by helper function CreateEntity
+// Allows post-init of certain components, with the assumption that all other components have been initialized
+Engine.RegisterMessageType("EntityCreated");
+
 /**
  * Message of the form {}
  * sent from InitGame for component map-dependent initialization.

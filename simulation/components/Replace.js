@@ -32,18 +32,18 @@ Replace.prototype.Replace = function()
 			templates.push(parsedTemplate);
 		}
 	}
-	if (templates.length === 0)
+	if (!templates || !templates.length)
 		return this.entity;
-	let template = pickRandom(templates);
-	return ChangeEntityTemplate(this.entity, template);
+	const template = pickRandom(templates);
+	return EntityTransformer.ChangeEntityTemplate(this.entity, template);
 };// end Replace.prototype.Replace
 
-// no dynamic state to init or save
-Replace.prototype.Init = function() {};
+Replace.prototype.OnEntityCreated = function()
+{
+	this.Replace();
+};
 
-Replace.prototype.Serialize = null;
-
-Replace.prototype.OnOwnershipChanged = function()
+Replace.prototype.OnInitGame = function()
 {
 	this.Replace();
 };
