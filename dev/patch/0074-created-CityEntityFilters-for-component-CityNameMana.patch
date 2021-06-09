@@ -1,7 +1,7 @@
 From f40ed303feb7884ee97527bea01019a6da3529e3 Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Wed, 2 Jun 2021 22:12:20 -0700
-Subject: [PATCH 74/86] created CityEntityFilters for component
+Subject: [PATCH 74/87] created CityEntityFilters for component
  CityNameManager; now used in ChooseCityName
 
 ---

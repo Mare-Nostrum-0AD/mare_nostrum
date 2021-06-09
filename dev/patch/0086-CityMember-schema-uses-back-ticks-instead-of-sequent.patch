@@ -1,7 +1,7 @@
 From dad0073738b9970e08bf54c2692b30642b21ccb5 Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Tue, 8 Jun 2021 22:52:56 -0700
-Subject: [PATCH 86/86] CityMember schema uses back ticks instead of sequential
+Subject: [PATCH 86/87] CityMember schema uses back ticks instead of sequential
  quotes
 
 helper script Entity.js checks EntityTransformer for whether entity has been replaced after posting message EntityCreated

@@ -1,7 +1,7 @@
 From 08fc5908fb71f84a2ad28e384fac9f7e73ba2bb5 Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Sun, 23 May 2021 13:03:26 -0700
-Subject: [PATCH 06/86] renamed pers hero 4 to hero 3
+Subject: [PATCH 06/87] renamed pers hero 4 to hero 3
 
 ---
  .../simulation/templates/units/pers/{hero_04.xml => hero_03.xml}  | 0

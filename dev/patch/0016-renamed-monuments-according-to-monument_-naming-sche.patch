@@ -1,7 +1,7 @@
 From 79e5076a5873f1f55e4a9dc10bd380c78d76cc68 Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Sun, 23 May 2021 19:19:22 -0700
-Subject: [PATCH 16/86] renamed monuments according to monument_* naming scheme
+Subject: [PATCH 16/87] renamed monuments according to monument_* naming scheme
 
 created persian monuments from hall, inn
 

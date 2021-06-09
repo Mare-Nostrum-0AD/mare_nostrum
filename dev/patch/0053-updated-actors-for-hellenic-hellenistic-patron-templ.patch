@@ -1,7 +1,7 @@
 From 781d6f4fc58a27b4c34403da7ce823bb921235b1 Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Sun, 30 May 2021 18:52:23 -0700
-Subject: [PATCH 53/86] updated actors for hellenic, hellenistic patron temples
+Subject: [PATCH 53/87] updated actors for hellenic, hellenistic patron temples
 
 ---
  .../structures/athenians/metro_centre.xml     |  47 +++++++

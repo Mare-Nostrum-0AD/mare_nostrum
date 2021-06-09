@@ -1,7 +1,7 @@
 From 368612865a72d3713ee3afe8bd1bb52bd07eefca Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Mon, 24 May 2021 00:35:17 -0700
-Subject: [PATCH 29/86] rogue (gaia) war elephants eventually die due to
+Subject: [PATCH 29/87] rogue (gaia) war elephants eventually die due to
  negative health regen rate ("Death by Mahout"); reflects fact that mahouts
  carried a spike to kill their elephants if they went rogue
 

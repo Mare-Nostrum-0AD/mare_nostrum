@@ -1,7 +1,7 @@
 From b804eb97ce9838d16e535e2dce0b138ec5fed5c6 Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Sun, 23 May 2021 18:29:18 -0700
-Subject: [PATCH 12/86] removed structures/celt/palace.xml
+Subject: [PATCH 12/87] removed structures/celt/palace.xml
 
 ---
  .../templates/structures/celt/palace.xml      | 65 -------------------

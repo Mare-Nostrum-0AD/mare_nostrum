@@ -1,7 +1,7 @@
 From fa473aaf804d2404e3288d0599e31b4df9178eac Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Fri, 4 Jun 2021 19:07:47 -0700
-Subject: [PATCH 76/86] created components EventHandlers, Mercenary
+Subject: [PATCH 76/87] created components EventHandlers, Mercenary
 
 Upkeep now posts message MT_UpkeepPaid, lets other components handle sufficient/insufficient pay instead of calling HandleInsufficientUpkeep or HandleSufficientUpkeep by default
 ---

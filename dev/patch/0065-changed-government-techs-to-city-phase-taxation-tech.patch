@@ -1,7 +1,7 @@
 From 9c62f6c9ec7ed2518cb3840d673d1b0d8ae11022 Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Tue, 1 Jun 2021 20:19:40 -0700
-Subject: [PATCH 65/86] changed government techs to city phase, taxation techs
+Subject: [PATCH 65/87] changed government techs to city phase, taxation techs
  to hegemon phase
 
 ---

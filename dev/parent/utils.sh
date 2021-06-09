@@ -39,7 +39,6 @@ function sync_to_child() {
 		[[ ! -d "${outdir}" ]] && mkdir -p "${outdir}"
 		cp -f "${file}" "${outfile}"
 	done
-	extract_diff > "${OAD_CHILD_DIR}/dev/mod.diff"
 	cd "${OAD_PARENT_DIR}"
 	rm -rf "${OAD_GIT_PATCH}"
 	git format-patch -o "${OAD_GIT_PATCH}" "$(git merge-base --fork-point master)"..HEAD -- binaries/data/mods/public

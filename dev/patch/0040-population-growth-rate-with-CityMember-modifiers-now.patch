@@ -1,7 +1,7 @@
 From 24028bd3e2cc5f8d23ac381a4f54681de9a6a174 Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Wed, 26 May 2021 16:18:16 -0700
-Subject: [PATCH 40/86] population growth rate (with CityMember modifiers) now
+Subject: [PATCH 40/87] population growth rate (with CityMember modifiers) now
  shown in the entity selection gui (in portrait caption) and in detailed
  tooltips
 

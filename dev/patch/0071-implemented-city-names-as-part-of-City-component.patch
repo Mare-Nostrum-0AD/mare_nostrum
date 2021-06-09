@@ -1,7 +1,7 @@
 From 2ef465154826765c40a8685e267893c910681447 Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Wed, 2 Jun 2021 17:02:00 -0700
-Subject: [PATCH 71/86] implemented city names as part of City component
+Subject: [PATCH 71/87] implemented city names as part of City component
 
 created new gui component SessionTextInputBox
 

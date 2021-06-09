@@ -1,7 +1,7 @@
 From 7ab6763a5fd78890c56aa1c9ce361a686c07514e Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Fri, 4 Jun 2021 19:12:04 -0700
-Subject: [PATCH 77/86] changed mercenary cost from metal to wealth
+Subject: [PATCH 77/87] changed mercenary cost from metal to wealth
 
 mercenary upkeep raised from 1 wealth every 20 seconds to 5 wealth
 ---
