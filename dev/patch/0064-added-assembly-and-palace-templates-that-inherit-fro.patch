@@ -1,7 +1,7 @@
 From 2e89da551fee59a72e3517abcbe4bc9b997e3a14 Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Tue, 1 Jun 2021 20:11:36 -0700
-Subject: [PATCH 64/88] added assembly and palace templates that inherit from
+Subject: [PATCH] added assembly and palace templates that inherit from
  govcentre template, which replaces old palace template
 
 renamed each civ's palace templates to govcentres; they now inherit from either assembly or palace

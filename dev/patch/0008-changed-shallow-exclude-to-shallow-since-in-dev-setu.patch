@@ -1,7 +1,7 @@
 From a9ee59db3d4c7065bfd860013ccded0d551f64a5 Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Sun, 23 May 2021 16:48:21 -0700
-Subject: [PATCH 08/88] changed --shallow-exclude to --shallow-since in
+Subject: [PATCH] changed --shallow-exclude to --shallow-since in
  dev/setup-parent.sh
 
 ---

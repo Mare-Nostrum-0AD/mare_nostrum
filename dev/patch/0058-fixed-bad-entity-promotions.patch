@@ -1,7 +1,7 @@
 From f381af1f124dee7140681af2eccab84b574a6c30 Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Sun, 30 May 2021 23:07:47 -0700
-Subject: [PATCH 58/88] fixed bad entity promotions
+Subject: [PATCH] fixed bad entity promotions
 
 ---
  .../simulation/templates/units/maur/infantry_spearman_a.xml   | 2 +-

@@ -1,8 +1,8 @@
 From bcc3617d899bea9d460802d7e4cd52bc49f457d2 Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Wed, 26 May 2021 21:38:56 -0700
-Subject: [PATCH 44/88] created template_structure_civic_house_apartment;
- persian, carthaginian apartments now inherit from it
+Subject: [PATCH] created template_structure_civic_house_apartment; persian,
+ carthaginian apartments now inherit from it
 
 Chapar Khaneh (Persian courier house) now uses stable sounds instead of market sounds
 

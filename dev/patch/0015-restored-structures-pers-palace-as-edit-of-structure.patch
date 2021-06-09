@@ -1,7 +1,7 @@
 From 473e994c93d23022b0a4b17b3a4a10c194b69aff Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Sun, 23 May 2021 18:36:32 -0700
-Subject: [PATCH 15/88] restored structures/pers/palace as edit of
+Subject: [PATCH] restored structures/pers/palace as edit of
  structures/pers/apadana
 
 added Vision, VisualActor components to template_structure_civic_palace

@@ -1,7 +1,7 @@
 From d5fa175d1ed08eee0754aa8c1d8b3b645822bc50 Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Mon, 7 Jun 2021 21:00:14 -0700
-Subject: [PATCH 83/88] Created helper function CreateEntity, message type
+Subject: [PATCH] Created helper function CreateEntity, message type
  EntityCreated, helper class EntityTransformer
 
 Helper function CreateEntity sends message EntityCreated immediately after instantiating entity

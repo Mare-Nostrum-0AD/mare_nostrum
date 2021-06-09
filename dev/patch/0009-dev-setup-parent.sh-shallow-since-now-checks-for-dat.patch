@@ -1,8 +1,8 @@
 From 2592c44628d110fde5bc4f19db219c610fcbc436 Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Sun, 23 May 2021 18:06:36 -0700
-Subject: [PATCH 09/88] dev/setup-parent.sh shallow-since now checks for date
- in commit stored in /dev/git_base.txt
+Subject: [PATCH] dev/setup-parent.sh shallow-since now checks for date in
+ commit stored in /dev/git_base.txt
 
 ---
  binaries/data/mods/public/dev/setup-parent.sh | 3 ++-

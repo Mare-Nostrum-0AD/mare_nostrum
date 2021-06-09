@@ -1,8 +1,8 @@
 From c53247b49cc2f9f86d92b0e78ec2bf6dbba5551f Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Fri, 28 May 2021 22:22:04 -0700
-Subject: [PATCH 50/88] handle resources without treasure template in nomad
- player placement in maps/random/rmgen-common/player.js
+Subject: [PATCH] handle resources without treasure template in nomad player
+ placement in maps/random/rmgen-common/player.js
 
 ProductionQueue component checks entity limits before continuing auto queue
 

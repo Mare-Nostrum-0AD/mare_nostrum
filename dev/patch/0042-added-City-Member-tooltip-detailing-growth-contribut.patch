@@ -1,7 +1,7 @@
 From be18803eeb9bb302667ed486b08bc5fd52c2ae07 Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Wed, 26 May 2021 18:23:32 -0700
-Subject: [PATCH 42/88] added City Member tooltip detailing growth contribution
+Subject: [PATCH] added City Member tooltip detailing growth contribution
 
 refactored CityMember component; now uses a choice between Add and Multiply elements instead of separate Operation and Value elements for GrowthContrib
 

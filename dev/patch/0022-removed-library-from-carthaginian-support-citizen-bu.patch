@@ -1,8 +1,7 @@
 From e87086d5c7326e34267e35385cccdbb48f93e51c Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Sun, 23 May 2021 19:46:47 -0700
-Subject: [PATCH 22/88] removed library from carthaginian support citizen build
- queue
+Subject: [PATCH] removed library from carthaginian support citizen build queue
 
 ---
  .../simulation/templates/units/cart/support_female_citizen.xml   | 1 -

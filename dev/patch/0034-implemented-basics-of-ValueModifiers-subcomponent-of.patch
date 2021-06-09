@@ -1,7 +1,7 @@
 From dd7b998e73ebf6d1a3d028b0f1eebf5291298b42 Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Mon, 24 May 2021 23:45:12 -0700
-Subject: [PATCH 34/88] implemented basics of ValueModifiers subcomponent of
+Subject: [PATCH] implemented basics of ValueModifiers subcomponent of
  GarrisonHolder component
 
 ---

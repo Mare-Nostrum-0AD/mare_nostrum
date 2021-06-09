@@ -1,8 +1,7 @@
 From 059881ca9d228fd3a611be01fd7bb89ace0954aa Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Tue, 25 May 2021 00:37:36 -0700
-Subject: [PATCH 36/88] complete implementation of
- GarrisonHolder/ValueModifiers
+Subject: [PATCH] complete implementation of GarrisonHolder/ValueModifiers
 
 added Capture, Ranged Attack modifiers to template_unit_siege_tower:GarrisonHolder/ValueModifiers
 ---

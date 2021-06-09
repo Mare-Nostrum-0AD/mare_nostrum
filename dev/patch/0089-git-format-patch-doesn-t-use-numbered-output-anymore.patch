@@ -1,0 +1,25 @@
+From 0ae3cfaa82a8dcb3ab4561373f6743bbd04d95fc Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Tue, 8 Jun 2021 23:08:59 -0700
+Subject: [PATCH] git format-patch doesn't use numbered output anymore
+
+---
+ binaries/data/mods/public/dev/parent/utils.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/binaries/data/mods/public/dev/parent/utils.sh b/binaries/data/mods/public/dev/parent/utils.sh
+index 4f087e847f..0d652cd07c 100644
+--- a/binaries/data/mods/public/dev/parent/utils.sh
++++ b/binaries/data/mods/public/dev/parent/utils.sh
+@@ -41,7 +41,7 @@ function sync_to_child() {
+ 	done
+ 	cd "${OAD_PARENT_DIR}"
+ 	rm -rf "${OAD_GIT_PATCH}"
+-	git format-patch -o "${OAD_GIT_PATCH}" "$(git merge-base --fork-point master)"..HEAD -- binaries/data/mods/public
++	git format-patch --no-numbered -o "${OAD_GIT_PATCH}" "$(git merge-base --fork-point master)"..HEAD -- binaries/data/mods/public
+ 	git log -n 1 --date=short "$(git merge-base --fork-point master)" > "${OAD_GIT_BASE_FILE}"
+ 	cd "${OAD_CHILD_DIR}"
+ 	git add ${moved_files[@]}
+-- 
+2.25.1
+

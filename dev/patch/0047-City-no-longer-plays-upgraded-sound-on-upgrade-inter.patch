@@ -1,8 +1,8 @@
 From 57e5e8a3c0e0cf093f18493ac6f47e8e3adf4410 Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Fri, 28 May 2021 00:55:57 -0700
-Subject: [PATCH 47/88] City no longer plays "upgraded" sound on upgrade
- (interferes with phase up sound)
+Subject: [PATCH] City no longer plays "upgraded" sound on upgrade (interferes
+ with phase up sound)
 
 EntityLimits can now be modified using value modifiers
 

@@ -1,7 +1,7 @@
 From 08c93b8627b59059a68915b2de77455c0da3072e Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Sun, 30 May 2021 21:21:23 -0700
-Subject: [PATCH 55/88] renamed Petra bot to Delphi bot
+Subject: [PATCH] renamed Petra bot to Delphi bot
 
 ---
  .../simulation/ai/{petra/_petrabot.js => delphi/_delphibot.js}    | 0

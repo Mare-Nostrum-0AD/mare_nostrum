@@ -1,7 +1,7 @@
 From aa8b858688f85e4f6042bfe0c183ec0ac4e83bff Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Sun, 23 May 2021 18:26:51 -0700
-Subject: [PATCH 10/88] removed athen/palace
+Subject: [PATCH] removed athen/palace
 
 ---
  .../templates/structures/athen/palace.xml     | 51 -------------------

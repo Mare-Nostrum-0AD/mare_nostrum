@@ -1,7 +1,7 @@
 From 1a20bddda0bc99f9ec391761f7b910afdc48dac5 Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Sun, 23 May 2021 18:32:49 -0700
-Subject: [PATCH 14/88] removed structures/pers/palace
+Subject: [PATCH] removed structures/pers/palace
 
 ---
  .../templates/structures/pers/palace.xml      | 65 -------------------

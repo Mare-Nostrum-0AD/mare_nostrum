@@ -1,7 +1,7 @@
 From 1145d98ac7f7c0f7d7feca359b29295268cfd013 Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Mon, 7 Jun 2021 23:52:02 -0700
-Subject: [PATCH 84/88] updated fortress, govcentre tooltips
+Subject: [PATCH] updated fortress, govcentre tooltips
 
 ---
  .../public/simulation/templates/structures/brit/fortress.xml    | 2 +-

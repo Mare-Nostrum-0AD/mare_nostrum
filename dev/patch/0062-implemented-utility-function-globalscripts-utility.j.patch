@@ -1,9 +1,8 @@
 From df8c09b3f59d7f824f5b47ce54f4d297b007a2cd Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Tue, 1 Jun 2021 17:25:48 -0700
-Subject: [PATCH 62/88] implemented utility function
- globalscripts/utility.js:fmtNum, which formats numbers with commas after
- every third digit
+Subject: [PATCH] implemented utility function globalscripts/utility.js:fmtNum,
+ which formats numbers with commas after every third digit
 
 fmtNum now used to format numbers in city population displays, tooltips
 ---
