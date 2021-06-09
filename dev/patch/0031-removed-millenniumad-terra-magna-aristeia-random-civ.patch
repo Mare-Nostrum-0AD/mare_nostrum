@@ -1,7 +1,7 @@
 From 01990b34d14cde8eaf892d1bafa0a00ccbd8f5d6 Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Mon, 24 May 2021 18:45:22 -0700
-Subject: [PATCH 31/87] removed millenniumad, terra magna, aristeia random civ
+Subject: [PATCH 31/88] removed millenniumad, terra magna, aristeia random civ
  groups
 
 removed victory condition "Conquest Civil Centres"; "Conquest Civic Centres" makes it redundant

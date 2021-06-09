@@ -1,7 +1,7 @@
 From e432cd5a312ccdfa6e87955ce3785d8d43446c69 Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Sun, 23 May 2021 16:35:47 -0700
-Subject: [PATCH 07/87] added function rebase to dev/parent/utils.sh
+Subject: [PATCH 07/88] added function rebase to dev/parent/utils.sh
 
 refactored dev/setup-parent.sh
 ---

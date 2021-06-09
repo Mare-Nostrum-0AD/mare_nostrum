@@ -45,6 +45,7 @@ function sync_to_child() {
 	git log -n 1 --date=short "$(git merge-base --fork-point master)" > "${OAD_GIT_BASE_FILE}"
 	cd "${OAD_CHILD_DIR}"
 	git add ${moved_files[@]}
+	git add "${OAD_GIT_PATCH}"/*
 	)
 }
 

@@ -1,0 +1,24 @@
+From 79cb28d604ef8f9fa03bd54e31a749b54a1d19d9 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Tue, 8 Jun 2021 23:04:10 -0700
+Subject: [PATCH 87/88] retooled dev scripts again
+
+---
+ binaries/data/mods/public/dev/parent/utils.sh | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/binaries/data/mods/public/dev/parent/utils.sh b/binaries/data/mods/public/dev/parent/utils.sh
+index 84bf3b6a34..64da791c99 100644
+--- a/binaries/data/mods/public/dev/parent/utils.sh
++++ b/binaries/data/mods/public/dev/parent/utils.sh
+@@ -39,7 +39,6 @@ function sync_to_child() {
+ 		[[ ! -d "${outdir}" ]] && mkdir -p "${outdir}"
+ 		cp -f "${file}" "${outfile}"
+ 	done
+-	extract_diff > "${OAD_CHILD_DIR}/dev/mod.diff"
+ 	cd "${OAD_PARENT_DIR}"
+ 	rm -rf "${OAD_GIT_PATCH}"
+ 	git format-patch -o "${OAD_GIT_PATCH}" "$(git merge-base --fork-point master)"..HEAD -- binaries/data/mods/public
+-- 
+2.25.1
+

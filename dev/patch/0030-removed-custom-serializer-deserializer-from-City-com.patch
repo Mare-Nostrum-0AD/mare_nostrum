@@ -1,7 +1,7 @@
 From cade049413294cb7df0f3ea685c09edc2e38906a Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Mon, 24 May 2021 18:22:55 -0700
-Subject: [PATCH 30/87] removed custom serializer, deserializer from City
+Subject: [PATCH 30/88] removed custom serializer, deserializer from City
  component
 
 added specific names to hellenic, roman, persian civil centres

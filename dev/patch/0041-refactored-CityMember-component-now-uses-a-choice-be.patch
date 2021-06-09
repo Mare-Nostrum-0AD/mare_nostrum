@@ -1,7 +1,7 @@
 From e5c1de5b5b5613cc57401643a000b0ae019b61cb Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Wed, 26 May 2021 17:29:43 -0700
-Subject: [PATCH 41/87] refactored CityMember component; now uses a choice
+Subject: [PATCH 41/88] refactored CityMember component; now uses a choice
  between Add and Multiply elements instead of separate Operation and Value
  elements for GrowthContrib
 

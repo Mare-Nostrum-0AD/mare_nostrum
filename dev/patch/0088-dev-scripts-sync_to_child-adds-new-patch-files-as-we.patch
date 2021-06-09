@@ -1,0 +1,24 @@
+From a4486cd6cc2c103323e7bec256abf64029052748 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Tue, 8 Jun 2021 23:06:36 -0700
+Subject: [PATCH 88/88] dev scripts: sync_to_child adds new patch files as well
+
+---
+ binaries/data/mods/public/dev/parent/utils.sh | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/binaries/data/mods/public/dev/parent/utils.sh b/binaries/data/mods/public/dev/parent/utils.sh
+index 64da791c99..4f087e847f 100644
+--- a/binaries/data/mods/public/dev/parent/utils.sh
++++ b/binaries/data/mods/public/dev/parent/utils.sh
+@@ -45,6 +45,7 @@ function sync_to_child() {
+ 	git log -n 1 --date=short "$(git merge-base --fork-point master)" > "${OAD_GIT_BASE_FILE}"
+ 	cd "${OAD_CHILD_DIR}"
+ 	git add ${moved_files[@]}
++	git add "${OAD_GIT_PATCH}"/*
+ 	)
+ }
+ 
+-- 
+2.25.1
+

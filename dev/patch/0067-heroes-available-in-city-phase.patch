@@ -1,7 +1,7 @@
 From 2ad07ae48da30000036a572627801c4381d75912 Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Tue, 1 Jun 2021 20:45:34 -0700
-Subject: [PATCH 67/87] heroes available in city phase
+Subject: [PATCH 67/88] heroes available in city phase
 
 ---
  .../mods/public/simulation/templates/template_unit_hero.xml     | 2 +-

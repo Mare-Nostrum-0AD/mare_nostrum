@@ -1,7 +1,7 @@
 From c57cd05f249d722b508742e7dfc2bcd6a2eaaea2 Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Sun, 30 May 2021 22:58:08 -0700
-Subject: [PATCH 57/87] identified delphi bot as fork of petra bot; removed
+Subject: [PATCH 57/88] identified delphi bot as fork of petra bot; removed
  petra bot from development
 
 fixed Athenian patron temples (accidentally set most to fertility temples)

@@ -1,7 +1,7 @@
 From e22cfaa4cddd8c731fe8011c22d4183f44c3a398 Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Fri, 28 May 2021 17:57:48 -0700
-Subject: [PATCH 49/87] added default Capture AttackName to mixins/soldier.xml
+Subject: [PATCH 49/88] added default Capture AttackName to mixins/soldier.xml
 
 disabled Capture attack in elephant archer
 ---

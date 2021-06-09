@@ -1,7 +1,7 @@
 From e7bcbb73960c07311f830d68dc1bb6741f6fbc86 Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Wed, 26 May 2021 19:02:02 -0700
-Subject: [PATCH 43/87] created component schema CityMember.xsd
+Subject: [PATCH 43/88] created component schema CityMember.xsd
 
 ---
  .../simulation/components/schemas/CityMember.xsd      | 11 +++++++++++

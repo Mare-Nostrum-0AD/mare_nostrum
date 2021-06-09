@@ -1,7 +1,7 @@
 From 17ea12d5bed49b2dcc8d2c1e260ac220149d2eea Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Sun, 23 May 2021 19:21:30 -0700
-Subject: [PATCH 17/87] removed spartan palace
+Subject: [PATCH 17/88] removed spartan palace
 
 ---
  .../templates/structures/spart/palace.xml     | 48 -------------------

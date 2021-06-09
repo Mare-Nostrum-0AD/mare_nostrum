@@ -1,7 +1,7 @@
 From 60833500d4983a4d35f9a07a6f64c3b23137ca33 Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Sun, 23 May 2021 13:02:56 -0700
-Subject: [PATCH 05/87] renamed pers hero 3 to pers hero 2 (new Darius)
+Subject: [PATCH 05/88] renamed pers hero 3 to pers hero 2 (new Darius)
 
 ---
  .../simulation/templates/units/pers/{hero_03.xml => hero_02.xml}  | 0

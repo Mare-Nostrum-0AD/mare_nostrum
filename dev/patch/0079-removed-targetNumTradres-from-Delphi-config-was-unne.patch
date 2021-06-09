@@ -1,7 +1,7 @@
 From 0e8613465be5f3655af78f85a8ce90513d1a3b3f Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Sat, 5 Jun 2021 16:44:00 -0700
-Subject: [PATCH 79/87] removed targetNumTradres from Delphi config (was
+Subject: [PATCH 79/88] removed targetNumTradres from Delphi config (was
  unnecessary, unserializable)
 
 set null Serializer for Replace component

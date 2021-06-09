@@ -1,7 +1,7 @@
 From 44f4677092cfe998590988641b0aa18e1df76825 Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Sun, 23 May 2021 02:17:45 -0700
-Subject: [PATCH 02/87] dev/parent/utils.sh now generates diffs using options
+Subject: [PATCH 02/88] dev/parent/utils.sh now generates diffs using options
  --patch and --binary
 
 ---

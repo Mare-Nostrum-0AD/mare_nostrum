@@ -1,7 +1,7 @@
 From 0da4cb368d210befce83b8b9e6e2f1f35fd43da4 Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Tue, 25 May 2021 18:26:46 -0700
-Subject: [PATCH 38/87] removed redundant monument/palace declarations from
+Subject: [PATCH 38/88] removed redundant monument/palace declarations from
  unit builder lists
 
 ---

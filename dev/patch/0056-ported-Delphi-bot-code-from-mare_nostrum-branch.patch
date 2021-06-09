@@ -1,7 +1,7 @@
 From 39058d129418070be972e704d12999524c46cdb8 Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Sun, 30 May 2021 21:22:37 -0700
-Subject: [PATCH 56/87] ported Delphi bot code from mare_nostrum branch
+Subject: [PATCH 56/88] ported Delphi bot code from mare_nostrum branch
 
 ---
  .../public/simulation/ai/delphi/_delphibot.js |   30 +-

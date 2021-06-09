@@ -1,7 +1,7 @@
 From 4dcd1b6440a1e388eb77daaf95238689afc2d9c3 Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Mon, 24 May 2021 00:06:18 -0700
-Subject: [PATCH 27/87] carthaginians now allowed 1 embassy per town
+Subject: [PATCH 27/88] carthaginians now allowed 1 embassy per town
 
 ---
  .../public/simulation/templates/special/player/player.xml    | 5 ++++-
