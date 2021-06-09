@@ -1,0 +1,1019 @@
+From 2e89da551fee59a72e3517abcbe4bc9b997e3a14 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Tue, 1 Jun 2021 20:11:36 -0700
+Subject: [PATCH 64/86] added assembly and palace templates that inherit from
+ govcentre template, which replaces old palace template
+
+renamed each civ's palace templates to govcentres; they now inherit from either assembly or palace
+---
+ binaries/data/mods/public/TODO.md             | 16 +++---
+ .../simulation/templates/mixins/builder.xml   |  2 +-
+ .../templates/structures/athen/govcentre.xml  | 24 +++++++++
+ .../templates/structures/athen/palace.xml     | 51 -------------------
+ .../cart/{palace.xml => govcentre.xml}        | 15 +-----
+ .../celt/{palace.xml => govcentre.xml}        | 29 +++--------
+ .../hele/{palace.xml => govcentre.xml}        | 21 +-------
+ .../templates/structures/iber/govcentre.xml   | 50 ++++++++++++++++++
+ .../templates/structures/iber/palace.xml      | 28 ----------
+ .../mace/{palace.xml => govcentre.xml}        | 14 +----
+ .../maur/{palace.xml => govcentre.xml}        | 13 +----
+ .../mesop/{palace.xml => govcentre.xml}       |  2 +-
+ .../templates/structures/nile/govcentre.xml   | 17 +++++++
+ .../templates/structures/nile/palace.xml      | 38 --------------
+ .../pers/{palace.xml => govcentre.xml}        | 13 +----
+ .../ptol/{palace.xml => govcentre.xml}        | 14 +----
+ .../templates/structures/rome/govcentre.xml   | 23 +++++++++
+ .../templates/structures/rome/palace.xml      | 49 ------------------
+ .../sele/{palace.xml => govcentre.xml}        | 14 +----
+ .../templates/structures/spart/govcentre.xml  | 19 +++++++
+ .../templates/structures/spart/palace.xml     | 48 -----------------
+ ...=> template_structure_civic_govcentre.xml} | 20 +++++---
+ ...ate_structure_civic_govcentre_assembly.xml | 15 ++++++
+ ...plate_structure_civic_govcentre_palace.xml | 29 +++++++++++
+ .../template_structure_special_monument.xml   |  3 ++
+ 25 files changed, 220 insertions(+), 347 deletions(-)
+ create mode 100644 binaries/data/mods/public/simulation/templates/structures/athen/govcentre.xml
+ delete mode 100644 binaries/data/mods/public/simulation/templates/structures/athen/palace.xml
+ rename binaries/data/mods/public/simulation/templates/structures/cart/{palace.xml => govcentre.xml} (59%)
+ rename binaries/data/mods/public/simulation/templates/structures/celt/{palace.xml => govcentre.xml} (60%)
+ rename binaries/data/mods/public/simulation/templates/structures/hele/{palace.xml => govcentre.xml} (62%)
+ create mode 100644 binaries/data/mods/public/simulation/templates/structures/iber/govcentre.xml
+ delete mode 100644 binaries/data/mods/public/simulation/templates/structures/iber/palace.xml
+ rename binaries/data/mods/public/simulation/templates/structures/mace/{palace.xml => govcentre.xml} (69%)
+ rename binaries/data/mods/public/simulation/templates/structures/maur/{palace.xml => govcentre.xml} (67%)
+ rename binaries/data/mods/public/simulation/templates/structures/mesop/{palace.xml => govcentre.xml} (93%)
+ create mode 100644 binaries/data/mods/public/simulation/templates/structures/nile/govcentre.xml
+ delete mode 100644 binaries/data/mods/public/simulation/templates/structures/nile/palace.xml
+ rename binaries/data/mods/public/simulation/templates/structures/pers/{palace.xml => govcentre.xml} (84%)
+ rename binaries/data/mods/public/simulation/templates/structures/ptol/{palace.xml => govcentre.xml} (63%)
+ create mode 100644 binaries/data/mods/public/simulation/templates/structures/rome/govcentre.xml
+ delete mode 100644 binaries/data/mods/public/simulation/templates/structures/rome/palace.xml
+ rename binaries/data/mods/public/simulation/templates/structures/sele/{palace.xml => govcentre.xml} (63%)
+ create mode 100644 binaries/data/mods/public/simulation/templates/structures/spart/govcentre.xml
+ delete mode 100644 binaries/data/mods/public/simulation/templates/structures/spart/palace.xml
+ rename binaries/data/mods/public/simulation/templates/{template_structure_civic_palace.xml => template_structure_civic_govcentre.xml} (74%)
+ create mode 100644 binaries/data/mods/public/simulation/templates/template_structure_civic_govcentre_assembly.xml
+ create mode 100644 binaries/data/mods/public/simulation/templates/template_structure_civic_govcentre_palace.xml
+
+diff --git a/binaries/data/mods/public/TODO.md b/binaries/data/mods/public/TODO.md
+index e6fff89bdd..0e1128d4fd 100644
+--- a/binaries/data/mods/public/TODO.md
++++ b/binaries/data/mods/public/TODO.md
+@@ -36,17 +36,21 @@ Please feel free to contribute if you see anything you can do here. If there is
+ - Rename "Population Limit" to "Command Limit", change icon
+ - Rebalance city manpower trickle /
+ - Create skirmish replacers for different levels of civ centre /
+-- Create range of different starting levels, selectable from a dropdown list:
+-	- Nomad
+-	- Village
+-	- Town
+-	- City
+-- Give pastures decal to make them more distinctive
++- Create separate "govcentre" template, from which two templates inherit – palace and assembly
++	- palace available in Hegemon phase
++	- assembly available in City phase
++	- civs with assembly get patron temples in hegemon phase
+ - Document changes in CHANGELOG.md
+ - Document unique features in README.md or FEATURES.md
+ - Document development scripts in CONTRIBUTING.md
+ 
+ ## Secondary priorities
++- Give pastures decal to make them more distinctive
++- Create range of different starting levels, selectable from a dropdown list:
++	- Nomad
++	- Village
++	- Town
++	- City
+ - Ensure phase upgrade notifications are displayed correctly
+ - Implement AutoSpawn component
+ - Create resource caps, which can be expanded by building structures and researching technologies
+diff --git a/binaries/data/mods/public/simulation/templates/mixins/builder.xml b/binaries/data/mods/public/simulation/templates/mixins/builder.xml
+index 83b3b503f1..3745a3b59d 100644
+--- a/binaries/data/mods/public/simulation/templates/mixins/builder.xml
++++ b/binaries/data/mods/public/simulation/templates/mixins/builder.xml
+@@ -38,7 +38,7 @@
+ 			structures/{civ}/monument_02
+ 			structures/{civ}/monument_03
+ 			structures/{civ}/monument_04
+-			structures/{civ}/palace
++			structures/{civ}/govcentre
+       structures/{civ}/wonder
+     </Entities>
+   </Builder>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/athen/govcentre.xml b/binaries/data/mods/public/simulation/templates/structures/athen/govcentre.xml
+new file mode 100644
+index 0000000000..a660f56085
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/templates/structures/athen/govcentre.xml
+@@ -0,0 +1,24 @@
++<?xml version="1.0" encoding="utf-8"?>
++<Entity parent="template_structure_civic_govcentre_assembly">
++  <Footprint replace="">
++    <Circle radius="16.0"/>
++    <Height>8.0</Height>
++  </Footprint>
++  <Identity>
++    <Civ>athen</Civ>
++    <GenericName>Council Chamber</GenericName>
++    <SpecificName>Prytaneîon</SpecificName>
++  </Identity>
++  <Obstruction>
++    <Static width="24.0" depth="30.0"/>
++  </Obstruction>
++  <ProductionQueue>
++    <Technologies datatype="tokens">
++      long_walls
++      iphicratean_reforms
++    </Technologies>
++  </ProductionQueue>
++  <VisualActor>
++    <Actor>structures/athenians/prytaneion.xml</Actor>
++  </VisualActor>
++</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/athen/palace.xml b/binaries/data/mods/public/simulation/templates/structures/athen/palace.xml
+deleted file mode 100644
+index 7d8deeb3ab..0000000000
+--- a/binaries/data/mods/public/simulation/templates/structures/athen/palace.xml
++++ /dev/null
+@@ -1,51 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_palace">
+-  <Cost>
+-    <BuildTime>200</BuildTime>
+-    <Resources>
+-      <wood op="mul">0.5</wood>
+-      <stone op="mul">0.5</stone>
+-      <wealth op="mul">0.5</wealth>
+-    </Resources>
+-  </Cost>
+-  <Footprint replace="">
+-    <Circle radius="16.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <Max>2000</Max>
+-  </Health>
+-  <Identity>
+-    <Civ>athen</Civ>
+-    <GenericName>Council Chamber</GenericName>
+-    <SpecificName>Prytaneîon</SpecificName>
+-    <Tooltip>Train heroes. Research special technologies.</Tooltip>
+-    <Icon>structures/tholos.png</Icon>
+-  </Identity>
+-  <Loot>
+-    <wood>0</wood>
+-    <stone>25</stone>
+-    <metal>50</metal>
+-  </Loot>
+-  <Obstruction>
+-    <Static width="24.0" depth="30.0"/>
+-  </Obstruction>
+-  <ProductionQueue>
+-    <BatchTimeModifier>0.7</BatchTimeModifier>
+-    <Technologies datatype="tokens">
+-	  	pair_government_{civ}
+-      long_walls
+-      iphicratean_reforms
+-    </Technologies>
+-  </ProductionQueue>
+-  <Sound>
+-    <SoundGroups>
+-      <select>interface/select/building/sel_tholos.xml</select>
+-      <constructed>interface/complete/building/complete_tholos.xml</constructed>
+-      <death>attack/destruction/building_collapse_large.xml</death>
+-    </SoundGroups>
+-  </Sound>
+-  <VisualActor>
+-    <Actor>structures/athenians/prytaneion.xml</Actor>
+-  </VisualActor>
+-</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/cart/palace.xml b/binaries/data/mods/public/simulation/templates/structures/cart/govcentre.xml
+similarity index 59%
+rename from binaries/data/mods/public/simulation/templates/structures/cart/palace.xml
+rename to binaries/data/mods/public/simulation/templates/structures/cart/govcentre.xml
+index 9ce3f087f3..7cd9f16db8 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/cart/palace.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/cart/govcentre.xml
+@@ -1,15 +1,9 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_palace">
+-  <Cost>
+-    <BuildTime>300</BuildTime>
+-  </Cost>
++<Entity parent="template_structure_civic_govcentre_assembly">
+   <Footprint>
+     <Square width="30.0" depth="30.0"/>
+     <Height>15.0</Height>
+   </Footprint>
+-  <GarrisonHolder>
+-    <Max>10</Max>
+-  </GarrisonHolder>
+   <Health>
+     <Max>3000</Max>
+     <SpawnEntityOnDeath>decay|rubble/rubble_stone_5x5</SpawnEntityOnDeath>
+@@ -22,14 +16,7 @@
+   <Obstruction>
+     <Static width="28.0" depth="28.0"/>
+   </Obstruction>
+-  <ProductionQueue>
+-    <BatchTimeModifier>0.8</BatchTimeModifier>
+-    <Technologies datatype="tokens">
+-	  	pair_government_{civ}
+-		</Technologies>
+-  </ProductionQueue>
+   <VisualActor>
+     <Actor>structures/carthaginians/embassy.xml</Actor>
+-    <FoundationActor>structures/fndn_5x5.xml</FoundationActor>
+   </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/celt/palace.xml b/binaries/data/mods/public/simulation/templates/structures/celt/govcentre.xml
+similarity index 60%
+rename from binaries/data/mods/public/simulation/templates/structures/celt/palace.xml
+rename to binaries/data/mods/public/simulation/templates/structures/celt/govcentre.xml
+index 0d94d686ad..c37268eca5 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/celt/palace.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/celt/govcentre.xml
+@@ -1,5 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_palace">
++<Entity parent="template_structure_civic_govcentre_assembly">
+   <Cost>
+     <BuildTime>200</BuildTime>
+     <Resources>
+@@ -18,13 +18,11 @@
+     <Civ>gaia</Civ>
+     <GenericName>Assembly of Princes</GenericName>
+     <SpecificName>Remogantion</SpecificName>
+-    <Tooltip>Train Champion Trumpeters and Heroes.</Tooltip>
+-    <Classes datatype="tokens">ConquestCritical CivSpecific</Classes>
+-    <VisibleClasses datatype="tokens">Council</VisibleClasses>
+-    <Icon>structures/tholos.png</Icon>
++    <Tooltip>Train Champion Trumpeters and Heroes. Research government technologies.</Tooltip>
+   </Identity>
+-  <Loot>
+-    <wood>80</wood>
++  <Loot replace="">
++		<wood>160</wood>
++    <wealth>300</wealth>
+   </Loot>
+   <Obstruction>
+     <Static width="25.0" depth="25.0"/>
+@@ -34,6 +32,9 @@
+     <Entities datatype="tokens">
+       units/{civ}/champion_infantry_trumpeter
+     </Entities>
++    <Technologies datatype="tokens">
++			-pair_government_{civ}
++    </Technologies>
+   </ProductionQueue>
+   <Resistance>
+     <Entity>
+@@ -44,20 +45,6 @@
+       </Damage>
+     </Entity>
+   </Resistance>
+-  <Sound>
+-    <SoundGroups>
+-      <select>interface/select/building/sel_iber_monument.xml</select>
+-      <constructed>interface/complete/building/complete_iber_monument.xml</constructed>
+-    </SoundGroups>
+-  </Sound>
+-  <TerritoryInfluence>
+-    <Root>false</Root>
+-    <Radius>40</Radius>
+-    <Weight>40000</Weight>
+-  </TerritoryInfluence>
+-  <Vision>
+-    <Range>40</Range>
+-  </Vision>
+   <VisualActor>
+     <Actor>structures/gauls/theater.xml</Actor>
+     <FoundationActor>structures/fndn_6x6.xml</FoundationActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/hele/palace.xml b/binaries/data/mods/public/simulation/templates/structures/hele/govcentre.xml
+similarity index 62%
+rename from binaries/data/mods/public/simulation/templates/structures/hele/palace.xml
+rename to binaries/data/mods/public/simulation/templates/structures/hele/govcentre.xml
+index 80326eb1d3..c3c805780e 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/hele/palace.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/hele/govcentre.xml
+@@ -1,18 +1,9 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_palace">
+-  <BuildRestrictions>
+-    <Category>Palace</Category>
+-  </BuildRestrictions>
+-  <Cost>
+-    <BuildTime>300</BuildTime>
+-  </Cost>
++<Entity parent="template_structure_civic_govcentre_palace">
+   <Footprint>
+     <Square width="32.0" depth="32.0"/>
+     <Height>8.0</Height>
+   </Footprint>
+-  <GarrisonHolder>
+-    <Max>10</Max>
+-  </GarrisonHolder>
+   <Health>
+     <Max>3000</Max>
+     <SpawnEntityOnDeath>decay|rubble/rubble_stone_6x6</SpawnEntityOnDeath>
+@@ -20,13 +11,7 @@
+   <Identity>
+     <Civ>gaia</Civ>
+     <SpecificName>Anáktoro</SpecificName>
+-    <Icon>structures/tholos.png</Icon>
+   </Identity>
+-  <Loot>
+-    <wood>0</wood>
+-    <stone>75</stone>
+-    <metal>50</metal>
+-  </Loot>
+   <Obstruction>
+     <Static width="30.0" depth="30.0"/>
+   </Obstruction>
+@@ -36,10 +21,6 @@
+       units/{civ}/champion_infantry
+     </Entities>
+   </ProductionQueue>
+-  <TerritoryInfluence>
+-    <Root>true</Root>
+-    <Radius>48</Radius>
+-  </TerritoryInfluence>
+   <VisualActor>
+     <Actor>structures/hellenes/propylaea.xml</Actor>
+     <FoundationActor>structures/fndn_6x6.xml</FoundationActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/iber/govcentre.xml b/binaries/data/mods/public/simulation/templates/structures/iber/govcentre.xml
+new file mode 100644
+index 0000000000..238e79b27b
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/templates/structures/iber/govcentre.xml
+@@ -0,0 +1,50 @@
++<?xml version="1.0" encoding="utf-8"?>
++<Entity parent="template_structure_civic_govcentre_assembly">
++  <Cost>
++    <BuildTime>200</BuildTime>
++    <Resources>
++      <stone>0</stone>
++    </Resources>
++  </Cost>
++  <Footprint replace="">
++    <Circle radius="15.0"/>
++    <Height>10.0</Height>
++  </Footprint>
++  <Health>
++    <Max>2000</Max>
++    <SpawnEntityOnDeath>decay|rubble/rubble_stone_6x6</SpawnEntityOnDeath>
++  </Health>
++  <Identity>
++    <Civ>iber</Civ>
++    <SpecificName>Jauregia</SpecificName>
++  </Identity>
++  <Loot replace="">
++		<wood>160</wood>
++    <wealth>300</wealth>
++  </Loot>
++  <Obstruction>
++    <Static width="25.0" depth="25.0"/>
++  </Obstruction>
++  <ProductionQueue>
++    <BatchTimeModifier>0.7</BatchTimeModifier>
++    <Entities datatype="tokens">
++      units/{civ}/champion_infantry_trumpeter
++    </Entities>
++    <Technologies datatype="tokens">
++			-pair_government_{civ}
++    </Technologies>
++  </ProductionQueue>
++  <Resistance>
++    <Entity>
++      <Damage>
++        <Hack>20</Hack>
++        <Pierce>30</Pierce>
++        <Crush>3</Crush>
++      </Damage>
++    </Entity>
++  </Resistance>
++  <VisualActor>
++    <Actor>structures/gauls/theater.xml</Actor>
++    <FoundationActor>structures/fndn_6x6.xml</FoundationActor>
++  </VisualActor>
++</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/iber/palace.xml b/binaries/data/mods/public/simulation/templates/structures/iber/palace.xml
+deleted file mode 100644
+index a479ab015b..0000000000
+--- a/binaries/data/mods/public/simulation/templates/structures/iber/palace.xml
++++ /dev/null
+@@ -1,28 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_palace">
+-  <Cost>
+-    <Resources>
+-      <stone>500</stone>
+-      <metal>0</metal>
+-      <wealth op="mul">0.5</wealth>
+-    </Resources>
+-  </Cost>
+-  <Footprint>
+-    <Square width="16.0" depth="13.0"/>
+-    <Height>11.0</Height>
+-  </Footprint>
+-  <Health>
+-    <Max>1200</Max>
+-  </Health>
+-  <Identity>
+-    <Civ>iber</Civ>
+-    <SpecificName>Jauregia</SpecificName>
+-    <Icon>structures/tholos.png</Icon>
+-  </Identity>
+-  <Obstruction>
+-    <Static width="15.0" depth="12.0"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/carthaginians/embassy_celtic.xml</Actor>
+-  </VisualActor>
+-</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/mace/palace.xml b/binaries/data/mods/public/simulation/templates/structures/mace/govcentre.xml
+similarity index 69%
+rename from binaries/data/mods/public/simulation/templates/structures/mace/palace.xml
+rename to binaries/data/mods/public/simulation/templates/structures/mace/govcentre.xml
+index 703b387bd9..38dc875d50 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/mace/palace.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/mace/govcentre.xml
+@@ -1,24 +1,16 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_palace">
++<Entity parent="template_structure_civic_govcentre_palace">
+   <Footprint>
+     <Square width="50.0" depth="32.0"/>
+     <Height>8.0</Height>
+   </Footprint>
+   <Health>
+-    <Max>3000</Max>
+     <SpawnEntityOnDeath>decay|rubble/rubble_stone_6x6</SpawnEntityOnDeath>
+   </Health>
+   <Identity>
+     <Civ>mace</Civ>
+     <SpecificName>Anáktoro</SpecificName>
+-    <Icon>structures/tholos.png</Icon>
+   </Identity>
+-  <Loot>
+-    <wood>0</wood>
+-    <stone>300</stone>
+-    <metal>300</metal>
+-    <wealth>300</wealth>
+-  </Loot>
+   <Obstruction>
+     <Static width="48.0" depth="30.0"/>
+   </Obstruction>
+@@ -28,10 +20,6 @@
+       units/{civ}/champion_infantry
+     </Entities>
+   </ProductionQueue>
+-  <TerritoryInfluence>
+-    <Root>false</Root>
+-    <Radius>48</Radius>
+-  </TerritoryInfluence>
+   <VisualActor>
+ 		<Actor>structures/macedonians/palace.xml</Actor>
+     <FoundationActor>structures/fndn_6x6.xml</FoundationActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/maur/palace.xml b/binaries/data/mods/public/simulation/templates/structures/maur/govcentre.xml
+similarity index 67%
+rename from binaries/data/mods/public/simulation/templates/structures/maur/palace.xml
+rename to binaries/data/mods/public/simulation/templates/structures/maur/govcentre.xml
+index 27c73f2ae6..5870fca5cb 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/maur/palace.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/maur/govcentre.xml
+@@ -1,5 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_palace">
++<Entity parent="template_structure_civic_govcentre_palace">
+   <Footprint>
+     <Square width="40.0" depth="16.0"/>
+     <Height>5.0</Height>
+@@ -7,13 +7,7 @@
+   <Identity>
+     <Civ>maur</Civ>
+     <SpecificName>Harmya</SpecificName>
+-    <Icon>structures/tholos.png</Icon>
+   </Identity>
+-  <Loot>
+-    <wood>0</wood>
+-    <stone>50</stone>
+-    <metal>50</metal>
+-  </Loot>
+   <Obstruction>
+     <Static width="36.0" depth="12.0"/>
+   </Obstruction>
+@@ -24,11 +18,6 @@
+       units/{civ}/champion_maiden_archer
+     </Entities>
+   </ProductionQueue>
+-  <TerritoryInfluence>
+-    <Root>false</Root>
+-    <Radius>38</Radius>
+-    <Weight>65535</Weight>
+-  </TerritoryInfluence>
+   <VisualActor>
+     <Actor>structures/mauryas/misc_structure_01.xml</Actor>
+   </VisualActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/mesop/palace.xml b/binaries/data/mods/public/simulation/templates/structures/mesop/govcentre.xml
+similarity index 93%
+rename from binaries/data/mods/public/simulation/templates/structures/mesop/palace.xml
+rename to binaries/data/mods/public/simulation/templates/structures/mesop/govcentre.xml
+index 68e426633e..85139938a6 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/mesop/palace.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/mesop/govcentre.xml
+@@ -1,5 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_palace">
++<Entity parent="template_structure_civic_govcentre_palace">
+   <Cost>
+     <BuildTime>300</BuildTime>
+   </Cost>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/nile/govcentre.xml b/binaries/data/mods/public/simulation/templates/structures/nile/govcentre.xml
+new file mode 100644
+index 0000000000..ffd9f5ceb6
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/templates/structures/nile/govcentre.xml
+@@ -0,0 +1,17 @@
++<?xml version="1.0" encoding="utf-8"?>
++<Entity parent="template_structure_civic_govcentre_palace">
++  <Footprint>
++    <Square width="24.0" depth="36.0"/>
++  </Footprint>
++  <Identity>
++    <Civ>gaia</Civ>
++    <SpecificName>Anlan</SpecificName>
++  </Identity>
++  <Obstruction>
++    <Static width="18" depth="30.0"/>
++  </Obstruction>
++  <VisualActor>
++    <Actor>structures/kushites/temple_3.xml</Actor>
++    <FoundationActor>structures/fndn_6x6.xml</FoundationActor>
++  </VisualActor>
++</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/nile/palace.xml b/binaries/data/mods/public/simulation/templates/structures/nile/palace.xml
+deleted file mode 100644
+index 83c40c17bb..0000000000
+--- a/binaries/data/mods/public/simulation/templates/structures/nile/palace.xml
++++ /dev/null
+@@ -1,38 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_palace">
+-  <Cost>
+-    <BuildTime>300</BuildTime>
+-  </Cost>
+-  <Footprint>
+-    <Square width="32.0" depth="32.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <GarrisonHolder>
+-    <Max>10</Max>
+-  </GarrisonHolder>
+-  <Health>
+-    <Max>3000</Max>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_stone_6x6</SpawnEntityOnDeath>
+-  </Health>
+-  <Identity>
+-    <Civ>gaia</Civ>
+-    <SpecificName>Anlan</SpecificName>
+-    <Icon>structures/tholos.png</Icon>
+-  </Identity>
+-  <Loot>
+-    <wood>0</wood>
+-    <stone>75</stone>
+-    <metal>50</metal>
+-  </Loot>
+-  <Obstruction>
+-    <Static width="30.0" depth="30.0"/>
+-  </Obstruction>
+-  <TerritoryInfluence>
+-    <Root>true</Root>
+-    <Radius>48</Radius>
+-  </TerritoryInfluence>
+-  <VisualActor>
+-    <Actor>structures/persians/palace.xml</Actor>
+-    <FoundationActor>structures/fndn_6x6.xml</FoundationActor>
+-  </VisualActor>
+-</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/pers/palace.xml b/binaries/data/mods/public/simulation/templates/structures/pers/govcentre.xml
+similarity index 84%
+rename from binaries/data/mods/public/simulation/templates/structures/pers/palace.xml
+rename to binaries/data/mods/public/simulation/templates/structures/pers/govcentre.xml
+index 8ebd819a56..31db67ec82 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/pers/palace.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/pers/govcentre.xml
+@@ -1,14 +1,10 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_palace">
+-  <BuildRestrictions>
+-    <Category>Palace</Category>
+-  </BuildRestrictions>
++<Entity parent="template_structure_civic_govcentre_palace">
+   <Footprint>
+     <Square width="32.0" depth="32.0"/>
+     <Height>8.0</Height>
+   </Footprint>
+   <Health>
+-    <Max>3000</Max>
+     <SpawnEntityOnDeath>decay|rubble/rubble_stone_6x6</SpawnEntityOnDeath>
+   </Health>
+   <Identity>
+@@ -19,10 +15,6 @@
+     <Classes datatype="tokens">ConquestCritical CivSpecific</Classes>
+     <Icon>structures/palace.png</Icon>
+   </Identity>
+-  <Loot>
+-    <stone>60</stone>
+-    <metal>40</metal>
+-  </Loot>
+   <Obstruction>
+     <Static width="30.0" depth="30.0"/>
+   </Obstruction>
+@@ -51,9 +43,6 @@
+       <constructed>interface/complete/building/complete_broch.xml</constructed>
+     </SoundGroups>
+   </Sound>
+-  <Vision>
+-    <Range>40</Range>
+-  </Vision>
+   <VisualActor>
+     <Actor>structures/persians/apadana.xml</Actor>
+     <FoundationActor>structures/fndn_8x9.xml</FoundationActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/ptol/palace.xml b/binaries/data/mods/public/simulation/templates/structures/ptol/govcentre.xml
+similarity index 63%
+rename from binaries/data/mods/public/simulation/templates/structures/ptol/palace.xml
+rename to binaries/data/mods/public/simulation/templates/structures/ptol/govcentre.xml
+index 0118c061c0..39398a6c1b 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/ptol/palace.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/ptol/govcentre.xml
+@@ -1,31 +1,19 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_palace">
++<Entity parent="template_structure_civic_govcentre_palace">
+   <Footprint>
+     <Square width="50.0" depth="37.0"/>
+     <Height>8.0</Height>
+   </Footprint>
+   <Health>
+-    <Max>3000</Max>
+     <SpawnEntityOnDeath>decay|rubble/rubble_stone_6x6</SpawnEntityOnDeath>
+   </Health>
+   <Identity>
+     <Civ>ptol</Civ>
+     <SpecificName>Anáktoro</SpecificName>
+-    <Icon>structures/tholos.png</Icon>
+   </Identity>
+-  <Loot>
+-    <wood>0</wood>
+-    <stone>300</stone>
+-    <metal>300</metal>
+-    <wealth>300</wealth>
+-  </Loot>
+   <Obstruction>
+     <Static width="48.0" depth="35.0"/>
+   </Obstruction>
+-  <TerritoryInfluence>
+-    <Root>false</Root>
+-    <Radius>48</Radius>
+-  </TerritoryInfluence>
+   <VisualActor>
+ 		<Actor>structures/ptolemies/palace.xml</Actor>
+     <FoundationActor>structures/fndn_6x6.xml</FoundationActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/rome/govcentre.xml b/binaries/data/mods/public/simulation/templates/structures/rome/govcentre.xml
+new file mode 100644
+index 0000000000..83204cf473
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/templates/structures/rome/govcentre.xml
+@@ -0,0 +1,23 @@
++<?xml version="1.0" encoding="utf-8"?>
++<Entity parent="template_structure_civic_govcentre_assembly">
++  <Footprint>
++    <Square width="20.0" depth="30.0"/>
++    <Height>8.0</Height>
++  </Footprint>
++  <Identity>
++    <Civ>rome</Civ>
++    <GenericName>Roman Senate</GenericName>
++    <SpecificName>Curia</SpecificName>
++  </Identity>
++  <Obstruction>
++    <Static width="24.0" depth="30.0"/>
++  </Obstruction>
++  <ProductionQueue>
++    <Technologies datatype="tokens">
++			grain_dole
++    </Technologies>
++  </ProductionQueue>
++  <VisualActor>
++    <Actor>structures/romans/curia.xml</Actor>
++  </VisualActor>
++</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/rome/palace.xml b/binaries/data/mods/public/simulation/templates/structures/rome/palace.xml
+deleted file mode 100644
+index 7c7ed4ba08..0000000000
+--- a/binaries/data/mods/public/simulation/templates/structures/rome/palace.xml
++++ /dev/null
+@@ -1,49 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_palace">
+-  <Cost>
+-    <BuildTime>200</BuildTime>
+-    <Resources>
+-      <wood op="mul">0.5</wood>
+-      <stone op="mul">0.5</stone>
+-      <wealth op="mul">0.5</wealth>
+-    </Resources>
+-  </Cost>
+-  <Footprint>
+-    <Square width="20.0" depth="30.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <Max>2000</Max>
+-  </Health>
+-  <Identity>
+-    <Civ>rome</Civ>
+-    <GenericName>Roman Senate</GenericName>
+-    <SpecificName>Curia</SpecificName>
+-    <Tooltip>Train heroes. Research special technologies.</Tooltip>
+-    <Icon>structures/tholos.png</Icon>
+-  </Identity>
+-  <Loot>
+-    <wood>0</wood>
+-    <stone>25</stone>
+-    <metal>50</metal>
+-  </Loot>
+-  <Obstruction>
+-    <Static width="24.0" depth="30.0"/>
+-  </Obstruction>
+-  <ProductionQueue>
+-    <Technologies datatype="tokens">
+-			pair_government_{civ}
+-			grain_dole
+-    </Technologies>
+-  </ProductionQueue>
+-  <Sound>
+-    <SoundGroups>
+-      <select>interface/select/building/sel_tholos.xml</select>
+-      <constructed>interface/complete/building/complete_tholos.xml</constructed>
+-      <death>attack/destruction/building_collapse_large.xml</death>
+-    </SoundGroups>
+-  </Sound>
+-  <VisualActor>
+-    <Actor>structures/romans/curia.xml</Actor>
+-  </VisualActor>
+-</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/sele/palace.xml b/binaries/data/mods/public/simulation/templates/structures/sele/govcentre.xml
+similarity index 63%
+rename from binaries/data/mods/public/simulation/templates/structures/sele/palace.xml
+rename to binaries/data/mods/public/simulation/templates/structures/sele/govcentre.xml
+index e9bf5c6b50..9802e979ff 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/sele/palace.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/sele/govcentre.xml
+@@ -1,31 +1,19 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_palace">
++<Entity parent="template_structure_civic_govcentre_palace">
+   <Footprint>
+     <Square width="50.0" depth="32.0"/>
+     <Height>8.0</Height>
+   </Footprint>
+   <Health>
+-    <Max>3000</Max>
+     <SpawnEntityOnDeath>decay|rubble/rubble_stone_6x6</SpawnEntityOnDeath>
+   </Health>
+   <Identity>
+     <Civ>sele</Civ>
+     <SpecificName>Anáktoro</SpecificName>
+-    <Icon>structures/tholos.png</Icon>
+   </Identity>
+-  <Loot>
+-    <wood>0</wood>
+-    <stone>300</stone>
+-    <metal>300</metal>
+-    <wealth>300</wealth>
+-  </Loot>
+   <Obstruction>
+     <Static width="48.0" depth="30.0"/>
+   </Obstruction>
+-  <TerritoryInfluence>
+-    <Root>false</Root>
+-    <Radius>48</Radius>
+-  </TerritoryInfluence>
+   <VisualActor>
+ 		<Actor>structures/seleucids/palace.xml</Actor>
+     <FoundationActor>structures/fndn_6x6.xml</FoundationActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/spart/govcentre.xml b/binaries/data/mods/public/simulation/templates/structures/spart/govcentre.xml
+new file mode 100644
+index 0000000000..d7ab75d87f
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/templates/structures/spart/govcentre.xml
+@@ -0,0 +1,19 @@
++<?xml version="1.0" encoding="utf-8"?>
++<Entity parent="template_structure_civic_govcentre_assembly">
++  <Footprint replace="">
++    <Circle radius="12.0"/>
++    <Height>8.0</Height>
++  </Footprint>
++  <Identity>
++    <Civ>spart</Civ>
++    <GenericName>Spartan Senate</GenericName>
++    <SpecificName>Gerousia</SpecificName>
++    <Tooltip>Train heroes.</Tooltip>
++  </Identity>
++  <Obstruction>
++    <Static width="20.0" depth="20.0"/>
++  </Obstruction>
++  <VisualActor>
++    <Actor>structures/spartans/gerousia.xml</Actor>
++  </VisualActor>
++</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/spart/palace.xml b/binaries/data/mods/public/simulation/templates/structures/spart/palace.xml
+deleted file mode 100644
+index b12758ae09..0000000000
+--- a/binaries/data/mods/public/simulation/templates/structures/spart/palace.xml
++++ /dev/null
+@@ -1,48 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_palace">
+-  <Cost>
+-    <BuildTime>200</BuildTime>
+-    <Resources>
+-      <wood op="mul">0.5</wood>
+-      <stone op="mul">0.5</stone>
+-      <wealth op="mul">0.5</wealth>
+-    </Resources>
+-  </Cost>
+-  <Footprint replace="">
+-    <Circle radius="12.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <Max>2000</Max>
+-  </Health>
+-  <Identity>
+-    <Civ>spart</Civ>
+-    <GenericName>Spartan Senate</GenericName>
+-    <SpecificName>Gerousia</SpecificName>
+-    <Tooltip>Train heroes.</Tooltip>
+-    <Icon>structures/tholos.png</Icon>
+-  </Identity>
+-  <Loot>
+-    <wood>0</wood>
+-    <stone>25</stone>
+-    <metal>50</metal>
+-  </Loot>
+-  <Obstruction>
+-    <Static width="20.0" depth="20.0"/>
+-  </Obstruction>
+-  <ProductionQueue>
+-    <Technologies datatype="tokens">
+-			pair_government_{civ}
+-		</Technologies>
+-  </ProductionQueue>
+-  <Sound>
+-    <SoundGroups>
+-      <select>interface/select/building/sel_tholos.xml</select>
+-      <constructed>interface/complete/building/complete_tholos.xml</constructed>
+-      <death>attack/destruction/building_collapse_large.xml</death>
+-    </SoundGroups>
+-  </Sound>
+-  <VisualActor>
+-    <Actor>structures/spartans/gerousia.xml</Actor>
+-  </VisualActor>
+-</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_civic_palace.xml b/binaries/data/mods/public/simulation/templates/template_structure_civic_govcentre.xml
+similarity index 74%
+rename from binaries/data/mods/public/simulation/templates/template_structure_civic_palace.xml
+rename to binaries/data/mods/public/simulation/templates/template_structure_civic_govcentre.xml
+index 2257e7e98e..ea568d7373 100644
+--- a/binaries/data/mods/public/simulation/templates/template_structure_civic_palace.xml
++++ b/binaries/data/mods/public/simulation/templates/template_structure_civic_govcentre.xml
+@@ -1,7 +1,7 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic">
+   <BuildRestrictions>
+-    <Category>Palace</Category>
++    <Category>GovernmentCentre</Category>
+     <DistancesInclusive>
+       <VillageCentre disable=""/>
+       <TownCentre disable=""/>
+@@ -14,7 +14,7 @@
+       <wood>500</wood>
+       <stone>500</stone>
+       <metal>0</metal>
+-      <wealth>1000</wealth>
++      <wealth>500</wealth>
+     </Resources>
+   </Cost>
+   <GarrisonHolder>
+@@ -29,15 +29,15 @@
+     <Max>2000</Max>
+   </Health>
+   <Identity>
+-    <GenericName>Palace</GenericName>
+-    <Classes datatype="tokens">Palace</Classes>
++    <GenericName>Government Centre</GenericName>
++    <VisibleClasses datatype="tokens">GovernmentCentre</VisibleClasses>
+     <Icon>structures/tholos.png</Icon>
+     <Tooltip>Train hero units.</Tooltip>
+-    <RequiredTechnology>phase_hegemon</RequiredTechnology>
++    <RequiredTechnology>phase_city</RequiredTechnology>
+   </Identity>
+   <Loot>
+     <wood>0</wood>
+-    <stone>200</stone>
++    <stone>250</stone>
+     <wealth>500</wealth>
+   </Loot>
+   <ProductionQueue>
+@@ -53,10 +53,16 @@
+ 			units/{civ}/hero_08
+     </Entities>
+     <Technologies datatype="tokens">
+-			pair_government_{civ}
+ 	  	pair_taxation_{civ}
+     </Technologies>
+   </ProductionQueue>
++  <Sound>
++    <SoundGroups>
++      <select>interface/select/building/sel_tholos.xml</select>
++      <constructed>interface/complete/building/complete_tholos.xml</constructed>
++      <death>attack/destruction/building_collapse_large.xml</death>
++    </SoundGroups>
++  </Sound>
+   <TerritoryInfluence>
+     <Root>false</Root>
+     <Radius>48</Radius>
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_civic_govcentre_assembly.xml b/binaries/data/mods/public/simulation/templates/template_structure_civic_govcentre_assembly.xml
+new file mode 100644
+index 0000000000..2a015d9ff7
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/templates/template_structure_civic_govcentre_assembly.xml
+@@ -0,0 +1,15 @@
++<?xml version="1.0" encoding="utf-8"?>
++<Entity parent="template_structure_civic_govcentre">
++  <Identity>
++    <GenericName>Assembly</GenericName>
++    <VisibleClasses datatype="tokens">Assembly</VisibleClasses>
++  </Identity>
++  <ProductionQueue>
++    <Technologies datatype="tokens">
++	  	pair_government_{civ}
++    </Technologies>
++  </ProductionQueue>
++  <VisualActor>
++    <FoundationActor>structures/fndn_5x5.xml</FoundationActor>
++  </VisualActor>
++</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_civic_govcentre_palace.xml b/binaries/data/mods/public/simulation/templates/template_structure_civic_govcentre_palace.xml
+new file mode 100644
+index 0000000000..11fa409afb
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/templates/template_structure_civic_govcentre_palace.xml
+@@ -0,0 +1,29 @@
++<?xml version="1.0" encoding="utf-8"?>
++<Entity parent="template_structure_civic_govcentre">
++  <Cost>
++    <BuildTime op="mul">2</BuildTime>
++    <Resources>
++      <wood op="mul">2</wood>
++      <stone op="mul">2</stone>
++      <wealth op="mul">2</wealth>
++    </Resources>
++  </Cost>
++  <GarrisonHolder>
++    <Max op="mul">2</Max>
++  </GarrisonHolder>
++  <Health>
++    <Max op="mul">2</Max>
++  </Health>
++  <Identity>
++    <GenericName>Palace</GenericName>
++    <VisibleClasses datatype="tokens">Palace</VisibleClasses>
++    <RequiredTechnology>phase_hegemon</RequiredTechnology>
++  </Identity>
++  <Loot>
++    <stone op="mul">2</stone>
++    <wealth op="mul">2</wealth>
++  </Loot>
++  <VisualActor>
++    <FoundationActor>structures/fndn_8x9.xml</FoundationActor>
++  </VisualActor>
++</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_special_monument.xml b/binaries/data/mods/public/simulation/templates/template_structure_special_monument.xml
+index f4cb663605..9c5dae707e 100644
+--- a/binaries/data/mods/public/simulation/templates/template_structure_special_monument.xml
++++ b/binaries/data/mods/public/simulation/templates/template_structure_special_monument.xml
+@@ -38,4 +38,7 @@
+ 		<Radius>60</Radius>
+     <Weight>65535</Weight>
+ 	</TerritoryInfluence>
++  <Vision>
++    <Range>40</Range>
++  </Vision>
+ </Entity>
+-- 
+2.25.1
+

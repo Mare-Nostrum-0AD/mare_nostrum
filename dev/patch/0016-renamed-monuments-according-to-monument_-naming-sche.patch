@@ -1,0 +1,190 @@
+From 79e5076a5873f1f55e4a9dc10bd380c78d76cc68 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sun, 23 May 2021 19:19:22 -0700
+Subject: [PATCH 16/86] renamed monuments according to monument_* naming scheme
+
+created persian monuments from hall, inn
+
+renamed persian apartment block to apartment
+
+set persian, carthaginian apartment icons to structures/apartment.png
+---
+ .../structures/athen/{library.xml => monument_01.xml}    | 0
+ .../structures/athen/{theater.xml => monument_02.xml}    | 0
+ .../simulation/templates/structures/cart/apartment.xml   | 1 +
+ .../structures/cart/{library.xml => monument_01.xml}     | 0
+ .../kush/{pyramid_large.xml => monument_01.xml}          | 0
+ .../structures/mace/{library.xml => monument_01.xml}     | 0
+ .../structures/mace/{theater.xml => monument_02.xml}     | 0
+ .../pers/{apartment_block.xml => apartment.xml}          | 3 ++-
+ .../structures/pers/{hall.xml => monument_01.xml}        | 9 +--------
+ .../structures/pers/{inn.xml => monument_02.xml}         | 8 ++++++--
+ .../structures/ptol/{library.xml => monument_01.xml}     | 0
+ .../structures/ptol/{lighthouse.xml => monument_02.xml}  | 0
+ .../structures/ptol/{theater.xml => monument_03.xml}     | 0
+ .../structures/rome/{arch.xml => monument_01.xml}        | 0
+ .../structures/rome/{theater.xml => monument_02.xml}     | 0
+ .../structures/rome/{thermae.xml => monument_03.xml}     | 0
+ .../structures/sele/{library.xml => monument_01.xml}     | 0
+ .../structures/sele/{theater.xml => monument_02.xml}     | 0
+ .../structures/spart/{theater.xml => monument_01.xml}    | 0
+ 19 files changed, 10 insertions(+), 11 deletions(-)
+ rename binaries/data/mods/public/simulation/templates/structures/athen/{library.xml => monument_01.xml} (100%)
+ rename binaries/data/mods/public/simulation/templates/structures/athen/{theater.xml => monument_02.xml} (100%)
+ rename binaries/data/mods/public/simulation/templates/structures/cart/{library.xml => monument_01.xml} (100%)
+ rename binaries/data/mods/public/simulation/templates/structures/kush/{pyramid_large.xml => monument_01.xml} (100%)
+ rename binaries/data/mods/public/simulation/templates/structures/mace/{library.xml => monument_01.xml} (100%)
+ rename binaries/data/mods/public/simulation/templates/structures/mace/{theater.xml => monument_02.xml} (100%)
+ rename binaries/data/mods/public/simulation/templates/structures/pers/{apartment_block.xml => apartment.xml} (86%)
+ rename binaries/data/mods/public/simulation/templates/structures/pers/{hall.xml => monument_01.xml} (87%)
+ rename binaries/data/mods/public/simulation/templates/structures/pers/{inn.xml => monument_02.xml} (71%)
+ rename binaries/data/mods/public/simulation/templates/structures/ptol/{library.xml => monument_01.xml} (100%)
+ rename binaries/data/mods/public/simulation/templates/structures/ptol/{lighthouse.xml => monument_02.xml} (100%)
+ rename binaries/data/mods/public/simulation/templates/structures/ptol/{theater.xml => monument_03.xml} (100%)
+ rename binaries/data/mods/public/simulation/templates/structures/rome/{arch.xml => monument_01.xml} (100%)
+ rename binaries/data/mods/public/simulation/templates/structures/rome/{theater.xml => monument_02.xml} (100%)
+ rename binaries/data/mods/public/simulation/templates/structures/rome/{thermae.xml => monument_03.xml} (100%)
+ rename binaries/data/mods/public/simulation/templates/structures/sele/{library.xml => monument_01.xml} (100%)
+ rename binaries/data/mods/public/simulation/templates/structures/sele/{theater.xml => monument_02.xml} (100%)
+ rename binaries/data/mods/public/simulation/templates/structures/spart/{theater.xml => monument_01.xml} (100%)
+
+diff --git a/binaries/data/mods/public/simulation/templates/structures/athen/library.xml b/binaries/data/mods/public/simulation/templates/structures/athen/monument_01.xml
+similarity index 100%
+rename from binaries/data/mods/public/simulation/templates/structures/athen/library.xml
+rename to binaries/data/mods/public/simulation/templates/structures/athen/monument_01.xml
+diff --git a/binaries/data/mods/public/simulation/templates/structures/athen/theater.xml b/binaries/data/mods/public/simulation/templates/structures/athen/monument_02.xml
+similarity index 100%
+rename from binaries/data/mods/public/simulation/templates/structures/athen/theater.xml
+rename to binaries/data/mods/public/simulation/templates/structures/athen/monument_02.xml
+diff --git a/binaries/data/mods/public/simulation/templates/structures/cart/apartment.xml b/binaries/data/mods/public/simulation/templates/structures/cart/apartment.xml
+index b45b442a41..f2b006fa72 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/cart/apartment.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/cart/apartment.xml
+@@ -14,6 +14,7 @@
+   </Health>
+   <Identity>
+     <GenericName>Apartment Building</GenericName>
++		<Icon>structures/apartment.png</Icon>
+   </Identity>
+   <Loot>
+     <wood>30</wood>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/cart/library.xml b/binaries/data/mods/public/simulation/templates/structures/cart/monument_01.xml
+similarity index 100%
+rename from binaries/data/mods/public/simulation/templates/structures/cart/library.xml
+rename to binaries/data/mods/public/simulation/templates/structures/cart/monument_01.xml
+diff --git a/binaries/data/mods/public/simulation/templates/structures/kush/pyramid_large.xml b/binaries/data/mods/public/simulation/templates/structures/kush/monument_01.xml
+similarity index 100%
+rename from binaries/data/mods/public/simulation/templates/structures/kush/pyramid_large.xml
+rename to binaries/data/mods/public/simulation/templates/structures/kush/monument_01.xml
+diff --git a/binaries/data/mods/public/simulation/templates/structures/mace/library.xml b/binaries/data/mods/public/simulation/templates/structures/mace/monument_01.xml
+similarity index 100%
+rename from binaries/data/mods/public/simulation/templates/structures/mace/library.xml
+rename to binaries/data/mods/public/simulation/templates/structures/mace/monument_01.xml
+diff --git a/binaries/data/mods/public/simulation/templates/structures/mace/theater.xml b/binaries/data/mods/public/simulation/templates/structures/mace/monument_02.xml
+similarity index 100%
+rename from binaries/data/mods/public/simulation/templates/structures/mace/theater.xml
+rename to binaries/data/mods/public/simulation/templates/structures/mace/monument_02.xml
+diff --git a/binaries/data/mods/public/simulation/templates/structures/pers/apartment_block.xml b/binaries/data/mods/public/simulation/templates/structures/pers/apartment.xml
+similarity index 86%
+rename from binaries/data/mods/public/simulation/templates/structures/pers/apartment_block.xml
+rename to binaries/data/mods/public/simulation/templates/structures/pers/apartment.xml
+index ebb9e2810b..6564e0c79c 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/pers/apartment_block.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/pers/apartment.xml
+@@ -9,7 +9,8 @@
+   </Health>
+   <Identity>
+     <Civ>pers</Civ>
+-    <SpecificName>Apartment Block</SpecificName>
++    <GenericName>Apartment Block</GenericName>
++		<Icon>structures/apartment.png</Icon>
+   </Identity>
+   <Obstruction>
+     <Static width="23.0" depth="12.0"/>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/pers/hall.xml b/binaries/data/mods/public/simulation/templates/structures/pers/monument_01.xml
+similarity index 87%
+rename from binaries/data/mods/public/simulation/templates/structures/pers/hall.xml
+rename to binaries/data/mods/public/simulation/templates/structures/pers/monument_01.xml
+index 370873d512..364ee106f9 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/pers/hall.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/pers/monument_01.xml
+@@ -1,12 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_special">
+-  <Cost>
+-    <BuildTime>300</BuildTime>
+-    <Resources>
+-      <stone>250</stone>
+-      <metal>250</metal>
+-    </Resources>
+-  </Cost>
++<Entity parent="template_structure_special_monument">
+   <Footprint>
+     <Square width="25.0" depth="25.0"/>
+     <Height>8.0</Height>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/pers/inn.xml b/binaries/data/mods/public/simulation/templates/structures/pers/monument_02.xml
+similarity index 71%
+rename from binaries/data/mods/public/simulation/templates/structures/pers/inn.xml
+rename to binaries/data/mods/public/simulation/templates/structures/pers/monument_02.xml
+index c5d1261c03..a9025550dd 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/pers/inn.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/pers/monument_02.xml
+@@ -1,5 +1,8 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_house">
++<Entity parent="template_structure_special_monument">
++  <Auras datatype="tokens">
++  	structures/tavern_trade
++  </Auras>
+   <Footprint>
+     <Square width="30.0" depth="17.0"/>
+     <Height>10.0</Height>
+@@ -9,7 +12,8 @@
+   </Health>
+   <Identity>
+     <Civ>pers</Civ>
+-    <SpecificName>Inn</SpecificName>
++    <SpecificName>Chapar Khaneh</SpecificName>
++    <GenericName>Courier House</GenericName>
+   </Identity>
+   <Obstruction>
+     <Static width="28.0" depth="15.0"/>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/ptol/library.xml b/binaries/data/mods/public/simulation/templates/structures/ptol/monument_01.xml
+similarity index 100%
+rename from binaries/data/mods/public/simulation/templates/structures/ptol/library.xml
+rename to binaries/data/mods/public/simulation/templates/structures/ptol/monument_01.xml
+diff --git a/binaries/data/mods/public/simulation/templates/structures/ptol/lighthouse.xml b/binaries/data/mods/public/simulation/templates/structures/ptol/monument_02.xml
+similarity index 100%
+rename from binaries/data/mods/public/simulation/templates/structures/ptol/lighthouse.xml
+rename to binaries/data/mods/public/simulation/templates/structures/ptol/monument_02.xml
+diff --git a/binaries/data/mods/public/simulation/templates/structures/ptol/theater.xml b/binaries/data/mods/public/simulation/templates/structures/ptol/monument_03.xml
+similarity index 100%
+rename from binaries/data/mods/public/simulation/templates/structures/ptol/theater.xml
+rename to binaries/data/mods/public/simulation/templates/structures/ptol/monument_03.xml
+diff --git a/binaries/data/mods/public/simulation/templates/structures/rome/arch.xml b/binaries/data/mods/public/simulation/templates/structures/rome/monument_01.xml
+similarity index 100%
+rename from binaries/data/mods/public/simulation/templates/structures/rome/arch.xml
+rename to binaries/data/mods/public/simulation/templates/structures/rome/monument_01.xml
+diff --git a/binaries/data/mods/public/simulation/templates/structures/rome/theater.xml b/binaries/data/mods/public/simulation/templates/structures/rome/monument_02.xml
+similarity index 100%
+rename from binaries/data/mods/public/simulation/templates/structures/rome/theater.xml
+rename to binaries/data/mods/public/simulation/templates/structures/rome/monument_02.xml
+diff --git a/binaries/data/mods/public/simulation/templates/structures/rome/thermae.xml b/binaries/data/mods/public/simulation/templates/structures/rome/monument_03.xml
+similarity index 100%
+rename from binaries/data/mods/public/simulation/templates/structures/rome/thermae.xml
+rename to binaries/data/mods/public/simulation/templates/structures/rome/monument_03.xml
+diff --git a/binaries/data/mods/public/simulation/templates/structures/sele/library.xml b/binaries/data/mods/public/simulation/templates/structures/sele/monument_01.xml
+similarity index 100%
+rename from binaries/data/mods/public/simulation/templates/structures/sele/library.xml
+rename to binaries/data/mods/public/simulation/templates/structures/sele/monument_01.xml
+diff --git a/binaries/data/mods/public/simulation/templates/structures/sele/theater.xml b/binaries/data/mods/public/simulation/templates/structures/sele/monument_02.xml
+similarity index 100%
+rename from binaries/data/mods/public/simulation/templates/structures/sele/theater.xml
+rename to binaries/data/mods/public/simulation/templates/structures/sele/monument_02.xml
+diff --git a/binaries/data/mods/public/simulation/templates/structures/spart/theater.xml b/binaries/data/mods/public/simulation/templates/structures/spart/monument_01.xml
+similarity index 100%
+rename from binaries/data/mods/public/simulation/templates/structures/spart/theater.xml
+rename to binaries/data/mods/public/simulation/templates/structures/spart/monument_01.xml
+-- 
+2.25.1
+

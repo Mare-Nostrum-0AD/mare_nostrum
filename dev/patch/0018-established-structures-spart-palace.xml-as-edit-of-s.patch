@@ -1,0 +1,87 @@
+From 49b17edbdb5e20373b430e85256135d00ef52531 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sun, 23 May 2021 19:23:14 -0700
+Subject: [PATCH 18/86] established structures/spart/palace.xml as edit of
+ structures/spart/gerousia.xml
+
+renamed spartan palace from gerontia to gerousia
+---
+ .../spart/{gerousia.xml => palace.xml}        | 35 +++++++------------
+ 1 file changed, 12 insertions(+), 23 deletions(-)
+ rename binaries/data/mods/public/simulation/templates/structures/spart/{gerousia.xml => palace.xml} (56%)
+
+diff --git a/binaries/data/mods/public/simulation/templates/structures/spart/gerousia.xml b/binaries/data/mods/public/simulation/templates/structures/spart/palace.xml
+similarity index 56%
+rename from binaries/data/mods/public/simulation/templates/structures/spart/gerousia.xml
+rename to binaries/data/mods/public/simulation/templates/structures/spart/palace.xml
+index 982171dce7..b12758ae09 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/spart/gerousia.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/spart/palace.xml
+@@ -1,13 +1,11 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_special">
+-  <BuildRestrictions>
+-    <Category>Council</Category>
+-  </BuildRestrictions>
++<Entity parent="template_structure_civic_palace">
+   <Cost>
+     <BuildTime>200</BuildTime>
+     <Resources>
+-      <stone>100</stone>
+-      <metal>200</metal>
++      <wood op="mul">0.5</wood>
++      <stone op="mul">0.5</stone>
++      <wealth op="mul">0.5</wealth>
+     </Resources>
+   </Cost>
+   <Footprint replace="">
+@@ -21,38 +19,29 @@
+     <Civ>spart</Civ>
+     <GenericName>Spartan Senate</GenericName>
+     <SpecificName>Gerousia</SpecificName>
+-    <Tooltip>Train Heroes.</Tooltip>
+-    <Classes datatype="tokens">ConquestCritical</Classes>
+-    <VisibleClasses datatype="tokens">Council</VisibleClasses>
++    <Tooltip>Train heroes.</Tooltip>
+     <Icon>structures/tholos.png</Icon>
+   </Identity>
+   <Loot>
+-    <stone>20</stone>
+-    <metal>40</metal>
++    <wood>0</wood>
++    <stone>25</stone>
++    <metal>50</metal>
+   </Loot>
+   <Obstruction>
+     <Static width="20.0" depth="20.0"/>
+   </Obstruction>
+   <ProductionQueue>
+-    <BatchTimeModifier>0.7</BatchTimeModifier>
+-    <Entities datatype="tokens">
+-      units/{civ}/hero_leonidas
+-    </Entities>
++    <Technologies datatype="tokens">
++			pair_government_{civ}
++		</Technologies>
+   </ProductionQueue>
+   <Sound>
+     <SoundGroups>
+       <select>interface/select/building/sel_tholos.xml</select>
+       <constructed>interface/complete/building/complete_tholos.xml</constructed>
++      <death>attack/destruction/building_collapse_large.xml</death>
+     </SoundGroups>
+   </Sound>
+-  <TerritoryInfluence>
+-    <Root>false</Root>
+-    <Radius>38</Radius>
+-    <Weight>40000</Weight>
+-  </TerritoryInfluence>
+-  <Vision>
+-    <Range>40</Range>
+-  </Vision>
+   <VisualActor>
+     <Actor>structures/spartans/gerousia.xml</Actor>
+   </VisualActor>
+-- 
+2.25.1
+

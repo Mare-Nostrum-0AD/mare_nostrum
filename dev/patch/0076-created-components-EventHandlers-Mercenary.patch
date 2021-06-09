@@ -1,0 +1,395 @@
+From fa473aaf804d2404e3288d0599e31b4df9178eac Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Fri, 4 Jun 2021 19:07:47 -0700
+Subject: [PATCH 76/86] created components EventHandlers, Mercenary
+
+Upkeep now posts message MT_UpkeepPaid, lets other components handle sufficient/insufficient pay instead of calling HandleInsufficientUpkeep or HandleSufficientUpkeep by default
+---
+ .../simulation/components/EventHandlers.js    | 171 ++++++++++++++++++
+ .../public/simulation/components/Mercenary.js |  29 +++
+ .../public/simulation/components/Upkeep.js    |   8 +-
+ .../components/interfaces/EventHandlers.js    |   1 +
+ .../components/interfaces/Mercenary.js        |   1 +
+ .../components/interfaces/Upkeep.js           |   3 +
+ .../components/schemas/EventHandlers.xsd      |  30 +++
+ .../simulation/templates/mixins/merc_cav.xml  |   4 +-
+ .../simulation/templates/mixins/merc_ele.xml  |   4 +-
+ .../simulation/templates/mixins/merc_inf.xml  |   4 +-
+ .../simulation/templates/mixins/mercenary.xml |   9 +-
+ 11 files changed, 253 insertions(+), 11 deletions(-)
+ create mode 100644 binaries/data/mods/public/simulation/components/EventHandlers.js
+ create mode 100644 binaries/data/mods/public/simulation/components/Mercenary.js
+ create mode 100644 binaries/data/mods/public/simulation/components/interfaces/EventHandlers.js
+ create mode 100644 binaries/data/mods/public/simulation/components/interfaces/Mercenary.js
+ create mode 100644 binaries/data/mods/public/simulation/components/schemas/EventHandlers.xsd
+
+diff --git a/binaries/data/mods/public/simulation/components/EventHandlers.js b/binaries/data/mods/public/simulation/components/EventHandlers.js
+new file mode 100644
+index 0000000000..ea917c93c7
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/components/EventHandlers.js
+@@ -0,0 +1,171 @@
++function EventHandlers() {}
++
++EventHandlers.prototype.Schema =
++	"<a:help>Miscellaneous event handlers. Can call methods of any component.</a:help>" +
++	"<oneOrMore>" +
++		"<element a:help='One entity handler'>" +
++			"<anyName />" +
++			"<choice>" +
++				"<element name='EntityComponent' a:help='Component of this entity.'>" +
++					"<text />" +
++				"</element>" +
++				"<element name='OwnerComponent' a:help='Component of this entity`s owner.'>" +
++					"<text />" +
++				"</element>" +
++				"<element name='SystemComponent' a:help='System (global) component.'>" +
++					"<text />" +
++				"</element>" +
++			"</choice>" +
++			"<element name='Method' a:help='Function of component to call'>" +
++				"<text />" +
++			"</element>" +
++			"<optional>" +
++				"<element name='ExtraArgs' a:help='Extra args to add to event handler message.'>" +
++					"<oneOrMore>" +
++						"<element a:help='One additional arg.'>" +
++							"<anyName />" +
++							"<text />" +
++						"</element>" +
++					"</oneOrMore>" +
++				"</element>" +
++			"</optional>" +
++		"</element>" +
++	"</oneOrMore>";
++
++EventHandlers.prototype.Init = function()
++{
++	for (let [handlerName, handler] of Object.entries(this.template))
++	{
++		const getIID = (componentName) => eval("IID_" + componentName);
++		const [cmp, cmpType, cmpName] = (() => {
++			if (handler.EntityComponent)
++				return [Engine.QueryInterface(this.entity, getIID(handler.EntityComponent)), "entity", handler.EntityComponent];
++			if (handler.OwnerComponent)
++				return [QueryOwnerInterface(this.entity, getIID(handler.OwnerComponent)), "owner", handler.OwnerComponent];
++			if (handler.SystemComponent)
++				return [Engine.QueryInterface(SYSTEM_ENTITY, getIID(handler.SystemComponent)), "system", handler.SystemComponent];
++			throw new Error("Could not find valid component type.");
++		})();
++		if (!cmp)
++		{
++			errorf("Could not find valid %s component named \"%s\"", cmpType, cmpName);
++			return;
++		}
++		const extraArgs = handler.ExtraArgs || {};
++		const eventHandler = (msg) => {
++			const message = msg || {};
++			cmp[handler.Method]({...message, ...extraArgs});
++		};
++		const eventHandlerName = "On" + handlerName;
++		this[eventHandlerName] = eventHandler;
++	}
++};
++
++// TODO: register blank functions for all possible message types here, or else Engine won't know to look for event handlers
++// hopefully this doesn't incur too heavy a performance hit; this component should be used sparingly
++// TODO: find a way to register listeners only for needed event handlers
++EventHandlers.prototype.OnAIMetadata = function() {};
++EventHandlers.prototype.OnAttackDetected = function() {};
++EventHandlers.prototype.OnAttacked = function() {};
++EventHandlers.prototype.OnBattleStateChanged = function() {};
++EventHandlers.prototype.OnCapturePointsChanged = function() {};
++EventHandlers.prototype.OnCaptureRegenStateChanged = function() {};
++EventHandlers.prototype.OnCeasefireEnded = function() {};
++EventHandlers.prototype.OnCeasefireStarted = function() {};
++EventHandlers.prototype.OnCityPopulationChanged = function() {};
++EventHandlers.prototype.OnCivChanged = function() {};
++EventHandlers.prototype.OnConstructionFinished = function() {};
++EventHandlers.prototype.OnCreate = function() {};
++EventHandlers.prototype.OnDeserialized = function() {};
++EventHandlers.prototype.OnDestroy = function() {};
++EventHandlers.prototype.OnDiplomacyChanged = function() {};
++EventHandlers.prototype.OnDisabledTechnologiesChanged = function() {};
++EventHandlers.prototype.OnDisabledTemplatesChanged = function() {};
++EventHandlers.prototype.OnDropsiteSharingChanged = function() {};
++EventHandlers.prototype.OnEntitiesCreated = function() {};
++EventHandlers.prototype.OnEntityRenamed = function() {};
++EventHandlers.prototype.OnExperienceChanged = function() {};
++EventHandlers.prototype.OnFoundationBuildersChanged = function() {};
++EventHandlers.prototype.OnFoundationProgressChanged = function() {};
++EventHandlers.prototype.OnGarrisonedStateChanged = function() {};
++EventHandlers.prototype.OnGarrisonedUnitsChanged = function() {};
++EventHandlers.prototype.OnGlobalAttacked = function() {};
++EventHandlers.prototype.OnGlobalCinemaPathEnded = function() {};
++EventHandlers.prototype.OnGlobalCinemaQueueEnded = function() {};
++EventHandlers.prototype.OnGlobalConstructionFinished = function() {};
++EventHandlers.prototype.OnGlobalDeserialized = function() {};
++EventHandlers.prototype.OnGlobalDiplomacyChanged = function() {};
++EventHandlers.prototype.OnGlobalEntityRenamed = function() {};
++EventHandlers.prototype.OnGlobalInitGame = function() {};
++EventHandlers.prototype.OnGlobalOwnershipChanged = function() {};
++EventHandlers.prototype.OnGlobalPlayerDefeated = function() {};
++EventHandlers.prototype.OnGlobalPlayerEntityChanged = function() {};
++EventHandlers.prototype.OnGlobalPlayerWon = function() {};
++EventHandlers.prototype.OnGlobalResearchFinished = function() {};
++EventHandlers.prototype.OnGlobalSkirmishReplacerReplaced = function() {};
++EventHandlers.prototype.OnGlobalTrainingFinished = function() {};
++EventHandlers.prototype.OnGlobalTributeExchanged = function() {};
++EventHandlers.prototype.OnGlobalUnitAbleToMoveChanged = function() {};
++EventHandlers.prototype.OnGlobalValueModification = function() {};
++EventHandlers.prototype.OnGuardedAttacked = function() {};
++EventHandlers.prototype.OnHealthChanged = function() {};
++EventHandlers.prototype.OnInitGame = function() {};
++EventHandlers.prototype.OnInvulnerabilityChanged = function() {};
++EventHandlers.prototype.OnMotionUpdate = function() {};
++EventHandlers.prototype.OnMultiplierChanged = function() {};
++EventHandlers.prototype.OnOwnershipChanged = function() {};
++EventHandlers.prototype.OnPackFinished = function() {};
++EventHandlers.prototype.OnPackProgressUpdate = function() {};
++EventHandlers.prototype.OnPickupCanceled = function() {};
++EventHandlers.prototype.OnPickupRequested = function() {};
++EventHandlers.prototype.OnPlayerColorChanged = function() {};
++EventHandlers.prototype.OnPlayerDefeated = function() {};
++EventHandlers.prototype.OnPlayerEntityChanged = function() {};
++EventHandlers.prototype.OnPlayerWon = function() {};
++EventHandlers.prototype.OnPositionChanged = function() {};
++EventHandlers.prototype.OnProductionQueueChanged = function() {};
++EventHandlers.prototype.OnRangeUpdate = function() {};
++EventHandlers.prototype.OnResearchFinished = function() {};
++EventHandlers.prototype.OnResourceCarryingChanged = function() {};
++EventHandlers.prototype.OnResourceSupplyChanged = function() {};
++EventHandlers.prototype.OnResourceSupplyNumGatherersChanged = function() {};
++EventHandlers.prototype.OnSkirmishReplace = function() {};
++EventHandlers.prototype.OnSkirmishReplacerReplaced = function() {};
++EventHandlers.prototype.OnTemplateModification = function() {};
++EventHandlers.prototype.OnTerritoriesChanged = function() {};
++EventHandlers.prototype.OnTerritoryDecayChanged = function() {};
++EventHandlers.prototype.OnTerritoryPositionChanged = function() {};
++EventHandlers.prototype.OnTradePerformed = function() {};
++EventHandlers.prototype.OnTrainingFinished = function() {};
++EventHandlers.prototype.OnTrainingStarted = function() {};
++EventHandlers.prototype.OnTributeExchanged = function() {};
++EventHandlers.prototype.OnTurretedStateChanged = function() {};
++EventHandlers.prototype.OnTurretsChanged = function() {};
++EventHandlers.prototype.OnUnitAbleToMoveChanged = function() {};
++EventHandlers.prototype.OnUnitAIOrderDataChanged = function() {};
++EventHandlers.prototype.OnUnitAIStateChanged = function() {};
++EventHandlers.prototype.OnUnitIdleChanged = function() {};
++EventHandlers.prototype.OnUnitStanceChanged = function() {};
++EventHandlers.prototype.OnUpdate = function() {};
++EventHandlers.prototype.OnUpgradeProgressUpdate = function() {};
++EventHandlers.prototype.OnUpkeepPaid = function() {};
++EventHandlers.prototype.OnValueModification = function() {};
++EventHandlers.prototype.OnVictoryConditionsChanged = function() {};
++EventHandlers.prototype.OnVisibilityChanged = function() {};
++EventHandlers.prototype.OnVisionRangeChanged = function() {};
++
++// Sample function, for testing
++EventHandlers.prototype.ListArgs = function(msg)
++{
++	warnf('Args: [%s]', Object.entries(msg).map(([k, v]) => sprintf('%s: %s', k, v)).join(', '));
++};
++
++// no dynamic state to save
++EventHandlers.prototype.Serialize = null;
++
++EventHandlers.prototype.Deserialize = function()
++{
++	this.Init();
++};
++
++Engine.RegisterComponentType(IID_EventHandlers, "EventHandlers", EventHandlers);
+diff --git a/binaries/data/mods/public/simulation/components/Mercenary.js b/binaries/data/mods/public/simulation/components/Mercenary.js
+new file mode 100644
+index 0000000000..a3d362efda
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/components/Mercenary.js
+@@ -0,0 +1,29 @@
++function Mercenary() {}
++
++Mercenary.prototype.Schema =
++	"<empty/>";
++
++Mercenary.prototype.Rebel = function()
++{
++	let cmpOwnership = Engine.QueryInterface(this.entity, IID_Ownership);
++	if (cmpOwnership && cmpOwnership.GetOwner())
++	{
++		let playerID = cmpOwnership.GetOwner();
++		cmpOwnership.SetOwner(0);
++		let cmpGuiInterface = Engine.QueryInterface(SYSTEM_ENTITY, IID_GuiInterface);
++		if (cmpGuiInterface)
++			cmpGuiInterface.PushNotification({
++				"players": [playerID],
++				"message": markForTranslation("Your mercenaries are deserting due to lack of pay!"),
++				"translateMessage": true
++			});
++	}
++};
++
++Mercenary.prototype.OnUpkeepPaid = function({ hasDeficit })
++{
++	if (hasDeficit)
++		this.Rebel();
++};
++
++Engine.RegisterSystemComponentType(IID_Mercenary, "Mercenary", Mercenary);
+diff --git a/binaries/data/mods/public/simulation/components/Upkeep.js b/binaries/data/mods/public/simulation/components/Upkeep.js
+index 5085e7f2ac..294e0b382a 100644
+--- a/binaries/data/mods/public/simulation/components/Upkeep.js
++++ b/binaries/data/mods/public/simulation/components/Upkeep.js
+@@ -61,10 +61,10 @@ Upkeep.prototype.Pay = function(data, lateness)
+ 	if (!cmpPlayer)
+ 		return;
+ 
+-	if (!cmpPlayer.TrySubtractResources(this.rates))
+-		this.HandleInsufficientUpkeep();
+-	else
+-		this.HandleSufficientUpkeep();
++	Engine.PostMessage(this.entity, MT_UpkeepPaid, {
++		"amounts": this.rates,
++		"hasDeficit": !cmpPlayer.TrySubtractResources(this.rates)
++	});
+ };
+ 
+ /**
+diff --git a/binaries/data/mods/public/simulation/components/interfaces/EventHandlers.js b/binaries/data/mods/public/simulation/components/interfaces/EventHandlers.js
+new file mode 100644
+index 0000000000..9cf3acf22e
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/components/interfaces/EventHandlers.js
+@@ -0,0 +1 @@
++Engine.RegisterInterface("EventHandlers");
+diff --git a/binaries/data/mods/public/simulation/components/interfaces/Mercenary.js b/binaries/data/mods/public/simulation/components/interfaces/Mercenary.js
+new file mode 100644
+index 0000000000..a2e51d0d50
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/components/interfaces/Mercenary.js
+@@ -0,0 +1 @@
++Engine.RegisterInterface("Mercenary");
+diff --git a/binaries/data/mods/public/simulation/components/interfaces/Upkeep.js b/binaries/data/mods/public/simulation/components/interfaces/Upkeep.js
+index 5560327413..65e945e9b6 100644
+--- a/binaries/data/mods/public/simulation/components/interfaces/Upkeep.js
++++ b/binaries/data/mods/public/simulation/components/interfaces/Upkeep.js
+@@ -1 +1,4 @@
+ Engine.RegisterInterface("Upkeep");
++
++// message of the form {"amounts": Object{resources...}, "hasDeficit": boolean}
++Engine.RegisterMessageType("UpkeepPaid");
+diff --git a/binaries/data/mods/public/simulation/components/schemas/EventHandlers.xsd b/binaries/data/mods/public/simulation/components/schemas/EventHandlers.xsd
+new file mode 100644
+index 0000000000..6f55d12d16
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/components/schemas/EventHandlers.xsd
+@@ -0,0 +1,30 @@
++<a:help>Miscellaneous event handlers. Can call methods of any component.</a:help>
++<oneOrMore>
++	<element a:help='One entity handler'>
++		<anyName />
++		<choice>
++			<element name='EntityComponent' a:help='Component of this entity.'>
++				<text />
++			</element>
++			<element name='OwnerComponent' a:help='Component of this entity`s owner.'>
++				<text />
++			</element>
++			<element name='SystemComponent' a:help='System (global) component.'>
++				<text />
++			</element>
++		</choice>
++		<element name='Method' a:help='Function of component to call'>
++			<text />
++		</element>
++		<optional>
++			<element name='ExtraArgs' a:help='Extra args to add to event handler message.'>
++				<oneOrMore>
++					<element a:help='One additional arg.'>
++						<anyName />
++						<text />
++					</element>
++				</oneOrMore>
++			</element>
++		</optional>
++	</element>
++</oneOrMore>
+diff --git a/binaries/data/mods/public/simulation/templates/mixins/merc_cav.xml b/binaries/data/mods/public/simulation/templates/mixins/merc_cav.xml
+index 1a60a1d8b6..b06ed2578f 100644
+--- a/binaries/data/mods/public/simulation/templates/mixins/merc_cav.xml
++++ b/binaries/data/mods/public/simulation/templates/mixins/merc_cav.xml
+@@ -2,10 +2,10 @@
+ <Entity parent="mercenary">
+   <Cost>
+     <Resources>
+-      <metal>80</metal>
++      <wealth>80</wealth>
+     </Resources>
+   </Cost>
+   <Loot>
+-    <metal>8</metal>
++    <wealth>8</wealth>
+   </Loot>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/mixins/merc_ele.xml b/binaries/data/mods/public/simulation/templates/mixins/merc_ele.xml
+index 49c6ac4ee5..bc3970a051 100644
+--- a/binaries/data/mods/public/simulation/templates/mixins/merc_ele.xml
++++ b/binaries/data/mods/public/simulation/templates/mixins/merc_ele.xml
+@@ -2,10 +2,10 @@
+ <Entity parent="mercenary">
+   <Cost>
+     <Resources>
+-      <metal>120</metal>
++      <wealth>120</wealth>
+     </Resources>
+   </Cost>
+   <Loot>
+-    <metal>12</metal>
++    <wealth>12</wealth>
+   </Loot>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/mixins/merc_inf.xml b/binaries/data/mods/public/simulation/templates/mixins/merc_inf.xml
+index bc424c8168..6dc0ec7232 100644
+--- a/binaries/data/mods/public/simulation/templates/mixins/merc_inf.xml
++++ b/binaries/data/mods/public/simulation/templates/mixins/merc_inf.xml
+@@ -2,10 +2,10 @@
+ <Entity parent="mercenary">
+   <Cost>
+     <Resources>
+-      <metal>60</metal>
++      <wealth>60</wealth>
+     </Resources>
+   </Cost>
+   <Loot>
+-    <metal>6</metal>
++    <wealth>6</wealth>
+   </Loot>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/mixins/mercenary.xml b/binaries/data/mods/public/simulation/templates/mixins/mercenary.xml
+index 80f06c0454..fe2c1002c3 100644
+--- a/binaries/data/mods/public/simulation/templates/mixins/mercenary.xml
++++ b/binaries/data/mods/public/simulation/templates/mixins/mercenary.xml
+@@ -6,7 +6,7 @@
+       <food>0</food>
+       <wood>0</wood>
+       <stone>0</stone>
+-      <!-- Metal is specified on a per-class basis in derived templates. -->
++      <!-- Wealth is specified on a per-class basis in derived templates. -->
+     </Resources>
+   </Cost>
+   <Identity>
+@@ -17,5 +17,12 @@
+     <wood>0</wood>
+     <stone>0</stone>
+   </Loot>
++	<Mercenary />
+   <ResourceGatherer disable=""/>
++	<Upkeep>
++		<Interval>20000</Interval>
++		<Rates>
++			<wealth>1</wealth>
++		</Rates>
++	</Upkeep>
+ </Entity>
+-- 
+2.25.1
+

@@ -1,0 +1,25 @@
+From c47a9a78827b23ee72c3e5ba8afaa9c9ff6da829 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sun, 23 May 2021 19:32:00 -0700
+Subject: [PATCH 19/86] removed theater from builder mixin (covered by
+ monument_* already)
+
+---
+ .../data/mods/public/simulation/templates/mixins/builder.xml     | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/binaries/data/mods/public/simulation/templates/mixins/builder.xml b/binaries/data/mods/public/simulation/templates/mixins/builder.xml
+index 9268fdbece..83b3b503f1 100644
+--- a/binaries/data/mods/public/simulation/templates/mixins/builder.xml
++++ b/binaries/data/mods/public/simulation/templates/mixins/builder.xml
+@@ -39,7 +39,6 @@
+ 			structures/{civ}/monument_03
+ 			structures/{civ}/monument_04
+ 			structures/{civ}/palace
+-      structures/{civ}/theater
+       structures/{civ}/wonder
+     </Entities>
+   </Builder>
+-- 
+2.25.1
+

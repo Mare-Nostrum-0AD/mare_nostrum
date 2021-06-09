@@ -1,0 +1,197 @@
+From df8c09b3f59d7f824f5b47ce54f4d297b007a2cd Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Tue, 1 Jun 2021 17:25:48 -0700
+Subject: [PATCH 62/86] implemented utility function
+ globalscripts/utility.js:fmtNum, which formats numbers with commas after
+ every third digit
+
+fmtNum now used to format numbers in city population displays, tooltips
+---
+ binaries/data/mods/public/TODO.md             |  4 +--
+ .../data/mods/public/globalscripts/utility.js | 32 +++++++++++++++++++
+ .../data/mods/public/gui/common/tooltips.js   | 20 ++++++------
+ .../mods/public/gui/gamesetup/gamesetup.js    |  6 ++++
+ .../public/gui/session/selection_details.js   |  4 +--
+ 5 files changed, 52 insertions(+), 14 deletions(-)
+
+diff --git a/binaries/data/mods/public/TODO.md b/binaries/data/mods/public/TODO.md
+index 86fc7379cf..e6fff89bdd 100644
+--- a/binaries/data/mods/public/TODO.md
++++ b/binaries/data/mods/public/TODO.md
+@@ -27,7 +27,7 @@ Please feel free to contribute if you see anything you can do here. If there is
+ - Create gold, silver resource supplies
+ 	- icons as well /
+ - Create milk resource icon /
+-- Resolve infinite queue entity limit exploit (try infinite queueing animals)
++- Resolve infinite queue entity limit exploit (try infinite queueing animals) /
+ - Make sure all civ centre actors have projectiles
+ - Implement value modifiers for City, scaling by population (see GarrisonHolder for example)/ 
+ - Implement DeficitTriggers, DeficitValueModifiers for Upkeep (see GarrisonHolder for example)
+@@ -35,7 +35,7 @@ Please feel free to contribute if you see anything you can do here. If there is
+ - Implement directional resistance, allowing weaker flank and rear armor
+ - Rename "Population Limit" to "Command Limit", change icon
+ - Rebalance city manpower trickle /
+-- Create skirmish replacers for different levels of civ centre
++- Create skirmish replacers for different levels of civ centre /
+ - Create range of different starting levels, selectable from a dropdown list:
+ 	- Nomad
+ 	- Village
+diff --git a/binaries/data/mods/public/globalscripts/utility.js b/binaries/data/mods/public/globalscripts/utility.js
+index 906e93caa4..4103d3fc37 100644
+--- a/binaries/data/mods/public/globalscripts/utility.js
++++ b/binaries/data/mods/public/globalscripts/utility.js
+@@ -179,7 +179,39 @@ function parseEntityTokens(entity, tokenList)
+ 	return entities;
+ }// end parseEntityTokens
+ 
++// logs a warning message formatted via sprintf
+ function warnf(fmt, ...args)
+ {
+ 	warn(sprintf(fmt, ...args));
+ }
++
++// logs an error message formatted via sprintf
++function errorf(fmt, ...args)
++{
++	error(sprintf(fmt, ...args));
++}
++
++// formats a number with commas every three digits
++// @param num		Number		number to format
++// @return			String		comma-formatted string
++// example: fmtNum(13200) => "13,200"
++function fmtNum(num)
++{
++	if (typeof num !== 'number')
++		throw new Error(sprintf('%s is not a number!', num))
++	let [integer, remainder] = ("" + num).split('.');
++	let outputIntegerCharsReversed = [];
++	let idx = 0;
++	for (let ch of integer.split('').reverse())
++	{
++		if (idx === 3)
++		{
++			outputIntegerCharsReversed.push(',');
++			idx = 1;
++		} else {
++			idx += 1;
++		}
++		outputIntegerCharsReversed.push(ch);
++	}
++	return [outputIntegerCharsReversed.reverse().join(''), remainder].filter(n => n).join('.');
++}
+diff --git a/binaries/data/mods/public/gui/common/tooltips.js b/binaries/data/mods/public/gui/common/tooltips.js
+index 6ecdf1be0d..563811021c 100644
+--- a/binaries/data/mods/public/gui/common/tooltips.js
++++ b/binaries/data/mods/public/gui/common/tooltips.js
+@@ -1204,10 +1204,10 @@ function getCityPopulationText(template)
+ 	if (!template || !template.city || !template.city.population)
+ 		return "";
+ 
+-	let tooltip = sprintf("Initial: %(init)s, Maximum: %(max)s, Growth Rate: %(amount)s / %(interval)s", {
+-		"init": template.city.population.initial,
+-		"max": template.city.population.max,
+-		"amount": template.city.population.growth.amount,
++	let tooltip = sprintf("Initial: %(init)s; Maximum: %(max)s; Growth Rate: %(amount)s / %(interval)s", {
++		"init": fmtNum(template.city.population.initial),
++		"max": fmtNum(template.city.population.max),
++		"amount": fmtNum(template.city.population.growth.amount),
+ 		"interval": getSecondsString(template.city.population.growth.interval / 1000)
+ 	});
+ 	if (template.city.population.growth.tradeRate)
+@@ -1225,14 +1225,14 @@ function getCityPopulationTooltip(entState)
+ 
+ 	let netGrowthAmount = entState.city.growth.amount - entState.city.growth.decayAmount;
+ 	let tooltip = sprintf(["Population: %(pop)s", "Maximum: %(max)s", "Growth Rate: %(direction)s%(amount)s/%(interval)s"].join("\n" + g_Indent), {
+-		"pop": entState.city.population.toLocaleString(),
+-		"max": entState.city.maxPopulation.toLocaleString(),
++		"pop": fmtNum(entState.city.population),
++		"max": fmtNum(entState.city.maxPopulation),
+ 		"direction": netGrowthAmount < 0 ? '' : '+',
+-		"amount": netGrowthAmount.toLocaleString(),
++		"amount": fmtNum(netGrowthAmount),
+ 		"interval": getSecondsString(entState.city.growth.interval / 1000)
+ 	});
+ 	if (entState.city.growth.tradeRate)
+-		tooltip += sprintf(" + %(rate)s per unit trade income", { "rate": entState.city.growth.tradeRate });
++		tooltip += sprintf(" + %(rate)s per unit trade income", { "rate": fmtNum(entState.city.growth.tradeRate) });
+ 	return translate(sprintf("%(label)s\n%(text)s", {
+ 		"label": headerFont("City:"),
+ 		"text": g_Indent + tooltip
+@@ -1256,7 +1256,7 @@ function getCityUpgradeText(template, playerCiv)
+ 	return sprintf(translate(text), {
+ 		"specificName": upgrade.Identity.SpecificName,
+ 		"genericName": translate(upgrade.Identity.GenericName),
+-		"maxPop": template.city.population.max ? "population " + template.city.population.max : "maximum population"
++		"maxPop": template.city.population.max ? "population " + fmtNum(template.city.population.max) : "maximum population"
+ 	});
+ }
+ 
+@@ -1267,7 +1267,7 @@ function getCityMemberText(template)
+ 	let { growthContrib } = template.cityMember;
+ 	let text = (() => {
+ 		if (growthContrib.add)
+-			return sprintf("Increases city growth rate by %d.", growthContrib.add);
++			return sprintf("Increases city growth rate by %d.", fmtNum(growthContrib.add));
+ 		if (growthContrib.multiply)
+ 			return sprintf("Multiplies city growth rate by %s.", growthContrib.multiply);
+ 		// there should always be some valid growthContrib value
+diff --git a/binaries/data/mods/public/gui/gamesetup/gamesetup.js b/binaries/data/mods/public/gui/gamesetup/gamesetup.js
+index b3bd09021e..418aef5689 100644
+--- a/binaries/data/mods/public/gui/gamesetup/gamesetup.js
++++ b/binaries/data/mods/public/gui/gamesetup/gamesetup.js
+@@ -23,6 +23,7 @@ const g_RandomCivGroups = loadRandomCivGroups().map((group) => {
+ 		return null;
+ 	}
+ 	let weights = {};
++	// "*" signifies a standard weight to apply to all available civs; can be overridden later
+ 	if (group.Weights.hasOwnProperty('*') && group.Weights['*'] !== 0) {
+ 		let std_weight = group.Weights['*'];
+ 		if (std_weight < 0) {
+@@ -41,15 +42,18 @@ const g_RandomCivGroups = loadRandomCivGroups().map((group) => {
+ 			error(sprintf('Random civ group weights must be >= 0 (got "%s": %d); disabling %s', civ, group.Weights[civ], group.Title));
+ 			return null;
+ 		}
++		// this is where std weight overriding takes place, if applicable
+ 		if (g_CivData.hasOwnProperty(civ) && g_CivData[civ].SelectableInGameSetup)
+ 			weights[civ] = group.Weights[civ];
+ 		if (weights[civ] === 0)
+ 			delete weights[civ];
+ 	}// end for civ
++	// filter out any selection group with less than two available civs
+ 	if (Object.keys(weights).length < 2)
+ 	{
+ 		return null;
+ 	}
++	// copy group to new object; set defaults for non-essential properties
+ 	let filtered_group = {};
+ 	for (let property in group) {
+ 		if (property !== 'Weights')
+@@ -62,6 +66,8 @@ const g_RandomCivGroups = loadRandomCivGroups().map((group) => {
+ 	filtered_group.Weights = weights;
+ 	return filtered_group;
+ }).filter((group) => group).map((() => {
++	// if two group codes collide, append a suffix to the second group code
++	// implemented as a closure
+ 	let group_codes = {};
+ 	return (group) => {
+ 		if (group_codes.hasOwnProperty(group.Code)) {
+diff --git a/binaries/data/mods/public/gui/session/selection_details.js b/binaries/data/mods/public/gui/session/selection_details.js
+index 25d10385c7..ebf16d61d5 100644
+--- a/binaries/data/mods/public/gui/session/selection_details.js
++++ b/binaries/data/mods/public/gui/session/selection_details.js
+@@ -70,9 +70,9 @@ function displaySingle(entState)
+ 	if (entState.city && entState.city.population)
+ 	{
+ 		if (secondaryName && g_ShowSecondaryNames)
+-			secondaryName = sprintf(translate("%(genName)s | Population %(pop)s"), { "genName": secondaryName, "pop": entState.city.population.toLocaleString() });
++			secondaryName = sprintf(translate("%(genName)s | Population %(pop)s"), { "genName": secondaryName, "pop": fmtNum(entState.city.population) });
+ 		else
+-			secondaryName = sprintf(translate("Population %(pop)s"), { "pop": entState.city.population.toLocaleString() });
++			secondaryName = sprintf(translate("Population %(pop)s"), { "pop": fmtNum(entState.city.population) });
+ 	}
+ 	// City population growth rate
+ 	if (entState.city && entState.city.growth)
+-- 
+2.25.1
+

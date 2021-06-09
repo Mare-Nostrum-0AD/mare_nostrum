@@ -1,0 +1,24 @@
+From 768fa3a3abdeb4ac9ecddff86c0f946220b43432 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Tue, 1 Jun 2021 23:03:42 -0700
+Subject: [PATCH 69/86] changed kushite patron temple actor
+
+---
+ .../simulation/templates/mixins/civ/kush/temple_patron.xml      | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/binaries/data/mods/public/simulation/templates/mixins/civ/kush/temple_patron.xml b/binaries/data/mods/public/simulation/templates/mixins/civ/kush/temple_patron.xml
+index aae7801a18..4484358779 100644
+--- a/binaries/data/mods/public/simulation/templates/mixins/civ/kush/temple_patron.xml
++++ b/binaries/data/mods/public/simulation/templates/mixins/civ/kush/temple_patron.xml
+@@ -11,6 +11,6 @@
+     <Static width="18" depth="30.0"/>
+   </Obstruction>
+   <VisualActor>
+-    <Actor>structures/kushites/temple_3.xml</Actor>
++    <Actor>structures/kushites/temple_2.xml</Actor>
+   </VisualActor>
+ </Entity>
+-- 
+2.25.1
+

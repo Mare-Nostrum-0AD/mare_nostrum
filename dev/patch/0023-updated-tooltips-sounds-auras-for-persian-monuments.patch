@@ -1,0 +1,147 @@
+From c5333f9d3f56ffb96b823beaa72a3bc6b5b75715 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sun, 23 May 2021 22:51:42 -0700
+Subject: [PATCH 23/86] updated tooltips, sounds, auras for persian monuments
+
+---
+ .../data/auras/structures/courier_post.json        | 12 ++++++++++++
+ .../data/auras/structures/monument_pers.json       | 12 ++++++++++++
+ .../data/auras/structures/monument_pers_trade.json | 12 ++++++++++++
+ .../templates/structures/pers/monument_01.xml      | 11 ++++++++---
+ .../templates/structures/pers/monument_02.xml      | 14 +++++++++++++-
+ 5 files changed, 57 insertions(+), 4 deletions(-)
+ create mode 100644 binaries/data/mods/public/simulation/data/auras/structures/courier_post.json
+ create mode 100644 binaries/data/mods/public/simulation/data/auras/structures/monument_pers.json
+ create mode 100644 binaries/data/mods/public/simulation/data/auras/structures/monument_pers_trade.json
+
+diff --git a/binaries/data/mods/public/simulation/data/auras/structures/courier_post.json b/binaries/data/mods/public/simulation/data/auras/structures/courier_post.json
+new file mode 100644
+index 0000000000..d7013c0b57
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/data/auras/structures/courier_post.json
+@@ -0,0 +1,12 @@
++{
++	"type": "range",
++	"radius": 500,
++	"affects": ["Trader+!Ship"],
++	"modifications": [
++		{ "value": "Trader/GainMultiplier", "multiply": 1.1 },
++		{ "value": "UnitMotion/WalkSpeed", "multiply": 1.4 }
++	],
++	"auraDescription": "Increase land traders' gain multiplier by 10%, walk speed by 40%.",
++	"auraName": "Courier Post",
++	"stackable": false
++}
+diff --git a/binaries/data/mods/public/simulation/data/auras/structures/monument_pers.json b/binaries/data/mods/public/simulation/data/auras/structures/monument_pers.json
+new file mode 100644
+index 0000000000..39cb0da153
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/data/auras/structures/monument_pers.json
+@@ -0,0 +1,12 @@
++{
++	"type": "range",
++	"radius": 150,
++	"affects": ["CivilCentre"],
++	"modifications": [
++		{ "value": "City/Population/Growth/Rate", "multiply": 2.5 },
++		{ "value": "City/Population/Growth/TradeRate", "multiply": 1.5 }
++	],
++	"auraDescription": "City +150% increased population growth rate, +50% trade growth rate.",
++	"auraName": "Gate of All Nations",
++	"stackable": true
++}
+diff --git a/binaries/data/mods/public/simulation/data/auras/structures/monument_pers_trade.json b/binaries/data/mods/public/simulation/data/auras/structures/monument_pers_trade.json
+new file mode 100644
+index 0000000000..d98568ca77
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/data/auras/structures/monument_pers_trade.json
+@@ -0,0 +1,12 @@
++{
++	"type": "range",
++	"radius": 150,
++	"affects": ["CivilCentre"],
++	"modifications": [
++		{ "value": "City/Population/Growth/Rate", "multiply": 1.5 },
++		{ "value": "City/Population/Growth/TradeRate", "multiply": 2.5 }
++	],
++	"auraDescription": "City +50% increased population growth rate, +150% trade growth rate.",
++	"auraName": "Royal Road Networks",
++	"stackable": true
++}
+diff --git a/binaries/data/mods/public/simulation/templates/structures/pers/monument_01.xml b/binaries/data/mods/public/simulation/templates/structures/pers/monument_01.xml
+index 364ee106f9..87ca39898b 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/pers/monument_01.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/pers/monument_01.xml
+@@ -1,5 +1,9 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_special_monument">
++	<Auras datatype="tokens">
++		-structures/monument_population
++		structures/monument_pers
++	</Auras>
+   <Footprint>
+     <Square width="25.0" depth="25.0"/>
+     <Height>8.0</Height>
+@@ -16,7 +20,8 @@
+     <GenericName>Gate of All Nations</GenericName>
+     <SpecificName>Duvarθi Visadahyu</SpecificName>
+     <VisibleClasses datatype="tokens">Hall</VisibleClasses>
+-    <Icon>structures/pers_hall.png</Icon>
++		<Tooltip>Monument representing the diversity of the Achaemenid Empire. Inspires immigration to the city, improving city growth rate.</Tooltip>
++    <Icon>structures/lamassu.png</Icon>
+   </Identity>
+   <Loot>
+     <stone>50</stone>
+@@ -27,8 +32,8 @@
+   </Obstruction>
+   <Sound>
+     <SoundGroups>
+-      <select>interface/select/building/sel_broch.xml</select>
+-      <constructed>interface/complete/building/complete_broch.xml</constructed>
++      <select>interface/select/building/sel_temple.xml</select>
++      <constructed>interface/complete/building/complete_temple.xml</constructed>
+     </SoundGroups>
+   </Sound>
+   <TerritoryDecay disable=""/>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/pers/monument_02.xml b/binaries/data/mods/public/simulation/templates/structures/pers/monument_02.xml
+index eacf2f7181..c78a7a4336 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/pers/monument_02.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/pers/monument_02.xml
+@@ -1,7 +1,9 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_special_monument">
+   <Auras datatype="tokens">
+-  	structures/tavern_trade
++		-structures/monument_population
++		structures/monument_pers
++  	structures/courier_post
+   </Auras>
+   <Footprint>
+     <Square width="30.0" depth="17.0"/>
+@@ -14,6 +16,7 @@
+     <Civ>pers</Civ>
+     <SpecificName>Chapar Khaneh</SpecificName>
+     <GenericName>Courier House</GenericName>
++		<Tooltip>Provides shelter and fresh horses to travellers. Speeds up traders and improves city growth rate from trade.</Tooltip>
+ 		<Icon>technologies/horse_rider.png</Icon>
+   </Identity>
+   <Obstruction>
+@@ -22,6 +25,15 @@
+     <Population>
+     <Bonus>15</Bonus>
+   </Population>
++  <Sound>
++    <SoundGroups>
++      <select>interface/select/building/sel_market.xml</select>
++      <constructed>interface/complete/building/complete_market.xml</constructed>
++      <death>attack/destruction/building_collapse_large.xml</death>
++      <alert_raise>interface/alarm/alarm_alert_0.xml</alert_raise>
++      <alert_end>interface/alarm/alarm_alert_1.xml</alert_end>
++    </SoundGroups>
++  </Sound>
+   <TerritoryInfluence>
+     <Radius>26</Radius>
+   </TerritoryInfluence>
+-- 
+2.25.1
+

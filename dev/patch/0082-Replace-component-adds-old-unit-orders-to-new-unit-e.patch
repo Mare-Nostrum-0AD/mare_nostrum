@@ -1,0 +1,30 @@
+From 63c931217c19210a5c3650fedc761117fa74e3b9 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sat, 5 Jun 2021 16:59:34 -0700
+Subject: [PATCH 82/86] Replace component adds old unit orders to new unit
+ entity
+
+---
+ binaries/data/mods/public/simulation/components/Replace.js | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/binaries/data/mods/public/simulation/components/Replace.js b/binaries/data/mods/public/simulation/components/Replace.js
+index 4d89e20581..50b2010a3f 100644
+--- a/binaries/data/mods/public/simulation/components/Replace.js
++++ b/binaries/data/mods/public/simulation/components/Replace.js
+@@ -35,7 +35,11 @@ Replace.prototype.Replace = function()
+ 	if (templates.length === 0)
+ 		return this.entity;
+ 	let template = pickRandom(templates);
+-	return ChangeEntityTemplate(this.entity, template);
++	const newEntity = ChangeEntityTemplate(this.entity, template);
++	const cmpOldUnitAI = Engine.QueryInterface(this.entity, IID_UnitAI);
++	const cmpNewUnitAI = Engine.QueryInterface(newEntity, IID_UnitAI);
++	cmpNewUnitAI.AddOrders(cmpOldUnitAI.GetOrderData());
++	return newEntity;
+ };// end Replace.prototype.Replace
+ 
+ // no dynamic state to init or save
+-- 
+2.25.1
+

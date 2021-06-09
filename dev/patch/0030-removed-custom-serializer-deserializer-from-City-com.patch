@@ -1,0 +1,541 @@
+From cade049413294cb7df0f3ea685c09edc2e38906a Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Mon, 24 May 2021 18:22:55 -0700
+Subject: [PATCH 30/86] removed custom serializer, deserializer from City
+ component
+
+added specific names to hellenic, roman, persian civil centres
+
+changed DiminishingReturns of resource field ResourceSupply component to 1.05 from 1.10
+
+added "upgraded" alarm sound to civil centres
+---
+ .../data/mods/public/simulation/components/City.js  | 13 -------------
+ .../templates/structures/athen/city_centre.xml      |  2 +-
+ .../templates/structures/athen/civil_centre.xml     |  1 +
+ .../templates/structures/athen/metro_centre.xml     |  1 -
+ .../templates/structures/athen/town_centre.xml      |  1 +
+ .../templates/structures/brit/city_centre.xml       |  1 +
+ .../simulation/templates/structures/cart/palace.xml |  4 ++--
+ .../templates/structures/gaul/city_centre.xml       |  1 +
+ .../templates/structures/mace/city_centre.xml       |  2 +-
+ .../templates/structures/mace/civil_centre.xml      |  1 +
+ .../templates/structures/mace/metro_centre.xml      |  1 -
+ .../templates/structures/mace/town_centre.xml       |  1 +
+ .../templates/structures/maur/wall_gate.xml         |  1 +
+ .../templates/structures/maur/wall_long.xml         |  1 +
+ .../templates/structures/maur/wall_medium.xml       |  1 +
+ .../templates/structures/maur/wall_short.xml        |  1 +
+ .../templates/structures/maur/wall_tower.xml        |  1 +
+ .../templates/structures/pers/civil_centre.xml      |  7 ++-----
+ .../templates/structures/pers/town_centre.xml       |  3 ---
+ .../templates/structures/ptol/city_centre.xml       |  2 +-
+ .../templates/structures/ptol/civil_centre.xml      |  1 +
+ .../templates/structures/ptol/metro_centre.xml      |  1 -
+ .../templates/structures/ptol/town_centre.xml       |  1 +
+ .../templates/structures/rome/city_centre.xml       |  2 +-
+ .../templates/structures/rome/civil_centre.xml      |  1 +
+ .../templates/structures/rome/metro_centre.xml      |  2 +-
+ .../templates/structures/rome/town_centre.xml       |  1 +
+ .../templates/structures/sele/city_centre.xml       |  2 +-
+ .../templates/structures/sele/civil_centre.xml      |  1 +
+ .../templates/structures/sele/metro_centre.xml      |  1 -
+ .../templates/structures/sele/town_centre.xml       |  1 +
+ .../templates/structures/spart/city_centre.xml      |  2 +-
+ .../templates/structures/spart/civil_centre.xml     |  2 +-
+ .../templates/structures/spart/metro_centre.xml     |  1 -
+ .../templates/structures/spart/town_centre.xml      |  1 +
+ .../template_structure_civic_civil_centre.xml       |  1 +
+ .../templates/template_structure_resource_field.xml |  2 +-
+ 37 files changed, 32 insertions(+), 37 deletions(-)
+
+diff --git a/binaries/data/mods/public/simulation/components/City.js b/binaries/data/mods/public/simulation/components/City.js
+index cc72011c02..a0c48ce66c 100644
+--- a/binaries/data/mods/public/simulation/components/City.js
++++ b/binaries/data/mods/public/simulation/components/City.js
+@@ -478,17 +478,4 @@ City.prototype.OnTradePerformed = function({ market, goods })
+ 	this.SetPopulation(oldPopulation + tradeGrowthAmount);
+ };
+ 
+-City.prototype.Serialize = function()
+-{
+-	return {
+-		"population": this.population
+-	};
+-};
+-
+-City.prototype.Deserialize = function(data)
+-{
+-	this.Init();
+-	this.population = data.population;
+-};
+-
+ Engine.RegisterComponentType(IID_City, "City", City);
+diff --git a/binaries/data/mods/public/simulation/templates/structures/athen/city_centre.xml b/binaries/data/mods/public/simulation/templates/structures/athen/city_centre.xml
+index a7457b609f..ba5dc87ee0 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/athen/city_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/athen/city_centre.xml
+@@ -8,7 +8,7 @@
+   </Health>
+   <Identity>
+     <Civ>athen</Civ>
+-    <SpecificName>Agorá</SpecificName>
++		<SpecificName>Pōlis</SpecificName>
+   </Identity>
+   <VisualActor>
+ 		<Actor>special/greek_stoa_great.xml</Actor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/athen/civil_centre.xml b/binaries/data/mods/public/simulation/templates/structures/athen/civil_centre.xml
+index cc46be295c..f91a2ef3b0 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/athen/civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/athen/civil_centre.xml
+@@ -12,6 +12,7 @@
+   </Health>
+   <Identity>
+     <Civ>athen</Civ>
++		<SpecificName>Xorióu</SpecificName>
+   </Identity>
+   <Obstruction>
+     <Static width="37.0" depth="37.0"/>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/athen/metro_centre.xml b/binaries/data/mods/public/simulation/templates/structures/athen/metro_centre.xml
+index 831728098c..39666da776 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/athen/metro_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/athen/metro_centre.xml
+@@ -5,7 +5,6 @@
+   </Health>
+   <Identity>
+     <Civ>athen</Civ>
+-    <SpecificName>Agora</SpecificName>
+   </Identity>
+   <VisualActor>
+     <Actor>structures/athenians/civil_centre.xml</Actor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/athen/town_centre.xml b/binaries/data/mods/public/simulation/templates/structures/athen/town_centre.xml
+index 7ced836e3b..61182051d4 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/athen/town_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/athen/town_centre.xml
+@@ -12,6 +12,7 @@
+   </Health>
+   <Identity>
+     <Civ>athen</Civ>
++		<SpecificName>Kōmopolis</SpecificName>
+   </Identity>
+   <Obstruction>
+     <Static width="37.0" depth="37.0"/>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/brit/city_centre.xml b/binaries/data/mods/public/simulation/templates/structures/brit/city_centre.xml
+index 2684ad6811..0a4fabffda 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/brit/city_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/brit/city_centre.xml
+@@ -13,6 +13,7 @@
+   <Identity>
+     <Civ>brit</Civ>
+     <SpecificName>Caer</SpecificName>
++		<Classes datatype="tokens">-Sturdy</Classes>
+   </Identity>
+   <Obstruction>
+     <Static width="25.0" depth="25.0"/>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/cart/palace.xml b/binaries/data/mods/public/simulation/templates/structures/cart/palace.xml
+index 3ef3c5ba48..9ce3f087f3 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/cart/palace.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/cart/palace.xml
+@@ -4,7 +4,7 @@
+     <BuildTime>300</BuildTime>
+   </Cost>
+   <Footprint>
+-    <Square width="28.0" depth="28.0"/>
++    <Square width="30.0" depth="30.0"/>
+     <Height>15.0</Height>
+   </Footprint>
+   <GarrisonHolder>
+@@ -20,7 +20,7 @@
+     <GenericName>Carthaginian Senate</GenericName>
+   </Identity>
+   <Obstruction>
+-    <Static width="40.0" depth="40.0"/>
++    <Static width="28.0" depth="28.0"/>
+   </Obstruction>
+   <ProductionQueue>
+     <BatchTimeModifier>0.8</BatchTimeModifier>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/gaul/city_centre.xml b/binaries/data/mods/public/simulation/templates/structures/gaul/city_centre.xml
+index 90917f5780..2332237d4f 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/gaul/city_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/gaul/city_centre.xml
+@@ -10,6 +10,7 @@
+   <Identity>
+     <Civ>gaul</Civ>
+     <SpecificName>Caer</SpecificName>
++		<Classes datatype="tokens">-Sturdy</Classes>
+   </Identity>
+   <Obstruction>
+     <Static width="25.0" depth="25.0"/>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/mace/city_centre.xml b/binaries/data/mods/public/simulation/templates/structures/mace/city_centre.xml
+index 170be42369..8aff2eed96 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/mace/city_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/mace/city_centre.xml
+@@ -8,7 +8,7 @@
+   </Health>
+   <Identity>
+     <Civ>mace</Civ>
+-    <SpecificName>Agorá</SpecificName>
++    <SpecificName>Pōlis</SpecificName>
+   </Identity>
+   <VisualActor>
+ 		<Actor>special/greek_stoa_great.xml</Actor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/mace/civil_centre.xml b/binaries/data/mods/public/simulation/templates/structures/mace/civil_centre.xml
+index 91f2613a51..a38d14f387 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/mace/civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/mace/civil_centre.xml
+@@ -13,6 +13,7 @@
+   <Identity>
+     <Civ>mace</Civ>
+     <GenericName>Village</GenericName>
++		<SpecificName>Xorióu</SpecificName>
+   </Identity>
+   <Obstruction>
+     <Static width="37.0" depth="37.0"/>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/mace/metro_centre.xml b/binaries/data/mods/public/simulation/templates/structures/mace/metro_centre.xml
+index 9ff621cebc..52eca47924 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/mace/metro_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/mace/metro_centre.xml
+@@ -5,7 +5,6 @@
+   </Health>
+   <Identity>
+     <Civ>mace</Civ>
+-    <SpecificName>Agora</SpecificName>
+   </Identity>
+   <VisualActor>
+     <Actor>structures/macedonians/civic_centre.xml</Actor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/mace/town_centre.xml b/binaries/data/mods/public/simulation/templates/structures/mace/town_centre.xml
+index 649d2c11b7..f16e9da9cc 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/mace/town_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/mace/town_centre.xml
+@@ -12,6 +12,7 @@
+   </Health>
+   <Identity>
+     <Civ>mace</Civ>
++		<SpecificName>Kōmopolis</SpecificName>
+   </Identity>
+   <Obstruction>
+     <Static width="37.0" depth="37.0"/>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/maur/wall_gate.xml b/binaries/data/mods/public/simulation/templates/structures/maur/wall_gate.xml
+index 87e4a4410c..4d8d5c350a 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/maur/wall_gate.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/maur/wall_gate.xml
+@@ -13,6 +13,7 @@
+   <Identity>
+     <Civ>maur</Civ>
+     <SpecificName>Dwara</SpecificName>
++		<Classes datatype="tokens">-Sturdy</Classes>
+   </Identity>
+   <Loot>
+     <wood>6</wood>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/maur/wall_long.xml b/binaries/data/mods/public/simulation/templates/structures/maur/wall_long.xml
+index d54fcf4728..5f552b53db 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/maur/wall_long.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/maur/wall_long.xml
+@@ -13,6 +13,7 @@
+   <Identity>
+     <Civ>maur</Civ>
+     <SpecificName>Shilabanda</SpecificName>
++		<Classes datatype="tokens">-Sturdy</Classes>
+   </Identity>
+   <Loot>
+     <wood>7</wood>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/maur/wall_medium.xml b/binaries/data/mods/public/simulation/templates/structures/maur/wall_medium.xml
+index 0f05ca9f30..d13ebdf5e2 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/maur/wall_medium.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/maur/wall_medium.xml
+@@ -13,6 +13,7 @@
+   <Identity>
+     <Civ>maur</Civ>
+     <SpecificName>Shilabanda</SpecificName>
++		<Classes datatype="tokens">-Sturdy</Classes>
+   </Identity>
+   <Loot>
+     <wood>5</wood>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/maur/wall_short.xml b/binaries/data/mods/public/simulation/templates/structures/maur/wall_short.xml
+index 2911390f6b..96ba0f3beb 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/maur/wall_short.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/maur/wall_short.xml
+@@ -13,6 +13,7 @@
+   <Identity>
+     <Civ>maur</Civ>
+     <SpecificName>Shilabanda</SpecificName>
++		<Classes datatype="tokens">-Sturdy</Classes>
+   </Identity>
+   <Loot>
+     <wood>3</wood>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/maur/wall_tower.xml b/binaries/data/mods/public/simulation/templates/structures/maur/wall_tower.xml
+index 55ad276a2f..c4188659b2 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/maur/wall_tower.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/maur/wall_tower.xml
+@@ -16,6 +16,7 @@
+   <Identity>
+     <Civ>maur</Civ>
+     <SpecificName>Puratta</SpecificName>
++		<Classes datatype="tokens">-Sturdy</Classes>
+   </Identity>
+   <Loot>
+     <wood>12</wood>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/pers/civil_centre.xml b/binaries/data/mods/public/simulation/templates/structures/pers/civil_centre.xml
+index 7f7ef9fb9f..507f551b2e 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/pers/civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/pers/civil_centre.xml
+@@ -1,18 +1,15 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_civil_centre_a">
+-  <City merge="">
+-    <Upgrade>structures/{native}/town_centre</Upgrade>
+-  </City>
+   <Footprint>
+     <Square width="40.0" depth="40.0"/>
+     <Height>8.0</Height>
+   </Footprint>
+   <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_rome_cc</SpawnEntityOnDeath>
++    <SpawnEntityOnDeath>decay|rubble/rubble_pers_cc</SpawnEntityOnDeath>
+   </Health>
+   <Identity>
+     <Civ>pers</Civ>
+-    <GenericName>Village</GenericName>
++    <SpecificName>Rusta</SpecificName>
+   </Identity>
+   <Obstruction>
+     <Static width="37.0" depth="37.0"/>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/pers/town_centre.xml b/binaries/data/mods/public/simulation/templates/structures/pers/town_centre.xml
+index 40603fa0fa..20feb36164 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/pers/town_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/pers/town_centre.xml
+@@ -1,8 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_civil_centre_b">
+-  <City merge="">
+-    <Upgrade>structures/{native}/city_centre</Upgrade>
+-  </City>
+   <Footprint>
+     <Square width="40.0" depth="40.0"/>
+     <Height>8.0</Height>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/ptol/city_centre.xml b/binaries/data/mods/public/simulation/templates/structures/ptol/city_centre.xml
+index 38f35f1d54..d3fbca9d4a 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/ptol/city_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/ptol/city_centre.xml
+@@ -6,7 +6,7 @@
+   </Footprint>
+   <Identity>
+     <Civ>ptol</Civ>
+-    <SpecificName>pr-'a</SpecificName>
++		<SpecificName>Pōlis</SpecificName>
+   </Identity>
+   <Obstruction>
+     <Static width="39" depth="31"/>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/ptol/civil_centre.xml b/binaries/data/mods/public/simulation/templates/structures/ptol/civil_centre.xml
+index eadd5647a5..701ecc9059 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/ptol/civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/ptol/civil_centre.xml
+@@ -12,6 +12,7 @@
+   </Health>
+   <Identity>
+     <Civ>ptol</Civ>
++		<SpecificName>Xorióu</SpecificName>
+   </Identity>
+   <Obstruction>
+     <Static width="37.0" depth="37.0"/>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/ptol/metro_centre.xml b/binaries/data/mods/public/simulation/templates/structures/ptol/metro_centre.xml
+index cc4792ea7e..31c8549e24 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/ptol/metro_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/ptol/metro_centre.xml
+@@ -6,7 +6,6 @@
+   </Footprint>
+   <Identity>
+     <Civ>ptol</Civ>
+-    <SpecificName>pr-'a</SpecificName>
+   </Identity>
+   <Obstruction>
+     <Static width="39" depth="31"/>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/ptol/town_centre.xml b/binaries/data/mods/public/simulation/templates/structures/ptol/town_centre.xml
+index 84c3b53552..f0bebcbe75 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/ptol/town_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/ptol/town_centre.xml
+@@ -12,6 +12,7 @@
+   </Health>
+   <Identity>
+     <Civ>ptol</Civ>
++		<SpecificName>Kōmopolis</SpecificName>
+   </Identity>
+   <Obstruction>
+     <Static width="37.0" depth="37.0"/>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/rome/city_centre.xml b/binaries/data/mods/public/simulation/templates/structures/rome/city_centre.xml
+index 2a701b53af..e02179017f 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/rome/city_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/rome/city_centre.xml
+@@ -12,7 +12,7 @@
+   </Health>
+   <Identity>
+     <Civ>rome</Civ>
+-    <SpecificName>Forum</SpecificName>
++    <SpecificName>Urbs</SpecificName>
+   </Identity>
+   <Obstruction>
+     <Static width="37.0" depth="37.0"/>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/rome/civil_centre.xml b/binaries/data/mods/public/simulation/templates/structures/rome/civil_centre.xml
+index b93376e321..559e36006a 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/rome/civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/rome/civil_centre.xml
+@@ -12,6 +12,7 @@
+   </Health>
+   <Identity>
+     <Civ>rome</Civ>
++		<SpecificName>Vicus</SpecificName>
+   </Identity>
+   <Obstruction>
+     <Static width="37.0" depth="37.0"/>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/rome/metro_centre.xml b/binaries/data/mods/public/simulation/templates/structures/rome/metro_centre.xml
+index 33dbc7e4a4..ddef4f421c 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/rome/metro_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/rome/metro_centre.xml
+@@ -9,7 +9,7 @@
+   </Health>
+   <Identity>
+     <Civ>rome</Civ>
+-    <SpecificName>Forum</SpecificName>
++    <SpecificName>Civitas</SpecificName>
+   </Identity>
+   <Obstruction>
+     <Static width="37.0" depth="37.0"/>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/rome/town_centre.xml b/binaries/data/mods/public/simulation/templates/structures/rome/town_centre.xml
+index e09c239c40..e511ae3db4 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/rome/town_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/rome/town_centre.xml
+@@ -12,6 +12,7 @@
+   </Health>
+   <Identity>
+     <Civ>rome</Civ>
++		<SpecificName>Municipium</SpecificName>
+   </Identity>
+   <Obstruction>
+     <Static width="37.0" depth="37.0"/>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/sele/city_centre.xml b/binaries/data/mods/public/simulation/templates/structures/sele/city_centre.xml
+index 8c3e42526e..893baad44f 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/sele/city_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/sele/city_centre.xml
+@@ -2,7 +2,7 @@
+ <Entity parent="template_structure_civic_civil_centre_c">
+   <Identity>
+     <Civ>sele</Civ>
+-    <SpecificName>Agorā́</SpecificName>
++		<SpecificName>Pōlis</SpecificName>
+   </Identity>
+   <VisualActor>
+     <Actor>structures/seleucids/civic_center.xml</Actor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/sele/civil_centre.xml b/binaries/data/mods/public/simulation/templates/structures/sele/civil_centre.xml
+index b943add3d8..ae80e30dda 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/sele/civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/sele/civil_centre.xml
+@@ -12,6 +12,7 @@
+   </Health>
+   <Identity>
+     <Civ>sele</Civ>
++		<SpecificName>Xorióu</SpecificName>
+   </Identity>
+   <Obstruction>
+     <Static width="37.0" depth="37.0"/>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/sele/metro_centre.xml b/binaries/data/mods/public/simulation/templates/structures/sele/metro_centre.xml
+index 2736ed5488..9129df34e4 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/sele/metro_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/sele/metro_centre.xml
+@@ -2,7 +2,6 @@
+ <Entity parent="template_structure_civic_civil_centre_d">
+   <Identity>
+     <Civ>sele</Civ>
+-    <SpecificName>Agorā́</SpecificName>
+   </Identity>
+   <VisualActor>
+     <Actor>structures/seleucids/civic_center_metropolitan.xml</Actor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/sele/town_centre.xml b/binaries/data/mods/public/simulation/templates/structures/sele/town_centre.xml
+index f3127bba80..41d0dc6418 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/sele/town_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/sele/town_centre.xml
+@@ -12,6 +12,7 @@
+   </Health>
+   <Identity>
+     <Civ>sele</Civ>
++		<SpecificName>Kōmopolis</SpecificName>
+   </Identity>
+   <Obstruction>
+     <Static width="37.0" depth="37.0"/>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/spart/city_centre.xml b/binaries/data/mods/public/simulation/templates/structures/spart/city_centre.xml
+index 6e29e8d8d2..9660f59a68 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/spart/city_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/spart/city_centre.xml
+@@ -8,7 +8,7 @@
+   </Health>
+   <Identity>
+     <Civ>spart</Civ>
+-    <SpecificName>Agorá</SpecificName>
++		<SpecificName>Pōlis</SpecificName>
+   </Identity>
+   <VisualActor>
+     <Actor>structures/spartans/stoa.xml</Actor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/spart/civil_centre.xml b/binaries/data/mods/public/simulation/templates/structures/spart/civil_centre.xml
+index 51eea1fca5..fd7204a6e4 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/spart/civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/spart/civil_centre.xml
+@@ -12,7 +12,7 @@
+   </Health>
+   <Identity>
+     <Civ>spart</Civ>
+-    <GenericName>Village</GenericName>
++		<SpecificName>Xorióu</SpecificName>
+   </Identity>
+   <Obstruction>
+     <Static width="37.0" depth="37.0"/>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/spart/metro_centre.xml b/binaries/data/mods/public/simulation/templates/structures/spart/metro_centre.xml
+index bb51855f25..8cd12854cc 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/spart/metro_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/spart/metro_centre.xml
+@@ -5,7 +5,6 @@
+   </Health>
+   <Identity>
+     <Civ>spart</Civ>
+-    <SpecificName>Agora</SpecificName>
+   </Identity>
+   <VisualActor>
+     <Actor>structures/spartans/civic_center.xml</Actor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/spart/town_centre.xml b/binaries/data/mods/public/simulation/templates/structures/spart/town_centre.xml
+index cda0168717..07e5f5ebbe 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/spart/town_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/spart/town_centre.xml
+@@ -12,6 +12,7 @@
+   </Health>
+   <Identity>
+     <Civ>spart</Civ>
++		<SpecificName>Kōmopolis</SpecificName>
+   </Identity>
+   <Obstruction>
+     <Static width="37.0" depth="37.0"/>
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre.xml b/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre.xml
+index 21ae34ad64..9280aaf0d7 100644
+--- a/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre.xml
+@@ -155,6 +155,7 @@
+     <SoundGroups>
+       <select>interface/select/building/sel_civ_center.xml</select>
+       <constructed>interface/complete/building/complete_civ_center.xml</constructed>
++			<upgraded>interface/alarm/alarm_phase.xml</upgraded>
+       <alert_raise>interface/alarm/alarm_alert_0.xml</alert_raise>
+       <alert_end>interface/alarm/alarm_alert_1.xml</alert_end>
+       <attack_ranged>attack/weapon/bow_attack.xml</attack_ranged>
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_resource_field.xml b/binaries/data/mods/public/simulation/templates/template_structure_resource_field.xml
+index 3a474b6064..df7fd63866 100644
+--- a/binaries/data/mods/public/simulation/templates/template_structure_resource_field.xml
++++ b/binaries/data/mods/public/simulation/templates/template_structure_resource_field.xml
+@@ -48,7 +48,7 @@
+     <Max>Infinity</Max>
+     <Type>food.grain</Type>
+     <MaxGatherers>3</MaxGatherers>
+-    <DiminishingReturns>1.10</DiminishingReturns>
++    <DiminishingReturns>1.05</DiminishingReturns>
+   </ResourceSupply>
+   <Sound>
+     <SoundGroups>
+-- 
+2.25.1
+

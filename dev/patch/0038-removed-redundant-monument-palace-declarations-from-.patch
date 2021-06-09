@@ -1,0 +1,398 @@
+From 0da4cb368d210befce83b8b9e6e2f1f35fd43da4 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Tue, 25 May 2021 18:26:46 -0700
+Subject: [PATCH 38/86] removed redundant monument/palace declarations from
+ unit builder lists
+
+---
+ .../templates/units/gaul/infantry_javelineer_b.xml          | 5 -----
+ .../simulation/templates/units/kush/infantry_archer_b.xml   | 1 -
+ .../templates/units/kush/infantry_javelineer_merc_b.xml     | 1 -
+ .../templates/units/kush/infantry_maceman_merc_b.xml        | 1 -
+ .../simulation/templates/units/kush/infantry_pikeman_b.xml  | 1 -
+ .../simulation/templates/units/kush/infantry_spearman_b.xml | 1 -
+ .../templates/units/kush/infantry_swordsman_b.xml           | 1 -
+ .../templates/units/kush/support_female_citizen.xml         | 1 -
+ .../simulation/templates/units/maur/infantry_archer_b.xml   | 1 -
+ .../simulation/templates/units/maur/infantry_spearman_b.xml | 1 -
+ .../templates/units/maur/infantry_swordsman_b.xml           | 1 -
+ .../templates/units/maur/support_female_citizen.xml         | 1 -
+ .../simulation/templates/units/pers/infantry_archer_b.xml   | 6 ------
+ .../templates/units/pers/infantry_javelineer_b.xml          | 5 -----
+ .../simulation/templates/units/pers/infantry_spearman_b.xml | 6 ------
+ .../simulation/templates/units/ptol/infantry_archer_b.xml   | 6 ------
+ .../templates/units/ptol/infantry_javelineer_b.xml          | 6 ------
+ .../simulation/templates/units/ptol/infantry_pikeman_b.xml  | 6 ------
+ .../simulation/templates/units/ptol/infantry_slinger_b.xml  | 6 ------
+ .../templates/units/ptol/infantry_spearman_merc_b.xml       | 6 ------
+ .../templates/units/ptol/infantry_swordsman_merc_b.xml      | 6 ------
+ .../templates/units/ptol/support_female_citizen.xml         | 6 ------
+ .../templates/units/rome/infantry_javelineer_b.xml          | 2 --
+ .../simulation/templates/units/rome/infantry_spearman_b.xml | 2 --
+ .../templates/units/rome/infantry_swordsman_b.xml           | 2 --
+ .../simulation/templates/units/sele/infantry_pikeman_b.xml  | 4 +---
+ 26 files changed, 1 insertion(+), 84 deletions(-)
+
+diff --git a/binaries/data/mods/public/simulation/templates/units/gaul/infantry_javelineer_b.xml b/binaries/data/mods/public/simulation/templates/units/gaul/infantry_javelineer_b.xml
+index 3b6874de6b..0d3441dfbf 100644
+--- a/binaries/data/mods/public/simulation/templates/units/gaul/infantry_javelineer_b.xml
++++ b/binaries/data/mods/public/simulation/templates/units/gaul/infantry_javelineer_b.xml
+@@ -1,10 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_unit_infantry_ranged_javelineer">
+-  <Builder>
+-    <Entities datatype="tokens">
+-      structures/gaul/assembly
+-    </Entities>
+-  </Builder>
+   <Identity>
+     <Civ>gaul</Civ>
+     <SelectionGroupName>units/gaul/infantry_javelineer_b</SelectionGroupName>
+diff --git a/binaries/data/mods/public/simulation/templates/units/kush/infantry_archer_b.xml b/binaries/data/mods/public/simulation/templates/units/kush/infantry_archer_b.xml
+index 9f27a37e40..86462a7fc9 100644
+--- a/binaries/data/mods/public/simulation/templates/units/kush/infantry_archer_b.xml
++++ b/binaries/data/mods/public/simulation/templates/units/kush/infantry_archer_b.xml
+@@ -3,7 +3,6 @@
+   <Builder>
+     <Entities datatype="tokens">
+       structures/kush/pyramid_small
+-      structures/kush/pyramid_large
+       structures/kush/temple_amun
+       structures/kush/camp_blemmye
+       structures/kush/camp_noba
+diff --git a/binaries/data/mods/public/simulation/templates/units/kush/infantry_javelineer_merc_b.xml b/binaries/data/mods/public/simulation/templates/units/kush/infantry_javelineer_merc_b.xml
+index 73cd0721b3..1036d5ebb3 100644
+--- a/binaries/data/mods/public/simulation/templates/units/kush/infantry_javelineer_merc_b.xml
++++ b/binaries/data/mods/public/simulation/templates/units/kush/infantry_javelineer_merc_b.xml
+@@ -3,7 +3,6 @@
+   <Builder>
+     <Entities datatype="tokens">
+       structures/kush/pyramid_small
+-      structures/kush/pyramid_large
+       structures/kush/temple_amun
+       structures/kush/camp_blemmye
+       structures/kush/camp_noba
+diff --git a/binaries/data/mods/public/simulation/templates/units/kush/infantry_maceman_merc_b.xml b/binaries/data/mods/public/simulation/templates/units/kush/infantry_maceman_merc_b.xml
+index cbd3b78405..ee4ed6a331 100644
+--- a/binaries/data/mods/public/simulation/templates/units/kush/infantry_maceman_merc_b.xml
++++ b/binaries/data/mods/public/simulation/templates/units/kush/infantry_maceman_merc_b.xml
+@@ -3,7 +3,6 @@
+   <Builder>
+     <Entities datatype="tokens">
+       structures/kush/pyramid_small
+-      structures/kush/pyramid_large
+       structures/kush/temple_amun
+       structures/kush/camp_blemmye
+       structures/kush/camp_noba
+diff --git a/binaries/data/mods/public/simulation/templates/units/kush/infantry_pikeman_b.xml b/binaries/data/mods/public/simulation/templates/units/kush/infantry_pikeman_b.xml
+index 0a34075a8a..fc15d78e56 100644
+--- a/binaries/data/mods/public/simulation/templates/units/kush/infantry_pikeman_b.xml
++++ b/binaries/data/mods/public/simulation/templates/units/kush/infantry_pikeman_b.xml
+@@ -3,7 +3,6 @@
+   <Builder>
+     <Entities datatype="tokens">
+       structures/kush/pyramid_small
+-      structures/kush/pyramid_large
+       structures/kush/temple_amun
+       structures/kush/camp_blemmye
+       structures/kush/camp_noba
+diff --git a/binaries/data/mods/public/simulation/templates/units/kush/infantry_spearman_b.xml b/binaries/data/mods/public/simulation/templates/units/kush/infantry_spearman_b.xml
+index 17a0056a61..4f46d08dcf 100644
+--- a/binaries/data/mods/public/simulation/templates/units/kush/infantry_spearman_b.xml
++++ b/binaries/data/mods/public/simulation/templates/units/kush/infantry_spearman_b.xml
+@@ -3,7 +3,6 @@
+   <Builder>
+     <Entities datatype="tokens">
+       structures/kush/pyramid_small
+-      structures/kush/pyramid_large
+       structures/kush/temple_amun
+       structures/kush/camp_blemmye
+       structures/kush/camp_noba
+diff --git a/binaries/data/mods/public/simulation/templates/units/kush/infantry_swordsman_b.xml b/binaries/data/mods/public/simulation/templates/units/kush/infantry_swordsman_b.xml
+index 7c27e620bc..45bc8dda98 100644
+--- a/binaries/data/mods/public/simulation/templates/units/kush/infantry_swordsman_b.xml
++++ b/binaries/data/mods/public/simulation/templates/units/kush/infantry_swordsman_b.xml
+@@ -3,7 +3,6 @@
+   <Builder>
+     <Entities datatype="tokens">
+       structures/kush/pyramid_small
+-      structures/kush/pyramid_large
+       structures/kush/temple_amun
+       structures/kush/camp_blemmye
+       structures/kush/camp_noba
+diff --git a/binaries/data/mods/public/simulation/templates/units/kush/support_female_citizen.xml b/binaries/data/mods/public/simulation/templates/units/kush/support_female_citizen.xml
+index fbd3e437f1..1eb2b5e702 100644
+--- a/binaries/data/mods/public/simulation/templates/units/kush/support_female_citizen.xml
++++ b/binaries/data/mods/public/simulation/templates/units/kush/support_female_citizen.xml
+@@ -3,7 +3,6 @@
+   <Builder>
+     <Entities datatype="tokens">
+       structures/kush/pyramid_small
+-      structures/kush/pyramid_large
+       structures/kush/temple_amun
+       structures/kush/camp_blemmye
+       structures/kush/camp_noba
+diff --git a/binaries/data/mods/public/simulation/templates/units/maur/infantry_archer_b.xml b/binaries/data/mods/public/simulation/templates/units/maur/infantry_archer_b.xml
+index 069dc0793b..29f245f9c0 100644
+--- a/binaries/data/mods/public/simulation/templates/units/maur/infantry_archer_b.xml
++++ b/binaries/data/mods/public/simulation/templates/units/maur/infantry_archer_b.xml
+@@ -2,7 +2,6 @@
+ <Entity parent="template_unit_infantry_ranged_archer">
+   <Builder>
+     <Entities datatype="tokens">
+-      structures/maur/palace
+       structures/maur/pillar_ashoka
+     </Entities>
+   </Builder>
+diff --git a/binaries/data/mods/public/simulation/templates/units/maur/infantry_spearman_b.xml b/binaries/data/mods/public/simulation/templates/units/maur/infantry_spearman_b.xml
+index 5bab629ec8..29503b3f8b 100644
+--- a/binaries/data/mods/public/simulation/templates/units/maur/infantry_spearman_b.xml
++++ b/binaries/data/mods/public/simulation/templates/units/maur/infantry_spearman_b.xml
+@@ -2,7 +2,6 @@
+ <Entity parent="template_unit_infantry_melee_spearman">
+   <Builder>
+     <Entities datatype="tokens">
+-      structures/maur/palace
+       structures/maur/pillar_ashoka
+     </Entities>
+   </Builder>
+diff --git a/binaries/data/mods/public/simulation/templates/units/maur/infantry_swordsman_b.xml b/binaries/data/mods/public/simulation/templates/units/maur/infantry_swordsman_b.xml
+index 4f402400e8..a72f94cc7a 100644
+--- a/binaries/data/mods/public/simulation/templates/units/maur/infantry_swordsman_b.xml
++++ b/binaries/data/mods/public/simulation/templates/units/maur/infantry_swordsman_b.xml
+@@ -7,7 +7,6 @@
+   </Attack>
+   <Builder>
+     <Entities datatype="tokens">
+-      structures/maur/palace
+       structures/maur/pillar_ashoka
+     </Entities>
+   </Builder>
+diff --git a/binaries/data/mods/public/simulation/templates/units/maur/support_female_citizen.xml b/binaries/data/mods/public/simulation/templates/units/maur/support_female_citizen.xml
+index ad01792d19..8b8430c94e 100644
+--- a/binaries/data/mods/public/simulation/templates/units/maur/support_female_citizen.xml
++++ b/binaries/data/mods/public/simulation/templates/units/maur/support_female_citizen.xml
+@@ -2,7 +2,6 @@
+ <Entity parent="template_unit_support_female_citizen">
+   <Builder>
+     <Entities datatype="tokens">
+-      structures/maur/palace
+       structures/maur/pillar_ashoka
+     </Entities>
+   </Builder>
+diff --git a/binaries/data/mods/public/simulation/templates/units/pers/infantry_archer_b.xml b/binaries/data/mods/public/simulation/templates/units/pers/infantry_archer_b.xml
+index dce9402c18..04362243d4 100644
+--- a/binaries/data/mods/public/simulation/templates/units/pers/infantry_archer_b.xml
++++ b/binaries/data/mods/public/simulation/templates/units/pers/infantry_archer_b.xml
+@@ -1,11 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_unit_infantry_ranged_archer">
+-  <Builder>
+-    <Entities datatype="tokens">
+-      structures/pers/apadana
+-			structures/pers/ishtar_gate
+-    </Entities>
+-  </Builder>
+   <Identity>
+     <Civ>pers</Civ>
+     <Lang>persian</Lang>
+diff --git a/binaries/data/mods/public/simulation/templates/units/pers/infantry_javelineer_b.xml b/binaries/data/mods/public/simulation/templates/units/pers/infantry_javelineer_b.xml
+index a29785703b..37190d3a26 100644
+--- a/binaries/data/mods/public/simulation/templates/units/pers/infantry_javelineer_b.xml
++++ b/binaries/data/mods/public/simulation/templates/units/pers/infantry_javelineer_b.xml
+@@ -1,10 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_unit_infantry_ranged_javelineer">
+-  <Builder>
+-    <Entities datatype="tokens">
+-      structures/pers/apadana
+-    </Entities>
+-  </Builder>
+   <Identity>
+     <Civ>pers</Civ>
+     <Lang>persian</Lang>
+diff --git a/binaries/data/mods/public/simulation/templates/units/pers/infantry_spearman_b.xml b/binaries/data/mods/public/simulation/templates/units/pers/infantry_spearman_b.xml
+index 5f01f60d98..d83e975056 100644
+--- a/binaries/data/mods/public/simulation/templates/units/pers/infantry_spearman_b.xml
++++ b/binaries/data/mods/public/simulation/templates/units/pers/infantry_spearman_b.xml
+@@ -1,11 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_unit_infantry_melee_spearman">
+-  <Builder>
+-    <Entities datatype="tokens">
+-      structures/pers/apadana
+-			structures/pers/ishtar_gate
+-    </Entities>
+-  </Builder>
+   <Identity>
+     <Civ>pers</Civ>
+     <Lang>persian</Lang>
+diff --git a/binaries/data/mods/public/simulation/templates/units/ptol/infantry_archer_b.xml b/binaries/data/mods/public/simulation/templates/units/ptol/infantry_archer_b.xml
+index 7777f53dcd..9e2ae7732a 100644
+--- a/binaries/data/mods/public/simulation/templates/units/ptol/infantry_archer_b.xml
++++ b/binaries/data/mods/public/simulation/templates/units/ptol/infantry_archer_b.xml
+@@ -1,11 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="merc_inf|template_unit_infantry_ranged_archer">
+-  <Builder>
+-    <Entities datatype="tokens">
+-      structures/ptol/lighthouse
+-      structures/ptol/library
+-    </Entities>
+-  </Builder>
+   <Identity>
+     <Civ>ptol</Civ>
+     <SelectionGroupName>units/ptol/infantry_archer_b</SelectionGroupName>
+diff --git a/binaries/data/mods/public/simulation/templates/units/ptol/infantry_javelineer_b.xml b/binaries/data/mods/public/simulation/templates/units/ptol/infantry_javelineer_b.xml
+index 659e819c12..0bc62b8179 100644
+--- a/binaries/data/mods/public/simulation/templates/units/ptol/infantry_javelineer_b.xml
++++ b/binaries/data/mods/public/simulation/templates/units/ptol/infantry_javelineer_b.xml
+@@ -1,11 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="merc_inf|template_unit_infantry_ranged_javelineer">
+-  <Builder>
+-    <Entities datatype="tokens">
+-      structures/ptol/lighthouse
+-      structures/ptol/library
+-    </Entities>
+-  </Builder>
+   <Identity>
+     <Civ>ptol</Civ>
+     <SelectionGroupName>units/ptol/infantry_javelineer_b</SelectionGroupName>
+diff --git a/binaries/data/mods/public/simulation/templates/units/ptol/infantry_pikeman_b.xml b/binaries/data/mods/public/simulation/templates/units/ptol/infantry_pikeman_b.xml
+index 62785e292b..235c8c724a 100644
+--- a/binaries/data/mods/public/simulation/templates/units/ptol/infantry_pikeman_b.xml
++++ b/binaries/data/mods/public/simulation/templates/units/ptol/infantry_pikeman_b.xml
+@@ -1,11 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_unit_infantry_melee_pikeman">
+-  <Builder>
+-    <Entities datatype="tokens">
+-      structures/ptol/lighthouse
+-      structures/ptol/library
+-    </Entities>
+-  </Builder>
+   <Identity>
+     <Civ>ptol</Civ>
+     <SelectionGroupName>units/ptol/infantry_pikeman_b</SelectionGroupName>
+diff --git a/binaries/data/mods/public/simulation/templates/units/ptol/infantry_slinger_b.xml b/binaries/data/mods/public/simulation/templates/units/ptol/infantry_slinger_b.xml
+index 03abdab8b6..f333c995a1 100644
+--- a/binaries/data/mods/public/simulation/templates/units/ptol/infantry_slinger_b.xml
++++ b/binaries/data/mods/public/simulation/templates/units/ptol/infantry_slinger_b.xml
+@@ -1,11 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_unit_infantry_ranged_slinger">
+-  <Builder>
+-    <Entities datatype="tokens">
+-      structures/ptol/lighthouse
+-      structures/ptol/library
+-    </Entities>
+-  </Builder>
+   <Identity>
+     <Civ>ptol</Civ>
+     <SelectionGroupName>units/ptol/infantry_slinger_b</SelectionGroupName>
+diff --git a/binaries/data/mods/public/simulation/templates/units/ptol/infantry_spearman_merc_b.xml b/binaries/data/mods/public/simulation/templates/units/ptol/infantry_spearman_merc_b.xml
+index f29be7a45d..33559ccc40 100644
+--- a/binaries/data/mods/public/simulation/templates/units/ptol/infantry_spearman_merc_b.xml
++++ b/binaries/data/mods/public/simulation/templates/units/ptol/infantry_spearman_merc_b.xml
+@@ -1,11 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="merc_inf|hoplite|template_unit_infantry_melee_spearman">
+-  <Builder>
+-    <Entities datatype="tokens">
+-      structures/ptol/lighthouse
+-      structures/ptol/library
+-    </Entities>
+-  </Builder>
+   <Identity>
+     <Civ>ptol</Civ>
+     <SelectionGroupName>units/ptol/infantry_spearman_merc_b</SelectionGroupName>
+diff --git a/binaries/data/mods/public/simulation/templates/units/ptol/infantry_swordsman_merc_b.xml b/binaries/data/mods/public/simulation/templates/units/ptol/infantry_swordsman_merc_b.xml
+index 89c2c1ebf1..f3afd15df7 100644
+--- a/binaries/data/mods/public/simulation/templates/units/ptol/infantry_swordsman_merc_b.xml
++++ b/binaries/data/mods/public/simulation/templates/units/ptol/infantry_swordsman_merc_b.xml
+@@ -1,11 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="merc_inf|template_unit_infantry_melee_swordsman">
+-  <Builder>
+-    <Entities datatype="tokens">
+-      structures/ptol/lighthouse
+-      structures/ptol/library
+-    </Entities>
+-  </Builder>
+   <Identity>
+     <Civ>ptol</Civ>
+     <GenericName>Gallic Mercenary Swordsman</GenericName>
+diff --git a/binaries/data/mods/public/simulation/templates/units/ptol/support_female_citizen.xml b/binaries/data/mods/public/simulation/templates/units/ptol/support_female_citizen.xml
+index 8581da9d6b..528f668bee 100644
+--- a/binaries/data/mods/public/simulation/templates/units/ptol/support_female_citizen.xml
++++ b/binaries/data/mods/public/simulation/templates/units/ptol/support_female_citizen.xml
+@@ -1,11 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_unit_support_female_citizen">
+-  <Builder>
+-    <Entities datatype="tokens">
+-      structures/ptol/lighthouse
+-      structures/ptol/library
+-    </Entities>
+-  </Builder>
+   <Identity>
+     <Civ>ptol</Civ>
+     <GenericName>Ptolemaic Labourer</GenericName>
+diff --git a/binaries/data/mods/public/simulation/templates/units/rome/infantry_javelineer_b.xml b/binaries/data/mods/public/simulation/templates/units/rome/infantry_javelineer_b.xml
+index f92c9d2b3d..e007d0c2dc 100644
+--- a/binaries/data/mods/public/simulation/templates/units/rome/infantry_javelineer_b.xml
++++ b/binaries/data/mods/public/simulation/templates/units/rome/infantry_javelineer_b.xml
+@@ -3,8 +3,6 @@
+   <Builder>
+     <Entities datatype="tokens">
+       structures/rome/army_camp
+-			structures/rome/arch
+-      structures/rome/thermae
+       structures/rome/temple_vesta
+     </Entities>
+   </Builder>
+diff --git a/binaries/data/mods/public/simulation/templates/units/rome/infantry_spearman_b.xml b/binaries/data/mods/public/simulation/templates/units/rome/infantry_spearman_b.xml
+index 50c240bc56..43900275ab 100644
+--- a/binaries/data/mods/public/simulation/templates/units/rome/infantry_spearman_b.xml
++++ b/binaries/data/mods/public/simulation/templates/units/rome/infantry_spearman_b.xml
+@@ -3,8 +3,6 @@
+   <Builder>
+     <Entities datatype="tokens">
+       structures/rome/army_camp
+-			structures/rome/arch
+-      structures/rome/thermae
+       structures/rome/temple_vesta
+     </Entities>
+   </Builder>
+diff --git a/binaries/data/mods/public/simulation/templates/units/rome/infantry_swordsman_b.xml b/binaries/data/mods/public/simulation/templates/units/rome/infantry_swordsman_b.xml
+index 1ab809d813..16d28e719a 100644
+--- a/binaries/data/mods/public/simulation/templates/units/rome/infantry_swordsman_b.xml
++++ b/binaries/data/mods/public/simulation/templates/units/rome/infantry_swordsman_b.xml
+@@ -4,8 +4,6 @@
+     <Entities datatype="tokens">
+       structures/rome/army_camp
+       structures/rome/temple_vesta
+-			structures/rome/arch
+-      structures/rome/thermae
+     </Entities>
+   </Builder>
+   <Health>
+diff --git a/binaries/data/mods/public/simulation/templates/units/sele/infantry_pikeman_b.xml b/binaries/data/mods/public/simulation/templates/units/sele/infantry_pikeman_b.xml
+index 1d22175192..22232ebcbe 100644
+--- a/binaries/data/mods/public/simulation/templates/units/sele/infantry_pikeman_b.xml
++++ b/binaries/data/mods/public/simulation/templates/units/sele/infantry_pikeman_b.xml
+@@ -2,9 +2,7 @@
+ <Entity parent="template_unit_infantry_melee_pikeman">
+   <Builder>
+     <Entities datatype="tokens">
+-      structures/sele_military_colony
+-      structures/sele_library
+-	  structures/sele_theatron
++			structures/sele/military_colony
+     </Entities>
+   </Builder>
+   <Identity>
+-- 
+2.25.1
+

@@ -1,0 +1,48 @@
+From e85981da5ae827b59823b8f03733970fbf769cd3 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Mon, 24 May 2021 23:54:11 -0700
+Subject: [PATCH 35/86] added event listeners for when garrisoned units are
+ changed
+
+---
+ .../public/simulation/components/GarrisonHolder.js   | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/binaries/data/mods/public/simulation/components/GarrisonHolder.js b/binaries/data/mods/public/simulation/components/GarrisonHolder.js
+index dcc642d923..29f5b1ff08 100644
+--- a/binaries/data/mods/public/simulation/components/GarrisonHolder.js
++++ b/binaries/data/mods/public/simulation/components/GarrisonHolder.js
+@@ -412,6 +412,8 @@ GarrisonHolder.prototype.ApplyValueModifiers = function()
+ 		let modName = sprintf("%d/GarrisonHolder/ValueModifiers/%s", this.entity, key);
+ 		if (this.appliedValueModifiers.has(key))
+ 			cmpModifiersManager.RemoveAllModifiers(modName, this.entity);
++		else
++			this.appliedValueModifiers.add(key);
+ 		cmpModifiersManager.AddModifiers(modName, mod, this.entity);
+ 	}
+ };
+@@ -652,6 +654,11 @@ GarrisonHolder.prototype.OnValueModification = function(msg)
+ 		this.EjectOrKill(this.entities.filter(entity => !this.IsAllowedToBeGarrisoned(entity)));
+ 	}
+ 
++	if (msg.valueNames.some((valueName) => valueName.indexOf("GarrisonHolder/ValueModifiers") !== -1))
++	{
++		this.ApplyValueModifiers();
++	}
++
+ 	if (msg.valueNames.indexOf("GarrisonHolder/BuffHeal") === -1)
+ 		return;
+ 
+@@ -661,4 +668,9 @@ GarrisonHolder.prototype.OnValueModification = function(msg)
+ 		this.StartTimer();
+ };
+ 
++GarrisonHolder.prototype.OnGarrisonedUnitsChanged = function()
++{
++	this.ApplyValueModifiers();
++}
++
+ Engine.RegisterComponentType(IID_GarrisonHolder, "GarrisonHolder", GarrisonHolder);
+-- 
+2.25.1
+

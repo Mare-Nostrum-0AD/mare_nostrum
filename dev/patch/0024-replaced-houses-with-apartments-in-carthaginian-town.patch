@@ -1,0 +1,28 @@
+From ca4d77849e84dff0778a374a73878e18dd248496 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sun, 23 May 2021 22:57:14 -0700
+Subject: [PATCH 24/86] replaced houses with apartments in carthaginian town
+ actor
+
+---
+ .../mods/public/art/actors/structures/carthaginians/town.xml  | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/binaries/data/mods/public/art/actors/structures/carthaginians/town.xml b/binaries/data/mods/public/art/actors/structures/carthaginians/town.xml
+index 65187a9243..782c82199f 100644
+--- a/binaries/data/mods/public/art/actors/structures/carthaginians/town.xml
++++ b/binaries/data/mods/public/art/actors/structures/carthaginians/town.xml
+@@ -5,8 +5,8 @@
+     <variant>
+       <mesh>structural/village_plot_8x8.dae</mesh>
+       <props>
+-        <prop actor="structures/carthaginians/house.xml" attachpoint="bottom_left" minheight="0" maxheight="20"/>
+-        <prop actor="structures/carthaginians/house.xml" attachpoint="bottom_right" minheight="0" maxheight="20"/>
++        <prop actor="structures/carthaginians/apartment.xml" attachpoint="bottom_left" minheight="0" maxheight="20"/>
++        <prop actor="structures/carthaginians/apartment.xml" attachpoint="bottom_right" minheight="0" maxheight="20"/>
+         <prop actor="props/special/eyecandy/well_1_d.xml" attachpoint="center" minheight="0" maxheight="20"/>
+         <prop actor="props/special/eyecandy/well_darkness.xml" attachpoint="center" minheight="0" maxheight="20"/>
+         <prop actor="structures/carthaginians/storehouse.xml" attachpoint="top_left" minheight="0" maxheight="20"/>
+-- 
+2.25.1
+

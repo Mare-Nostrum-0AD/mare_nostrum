@@ -1,0 +1,54 @@
+From 60a5cd4b7a914dac7c5111cec1442c5c04fe9b6b Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Mon, 24 May 2021 00:09:16 -0700
+Subject: [PATCH 28/86] replaced boat actor in barbarian shipyards with celtic
+ skiff
+
+---
+ .../data/mods/public/art/actors/structures/britons/shipyard.xml | 2 +-
+ .../data/mods/public/art/actors/structures/gauls/shipyard.xml   | 2 +-
+ .../mods/public/art/actors/structures/iberians/shipyard.xml     | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/binaries/data/mods/public/art/actors/structures/britons/shipyard.xml b/binaries/data/mods/public/art/actors/structures/britons/shipyard.xml
+index fcd9830845..646c6de329 100644
+--- a/binaries/data/mods/public/art/actors/structures/britons/shipyard.xml
++++ b/binaries/data/mods/public/art/actors/structures/britons/shipyard.xml
+@@ -7,7 +7,7 @@
+       <props>
+         <prop actor="props/structures/britons/range_shields.xml" attachpoint="root"/>
+         <prop actor="props/structures/britons/range_nature.xml" attachpoint="root"/>
+-				<prop actor="structures/celts/rowboat.xml" attachpoint="root" />
++				<prop actor="structures/celts/skiff.xml" attachpoint="root" />
+       </props>
+       <textures>
+         <texture file="structural/brit_struct.png" name="baseTex"/>
+diff --git a/binaries/data/mods/public/art/actors/structures/gauls/shipyard.xml b/binaries/data/mods/public/art/actors/structures/gauls/shipyard.xml
+index 6148d72ad8..5037edac02 100644
+--- a/binaries/data/mods/public/art/actors/structures/gauls/shipyard.xml
++++ b/binaries/data/mods/public/art/actors/structures/gauls/shipyard.xml
+@@ -5,7 +5,7 @@
+     <variant frequency="100" name="Gaul Shipyard">
+       <mesh>structural/gaul_range.dae</mesh>
+       <props>
+-				<prop actor="structures/celts/rowboat.xml" attachpoint="root" />
++				<prop actor="structures/celts/skiff.xml" attachpoint="root" />
+       </props>
+       <textures>
+         <texture file="structural/celt_struct.dds" name="baseTex"/>
+diff --git a/binaries/data/mods/public/art/actors/structures/iberians/shipyard.xml b/binaries/data/mods/public/art/actors/structures/iberians/shipyard.xml
+index e67649030f..d0c6b8b9b8 100644
+--- a/binaries/data/mods/public/art/actors/structures/iberians/shipyard.xml
++++ b/binaries/data/mods/public/art/actors/structures/iberians/shipyard.xml
+@@ -5,7 +5,7 @@
+     <variant frequency="100" name="Base">
+       <mesh>structural/iber_range3.dae</mesh>
+       <props>
+-				<prop actor="props/special/eyecandy/shipwreck_sail_boat.xml" attachpoint="root" />
++				<prop actor="structures/celts/skiff.xml" attachpoint="root" />
+       </props>
+       <textures>
+         <texture file="structural/iber_struct.dds" name="baseTex"/>
+-- 
+2.25.1
+

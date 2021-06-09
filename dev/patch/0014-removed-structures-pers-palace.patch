@@ -1,0 +1,84 @@
+From 1a20bddda0bc99f9ec391761f7b910afdc48dac5 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sun, 23 May 2021 18:32:49 -0700
+Subject: [PATCH 14/86] removed structures/pers/palace
+
+---
+ .../templates/structures/pers/palace.xml      | 65 -------------------
+ 1 file changed, 65 deletions(-)
+ delete mode 100644 binaries/data/mods/public/simulation/templates/structures/pers/palace.xml
+
+diff --git a/binaries/data/mods/public/simulation/templates/structures/pers/palace.xml b/binaries/data/mods/public/simulation/templates/structures/pers/palace.xml
+deleted file mode 100644
+index 6af116b470..0000000000
+--- a/binaries/data/mods/public/simulation/templates/structures/pers/palace.xml
++++ /dev/null
+@@ -1,65 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_palace">
+-  <BuildRestrictions>
+-    <Category>Apadana</Category>
+-  </BuildRestrictions>
+-  <Cost>
+-    <BuildTime>300</BuildTime>
+-  </Cost>
+-  <Footprint>
+-    <Square width="32.0" depth="32.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <GarrisonHolder>
+-    <Max>10</Max>
+-  </GarrisonHolder>
+-  <Health>
+-    <Max>3000</Max>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_stone_6x6</SpawnEntityOnDeath>
+-  </Health>
+-  <Identity>
+-    <Civ>pers</Civ>
+-    <GenericName>Persian Palace</GenericName>
+-    <SpecificName>Apadana</SpecificName>
+-    <Classes datatype="tokens">Apadana</Classes>
+-    <Icon>structures/palace.png</Icon>
+-    <Tooltip>"Satrapy Tribute": Gain a trickle of food, wood, stone, and metal resources. Train Persian heroes and their "Immortals" bodyguards.</Tooltip>
+-  </Identity>
+-  <Loot>
+-    <wood>0</wood>
+-    <stone>75</stone>
+-    <metal>50</metal>
+-  </Loot>
+-  <Obstruction>
+-    <Static width="30.0" depth="30.0"/>
+-  </Obstruction>
+-	<Population>
+-		<Bonus>10</Bonus>
+-	</Population>
+-  <ProductionQueue>
+-    <BatchTimeModifier>0.8</BatchTimeModifier>
+-    <Entities datatype="tokens">
+-      units/{civ}/champion_infantry
+-    </Entities>
+-    <Technologies datatype="tokens">
+-      immortals
+-    </Technologies>
+-  </ProductionQueue>
+-  <ResourceTrickle>
+-    <Rates>
+-      <food>1.0</food>
+-      <wood>1.0</wood>
+-      <stone>0.75</stone>
+-      <metal>0.75</metal>
+-    </Rates>
+-    <Interval>1000</Interval>
+-  </ResourceTrickle>
+-  <TerritoryInfluence>
+-    <Root>true</Root>
+-    <Radius>48</Radius>
+-  </TerritoryInfluence>
+-  <VisualActor>
+-    <Actor>structures/persians/apadana.xml</Actor>
+-    <FoundationActor>structures/fndn_6x6.xml</FoundationActor>
+-  </VisualActor>
+-</Entity>
+-- 
+2.25.1
+

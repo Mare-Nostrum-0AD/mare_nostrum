@@ -1,0 +1,90 @@
+From 445b79e6fab2bd8eca0eddad77e8172ea5f0008b Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sun, 23 May 2021 18:28:04 -0700
+Subject: [PATCH 11/86] restored athen/palace as edit of athen/prytaneion
+
+---
+ .../athen/{prytaneion.xml => palace.xml}      | 36 ++++++-------------
+ 1 file changed, 11 insertions(+), 25 deletions(-)
+ rename binaries/data/mods/public/simulation/templates/structures/athen/{prytaneion.xml => palace.xml} (55%)
+
+diff --git a/binaries/data/mods/public/simulation/templates/structures/athen/prytaneion.xml b/binaries/data/mods/public/simulation/templates/structures/athen/palace.xml
+similarity index 55%
+rename from binaries/data/mods/public/simulation/templates/structures/athen/prytaneion.xml
+rename to binaries/data/mods/public/simulation/templates/structures/athen/palace.xml
+index f2bb6ed35f..7d8deeb3ab 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/athen/prytaneion.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/athen/palace.xml
+@@ -1,13 +1,11 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_special">
+-  <BuildRestrictions>
+-    <Category>Council</Category>
+-  </BuildRestrictions>
++<Entity parent="template_structure_civic_palace">
+   <Cost>
+     <BuildTime>200</BuildTime>
+     <Resources>
+-      <stone>100</stone>
+-      <metal>200</metal>
++      <wood op="mul">0.5</wood>
++      <stone op="mul">0.5</stone>
++      <wealth op="mul">0.5</wealth>
+     </Resources>
+   </Cost>
+   <Footprint replace="">
+@@ -20,27 +18,22 @@
+   <Identity>
+     <Civ>athen</Civ>
+     <GenericName>Council Chamber</GenericName>
+-    <SpecificName>Prytaneion</SpecificName>
+-    <Tooltip>Train Heroes and research technologies.</Tooltip>
+-    <Classes datatype="tokens">ConquestCritical CivSpecific</Classes>
+-    <VisibleClasses datatype="tokens">Council</VisibleClasses>
++    <SpecificName>Prytaneîon</SpecificName>
++    <Tooltip>Train heroes. Research special technologies.</Tooltip>
+     <Icon>structures/tholos.png</Icon>
+   </Identity>
+   <Loot>
+-    <stone>20</stone>
+-    <metal>40</metal>
++    <wood>0</wood>
++    <stone>25</stone>
++    <metal>50</metal>
+   </Loot>
+   <Obstruction>
+     <Static width="24.0" depth="30.0"/>
+   </Obstruction>
+   <ProductionQueue>
+     <BatchTimeModifier>0.7</BatchTimeModifier>
+-    <Entities datatype="tokens">
+-      units/{civ}/hero_themistocles
+-      units/{civ}/hero_pericles
+-      units/{civ}/hero_iphicrates
+-    </Entities>
+     <Technologies datatype="tokens">
++	  	pair_government_{civ}
+       long_walls
+       iphicratean_reforms
+     </Technologies>
+@@ -49,16 +42,9 @@
+     <SoundGroups>
+       <select>interface/select/building/sel_tholos.xml</select>
+       <constructed>interface/complete/building/complete_tholos.xml</constructed>
++      <death>attack/destruction/building_collapse_large.xml</death>
+     </SoundGroups>
+   </Sound>
+-  <TerritoryInfluence>
+-    <Root>false</Root>
+-    <Radius>38</Radius>
+-    <Weight>40000</Weight>
+-  </TerritoryInfluence>
+-  <Vision>
+-    <Range>40</Range>
+-  </Vision>
+   <VisualActor>
+     <Actor>structures/athenians/prytaneion.xml</Actor>
+   </VisualActor>
+-- 
+2.25.1
+

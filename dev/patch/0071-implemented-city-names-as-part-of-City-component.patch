@@ -1,0 +1,477 @@
+From 2ef465154826765c40a8685e267893c910681447 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Wed, 2 Jun 2021 17:02:00 -0700
+Subject: [PATCH 71/86] implemented city names as part of City component
+
+created new gui component SessionTextInputBox
+
+created gui interface for renaming cities using SessionTextInputBox
+---
+ .../textures/ui/session/icons/rename-city.png | Bin 0 -> 1105 bytes
+ .../data/mods/public/gui/page_textInput.xml   |   8 +++
+ .../public/gui/session/SessionTextInputBox.js |  41 +++++++++++
+ .../gui/session/message_box/RenameCity.js     |  23 ++++++
+ .../public/gui/session/selection_details.js   |  12 +++-
+ .../data/mods/public/gui/session/session.xml  |   1 +
+ .../mods/public/gui/session/unit_actions.js   |  38 ++++++++++
+ .../mods/public/gui/text_input/textInput.js   |  66 ++++++++++++++++++
+ .../mods/public/gui/text_input/textInput.xml  |  44 ++++++++++++
+ .../mods/public/simulation/components/City.js |  36 ++++++----
+ .../simulation/components/GuiInterface.js     |   3 +-
+ .../public/simulation/helpers/Commands.js     |  12 ++++
+ .../template_structure_civic_market_dock.xml  |   2 +-
+ 13 files changed, 269 insertions(+), 17 deletions(-)
+ create mode 100644 binaries/data/mods/public/art/textures/ui/session/icons/rename-city.png
+ create mode 100644 binaries/data/mods/public/gui/page_textInput.xml
+ create mode 100644 binaries/data/mods/public/gui/session/SessionTextInputBox.js
+ create mode 100644 binaries/data/mods/public/gui/session/message_box/RenameCity.js
+ create mode 100644 binaries/data/mods/public/gui/text_input/textInput.js
+ create mode 100644 binaries/data/mods/public/gui/text_input/textInput.xml
+
+diff --git a/binaries/data/mods/public/art/textures/ui/session/icons/rename-city.png b/binaries/data/mods/public/art/textures/ui/session/icons/rename-city.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..0db2ef8187375d76b2d3e076e1611ae0e55a6097
+GIT binary patch
+literal 1105
+zcmV-X1g`suP)<h;3K|Lk000e1NJLTq001BW001Be1^@s6b9#F80004mX+uL$Nkc;*
+zaB^>EX>4Tx04R}tkv&MmKpe$iQ?)7;2aAX}WT;LSL`5963Pq?8YK2xEOfLNpnlvOS
+zE{=k0!NHHks)LKOt`4q(Aou~|=H{g6A|?JWDYS_3;J6>}?mh0_0Ya_BG^=e4&~)2O
+zCE{WxyCQ~O(E$Nn2%=wRmN6?yN%)Shdj$A;7vov}=l&c$YR+OnKqQ`FhG`S86Hjg0
+z2Iqa^2rJ4e@j3CRNf#u3<htVV8|Q+{0?&+?>C_x?gjg)Ju+qY;Xllfh#8Fk#DPPEV
+zta9Gstd%OPaZmoja86%d;yTSCB(Q)*ND!f*f(?{lBSx!EiiH&I$9?>Ru3sXTLaq%k
+za?GO)4YKP8|AXJ%TKS1_FDV=c+Fu;!V;BhS0`;ond>=bb{R9X;16O*}U#<bupQKlt
+zTJ#9$-3BhMo0_r*T<!n^PljyDt`wvx<nzG$8GTb0=(`2FSH0dE`#607($rP*1~@nb
+zMhcX@=JW2(*53X-)9CL9)qiqmllP)=00006VoOIv00aO800a!Dae4p%010qNS#tmY
+z3ljhU3ljkVnw%H_000McNliru<pu%?2`oe3@t*(y0!~RpK~z}7?Uk`hYGD}0f9Db+
+zL8Krhh?|HhNJ7znpt$I%K^MhR5VA375~8MRFA9Z7C~yc-h{R|L5vQia!4P!`f;5uD
+zLC|}rD}?u&)9nuDnLfVn`FMXk?+Y&|QuNIdejiLG)6aidxK^tP06)Gv0R=z-m>Tz(
+z&1Ug>y`SzjHa1vWTSKSQaesf0APAVvW}3|=+uPeipD2omqDZUNqTB7#@Ap|)SRfLK
+zOa>4L1h7~vtgfz-$z+E2=jZ1b3<j2#mWapW0L;$L^6>CLEEePB<b-fIOehq>@Avca
+z@&bUz<6(V$eexFA?RK7?o^ZKbU&i?U{*EL`7>!2MYBkYll*`M@VR3+5E=Q$OnH)e6
+z1j^+ycDsFSaih`5!NCENByn+Zfz#<ktJRW9rAEBzbb2xXpU=nh^D|dhS7^0bJRZ-8
+zXJ%%Gt*tFYQN(Jsa(8z}wOYkwGSTbxkY#z~&-L~7WJ9>Jvcm4}F5PaITCIl5<sz5M
+zee!&Kd~kexJd8J;PNUIiC>D#TR4UYJ^$3K+;o$M{@#_S1IvqPZJM8c8^Y-?};^N}i
+zHZ&Rys?{nsn~g%DK&R6o5D1L;{xnY`35cRdsZ`?h^mN$cd_Irc?dJCO_OB3ny`Gz!
+z8)R7~kw_2>2FYf#yuQ8yV6|H5^?Kt0VzC&0zn^-&J_PW3y~wi6=H@2z^YaV_1D2PU
+znVXwqZ*LEP>FH@QnG9!VX8<IVN!sl;M@L6An@uE10^soQP+7;yGExBkKLACFzFofn
+X;0oMw=V9|G00000NkvXXu0mjfAbAAq
+
+literal 0
+HcmV?d00001
+
+diff --git a/binaries/data/mods/public/gui/page_textInput.xml b/binaries/data/mods/public/gui/page_textInput.xml
+new file mode 100644
+index 0000000000..4251df4298
+--- /dev/null
++++ b/binaries/data/mods/public/gui/page_textInput.xml
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="utf-8"?>
++<page>
++	<include>common/modern/setup.xml</include>
++	<include>common/modern/styles.xml</include>
++	<include>common/modern/sprites.xml</include>
++
++	<include>text_input/textInput.xml</include>
++</page>
+diff --git a/binaries/data/mods/public/gui/session/SessionTextInputBox.js b/binaries/data/mods/public/gui/session/SessionTextInputBox.js
+new file mode 100644
+index 0000000000..a2ae6ab6ad
+--- /dev/null
++++ b/binaries/data/mods/public/gui/session/SessionTextInputBox.js
+@@ -0,0 +1,41 @@
++/**
++ * This is the same as a regular MessageBox, but it pauses if it is
++ * a single-player game, until the player answered the dialog.
++ */
++class SessionTextInputBox
++{
++	display()
++	{
++		this.onPageOpening();
++
++		Engine.PushGuiPage(
++			"page_textInput.xml",
++			{
++				"width": this.Width,
++				"height": this.Height,
++				"title": this.Title,
++				"message": this.Caption,
++				"input": this.Input,
++				"buttonCaptions": this.Buttons ? this.Buttons.map(button => button.caption) : undefined,
++			},
++			this.onPageClosed.bind(this));
++	}
++
++	onPageOpening()
++	{
++		closeOpenDialogs();
++		g_PauseControl.implicitPause();
++	}
++
++	onPageClosed([buttonId, input])
++	{
++		if (this.Buttons && this.Buttons[buttonId].onPress)
++			this.Buttons[buttonId].onPress.call(this, input);
++
++		if (Engine.IsGameStarted())
++			resumeGame();
++	}
++}
++
++SessionTextInputBox.prototype.Width = 400;
++SessionTextInputBox.prototype.Height = 200;
+diff --git a/binaries/data/mods/public/gui/session/message_box/RenameCity.js b/binaries/data/mods/public/gui/session/message_box/RenameCity.js
+new file mode 100644
+index 0000000000..5e9e8fe36f
+--- /dev/null
++++ b/binaries/data/mods/public/gui/session/message_box/RenameCity.js
+@@ -0,0 +1,23 @@
++class RenameCity extends SessionTextInputBox
++{
++	constructor(renameCity, oldName)
++	{
++		super();
++		this.Input = oldName;
++		this.renameCity = (newName) => {
++			if (!newName || !newName.length)
++				return;
++
++			renameCity(newName);
++		};
++	}
++}
++
++RenameCity.prototype.Title = translate("Rename City");
++RenameCity.prototype.Caption = translate("Set new city name:");
++RenameCity.prototype.Buttons = [
++	{
++		"caption": translate("Set Name"),
++		"onPress": function(input) { this.renameCity(input);  }
++	}
++];
+diff --git a/binaries/data/mods/public/gui/session/selection_details.js b/binaries/data/mods/public/gui/session/selection_details.js
+index ebf16d61d5..bdd47fd545 100644
+--- a/binaries/data/mods/public/gui/session/selection_details.js
++++ b/binaries/data/mods/public/gui/session/selection_details.js
+@@ -67,12 +67,22 @@ function displaySingle(entState)
+ 			secondaryName = sprintf(translate("Packed"));
+ 	}
+ 	// City population
+-	if (entState.city && entState.city.population)
++	if (entState.city)
+ 	{
++		// include city name in primary name, if applicable
++		if (entState.city.name && entState.city.name.length)
++			primaryName = sprintf("%(primaryName)s — \"%(cityName)s\"", {
++				"primaryName": primaryName,
++				"cityName": entState.city.name
++			});
++		// include city population in secondary name
++		if (entState.city.population)
++		{
+ 		if (secondaryName && g_ShowSecondaryNames)
+ 			secondaryName = sprintf(translate("%(genName)s | Population %(pop)s"), { "genName": secondaryName, "pop": fmtNum(entState.city.population) });
+ 		else
+ 			secondaryName = sprintf(translate("Population %(pop)s"), { "pop": fmtNum(entState.city.population) });
++		}
+ 	}
+ 	// City population growth rate
+ 	if (entState.city && entState.city.growth)
+diff --git a/binaries/data/mods/public/gui/session/session.xml b/binaries/data/mods/public/gui/session/session.xml
+index 320fb72d4c..de05153bde 100644
+--- a/binaries/data/mods/public/gui/session/session.xml
++++ b/binaries/data/mods/public/gui/session/session.xml
+@@ -19,6 +19,7 @@
+ <script directory="gui/session/top_panel/"/>
+ <script directory="gui/session/top_panel/IconButtons/"/>
+ <script directory="gui/session/trade/"/>
++<script directory="gui/session/text_input/"/>
+ 
+ <object name="session">
+ 
+diff --git a/binaries/data/mods/public/gui/session/unit_actions.js b/binaries/data/mods/public/gui/session/unit_actions.js
+index 6393120bdd..b5e8263761 100644
+--- a/binaries/data/mods/public/gui/session/unit_actions.js
++++ b/binaries/data/mods/public/gui/session/unit_actions.js
+@@ -1761,6 +1761,44 @@ var g_EntityCommands =
+ 		},
+ 		"allowedPlayers": ["Player"]
+ 	},
++
++	"rename-city": {
++		"getInfo": function(entStates)
++		{
++			// only works for one individual city
++			let cities = entStates.filter((entState) => entState.city);
++			if (cities.length !== 1)
++				return false;
++			return ({
++				"tooltip": colorizeHotkey("%(hotkey)s" + " ", "session.renamecity") +
++						   translate("Rename this city."),
++				"icon": "rename-city.png",
++				"enabled": true
++			});
++		},
++		"execute": function(entStates)
++		{
++			let [cityState] = entStates.filter((entState) => entState.city);
++			if (!cityState)
++				return;
++
++			let cityID = cityState.id;
++
++			// get old city name, if possible
++			let oldName = cityState.city.name || "";
++
++			let renameCity = (name) => Engine.PostNetworkCommand({
++				"type": "rename-city",
++				"entities": [cityID],
++				"data": {
++					"name": name
++				}
++			});
++
++			(new RenameCity(renameCity, oldName)).display();
++		},
++		"allowedPlayers": ["Player"]
++	}
+ };
+ 
+ function playerCheck(entState, targetState, validPlayers)
+diff --git a/binaries/data/mods/public/gui/text_input/textInput.js b/binaries/data/mods/public/gui/text_input/textInput.js
+new file mode 100644
+index 0000000000..8d6be84cc4
+--- /dev/null
++++ b/binaries/data/mods/public/gui/text_input/textInput.js
+@@ -0,0 +1,66 @@
++/**
++ * Currently limited to at most 3 buttons per message box.
++ * The convention is to have "cancel" appear first.
++ */
++function init(data)
++{
++	// Set title
++	Engine.GetGUIObjectByName("textInputTitleBar").caption = data.title;
++
++	// Set subject
++	let textInputTextObj = Engine.GetGUIObjectByName("textInputText");
++	textInputTextObj.caption = data.message;
++	if (data.font)
++		textInputTextObj.font = data.font;
++
++	// Set starting input
++	let textInputInputObj = Engine.GetGUIObjectByName("textInputInput");
++	textInputInputObj.caption = data.input;
++	if (data.font)
++		textInputInputObj.font = data.font;
++
++	// Default behaviour
++	let textInputCancelHotkey = Engine.GetGUIObjectByName("textInputCancelHotkey");
++	textInputCancelHotkey.onPress = Engine.PopGuiPage;
++
++	// Calculate size
++	let textInputLRDiff = data.width / 2;
++	let textInputUDDiff = data.height / 2;
++	Engine.GetGUIObjectByName("textInputMain").size = "50%-" + textInputLRDiff + " 50%-" + textInputUDDiff + " 50%+" + textInputLRDiff + " 50%+" + textInputUDDiff;
++
++	let captions = data.buttonCaptions || [translate("OK")];
++
++	// Set button captions and visibility
++	let textInputButton = [];
++	captions.forEach((caption, i) => {
++		textInputButton[i] = Engine.GetGUIObjectByName("textInputButton" + (i + 1));
++		textInputButton[i].caption = caption;
++		textInputButton[i].hidden = false;
++		textInputButton[i].onPress = () => {
++			Engine.PopGuiPage([i, textInputInputObj.caption]);
++		};
++
++		// Convention: Cancel is the first button
++		if (i == 0)
++			textInputCancelHotkey.onPress = textInputButton[i].onPress;
++	});
++
++	// Distribute buttons horizontally
++	let y1 = "100%-46";
++	let y2 = "100%-18";
++	switch (captions.length)
++	{
++	case 1:
++		textInputButton[0].size = "18 " + y1 + " 100%-18 " + y2;
++		break;
++	case 2:
++		textInputButton[0].size = "18 " + y1 + " 50%-5 " + y2;
++		textInputButton[1].size = "50%+5 " + y1 + " 100%-18 " + y2;
++		break;
++	case 3:
++		textInputButton[0].size = "18 " + y1 + " 33%-5 " + y2;
++		textInputButton[1].size = "33%+5 " + y1 + " 66%-5 " + y2;
++		textInputButton[2].size = "66%+5 " + y1 + " 100%-18 " + y2;
++		break;
++	}
++}
+diff --git a/binaries/data/mods/public/gui/text_input/textInput.xml b/binaries/data/mods/public/gui/text_input/textInput.xml
+new file mode 100644
+index 0000000000..e2214c2e73
+--- /dev/null
++++ b/binaries/data/mods/public/gui/text_input/textInput.xml
+@@ -0,0 +1,44 @@
++<?xml version="1.0" encoding="utf-8"?>
++
++<objects>
++
++	<script directory="gui/common/"/>
++	<script directory="gui/text_input/"/>
++
++	<!-- Fade out the background because it's non-interactable -->
++	<object sprite="ModernFade" type="image"/>
++	<object name="textInputCancelHotkey" hotkey="cancel" />
++	<object name="textInputMain" style="ModernDialog" type="image">
++		<object name="textInputTitleBar"
++				style="ModernLabelText"
++				type="text"
++				size="50%-128 -18 50%+128 14"
++		/>
++		<object name="textInputText"
++				type="text"
++				style="ModernLabelText"
++				size="18 18 100%-18 100%-64"
++		/>
++		<object name="textInputInput"
++				type="input"
++				style="ModernInput"
++				size="16 60% 100%-16 60%+24"
++		/>
++		<!-- The size of the following buttons is set dynamically in msgbox.js -->
++		<object name="textInputButton1"
++				style="ModernButtonRed"
++				type="button"
++				hidden="true"
++		/>
++		<object name="textInputButton2"
++				style="ModernButtonRed"
++				type="button"
++				hidden="true"
++		/>
++		<object name="textInputButton3"
++				style="ModernButtonRed"
++				type="button"
++				hidden="true"
++		/>
++	</object>
++</objects>
+diff --git a/binaries/data/mods/public/simulation/components/City.js b/binaries/data/mods/public/simulation/components/City.js
+index f560d64a80..27322b7968 100644
+--- a/binaries/data/mods/public/simulation/components/City.js
++++ b/binaries/data/mods/public/simulation/components/City.js
+@@ -171,7 +171,10 @@ City.prototype.SetPopulation = function(value)
+ 			let replacement = this.Upgrade();
+ 			let cmpNewCity = Engine.QueryInterface(replacement, IID_City);
+ 			if (cmpNewCity)
++			{
++				cmpNewCity.SetName(this.name || "");
+ 				return cmpNewCity.SetPopulation(value);
++			}
+ 		}
+ 		this.population = max;
+ 	} else {
+@@ -237,20 +240,10 @@ City.prototype.GetPopulationGrowthInterval = function()
+ 
+ City.prototype.GetPopulationGrowthAmount = function()
+ {
+-	let growthAmount = +this.template.Population.Growth.Amount;
+-	let growthAmountMultiplier = 1;
+-	for (let cityMember of this.GetCityMembers())
+-	{
+-		let cmpCityMember = Engine.QueryInterface(cityMember, IID_CityMember);
+-		if (!cmpCityMember)
+-			continue;
+-		let mods = cmpCityMember.ModifyGrowthRate({
+-			growthAmount,
+-			growthAmountMultiplier
+-		});
+-		growthAmount = mods['growthAmount'];
+-		growthAmountMultiplier = mods['growthAmountMultiplier'];
+-	}
++	const { growthAmount, growthAmountMultiplier } = this.GetCityMembers().map((ent) => Engine.QueryInterface(ent, IID_CityMember)).reduce((data, ent) => ent.ModifyGrowthRate(data), {
++		"growthAmount": +this.template.Population.Growth.Amount,
++		"growthAmountMultiplier": 1
++	});
+ 	return Math.round(ApplyValueModificationsToEntity("City/Population/Growth/Amount", growthAmount * growthAmountMultiplier, this.entity));
+ };
+ 
+@@ -466,6 +459,21 @@ City.prototype.ApplyValueModifiers = function()
+ 	}
+ };
+ 
++// Gets the city's name
++// @return		String		name of the city ("" if not named"
++City.prototype.GetName = function()
++{
++	return this.name ? this.name : "";
++};
++
++// Sets the city's name
++// @param	name		String		new city name
++// @return none
++City.prototype.SetName = function(name)
++{
++	this.name = name;
++};
++
+ City.prototype.OnCityPopulationChanged = function()
+ {
+ 	// check if any ValueModifier scalars exist and have changed; if so, reapply value modifiers
+diff --git a/binaries/data/mods/public/simulation/components/GuiInterface.js b/binaries/data/mods/public/simulation/components/GuiInterface.js
+index 6fcaa24a20..fede05443a 100644
+--- a/binaries/data/mods/public/simulation/components/GuiInterface.js
++++ b/binaries/data/mods/public/simulation/components/GuiInterface.js
+@@ -299,7 +299,8 @@ GuiInterface.prototype.GetEntityState = function(player, ent)
+ 			"maxPopulation": cmpCity.GetMaxPopulation(),
+ 			"minPopulation": cmpCity.GetMinPopulation(),
+ 			"upgrade": cmpCity.GetUpgradeTemplate(),
+-			"downgrade": cmpCity.GetDowngradeTemplate()
++			"downgrade": cmpCity.GetDowngradeTemplate(),
++			"name": cmpCity.GetName()
+ 		};
+ 
+ 	let cmpCityMember = Engine.QueryInterface(ent, IID_CityMember);
+diff --git a/binaries/data/mods/public/simulation/helpers/Commands.js b/binaries/data/mods/public/simulation/helpers/Commands.js
+index cd468bdeb2..eba3f35e0e 100644
+--- a/binaries/data/mods/public/simulation/helpers/Commands.js
++++ b/binaries/data/mods/public/simulation/helpers/Commands.js
+@@ -908,6 +908,18 @@ var g_Commands = {
+ 		}
+ 	},
+ 
++	"rename-city": function(player, cmd, data)
++	{
++		// can only rename one city at a time
++		let [cityEnt] = data.entities;
++		if (!cityEnt)
++			return;
++		let cmpCity = Engine.QueryInterface(cityEnt, IID_City);
++		if (!cmpCity || !cmd.data || !cmd.data.name)
++			return;
++		cmpCity.SetName(cmd.data.name);
++	},
++
+ };
+ 
+ /**
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_civic_market_dock.xml b/binaries/data/mods/public/simulation/templates/template_structure_civic_market_dock.xml
+index 45f7831775..0b2d607a87 100644
+--- a/binaries/data/mods/public/simulation/templates/template_structure_civic_market_dock.xml
++++ b/binaries/data/mods/public/simulation/templates/template_structure_civic_market_dock.xml
+@@ -21,7 +21,7 @@
+     <GenericName>Port</GenericName>
+     <Tooltip>Build upon a shoreline to open sea trade.</Tooltip>
+     <Classes datatype="tokens">NavalMarket</Classes>
+-    <VisibleClasses datatype="tokens">Dock</VisibleClasses>
++    <VisibleClasses datatype="tokens">Naval Dock</VisibleClasses>
+     <Icon>structures/dock.png</Icon>
+   </Identity>
+   <Loot>
+-- 
+2.25.1
+

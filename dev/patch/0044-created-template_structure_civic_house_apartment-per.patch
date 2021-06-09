@@ -1,0 +1,265 @@
+From bcc3617d899bea9d460802d7e4cd52bc49f457d2 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Wed, 26 May 2021 21:38:56 -0700
+Subject: [PATCH 44/86] created template_structure_civic_house_apartment;
+ persian, carthaginian apartments now inherit from it
+
+Chapar Khaneh (Persian courier house) now uses stable sounds instead of market sounds
+
+replaced various obsolete actor definitions in templates
+---
+ .../templates/structures/cart/apartment.xml   | 10 +++----
+ .../templates/structures/iber/stable.xml      |  2 +-
+ .../templates/structures/pers/apartment.xml   | 14 +---------
+ .../templates/structures/pers/monument_02.xml |  4 +--
+ ...mplate_structure_civic_house_apartment.xml | 27 +++++++++++++++++++
+ .../units/cart/cavalry_swordsman_gaul_a.xml   |  4 +--
+ .../units/cart/cavalry_swordsman_gaul_e.xml   |  2 +-
+ .../units/cart/cavalry_swordsman_iber_a.xml   |  4 +--
+ .../units/cart/cavalry_swordsman_iber_e.xml   |  2 +-
+ .../units/cart/infantry_slinger_iber_a.xml    |  4 +--
+ .../units/cart/infantry_slinger_iber_e.xml    |  2 +-
+ .../templates/units/sele/cavalry_archer_a.xml |  4 +--
+ .../templates/units/sele/cavalry_archer_e.xml |  2 +-
+ 13 files changed, 46 insertions(+), 35 deletions(-)
+ create mode 100644 binaries/data/mods/public/simulation/templates/template_structure_civic_house_apartment.xml
+
+diff --git a/binaries/data/mods/public/simulation/templates/structures/cart/apartment.xml b/binaries/data/mods/public/simulation/templates/structures/cart/apartment.xml
+index 8451ffc4ed..0785a197dd 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/cart/apartment.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/cart/apartment.xml
+@@ -1,5 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="structures/cart/house">
++<Entity parent="template_structure_civic_house_apartment">
+   <Cost>
+     <BuildTime>75</BuildTime>
+     <Resources>
+@@ -13,16 +13,12 @@
+     <Max>1500</Max>
+   </Health>
+   <Identity>
+-    <GenericName>Apartment Building</GenericName>
+-		<Icon>structures/apartment.png</Icon>
+-		<RequiredTechnology>phase_town</RequiredTechnology>
++		<Civ>cart</Civ>
++		<SpecificName>Bet</SpecificName>
+   </Identity>
+   <Loot>
+     <wood>30</wood>
+   </Loot>
+-	<Population>
+-    <Bonus>15</Bonus>
+-	</Population>
+   <VisualActor>
+     <Actor>structures/carthaginians/apartment.xml</Actor>
+   </VisualActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/iber/stable.xml b/binaries/data/mods/public/simulation/templates/structures/iber/stable.xml
+index 6aee629bff..7ad07391c6 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/iber/stable.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/iber/stable.xml
+@@ -14,7 +14,7 @@
+     <Static width="20.0" depth="20.0"/>
+   </Obstruction>
+   <VisualActor>
+-    <Actor>structures/iberians/stables.xml</Actor>
++    <Actor>structures/iberians/stable.xml</Actor>
+     <FoundationActor>structures/fndn_5x5.xml</FoundationActor>
+   </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/pers/apartment.xml b/binaries/data/mods/public/simulation/templates/structures/pers/apartment.xml
+index 6962cce83c..c5c373b399 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/pers/apartment.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/pers/apartment.xml
+@@ -1,27 +1,15 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_house">
++<Entity parent="template_structure_civic_house_apartment">
+   <Footprint>
+     <Square width="25.0" depth="14.0"/>
+     <Height>10.0</Height>
+   </Footprint>
+-  <Health>
+-    <Max>2000</Max>
+-  </Health>
+   <Identity>
+     <Civ>pers</Civ>
+-    <GenericName>Apartment Block</GenericName>
+-		<Icon>structures/apartment.png</Icon>
+-		<RequiredTechnology>phase_town</RequiredTechnology>
+   </Identity>
+   <Obstruction>
+     <Static width="23.0" depth="12.0"/>
+   </Obstruction>
+-  <Population>
+-    <Bonus>15</Bonus>
+-  </Population>
+-  <TerritoryInfluence>
+-    <Radius>25</Radius>
+-  </TerritoryInfluence>
+   <VisualActor>
+     <Actor>props/structures/persians/alt_building_03.xml</Actor>
+   </VisualActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/pers/monument_02.xml b/binaries/data/mods/public/simulation/templates/structures/pers/monument_02.xml
+index 6228200bea..d220ff561d 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/pers/monument_02.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/pers/monument_02.xml
+@@ -27,8 +27,8 @@
+   </Population>
+   <Sound>
+     <SoundGroups>
+-      <select>interface/select/building/sel_market.xml</select>
+-      <constructed>interface/complete/building/complete_market.xml</constructed>
++      <select>interface/select/building/sel_stable.xml</select>
++      <constructed>interface/complete/building/complete_stable.xml</constructed>
+       <death>attack/destruction/building_collapse_large.xml</death>
+       <alert_raise>interface/alarm/alarm_alert_0.xml</alert_raise>
+       <alert_end>interface/alarm/alarm_alert_1.xml</alert_end>
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_civic_house_apartment.xml b/binaries/data/mods/public/simulation/templates/template_structure_civic_house_apartment.xml
+new file mode 100644
+index 0000000000..c12852879e
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/templates/template_structure_civic_house_apartment.xml
+@@ -0,0 +1,27 @@
++<?xml version="1.0" encoding="utf-8"?>
++<Entity parent="template_structure_civic_house_big">
++  <Cost>
++    <BuildTime op="mul">2.0</BuildTime>
++    <Resources>
++      <wood op="mul">2.0</wood>
++    </Resources>
++  </Cost>
++  <GarrisonHolder>
++    <Max op="mul">3.0</Max>
++  </GarrisonHolder>
++  <Health>
++    <Max op="mul">3.0</Max>
++    <SpawnEntityOnDeath>decay|rubble/rubble_stone_4x4</SpawnEntityOnDeath>
++  </Health>
++  <Identity>
++    <GenericName>Apartment Building</GenericName>
++		<Icon>structures/apartment.png</Icon>
++		<RequiredTechnology>phase_town</RequiredTechnology>
++  </Identity>
++  <Population>
++    <Bonus>15</Bonus>
++  </Population>
++  <TerritoryInfluence>
++    <Radius>25</Radius>
++  </TerritoryInfluence>
++</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/units/cart/cavalry_swordsman_gaul_a.xml b/binaries/data/mods/public/simulation/templates/units/cart/cavalry_swordsman_gaul_a.xml
+index 5b8846f987..ff129d3bd1 100644
+--- a/binaries/data/mods/public/simulation/templates/units/cart/cavalry_swordsman_gaul_a.xml
++++ b/binaries/data/mods/public/simulation/templates/units/cart/cavalry_swordsman_gaul_a.xml
+@@ -4,9 +4,9 @@
+     <Rank>Advanced</Rank>
+   </Identity>
+   <Promotion>
+-    <Entity>units/cart_cavalry_swordsman_gaul_e</Entity>
++    <Entity>units/cart/cavalry_swordsman_gaul_e</Entity>
+   </Promotion>
+   <VisualActor>
+-    <Actor>units/celts/cavalry_swordsman_a_m.xml</Actor>
++    <Actor>units/gauls/cavalry_swordsman_a_m.xml</Actor>
+   </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/units/cart/cavalry_swordsman_gaul_e.xml b/binaries/data/mods/public/simulation/templates/units/cart/cavalry_swordsman_gaul_e.xml
+index de6f9d77c3..c8cf1ce4f6 100644
+--- a/binaries/data/mods/public/simulation/templates/units/cart/cavalry_swordsman_gaul_e.xml
++++ b/binaries/data/mods/public/simulation/templates/units/cart/cavalry_swordsman_gaul_e.xml
+@@ -5,6 +5,6 @@
+   </Identity>
+   <Promotion disable=""/>
+   <VisualActor>
+-    <Actor>units/celts/cavalry_swordsman_e_m.xml</Actor>
++    <Actor>units/gauls/cavalry_swordsman_e_m.xml</Actor>
+   </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/units/cart/cavalry_swordsman_iber_a.xml b/binaries/data/mods/public/simulation/templates/units/cart/cavalry_swordsman_iber_a.xml
+index 73904aad5a..dc81e5db79 100644
+--- a/binaries/data/mods/public/simulation/templates/units/cart/cavalry_swordsman_iber_a.xml
++++ b/binaries/data/mods/public/simulation/templates/units/cart/cavalry_swordsman_iber_a.xml
+@@ -4,9 +4,9 @@
+     <Rank>Advanced</Rank>
+   </Identity>
+   <Promotion>
+-    <Entity>units/cart_cavalry_swordsman_iber_e</Entity>
++    <Entity>units/cart/cavalry_swordsman_iber_e</Entity>
+   </Promotion>
+   <VisualActor>
+-    <Actor>units/carthaginians/cavalry_swordsman_a_m.xml</Actor>
++    <Actor>units/iberians/cavalry_swordsman_a_m.xml</Actor>
+   </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/units/cart/cavalry_swordsman_iber_e.xml b/binaries/data/mods/public/simulation/templates/units/cart/cavalry_swordsman_iber_e.xml
+index 5eb7920a8c..68e9c63588 100644
+--- a/binaries/data/mods/public/simulation/templates/units/cart/cavalry_swordsman_iber_e.xml
++++ b/binaries/data/mods/public/simulation/templates/units/cart/cavalry_swordsman_iber_e.xml
+@@ -5,6 +5,6 @@
+   </Identity>
+   <Promotion disable=""/>
+   <VisualActor>
+-    <Actor>units/carthaginians/cavalry_swordsman_e_m.xml</Actor>
++    <Actor>units/iberians/cavalry_swordsman_e_m.xml</Actor>
+   </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/units/cart/infantry_slinger_iber_a.xml b/binaries/data/mods/public/simulation/templates/units/cart/infantry_slinger_iber_a.xml
+index bdb218473c..8b7bb8ee9c 100644
+--- a/binaries/data/mods/public/simulation/templates/units/cart/infantry_slinger_iber_a.xml
++++ b/binaries/data/mods/public/simulation/templates/units/cart/infantry_slinger_iber_a.xml
+@@ -4,9 +4,9 @@
+     <Rank>Advanced</Rank>
+   </Identity>
+   <Promotion>
+-    <Entity>units/cart_infantry_slinger_iber_e</Entity>
++    <Entity>units/cart/infantry_slinger_iber_e</Entity>
+   </Promotion>
+   <VisualActor>
+-    <Actor>units/carthaginians/infantry_slinger_a.xml</Actor>
++    <Actor>units/iberians/infantry_slinger_a.xml</Actor>
+   </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/units/cart/infantry_slinger_iber_e.xml b/binaries/data/mods/public/simulation/templates/units/cart/infantry_slinger_iber_e.xml
+index d6855970a1..162391d6e3 100644
+--- a/binaries/data/mods/public/simulation/templates/units/cart/infantry_slinger_iber_e.xml
++++ b/binaries/data/mods/public/simulation/templates/units/cart/infantry_slinger_iber_e.xml
+@@ -5,6 +5,6 @@
+   </Identity>
+   <Promotion disable=""/>
+   <VisualActor>
+-    <Actor>units/carthaginians/infantry_slinger_e.xml</Actor>
++    <Actor>units/iberians/infantry_slinger_e.xml</Actor>
+   </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/units/sele/cavalry_archer_a.xml b/binaries/data/mods/public/simulation/templates/units/sele/cavalry_archer_a.xml
+index a3abc3dbc8..cb67db8154 100644
+--- a/binaries/data/mods/public/simulation/templates/units/sele/cavalry_archer_a.xml
++++ b/binaries/data/mods/public/simulation/templates/units/sele/cavalry_archer_a.xml
+@@ -4,9 +4,9 @@
+     <Rank>Advanced</Rank>
+   </Identity>
+   <Promotion>
+-    <Entity>units/sele_cavalry_archer_e</Entity>
++    <Entity>units/sele/cavalry_archer_e</Entity>
+   </Promotion>
+   <VisualActor>
+-    <Actor>units/seleucids/cavalry_archer_a_m.xml</Actor>
++    <Actor>units/persians/cavalry_archer_a_m.xml</Actor>
+   </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/units/sele/cavalry_archer_e.xml b/binaries/data/mods/public/simulation/templates/units/sele/cavalry_archer_e.xml
+index 995ef2cd54..6933bbc006 100644
+--- a/binaries/data/mods/public/simulation/templates/units/sele/cavalry_archer_e.xml
++++ b/binaries/data/mods/public/simulation/templates/units/sele/cavalry_archer_e.xml
+@@ -5,6 +5,6 @@
+   </Identity>
+   <Promotion disable=""/>
+   <VisualActor>
+-    <Actor>units/seleucids/cavalry_archer_e_m.xml</Actor>
++    <Actor>units/persians/cavalry_archer_e_m.xml</Actor>
+   </VisualActor>
+ </Entity>
+-- 
+2.25.1
+

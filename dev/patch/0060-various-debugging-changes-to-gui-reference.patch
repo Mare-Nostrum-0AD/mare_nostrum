@@ -1,0 +1,80 @@
+From 789162affce1543b7d23aa73646c0742a86eb06c Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Mon, 31 May 2021 20:25:46 -0700
+Subject: [PATCH 60/86] various debugging changes to gui reference
+
+added warnf to globalscripts/utility.js
+
+fixed units/iber/champion_cavalry
+---
+ binaries/data/mods/public/globalscripts/utility.js          | 5 +++++
+ binaries/data/mods/public/gui/common/functions_utility.js   | 4 ++--
+ .../data/mods/public/gui/reference/common/TemplateLister.js | 2 ++
+ .../simulation/templates/units/iber/champion_cavalry.xml    | 6 ++++--
+ 4 files changed, 13 insertions(+), 4 deletions(-)
+
+diff --git a/binaries/data/mods/public/globalscripts/utility.js b/binaries/data/mods/public/globalscripts/utility.js
+index b55fd37289..995b7859c1 100644
+--- a/binaries/data/mods/public/globalscripts/utility.js
++++ b/binaries/data/mods/public/globalscripts/utility.js
+@@ -178,3 +178,8 @@ function parseEntityTokens(entity, tokenList)
+ 
+ 	return entities;
+ }// end parseEntityTokens
++
++function warnf(fmt, ..args)
++{
++	warn(sprintf(fmt, ...args));
++}
+diff --git a/binaries/data/mods/public/gui/common/functions_utility.js b/binaries/data/mods/public/gui/common/functions_utility.js
+index f6a906b5ac..5b1370756b 100644
+--- a/binaries/data/mods/public/gui/common/functions_utility.js
++++ b/binaries/data/mods/public/gui/common/functions_utility.js
+@@ -58,9 +58,9 @@ function parseCivTemplate(templateName, subPattern, civCode)
+ 	if (civInfo && civInfo.Culture)
+ 		codes = codes.concat(civInfo.Culture);
+ 	codes.push('generic');
+-	for (let i in codes) {
+-		let code = codes[i];
++	for (let code of codes) {
+ 		let parsedTemplateName = templateName.replace(subPattern, code);
++		warnf('Parsed template name: %s', parsedTemplateName);
+ 		if (Engine.TemplateExists(parsedTemplateName))
+ 			return parsedTemplateName;
+ 	}// end for i
+diff --git a/binaries/data/mods/public/gui/reference/common/TemplateLister.js b/binaries/data/mods/public/gui/reference/common/TemplateLister.js
+index 81beaa0005..996815bc90 100644
+--- a/binaries/data/mods/public/gui/reference/common/TemplateLister.js
++++ b/binaries/data/mods/public/gui/reference/common/TemplateLister.js
+@@ -139,9 +139,11 @@ class TemplateLister
+ 
+ 		if (template.City && template.City.Upgrade)
+ 		{
++			warn(sprintf('City civCode: %s (native: %s)', civCode, template.Identity.Civ));// TODO: remove debug
+ 			let upgrade = template.City.Upgrade.indexOf('{native}') !== 1 ?
+ 				parseCivTemplate(template.City.Upgrade, /\{native\}/g, template.Identity.Civ) :
+ 				parseCivTemplate(template.City.Upgrade, /\{civ\}/g, civCode);
++			warn(sprintf('City upgrade: %s (from: %s)', upgrade, template.City.Upgrade));// TODO: remove debug
+ 			if (upgrade)
+ 				templateLists.structures.unshift(upgrade);
+ 		}
+diff --git a/binaries/data/mods/public/simulation/templates/units/iber/champion_cavalry.xml b/binaries/data/mods/public/simulation/templates/units/iber/champion_cavalry.xml
+index d4bb0ff58b..b478a234d5 100644
+--- a/binaries/data/mods/public/simulation/templates/units/iber/champion_cavalry.xml
++++ b/binaries/data/mods/public/simulation/templates/units/iber/champion_cavalry.xml
+@@ -2,8 +2,10 @@
+ <Entity parent="template_unit_champion_cavalry_javelineer">
+   <Attack>
+     <Ranged>
+-      <Pierce>5</Pierce>
+-      <Crush>15</Crush>
++			<Damage>
++				<Pierce>5</Pierce>
++				<Crush>15</Crush>
++			</Damage>
+     </Ranged>
+   </Attack>
+   <Identity>
+-- 
+2.25.1
+

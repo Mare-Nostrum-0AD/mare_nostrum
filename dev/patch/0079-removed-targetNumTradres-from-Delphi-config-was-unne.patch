@@ -1,0 +1,43 @@
+From 0e8613465be5f3655af78f85a8ce90513d1a3b3f Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sat, 5 Jun 2021 16:44:00 -0700
+Subject: [PATCH 79/86] removed targetNumTradres from Delphi config (was
+ unnecessary, unserializable)
+
+set null Serializer for Replace component
+---
+ binaries/data/mods/public/simulation/ai/delphi/config.js   | 1 -
+ binaries/data/mods/public/simulation/components/Replace.js | 5 +++++
+ 2 files changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/binaries/data/mods/public/simulation/ai/delphi/config.js b/binaries/data/mods/public/simulation/ai/delphi/config.js
+index 760d7d95c0..0a0544837c 100644
+--- a/binaries/data/mods/public/simulation/ai/delphi/config.js
++++ b/binaries/data/mods/public/simulation/ai/delphi/config.js
+@@ -263,7 +263,6 @@ DELPHI.Config.prototype.setConfig = function(gameState)
+ 	this.Economy.popPhase2 = Math.min(Math.max(Math.floor(this.Economy.popPhase2 * this.popScaling), 20), Math.floor(maxPop/2));
+ 	this.Economy.workPhase3 = Math.min(Math.max(Math.floor(this.Economy.workPhase3 * this.popScaling), 40), Math.floor(maxPop*2/3));
+ 	this.Economy.workPhase4 = Math.min(Math.max(Math.floor(this.Economy.workPhase4 * this.popScaling), 45), Math.floor(maxPop*2/3));
+-	this.Economy.targetNumTraders = Math.round(this.Economy.targetNumTraders * this.popScaling);
+ 	this.Economy.targetNumWorkers = Math.max(this.Economy.targetNumWorkers, this.Economy.popPhase2);
+ 	this.Economy.workPhase3 = Math.min(this.Economy.workPhase3, this.Economy.targetNumWorkers);
+ 	this.Economy.workPhase4 = Math.min(this.Economy.workPhase4, this.Economy.targetNumWorkers);
+diff --git a/binaries/data/mods/public/simulation/components/Replace.js b/binaries/data/mods/public/simulation/components/Replace.js
+index cb0fbbe515..7357a87334 100644
+--- a/binaries/data/mods/public/simulation/components/Replace.js
++++ b/binaries/data/mods/public/simulation/components/Replace.js
+@@ -38,6 +38,11 @@ Replace.prototype.Replace = function()
+ 	return ChangeEntityTemplate(this.entity, template);
+ };// end Replace.prototype.Replace
+ 
++// no dynamic state to init or save
++Replace.prototype.Init = function() {};
++
++Replace.prototype.Serialize = null;
++
+ Replace.prototype.OnUpdate = function(msg)
+ {
+ 	this.Replace();
+-- 
+2.25.1
+

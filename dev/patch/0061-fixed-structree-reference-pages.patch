@@ -1,0 +1,122 @@
+From 4a80f9e528382b2d374b04d05f5eaf36d166251d Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Mon, 31 May 2021 23:56:09 -0700
+Subject: [PATCH 61/86] fixed structree reference pages
+
+---
+ binaries/data/mods/public/globalscripts/utility.js         | 2 +-
+ binaries/data/mods/public/gui/common/functions_utility.js  | 3 +--
+ binaries/data/mods/public/gui/common/tooltips.js           | 7 +++----
+ .../data/mods/public/gui/reference/common/ReferencePage.js | 4 ++--
+ .../mods/public/gui/reference/common/TemplateLister.js     | 4 +---
+ .../data/mods/public/gui/reference/viewer/ViewerPage.js    | 4 ++--
+ 6 files changed, 10 insertions(+), 14 deletions(-)
+
+diff --git a/binaries/data/mods/public/globalscripts/utility.js b/binaries/data/mods/public/globalscripts/utility.js
+index 995b7859c1..906e93caa4 100644
+--- a/binaries/data/mods/public/globalscripts/utility.js
++++ b/binaries/data/mods/public/globalscripts/utility.js
+@@ -179,7 +179,7 @@ function parseEntityTokens(entity, tokenList)
+ 	return entities;
+ }// end parseEntityTokens
+ 
+-function warnf(fmt, ..args)
++function warnf(fmt, ...args)
+ {
+ 	warn(sprintf(fmt, ...args));
+ }
+diff --git a/binaries/data/mods/public/gui/common/functions_utility.js b/binaries/data/mods/public/gui/common/functions_utility.js
+index 5b1370756b..1332557819 100644
+--- a/binaries/data/mods/public/gui/common/functions_utility.js
++++ b/binaries/data/mods/public/gui/common/functions_utility.js
+@@ -53,14 +53,13 @@ function loadCivData(selectableOnly, gaia)
+  */
+ function parseCivTemplate(templateName, subPattern, civCode)
+ {
+-	let codes = [civCode];
++	let codes = civCode ? [civCode] : [];
+ 	let civInfo = getCivInfo(civCode);
+ 	if (civInfo && civInfo.Culture)
+ 		codes = codes.concat(civInfo.Culture);
+ 	codes.push('generic');
+ 	for (let code of codes) {
+ 		let parsedTemplateName = templateName.replace(subPattern, code);
+-		warnf('Parsed template name: %s', parsedTemplateName);
+ 		if (Engine.TemplateExists(parsedTemplateName))
+ 			return parsedTemplateName;
+ 	}// end for i
+diff --git a/binaries/data/mods/public/gui/common/tooltips.js b/binaries/data/mods/public/gui/common/tooltips.js
+index 7d250f3721..6ecdf1be0d 100644
+--- a/binaries/data/mods/public/gui/common/tooltips.js
++++ b/binaries/data/mods/public/gui/common/tooltips.js
+@@ -1244,10 +1244,9 @@ function getCityUpgradeText(template, playerCiv)
+ 	if (!template || !template.city || !template.city.upgrade)
+ 		return "";
+ 	let templateNameRaw = template.city.upgrade;
+-	let civ = templateNameRaw.indexOf("{native}") !== -1 ? template.nativeCiv : playerCiv;
+-	let templateName = civ === playerCiv ?
+-		parseCivTemplate(templateNameRaw, /{civ}/g, civ) :
+-		parseCivTemplate(templateNameRaw, /{native}/g, civ);
++	let templateName = templateNameRaw.indexOf("{native}") !== -1 ?
++		parseCivTemplate(templateNameRaw, /\{native\}/g, template.nativeCiv) :
++		parseCivTemplate(templateNameRaw, /\{civ\}/g, playerCiv);
+ 	if (!templateName)
+ 		return "";
+ 	let upgrade = Engine.GetTemplate(templateName);
+diff --git a/binaries/data/mods/public/gui/reference/common/ReferencePage.js b/binaries/data/mods/public/gui/reference/common/ReferencePage.js
+index 8481030aa8..b6edd72b54 100644
+--- a/binaries/data/mods/public/gui/reference/common/ReferencePage.js
++++ b/binaries/data/mods/public/gui/reference/common/ReferencePage.js
+@@ -36,9 +36,9 @@ class ReferencePage
+ 	 * @param {string} joiner
+ 	 * @return {string} The built text.
+ 	 */
+-	static buildText(template, textFunctions=[], joiner="\n")
++	static buildText(template, textFunctions=[], joiner="\n", civ='gaia')
+ 	{
+-		return textFunctions.map(func => func(template, this.activeCiv)).filter(tip => tip).join(joiner);
++		return textFunctions.map(func => func(template, civ)).filter(tip => tip).join(joiner);
+ 	}
+ }
+ 
+diff --git a/binaries/data/mods/public/gui/reference/common/TemplateLister.js b/binaries/data/mods/public/gui/reference/common/TemplateLister.js
+index 996815bc90..da7be62345 100644
+--- a/binaries/data/mods/public/gui/reference/common/TemplateLister.js
++++ b/binaries/data/mods/public/gui/reference/common/TemplateLister.js
+@@ -139,11 +139,9 @@ class TemplateLister
+ 
+ 		if (template.City && template.City.Upgrade)
+ 		{
+-			warn(sprintf('City civCode: %s (native: %s)', civCode, template.Identity.Civ));// TODO: remove debug
+-			let upgrade = template.City.Upgrade.indexOf('{native}') !== 1 ?
++			let upgrade = template.City.Upgrade.indexOf('{native}') !== -1 ?
+ 				parseCivTemplate(template.City.Upgrade, /\{native\}/g, template.Identity.Civ) :
+ 				parseCivTemplate(template.City.Upgrade, /\{civ\}/g, civCode);
+-			warn(sprintf('City upgrade: %s (from: %s)', upgrade, template.City.Upgrade));// TODO: remove debug
+ 			if (upgrade)
+ 				templateLists.structures.unshift(upgrade);
+ 		}
+diff --git a/binaries/data/mods/public/gui/reference/viewer/ViewerPage.js b/binaries/data/mods/public/gui/reference/viewer/ViewerPage.js
+index a6fba52a6d..5b6b0f7f6b 100644
+--- a/binaries/data/mods/public/gui/reference/viewer/ViewerPage.js
++++ b/binaries/data/mods/public/gui/reference/viewer/ViewerPage.js
+@@ -118,14 +118,14 @@ class ViewerPage extends ReferencePage
+ 		entityIcon.sprite = "stretched:" + this.IconPath + this.currentTemplate.icon;
+ 
+ 		let entityStats = this.guiElements.entityStats;
+-		entityStats.caption = this.constructor.buildText(this.currentTemplate, this.StatsFunctions);
++		entityStats.caption = this.constructor.buildText(this.currentTemplate, this.StatsFunctions, "\n", this.activeCiv);
+ 
+ 		let infoSize = this.guiElements.entityInfo.size;
+ 		// The magic '8' below provides a gap between the bottom of the icon, and the start of the info text.
+ 		infoSize.top = Math.max(entityIcon.size.bottom + 8, entityStats.size.top + entityStats.getTextSize().height);
+ 		this.guiElements.entityInfo.size = infoSize;
+ 
+-		this.guiElements.entityInfo.caption = this.constructor.buildText(this.currentTemplate, this.InfoFunctions, "\n\n");
++		this.guiElements.entityInfo.caption = this.constructor.buildText(this.currentTemplate, this.InfoFunctions, "\n\n", this.activeCiv);
+ 
+ 		if (this.currentTemplate.promotion)
+ 			this.guiElements.entityRankGlyph.sprite = "stretched:" + this.RankIconPath + this.currentTemplate.promotion.current_rank + ".png";
+-- 
+2.25.1
+

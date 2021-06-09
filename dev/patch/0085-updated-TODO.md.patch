@@ -1,0 +1,136 @@
+From 9bed2174ba1e6afc7f3e4ebf34337b7ee818b60a Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Tue, 8 Jun 2021 19:45:16 -0700
+Subject: [PATCH 85/86] updated TODO.md
+
+CityMember component schema contained between back quotes
+
+updated simulation/helpers/Entity.js:CreateEntity to check EntityTransformer for whether entity has been replaced after posting EntityCreated message
+---
+ binaries/data/mods/public/TODO.md             | 18 +++++++--------
+ .../simulation/components/CityMember.js       | 22 +++++++++----------
+ .../simulation/components/ProductionQueue.js  |  2 +-
+ .../mods/public/simulation/helpers/Entity.js  |  4 +++-
+ 4 files changed, 24 insertions(+), 22 deletions(-)
+
+diff --git a/binaries/data/mods/public/TODO.md b/binaries/data/mods/public/TODO.md
+index b1a21d2edc..6713a735d0 100644
+--- a/binaries/data/mods/public/TODO.md
++++ b/binaries/data/mods/public/TODO.md
+@@ -13,13 +13,12 @@ Please feel free to contribute if you see anything you can do here. If there is
+ 	- Make sure delphi bot randomizes trade routes assignments, weighted by trader gain
+ 	- Allow building all available civic buildings via generic buildCivicBuilding function, replacing buildForge, buildTemple, etc.
+ 	- Allow to build wealth resource supplies (olive groves, vineyards, etc.)
+-	- Make sure it can train merchant ships
++	- Make sure it can train merchant ships /
+ - Implement archer skill growth; archers should start off weaker than other ranged units when first trained, then become stronger through experience
+ 	- Create advanced, elite archer mixins
+ - Modify GarrisonHolder component to enable value modifications based on number, type of units garrisoned /
+ - Remove building ai from siege tower, ensure only usable for taking walls/other structures /
+ 	- Modify Attack component to allow garrisoned units to increase attack, allowing garrisoned infantry to increase siege tower capture attack /
+-- Create champion mixin, refactor champion templates to inherit from standard unit templates and apply champion mixin
+ - Create library/academy monument for Athenians /
+ - Create new palace actors for Hellenistic civs, kushites /
+ - Rename Carthaginian embassies to Mercenary Camps /
+@@ -30,16 +29,17 @@ Please feel free to contribute if you see anything you can do here. If there is
+ - Resolve infinite queue entity limit exploit (try infinite queueing animals) /
+ - Make sure all civ centre actors have projectiles
+ - Implement value modifiers for City, scaling by population (see GarrisonHolder for example)/ 
+-- Implement DeficitTriggers, DeficitValueModifiers for Upkeep (see GarrisonHolder for example)
+-	- Should replace/augment HandleInsufficientUpkeep
++- Implement DeficitTriggers, DeficitValueModifiers for Upkeep (see GarrisonHolder for example) /
++	- Should replace/augment HandleInsufficientUpkeep /
+ - Implement directional resistance, allowing weaker flank and rear armor
+ - Rename "Population Limit" to "Command Limit", change icon
+ - Rebalance city manpower trickle /
+ - Create skirmish replacers for different levels of civ centre /
+-- Create separate "govcentre" template, from which two templates inherit – palace and assembly
+-	- palace available in Hegemon phase
+-	- assembly available in City phase
+-	- civs with assembly get patron temples in hegemon phase
++- Create separate "govcentre" template, from which two templates inherit – palace and assembly /
++	- palace available in Hegemon phase /
++	- assembly available in City phase /
++	- civs with assembly get patron temples in hegemon phase /
++- Ensure phase upgrade notifications are displayed correctly
+ - Document changes in CHANGELOG.md
+ - Document unique features in README.md or FEATURES.md
+ - Document development scripts in CONTRIBUTING.md
+@@ -55,7 +55,7 @@ Please feel free to contribute if you see anything you can do here. If there is
+ 	- Village
+ 	- Town
+ 	- City
+-- Ensure phase upgrade notifications are displayed correctly
++- Create champion mixin, refactor champion templates to inherit from standard unit templates and apply champion mixin
+ - Implement AutoSpawn component
+ - Create resource caps, which can be expanded by building structures and researching technologies
+ - Create local resources, which are stored locally by each resource dropsite and can only be used by nearby production queues and builders
+diff --git a/binaries/data/mods/public/simulation/components/CityMember.js b/binaries/data/mods/public/simulation/components/CityMember.js
+index d07b5d4a7c..78f77dce77 100644
+--- a/binaries/data/mods/public/simulation/components/CityMember.js
++++ b/binaries/data/mods/public/simulation/components/CityMember.js
+@@ -1,17 +1,17 @@
+ function CityMember() {}
+ 
+ CityMember.prototype.Schema =
+-	"<a:help>Identifies this entity as a potential member of a city, able to contribute to its growth and other attributes. City membership is determined by whether this entity is within the city's radius (see City.js).</a:help>" +
+-	"<element name='GrowthContrib' a:help='How much this entity contributes to city growth rate.'>" +
+-		"<choice>" +
+-			"<element name='Add' a:help='Value to add to city growth rate.'>" +
+-				"<data type='positiveInteger' />" +
+-			"</element>" +
+-			"<element name='Multiply' a:help='Value by which to multiply city growth rate.'>" +
+-				"<ref name='nonNegativeDecimal' />" +
+-			"</element>" +
+-		"</choice>" +
+-	"</element>";
++	`<a:help>Identifies this entity as a potential member of a city, able to contribute to its growth and other attributes. City membership is determined by whether this entity is within the city's radius (see City.js).</a:help>
++	<element name='GrowthContrib' a:help='How much this entity contributes to city growth rate.'>
++		<choice>
++			<element name='Add' a:help='Value to add to city growth rate.'>
++				<data type='positiveInteger' />
++			</element>
++			<element name='Multiply' a:help='Value by which to multiply city growth rate.'>
++				<ref name='nonNegativeDecimal' />
++			</element>
++		</choice>
++	</element>`;
+ 
+ CityMember.prototype.Init = function()
+ {
+diff --git a/binaries/data/mods/public/simulation/components/ProductionQueue.js b/binaries/data/mods/public/simulation/components/ProductionQueue.js
+index f2e77e6088..b4ff8bddd7 100644
+--- a/binaries/data/mods/public/simulation/components/ProductionQueue.js
++++ b/binaries/data/mods/public/simulation/components/ProductionQueue.js
+@@ -673,7 +673,7 @@ ProductionQueue.prototype.SpawnUnits = function(item)
+ 	{
+ 		item.entityCache = [];
+ 		for (let i = 0; i < item.count; ++i)
+-			item.entityCache.push(((ent) => EntityTransformer.GetEntityReplacement(ent) || ent)(CreateEntity(item.unitTemplate)));
++			item.entityCache.push(CreateEntity(item.unitTemplate));
+ 	}
+ 
+ 	let autoGarrison;
+diff --git a/binaries/data/mods/public/simulation/helpers/Entity.js b/binaries/data/mods/public/simulation/helpers/Entity.js
+index aff00406b6..942718b77c 100644
+--- a/binaries/data/mods/public/simulation/helpers/Entity.js
++++ b/binaries/data/mods/public/simulation/helpers/Entity.js
+@@ -5,12 +5,14 @@
+ // @return					Number		new entity's id
+ function CreateEntity(templateName, owner=undefined)
+ {
+-	const entity = Engine.AddEntity(templateName);
++	let entity = Engine.AddEntity(templateName);
+ 	if (entity === INVALID_ENTITY)
+ 	{
+ 		throw new Error("Could not create valid entity from template %s", templateName);
+ 	}
+ 	Engine.PostMessage(entity, MT_EntityCreated);
++	// check for entity replacements performed on EntityCreated
++	entity = EntityTransformer.GetEntityReplacement(entity) || entity;
+ 	if (owner)
+ 	{
+ 		const cmpOwnership = Engine.QueryInterface(entity, IID_Ownership);
+-- 
+2.25.1
+

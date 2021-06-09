@@ -1,0 +1,34 @@
+From 27d68e7d588fa3ece07afb963f434cfe08efabae Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Tue, 1 Jun 2021 23:07:07 -0700
+Subject: [PATCH 70/86] added to TODO.md
+
+---
+ binaries/data/mods/public/TODO.md | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/binaries/data/mods/public/TODO.md b/binaries/data/mods/public/TODO.md
+index 0e1128d4fd..11d2e3e469 100644
+--- a/binaries/data/mods/public/TODO.md
++++ b/binaries/data/mods/public/TODO.md
+@@ -21,7 +21,7 @@ Please feel free to contribute if you see anything you can do here. If there is
+ 	- Modify Attack component to allow garrisoned units to increase attack, allowing garrisoned infantry to increase siege tower capture attack /
+ - Create champion mixin, refactor champion templates to inherit from standard unit templates and apply champion mixin
+ - Create library/academy monument for Athenians /
+-- Create new palace actors for Hellenistic civs, kushites
++- Create new palace actors for Hellenistic civs, kushites /
+ - Rename Carthaginian embassies to Mercenary Camps /
+ 	- Allow to build one per town centre /
+ - Create gold, silver resource supplies
+@@ -45,6 +45,8 @@ Please feel free to contribute if you see anything you can do here. If there is
+ - Document development scripts in CONTRIBUTING.md
+ 
+ ## Secondary priorities
++- Create Maurya monument(s)
++- Create government technologies for celts, iberians, various other civs
+ - Give pastures decal to make them more distinctive
+ - Create range of different starting levels, selectable from a dropdown list:
+ 	- Nomad
+-- 
+2.25.1
+

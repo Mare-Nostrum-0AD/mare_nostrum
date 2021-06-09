@@ -1,0 +1,158 @@
+From 099f3f4a03e61594159e4993bfa00aa928d8af47 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Tue, 25 May 2021 17:54:33 -0700
+Subject: [PATCH 37/86] updated TODO.md
+
+removed generic cash crop field
+
+tweaked siege tower GarrisonHolder arrow rate modifier
+
+brit corral can generate wealth trickle when garrisoned with sheep
+
+persian palace generates wealth trickle
+---
+ binaries/data/mods/public/TODO.md             |  2 +-
+ .../simulation/templates/gaia/fauna_sheep.xml |  1 +
+ .../templates/structures/brit/corral.xml      | 22 +++++++++++++++++++
+ .../templates/structures/celt/palace.xml      |  2 +-
+ .../structures/generic/field_cash_crop.xml    |  9 --------
+ .../templates/structures/pers/palace.xml      |  1 +
+ ...unit_fauna_herd_domestic_grazer_cattle.xml |  3 +++
+ .../templates/template_unit_siege_tower.xml   |  2 +-
+ 8 files changed, 30 insertions(+), 12 deletions(-)
+ delete mode 100644 binaries/data/mods/public/simulation/templates/structures/generic/field_cash_crop.xml
+
+diff --git a/binaries/data/mods/public/TODO.md b/binaries/data/mods/public/TODO.md
+index 0532246ff4..811f928298 100644
+--- a/binaries/data/mods/public/TODO.md
++++ b/binaries/data/mods/public/TODO.md
+@@ -16,7 +16,7 @@ Please feel free to contribute if you see anything you can do here. If there is
+ 	- Make sure it can train merchant ships
+ - Implement archer skill growth; archers should start off weaker than other ranged units when first trained, then become stronger through experience
+ 	- Create advanced, elite archer mixins
+-- Modify GarrisonHolder component to enable value modifications based on number, type of units garrisoned
++- Modify GarrisonHolder component to enable value modifications based on number, type of units garrisoned /
+ - Remove building ai from siege tower, ensure only usable for taking walls/other structures
+ 	- Modify Attack component to allow garrisoned units to increase attack, allowing garrisoned infantry to increase siege tower capture attack
+ - Create champion mixin, refactor champion templates to inherit from standard unit templates and apply champion mixin
+diff --git a/binaries/data/mods/public/simulation/templates/gaia/fauna_sheep.xml b/binaries/data/mods/public/simulation/templates/gaia/fauna_sheep.xml
+index 65fb50729c..69e2fa8094 100644
+--- a/binaries/data/mods/public/simulation/templates/gaia/fauna_sheep.xml
++++ b/binaries/data/mods/public/simulation/templates/gaia/fauna_sheep.xml
+@@ -16,6 +16,7 @@
+   <Identity>
+     <GenericName>Sheep</GenericName>
+     <SpecificName>Ovis aries</SpecificName>
++		<VisibleClasses datatype="tokens">Sheep</VisibleClasses>
+     <Icon>gaia/fauna_sheep.png</Icon>
+   </Identity>
+   <ResourceSupply>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/brit/corral.xml b/binaries/data/mods/public/simulation/templates/structures/brit/corral.xml
+index 73955f5c97..35111a66f2 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/brit/corral.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/brit/corral.xml
+@@ -3,13 +3,35 @@
+   <Footprint>
+     <Square width="12.0" depth="21.0"/>
+   </Footprint>
++  <GarrisonHolder>
++    <Max>5</Max>
++    <EjectHealth>0.1</EjectHealth>
++    <EjectClassesOnDestroy datatype="tokens">Unit</EjectClassesOnDestroy>
++    <List datatype="tokens">Animal+Domestic</List>
++    <BuffHeal>1</BuffHeal>
++    <LoadingRange>2</LoadingRange>
++		<ValueModifiers>
++			<Wool>
++				<Paths datatype="tokens">ResourceTrickle/Rates/wealth</Paths>
++				<Classes datatype="tokens">Sheep</Classes>
++				<Add>10</Add>
++			</Wool>
++		</ValueModifiers>
++	</GarrisonHolder>
+   <Identity>
+     <Civ>brit</Civ>
+     <SpecificName>Cagion</SpecificName>
++		<Tooltip>Raise Domestic Animals for food. Garrison sheep to harvest their wool (+10 wealth / 30 seconds).</Tooltip>
+   </Identity>
+   <Obstruction>
+     <Static width="10.0" depth="19.0"/>
+   </Obstruction>
++  <ResourceTrickle>
++    <Rates>
++			<wealth>0</wealth>
++    </Rates>
++    <Interval>30000</Interval>
++  </ResourceTrickle>
+   <VisualActor>
+     <Actor>structures/britons/plot_corral.xml</Actor>
+     <FoundationActor>structures/fndn_3x6.xml</FoundationActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/celt/palace.xml b/binaries/data/mods/public/simulation/templates/structures/celt/palace.xml
+index 62f530863e..0d94d686ad 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/celt/palace.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/celt/palace.xml
+@@ -15,7 +15,7 @@
+     <SpawnEntityOnDeath>decay|rubble/rubble_stone_6x6</SpawnEntityOnDeath>
+   </Health>
+   <Identity>
+-    <Civ>gaul</Civ>
++    <Civ>gaia</Civ>
+     <GenericName>Assembly of Princes</GenericName>
+     <SpecificName>Remogantion</SpecificName>
+     <Tooltip>Train Champion Trumpeters and Heroes.</Tooltip>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/generic/field_cash_crop.xml b/binaries/data/mods/public/simulation/templates/structures/generic/field_cash_crop.xml
+deleted file mode 100644
+index 284975725a..0000000000
+--- a/binaries/data/mods/public/simulation/templates/structures/generic/field_cash_crop.xml
++++ /dev/null
+@@ -1,9 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_resource_field_vineyard">
+-  <Identity merge="">
+-    <Civ>gaia</Civ>
+-  </Identity>
+-  <VisualActor>
+-    <Actor>structures/plot_vineyard_8x8.xml</Actor>
+-  </VisualActor>
+-</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/pers/palace.xml b/binaries/data/mods/public/simulation/templates/structures/pers/palace.xml
+index fde123b11e..8ebd819a56 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/pers/palace.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/pers/palace.xml
+@@ -41,6 +41,7 @@
+       <wood>1.0</wood>
+       <stone>0.75</stone>
+       <metal>0.75</metal>
++			<wealth>0.50</wealth>
+     </Rates>
+     <Interval>2000</Interval>
+   </ResourceTrickle>
+diff --git a/binaries/data/mods/public/simulation/templates/template_unit_fauna_herd_domestic_grazer_cattle.xml b/binaries/data/mods/public/simulation/templates/template_unit_fauna_herd_domestic_grazer_cattle.xml
+index 58c9603f0b..d95b7cfbfc 100644
+--- a/binaries/data/mods/public/simulation/templates/template_unit_fauna_herd_domestic_grazer_cattle.xml
++++ b/binaries/data/mods/public/simulation/templates/template_unit_fauna_herd_domestic_grazer_cattle.xml
+@@ -1,5 +1,8 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_unit_fauna_herd_domestic_grazer">
++	<Identity>
++		<VisibleClasses datatype="tokens">Cattle</VisibleClasses>
++	</Identity>
+   <Sound>
+     <SoundGroups>
+       <select>actor/fauna/animal/cattle_select.xml</select>
+diff --git a/binaries/data/mods/public/simulation/templates/template_unit_siege_tower.xml b/binaries/data/mods/public/simulation/templates/template_unit_siege_tower.xml
+index e68a96c46b..231a5235e4 100644
+--- a/binaries/data/mods/public/simulation/templates/template_unit_siege_tower.xml
++++ b/binaries/data/mods/public/simulation/templates/template_unit_siege_tower.xml
+@@ -62,7 +62,7 @@
+ 					Attack/Ranged/PrepareTime
+ 				</Paths>
+ 				<Classes datatype="tokens">Ranged</Classes>
+-				<Multiply>0.9</Multiply>
++				<Multiply>0.85</Multiply>
+ 				<MaxStackable>10</MaxStackable>
+ 			</Arrows>
+ 			<Capture>
+-- 
+2.25.1
+

@@ -1,0 +1,44 @@
+From e3a50efe8bd99d6b4907f784f52f8cbbbcbb6998 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Wed, 2 Jun 2021 19:47:02 -0700
+Subject: [PATCH 73/86] added to/edited roman city names
+
+---
+ .../public/simulation/data/cities/rome.json   | 23 +++++++++++++++----
+ 1 file changed, 19 insertions(+), 4 deletions(-)
+
+diff --git a/binaries/data/mods/public/simulation/data/cities/rome.json b/binaries/data/mods/public/simulation/data/cities/rome.json
+index fc61ed3465..46a656522d 100644
+--- a/binaries/data/mods/public/simulation/data/cities/rome.json
++++ b/binaries/data/mods/public/simulation/data/cities/rome.json
+@@ -4,8 +4,23 @@
+ 		"Properties": ["capital"]
+ 	},
+ 	"ostia": "Ostia",
+-	"naples": "Neapolis",
+-	"bologna": "Bononia",
+-	"milan": "Mediolanum",
+-	"benevento": "Beneventum"
++	"tusculum": "Tusculum",
++	"anzio": "Antium",
++	"alba_longa": "Alba Longa",
++	"laurentum": "Laurentum",
++	"mentana": "Nomentum",
++	"velletri": "Velitrae",
++	"benevento": "Beneventum",
++	"milan": {
++		"Name": "Mediolanum",
++		"Properties": ["phase_city"]
++	},
++	"naples": {
++		"Name": "Neapolis",
++		"Properties": ["phase_city"]
++	},
++	"bologna": {
++		"Name": "Bononia",
++		"Properties": ["phase_city"]
++	}
+ }
+-- 
+2.25.1
+

@@ -1,0 +1,179 @@
+From 08c93b8627b59059a68915b2de77455c0da3072e Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sun, 30 May 2021 21:21:23 -0700
+Subject: [PATCH 55/86] renamed Petra bot to Delphi bot
+
+---
+ .../simulation/ai/{petra/_petrabot.js => delphi/_delphibot.js}    | 0
+ .../mods/public/simulation/ai/{petra => delphi}/attackManager.js  | 0
+ .../mods/public/simulation/ai/{petra => delphi}/attackPlan.js     | 0
+ .../mods/public/simulation/ai/{petra => delphi}/baseManager.js    | 0
+ .../mods/public/simulation/ai/{petra => delphi}/buildManager.js   | 0
+ .../mods/public/simulation/ai/{petra => delphi}/chatHelper.js     | 0
+ .../data/mods/public/simulation/ai/{petra => delphi}/config.js    | 0
+ .../data/mods/public/simulation/ai/{petra => delphi}/data.json    | 0
+ .../mods/public/simulation/ai/{petra => delphi}/defenseArmy.js    | 0
+ .../mods/public/simulation/ai/{petra => delphi}/defenseManager.js | 0
+ .../public/simulation/ai/{petra => delphi}/diplomacyManager.js    | 0
+ .../mods/public/simulation/ai/{petra => delphi}/entityExtend.js   | 0
+ .../public/simulation/ai/{petra => delphi}/garrisonManager.js     | 0
+ .../mods/public/simulation/ai/{petra => delphi}/headquarters.js   | 0
+ .../data/mods/public/simulation/ai/{petra => delphi}/mapModule.js | 0
+ .../mods/public/simulation/ai/{petra => delphi}/navalManager.js   | 0
+ .../data/mods/public/simulation/ai/{petra => delphi}/queue.js     | 0
+ .../mods/public/simulation/ai/{petra => delphi}/queueManager.js   | 0
+ .../data/mods/public/simulation/ai/{petra => delphi}/queueplan.js | 0
+ .../public/simulation/ai/{petra => delphi}/queueplanBuilding.js   | 0
+ .../public/simulation/ai/{petra => delphi}/queueplanResearch.js   | 0
+ .../public/simulation/ai/{petra => delphi}/queueplanTraining.js   | 0
+ .../public/simulation/ai/{petra => delphi}/researchManager.js     | 0
+ .../public/simulation/ai/{petra => delphi}/startingStrategy.js    | 0
+ .../mods/public/simulation/ai/{petra => delphi}/tradeManager.js   | 0
+ .../mods/public/simulation/ai/{petra => delphi}/transportPlan.js  | 0
+ .../mods/public/simulation/ai/{petra => delphi}/victoryManager.js | 0
+ .../data/mods/public/simulation/ai/{petra => delphi}/worker.js    | 0
+ 28 files changed, 0 insertions(+), 0 deletions(-)
+ rename binaries/data/mods/public/simulation/ai/{petra/_petrabot.js => delphi/_delphibot.js} (100%)
+ rename binaries/data/mods/public/simulation/ai/{petra => delphi}/attackManager.js (100%)
+ rename binaries/data/mods/public/simulation/ai/{petra => delphi}/attackPlan.js (100%)
+ rename binaries/data/mods/public/simulation/ai/{petra => delphi}/baseManager.js (100%)
+ rename binaries/data/mods/public/simulation/ai/{petra => delphi}/buildManager.js (100%)
+ rename binaries/data/mods/public/simulation/ai/{petra => delphi}/chatHelper.js (100%)
+ rename binaries/data/mods/public/simulation/ai/{petra => delphi}/config.js (100%)
+ rename binaries/data/mods/public/simulation/ai/{petra => delphi}/data.json (100%)
+ rename binaries/data/mods/public/simulation/ai/{petra => delphi}/defenseArmy.js (100%)
+ rename binaries/data/mods/public/simulation/ai/{petra => delphi}/defenseManager.js (100%)
+ rename binaries/data/mods/public/simulation/ai/{petra => delphi}/diplomacyManager.js (100%)
+ rename binaries/data/mods/public/simulation/ai/{petra => delphi}/entityExtend.js (100%)
+ rename binaries/data/mods/public/simulation/ai/{petra => delphi}/garrisonManager.js (100%)
+ rename binaries/data/mods/public/simulation/ai/{petra => delphi}/headquarters.js (100%)
+ rename binaries/data/mods/public/simulation/ai/{petra => delphi}/mapModule.js (100%)
+ rename binaries/data/mods/public/simulation/ai/{petra => delphi}/navalManager.js (100%)
+ rename binaries/data/mods/public/simulation/ai/{petra => delphi}/queue.js (100%)
+ rename binaries/data/mods/public/simulation/ai/{petra => delphi}/queueManager.js (100%)
+ rename binaries/data/mods/public/simulation/ai/{petra => delphi}/queueplan.js (100%)
+ rename binaries/data/mods/public/simulation/ai/{petra => delphi}/queueplanBuilding.js (100%)
+ rename binaries/data/mods/public/simulation/ai/{petra => delphi}/queueplanResearch.js (100%)
+ rename binaries/data/mods/public/simulation/ai/{petra => delphi}/queueplanTraining.js (100%)
+ rename binaries/data/mods/public/simulation/ai/{petra => delphi}/researchManager.js (100%)
+ rename binaries/data/mods/public/simulation/ai/{petra => delphi}/startingStrategy.js (100%)
+ rename binaries/data/mods/public/simulation/ai/{petra => delphi}/tradeManager.js (100%)
+ rename binaries/data/mods/public/simulation/ai/{petra => delphi}/transportPlan.js (100%)
+ rename binaries/data/mods/public/simulation/ai/{petra => delphi}/victoryManager.js (100%)
+ rename binaries/data/mods/public/simulation/ai/{petra => delphi}/worker.js (100%)
+
+diff --git a/binaries/data/mods/public/simulation/ai/petra/_petrabot.js b/binaries/data/mods/public/simulation/ai/delphi/_delphibot.js
+similarity index 100%
+rename from binaries/data/mods/public/simulation/ai/petra/_petrabot.js
+rename to binaries/data/mods/public/simulation/ai/delphi/_delphibot.js
+diff --git a/binaries/data/mods/public/simulation/ai/petra/attackManager.js b/binaries/data/mods/public/simulation/ai/delphi/attackManager.js
+similarity index 100%
+rename from binaries/data/mods/public/simulation/ai/petra/attackManager.js
+rename to binaries/data/mods/public/simulation/ai/delphi/attackManager.js
+diff --git a/binaries/data/mods/public/simulation/ai/petra/attackPlan.js b/binaries/data/mods/public/simulation/ai/delphi/attackPlan.js
+similarity index 100%
+rename from binaries/data/mods/public/simulation/ai/petra/attackPlan.js
+rename to binaries/data/mods/public/simulation/ai/delphi/attackPlan.js
+diff --git a/binaries/data/mods/public/simulation/ai/petra/baseManager.js b/binaries/data/mods/public/simulation/ai/delphi/baseManager.js
+similarity index 100%
+rename from binaries/data/mods/public/simulation/ai/petra/baseManager.js
+rename to binaries/data/mods/public/simulation/ai/delphi/baseManager.js
+diff --git a/binaries/data/mods/public/simulation/ai/petra/buildManager.js b/binaries/data/mods/public/simulation/ai/delphi/buildManager.js
+similarity index 100%
+rename from binaries/data/mods/public/simulation/ai/petra/buildManager.js
+rename to binaries/data/mods/public/simulation/ai/delphi/buildManager.js
+diff --git a/binaries/data/mods/public/simulation/ai/petra/chatHelper.js b/binaries/data/mods/public/simulation/ai/delphi/chatHelper.js
+similarity index 100%
+rename from binaries/data/mods/public/simulation/ai/petra/chatHelper.js
+rename to binaries/data/mods/public/simulation/ai/delphi/chatHelper.js
+diff --git a/binaries/data/mods/public/simulation/ai/petra/config.js b/binaries/data/mods/public/simulation/ai/delphi/config.js
+similarity index 100%
+rename from binaries/data/mods/public/simulation/ai/petra/config.js
+rename to binaries/data/mods/public/simulation/ai/delphi/config.js
+diff --git a/binaries/data/mods/public/simulation/ai/petra/data.json b/binaries/data/mods/public/simulation/ai/delphi/data.json
+similarity index 100%
+rename from binaries/data/mods/public/simulation/ai/petra/data.json
+rename to binaries/data/mods/public/simulation/ai/delphi/data.json
+diff --git a/binaries/data/mods/public/simulation/ai/petra/defenseArmy.js b/binaries/data/mods/public/simulation/ai/delphi/defenseArmy.js
+similarity index 100%
+rename from binaries/data/mods/public/simulation/ai/petra/defenseArmy.js
+rename to binaries/data/mods/public/simulation/ai/delphi/defenseArmy.js
+diff --git a/binaries/data/mods/public/simulation/ai/petra/defenseManager.js b/binaries/data/mods/public/simulation/ai/delphi/defenseManager.js
+similarity index 100%
+rename from binaries/data/mods/public/simulation/ai/petra/defenseManager.js
+rename to binaries/data/mods/public/simulation/ai/delphi/defenseManager.js
+diff --git a/binaries/data/mods/public/simulation/ai/petra/diplomacyManager.js b/binaries/data/mods/public/simulation/ai/delphi/diplomacyManager.js
+similarity index 100%
+rename from binaries/data/mods/public/simulation/ai/petra/diplomacyManager.js
+rename to binaries/data/mods/public/simulation/ai/delphi/diplomacyManager.js
+diff --git a/binaries/data/mods/public/simulation/ai/petra/entityExtend.js b/binaries/data/mods/public/simulation/ai/delphi/entityExtend.js
+similarity index 100%
+rename from binaries/data/mods/public/simulation/ai/petra/entityExtend.js
+rename to binaries/data/mods/public/simulation/ai/delphi/entityExtend.js
+diff --git a/binaries/data/mods/public/simulation/ai/petra/garrisonManager.js b/binaries/data/mods/public/simulation/ai/delphi/garrisonManager.js
+similarity index 100%
+rename from binaries/data/mods/public/simulation/ai/petra/garrisonManager.js
+rename to binaries/data/mods/public/simulation/ai/delphi/garrisonManager.js
+diff --git a/binaries/data/mods/public/simulation/ai/petra/headquarters.js b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
+similarity index 100%
+rename from binaries/data/mods/public/simulation/ai/petra/headquarters.js
+rename to binaries/data/mods/public/simulation/ai/delphi/headquarters.js
+diff --git a/binaries/data/mods/public/simulation/ai/petra/mapModule.js b/binaries/data/mods/public/simulation/ai/delphi/mapModule.js
+similarity index 100%
+rename from binaries/data/mods/public/simulation/ai/petra/mapModule.js
+rename to binaries/data/mods/public/simulation/ai/delphi/mapModule.js
+diff --git a/binaries/data/mods/public/simulation/ai/petra/navalManager.js b/binaries/data/mods/public/simulation/ai/delphi/navalManager.js
+similarity index 100%
+rename from binaries/data/mods/public/simulation/ai/petra/navalManager.js
+rename to binaries/data/mods/public/simulation/ai/delphi/navalManager.js
+diff --git a/binaries/data/mods/public/simulation/ai/petra/queue.js b/binaries/data/mods/public/simulation/ai/delphi/queue.js
+similarity index 100%
+rename from binaries/data/mods/public/simulation/ai/petra/queue.js
+rename to binaries/data/mods/public/simulation/ai/delphi/queue.js
+diff --git a/binaries/data/mods/public/simulation/ai/petra/queueManager.js b/binaries/data/mods/public/simulation/ai/delphi/queueManager.js
+similarity index 100%
+rename from binaries/data/mods/public/simulation/ai/petra/queueManager.js
+rename to binaries/data/mods/public/simulation/ai/delphi/queueManager.js
+diff --git a/binaries/data/mods/public/simulation/ai/petra/queueplan.js b/binaries/data/mods/public/simulation/ai/delphi/queueplan.js
+similarity index 100%
+rename from binaries/data/mods/public/simulation/ai/petra/queueplan.js
+rename to binaries/data/mods/public/simulation/ai/delphi/queueplan.js
+diff --git a/binaries/data/mods/public/simulation/ai/petra/queueplanBuilding.js b/binaries/data/mods/public/simulation/ai/delphi/queueplanBuilding.js
+similarity index 100%
+rename from binaries/data/mods/public/simulation/ai/petra/queueplanBuilding.js
+rename to binaries/data/mods/public/simulation/ai/delphi/queueplanBuilding.js
+diff --git a/binaries/data/mods/public/simulation/ai/petra/queueplanResearch.js b/binaries/data/mods/public/simulation/ai/delphi/queueplanResearch.js
+similarity index 100%
+rename from binaries/data/mods/public/simulation/ai/petra/queueplanResearch.js
+rename to binaries/data/mods/public/simulation/ai/delphi/queueplanResearch.js
+diff --git a/binaries/data/mods/public/simulation/ai/petra/queueplanTraining.js b/binaries/data/mods/public/simulation/ai/delphi/queueplanTraining.js
+similarity index 100%
+rename from binaries/data/mods/public/simulation/ai/petra/queueplanTraining.js
+rename to binaries/data/mods/public/simulation/ai/delphi/queueplanTraining.js
+diff --git a/binaries/data/mods/public/simulation/ai/petra/researchManager.js b/binaries/data/mods/public/simulation/ai/delphi/researchManager.js
+similarity index 100%
+rename from binaries/data/mods/public/simulation/ai/petra/researchManager.js
+rename to binaries/data/mods/public/simulation/ai/delphi/researchManager.js
+diff --git a/binaries/data/mods/public/simulation/ai/petra/startingStrategy.js b/binaries/data/mods/public/simulation/ai/delphi/startingStrategy.js
+similarity index 100%
+rename from binaries/data/mods/public/simulation/ai/petra/startingStrategy.js
+rename to binaries/data/mods/public/simulation/ai/delphi/startingStrategy.js
+diff --git a/binaries/data/mods/public/simulation/ai/petra/tradeManager.js b/binaries/data/mods/public/simulation/ai/delphi/tradeManager.js
+similarity index 100%
+rename from binaries/data/mods/public/simulation/ai/petra/tradeManager.js
+rename to binaries/data/mods/public/simulation/ai/delphi/tradeManager.js
+diff --git a/binaries/data/mods/public/simulation/ai/petra/transportPlan.js b/binaries/data/mods/public/simulation/ai/delphi/transportPlan.js
+similarity index 100%
+rename from binaries/data/mods/public/simulation/ai/petra/transportPlan.js
+rename to binaries/data/mods/public/simulation/ai/delphi/transportPlan.js
+diff --git a/binaries/data/mods/public/simulation/ai/petra/victoryManager.js b/binaries/data/mods/public/simulation/ai/delphi/victoryManager.js
+similarity index 100%
+rename from binaries/data/mods/public/simulation/ai/petra/victoryManager.js
+rename to binaries/data/mods/public/simulation/ai/delphi/victoryManager.js
+diff --git a/binaries/data/mods/public/simulation/ai/petra/worker.js b/binaries/data/mods/public/simulation/ai/delphi/worker.js
+similarity index 100%
+rename from binaries/data/mods/public/simulation/ai/petra/worker.js
+rename to binaries/data/mods/public/simulation/ai/delphi/worker.js
+-- 
+2.25.1
+

@@ -1,0 +1,162 @@
+From dd7b998e73ebf6d1a3d028b0f1eebf5291298b42 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Mon, 24 May 2021 23:45:12 -0700
+Subject: [PATCH 34/86] implemented basics of ValueModifiers subcomponent of
+ GarrisonHolder component
+
+---
+ .../simulation/components/GarrisonHolder.js   | 117 ++++++++++++++++++
+ 1 file changed, 117 insertions(+)
+
+diff --git a/binaries/data/mods/public/simulation/components/GarrisonHolder.js b/binaries/data/mods/public/simulation/components/GarrisonHolder.js
+index 0d54b3d66f..dcc642d923 100644
+--- a/binaries/data/mods/public/simulation/components/GarrisonHolder.js
++++ b/binaries/data/mods/public/simulation/components/GarrisonHolder.js
+@@ -31,6 +31,47 @@ GarrisonHolder.prototype.Schema =
+ 		"<element name='Pickup' a:help='This garrisonHolder will move to pick up units to be garrisoned'>" +
+ 			"<data type='boolean'/>" +
+ 		"</element>" +
++	"</optional>" +
++	"<optional>" +
++		"<!-- Source: globalscripts/ModificationTemplates.js:ModificationSchema  -->" +
++		"<!-- Value modifiers for this entity, which scale with number of garrisoned units.  -->" +
++		"<element name='ValueModifiers' a:help='List of value modifiers for this entity, scaling with number of garrisoned entities.'>" +
++			"<oneOrMore>" +
++				"<element>" +
++					"<anyName />" +
++					"<interleave>" +
++						"<element name='Paths' a:help='Space separated value paths to modify.'>" +
++							"<attribute name='datatype'>" +
++								"<value>tokens</value>" +
++							"</attribute>" +
++							"<text/>" +
++						"</element>" +
++						"<element name='Classes' a:help='Classes of garrisoned units that affect this aura.'>" +
++							"<attribute name='datatype'>" +
++								"<value>tokens</value>" +
++							"</attribute>" +
++							"<text/>" +
++						"</element>" +
++						"<choice>" +
++							"<element name='Add'>" +
++								"<data type='decimal' />" +
++							"</element>" +
++							"<element name='Multiply'>" +
++								"<data type='decimal' />" +
++							"</element>" +
++							"<element name='Replace'>" +
++								"<text/>" +
++							"</element>" +
++						"</choice>" +
++						"<optional>" +
++							"<element name='MaxStackable' a:help='Maximum number of times to stack this aura; unlimited by default.'>" +
++								"<data type='positiveInteger'/>" +
++							"</element>" +
++						"</optional>" +
++					"</interleave>" +
++				"</element>" +
++			"</oneOrMore>" +
++		"</element>" +
+ 	"</optional>";
+ 
+ /**
+@@ -47,6 +88,7 @@ GarrisonHolder.prototype.Init = function()
+ {
+ 	this.entities = [];
+ 	this.allowedClasses = ApplyValueModificationsToEntity("GarrisonHolder/List/_string", this.template.List._string, this.entity);
++	this.appliedValueModifiers = new Set();
+ };
+ 
+ /**
+@@ -305,6 +347,75 @@ GarrisonHolder.prototype.UnloadAll = function()
+ 	return this.UnloadEntities(this.entities.slice());
+ };
+ 
++// Get value modifiers, scaled by number of garrisoned units with approriate classes.
++// @return		[Object{"PATH": [{("add"|"multiply"|"replace"): Number}]}]			Scaled value modifiers
++GarrisonHolder.prototype.GetValueModifiers = function()
++{
++	if (!this.template.ValueModifiers)
++		return [];
++	let modifierTemplates = this.template.ValueModifiers;
++	let ents = this.GetEntities();
++	let output = modifiers;
++	for (let name in modifierTemplates)
++	{
++		let mod = modifierTemplates[name];
++		let classList = mod.Classes._string.split(/\s+/g);
++		let relevantEnts = ents.filter((ent) => {
++			let cmpIdentity = Engine.QueryInterface(ent, IID_Identity);
++			return cmpIdentity && MatchesClassList(cmpIdentity.GetClassesList(), classList);
++		});
++		if (!relevantEnts || !relevantEnts.length)
++			continue;
++		let scalar = mod.MaxStackable ? Math.min(relevantEnts.length, +mod.MaxStackable) : relevantEnts.length;
++		let [type, value] = (() => {
++			if (mod.Replace)
++				return ["replace", ApplyValueModificationsToEntity("GarrisonHolder/ValueModifiers/" + name + "/Replace", mod.Replace, this.entity)];
++			if (mod.Add)
++				return ["add", ApplyValueModificationsToEntity("GarrisonHolder/ValueModifiers/" + name + "/Add", +mod.Add, this.entity) * scalar];
++			if (mod.Multiply)
++				return ["multiply", Math.pow(ApplyValueModificationsToEntity("GarrisonHolder/ValueModifiers/" + name + "/Multiply", +mod.Multiply, this.entity), scalar)];
++		})();
++		let effect = {};
++		effect[type] = value;
++
++		let ret = {};
++		for (let path of mod.Paths._string.split(/\s+/g))
++		{
++			ret[path] = [effect];
++		}
++
++		output[name] = ret;
++	}
++	return output;
++};
++
++// applies value modifiers to entity
++// TODO: rewrite to only check when entities of relevant classes are added or removed
++// @return none
++GarrisonHolder.prototype.ApplyValueModifiers = function()
++{
++	let valueModifiers = this.GetValueModifiers();
++	let cmpModifiersManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_ModifiersManager);
++	// first, remove any modifiers that are no longer needed
++	for (let key of this.appliedValueModifiers.keys())
++	{
++		let modName = sprintf("%d/GarrisonHolder/ValueModifiers/%s", this.entity, key);
++		if (!valueModifiers.hasOwnProperty(modName))
++		{
++			cmpModifiersManager.RemoveAllModifiers(modName, this.entity);
++			this.appliedValueModifiers.delete(key);
++		}
++	}
++	// next, add or modify other modifiers. if modifier already applied in some form, make sure to remove before reapplying, as scalar may be off
++	for (let [key, mod] of valueModifiers)
++	{
++		let modName = sprintf("%d/GarrisonHolder/ValueModifiers/%s", this.entity, key);
++		if (this.appliedValueModifiers.has(key))
++			cmpModifiersManager.RemoveAllModifiers(modName, this.entity);
++		cmpModifiersManager.AddModifiers(modName, mod, this.entity);
++	}
++};
++
+ /**
+  * Used to check if the garrisoning entity's health has fallen below
+  * a certain limit after which all garrisoned units are unloaded.
+@@ -384,6 +495,12 @@ GarrisonHolder.prototype.OnDestroy = function()
+ 		let cmpTimer = Engine.QueryInterface(SYSTEM_ENTITY, IID_Timer);
+ 		cmpTimer.CancelTimer(this.timer);
+ 	}
++	let cmpModifiersManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_ModifiersManager);
++	for (let key of this.appliedValueModifiers.keys())
++	{
++		let modName = sprintf("%d/GarrisonHolder/ValueModifiers/%s", this.entity, key);
++		cmpModifiersManager.RemoveAllModifiers(modName, this.entity);
++	}
+ };
+ 
+ /**
+-- 
+2.25.1
+

@@ -1,0 +1,26 @@
+From 7ab6763a5fd78890c56aa1c9ce361a686c07514e Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Fri, 4 Jun 2021 19:12:04 -0700
+Subject: [PATCH 77/86] changed mercenary cost from metal to wealth
+
+mercenary upkeep raised from 1 wealth every 20 seconds to 5 wealth
+---
+ .../data/mods/public/simulation/templates/mixins/mercenary.xml  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/binaries/data/mods/public/simulation/templates/mixins/mercenary.xml b/binaries/data/mods/public/simulation/templates/mixins/mercenary.xml
+index fe2c1002c3..5fc3ce877b 100644
+--- a/binaries/data/mods/public/simulation/templates/mixins/mercenary.xml
++++ b/binaries/data/mods/public/simulation/templates/mixins/mercenary.xml
+@@ -22,7 +22,7 @@
+ 	<Upkeep>
+ 		<Interval>20000</Interval>
+ 		<Rates>
+-			<wealth>1</wealth>
++			<wealth>5</wealth>
+ 		</Rates>
+ 	</Upkeep>
+ </Entity>
+-- 
+2.25.1
+

@@ -1,0 +1,178 @@
+From 059881ca9d228fd3a611be01fd7bb89ace0954aa Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Tue, 25 May 2021 00:37:36 -0700
+Subject: [PATCH 36/86] complete implementation of
+ GarrisonHolder/ValueModifiers
+
+added Capture, Ranged Attack modifiers to template_unit_siege_tower:GarrisonHolder/ValueModifiers
+---
+ .../simulation/components/GarrisonHolder.js   |  4 +-
+ .../components/schemas/GarrisonHolder.xsd     | 72 +++++++++++++++++++
+ .../templates/template_unit_siege_tower.xml   | 27 +++++--
+ 3 files changed, 95 insertions(+), 8 deletions(-)
+ create mode 100644 binaries/data/mods/public/simulation/components/schemas/GarrisonHolder.xsd
+
+diff --git a/binaries/data/mods/public/simulation/components/GarrisonHolder.js b/binaries/data/mods/public/simulation/components/GarrisonHolder.js
+index 29f5b1ff08..6e1aaedf2f 100644
+--- a/binaries/data/mods/public/simulation/components/GarrisonHolder.js
++++ b/binaries/data/mods/public/simulation/components/GarrisonHolder.js
+@@ -355,7 +355,7 @@ GarrisonHolder.prototype.GetValueModifiers = function()
+ 		return [];
+ 	let modifierTemplates = this.template.ValueModifiers;
+ 	let ents = this.GetEntities();
+-	let output = modifiers;
++	let output = {};
+ 	for (let name in modifierTemplates)
+ 	{
+ 		let mod = modifierTemplates[name];
+@@ -407,7 +407,7 @@ GarrisonHolder.prototype.ApplyValueModifiers = function()
+ 		}
+ 	}
+ 	// next, add or modify other modifiers. if modifier already applied in some form, make sure to remove before reapplying, as scalar may be off
+-	for (let [key, mod] of valueModifiers)
++	for (let [key, mod] of Object.entries(valueModifiers))
+ 	{
+ 		let modName = sprintf("%d/GarrisonHolder/ValueModifiers/%s", this.entity, key);
+ 		if (this.appliedValueModifiers.has(key))
+diff --git a/binaries/data/mods/public/simulation/components/schemas/GarrisonHolder.xsd b/binaries/data/mods/public/simulation/components/schemas/GarrisonHolder.xsd
+new file mode 100644
+index 0000000000..ed44736dc3
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/components/schemas/GarrisonHolder.xsd
+@@ -0,0 +1,72 @@
++<element name='Max' a:help='Maximum number of entities which can be garrisoned in this holder'>
++	<data type='positiveInteger'/>
++</element>
++<element name='List' a:help='Classes of entities which are allowed to garrison in this holder (from Identity)'>
++	<attribute name='datatype'>
++		<value>tokens</value>
++	</attribute>
++	<text/>
++</element>
++<element name='EjectClassesOnDestroy' a:help='Classes of entities to be ejected on destroy. Others are killed'>
++	<attribute name='datatype'>
++		<value>tokens</value>
++	</attribute>
++	<text/>
++</element>
++<element name='BuffHeal' a:help='Number of hitpoints that will be restored to this holder&apos;s garrisoned units each second'>
++	<ref name='nonNegativeDecimal'/>
++</element>
++<element name='LoadingRange' a:help='The maximum distance from this holder at which entities are allowed to garrison. Should be about 2.0 for land entities and preferably greater for ships'>
++	<ref name='nonNegativeDecimal'/>
++</element>
++<optional>
++	<element name='EjectHealth' a:help='Percentage of maximum health below which this holder no longer allows garrisoning'>
++		<ref name='nonNegativeDecimal'/>
++	</element>
++</optional>
++<optional>
++	<element name='Pickup' a:help='This garrisonHolder will move to pick up units to be garrisoned'>
++		<data type='boolean'/>
++	</element>
++</optional>
++<optional>
++	<!-- Source: globalscripts/ModificationTemplates.js:ModificationSchema  -->
++	<!-- Value modifiers for this entity, which scale with number of garrisoned units.  -->
++	<element name='ValueModifiers' a:help='List of value modifiers for this entity, scaling with number of garrisoned entities.'>
++		<oneOrMore>
++			<element>
++				<anyName />
++				<interleave>
++					<element name='Paths' a:help='Space separated value paths to modify.'>
++						<attribute name='datatype'>
++							<value>tokens</value>
++						</attribute>
++						<text/>
++					</element>
++					<element name='Classes' a:help='Classes of garrisoned units that affect this aura.'>
++						<attribute name='datatype'>
++							<value>tokens</value>
++						</attribute>
++						<text/>
++					</element>
++					<choice>
++						<element name='Add'>
++							<data type='decimal' />
++						</element>
++						<element name='Multiply'>
++							<data type='decimal' />
++						</element>
++						<element name='Replace'>
++							<text/>
++						</element>
++					</choice>
++					<optional>
++						<element name='MaxStackable' a:help='Maximum number of times to stack this aura; unlimited by default.'>
++							<data type='positiveInteger'/>
++						</element>
++					</optional>
++				</interleave>
++			</element>
++		</oneOrMore>
++	</element>
++</optional>
+diff --git a/binaries/data/mods/public/simulation/templates/template_unit_siege_tower.xml b/binaries/data/mods/public/simulation/templates/template_unit_siege_tower.xml
+index b784c3d1ca..e68a96c46b 100644
+--- a/binaries/data/mods/public/simulation/templates/template_unit_siege_tower.xml
++++ b/binaries/data/mods/public/simulation/templates/template_unit_siege_tower.xml
+@@ -4,7 +4,7 @@
+     <Capture>
+ 			<AttackName>Capture</AttackName>
+       <Capture>10</Capture>
+-      <MaxRange>8</MaxRange>
++      <MaxRange>4</MaxRange>
+       <RepeatTime>1000</RepeatTime>
+       <PreferredClasses datatype="tokens">Gates CivilCentre Fortress Tower</PreferredClasses>
+       <RestrictedClasses datatype="tokens">Unit</RestrictedClasses>
+@@ -35,9 +35,6 @@
+       </RangeOverlay>
+     </Ranged>
+   </Attack>
+-  <Auras datatype="tokens">
+-    units/siege_tower_garrisoned
+-  </Auras>
+   <Cost>
+     <BuildTime>40</BuildTime>
+     <Resources>
+@@ -54,9 +51,27 @@
+     <Max>20</Max>
+     <EjectHealth>0.1</EjectHealth>
+     <EjectClassesOnDestroy datatype="tokens">Unit</EjectClassesOnDestroy>
+-    <List datatype="tokens">Ranged+Infantry Hero+Infantry Hero+Cavalry</List>
++    <List datatype="tokens">Infantry Hero+Infantry Hero+Cavalry</List>
+     <BuffHeal>0</BuffHeal>
+     <LoadingRange>2</LoadingRange>
++		<ValueModifiers>
++			<Arrows>
++				<!-- replaces building ai -->
++				<Paths datatype="tokens">
++					Attack/Ranged/RepeatTime
++					Attack/Ranged/PrepareTime
++				</Paths>
++				<Classes datatype="tokens">Ranged</Classes>
++				<Multiply>0.9</Multiply>
++				<MaxStackable>10</MaxStackable>
++			</Arrows>
++			<Capture>
++				<!-- Added value should be greater than default infantry capture attack of 2.5 -->
++				<Paths datatype="tokens">Attack/Capture/Capture</Paths>
++				<Classes datatype="tokens">Soldier</Classes>
++				<Add>4</Add>
++			</Capture>
++		</ValueModifiers>
+   </GarrisonHolder>
+   <Health>
+     <Max>500</Max>
+@@ -64,7 +79,7 @@
+   <Identity>
+     <VisibleClasses datatype="tokens">Ranged SiegeTower</VisibleClasses>
+     <GenericName>Siege Tower</GenericName>
+-    <Tooltip>Garrison units for transport and to increase firepower.</Tooltip>
++    <Tooltip>Garrison units for increase firepower and capture attack.</Tooltip>
+   </Identity>
+   <Loot>
+     <xp>250</xp>
+-- 
+2.25.1
+

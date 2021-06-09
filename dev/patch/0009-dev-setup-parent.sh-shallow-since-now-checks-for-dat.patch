@@ -1,0 +1,34 @@
+From 2592c44628d110fde5bc4f19db219c610fcbc436 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sun, 23 May 2021 18:06:36 -0700
+Subject: [PATCH 09/86] dev/setup-parent.sh shallow-since now checks for date
+ in commit stored in /dev/git_base.txt
+
+---
+ binaries/data/mods/public/dev/setup-parent.sh | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/binaries/data/mods/public/dev/setup-parent.sh b/binaries/data/mods/public/dev/setup-parent.sh
+index 154387eda1..d05d6ce115 100755
+--- a/binaries/data/mods/public/dev/setup-parent.sh
++++ b/binaries/data/mods/public/dev/setup-parent.sh
+@@ -15,6 +15,7 @@ if [[ $2 ]]; then
+ 	git_base="$2"
+ elif [[ -f "${git_base_file}" ]]; then
+ 	git_base="$(grep -m 1 -o -e '^commit \S\+' < "${git_base_file}" | cut -c8-)"
++	git_base_date="$(grep -m 1 -e '^Date: ' < "${git_base_file}" | sed -e 's#^Date:\s*##')"
+ else
+ 	git_base='master'
+ fi
+@@ -29,7 +30,7 @@ fi
+ 
+ # clone 0ad repo into parent dir if it doesn't already exist
+ if [[ ! -d "${parent_dir}" ]]; then
+-	git clone $([[ "${git_base}" != 'master' ]] && echo --shallow-since="${git_base}" || echo --depth=1) "${oad_git_server}" "${parent_dir}"
++	git clone $([[ ${git_base_date} ]] && echo --shallow-since="${git_base_date}" || [[ "${git_base}" = 'master' ]] && echo --depth=1) "${oad_git_server}" "${parent_dir}"
+ fi
+ 
+ # setup new branch, save latest master commit to child dir dev files
+-- 
+2.25.1
+

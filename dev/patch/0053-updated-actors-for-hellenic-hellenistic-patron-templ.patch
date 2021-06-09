@@ -1,0 +1,1097 @@
+From 781d6f4fc58a27b4c34403da7ce823bb921235b1 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sun, 30 May 2021 18:52:23 -0700
+Subject: [PATCH 53/86] updated actors for hellenic, hellenistic patron temples
+
+---
+ .../structures/athenians/metro_centre.xml     |  47 +++++++
+ .../structures/athenians/temple_patron.xml    |  25 ++++
+ .../structures/hellenes/temple_patron.xml     |  25 ++++
+ .../structures/macedonians/city_centre.xml    |  47 +++++++
+ .../structures/spartans/temple_patron.xml     |  25 ++++
+ .../meshes/structural/hele_temple_patron.dae  | 133 ++++++++++++++++++
+ .../mixins/civ/athen/temple_patron.xml        |  17 +++
+ .../mixins/civ/mace/temple_patron.xml         |  17 +++
+ .../mixins/civ/sele/temple_patron.xml         |  17 +++
+ .../mixins/civ/spart/temple_patron.xml        |  17 +++
+ .../structures/athen/city_centre.xml          |   5 +-
+ .../structures/athen/civil_centre.xml         |   3 -
+ .../structures/athen/metro_centre.xml         |   2 +-
+ .../athen/temple_patron_fertility.xml         |  14 +-
+ .../structures/athen/temple_patron_sea.xml    |  14 +-
+ .../structures/athen/temple_patron_trade.xml  |  16 +--
+ .../structures/athen/temple_patron_war.xml    |  14 +-
+ .../structures/athen/town_centre.xml          |   3 -
+ .../templates/structures/mace/city_centre.xml |   5 +-
+ .../structures/mace/civil_centre.xml          |   3 -
+ .../templates/structures/mace/temple.xml      |   6 +-
+ .../mace/temple_patron_fertility.xml          |  16 +--
+ .../structures/mace/temple_patron_sea.xml     |  16 +--
+ .../structures/mace/temple_patron_trade.xml   |  16 +--
+ .../structures/mace/temple_patron_war.xml     |  16 +--
+ .../templates/structures/mace/town_centre.xml |   3 -
+ .../templates/structures/sele/temple.xml      |   6 +-
+ .../sele/temple_patron_fertility.xml          |  16 +--
+ .../structures/sele/temple_patron_sea.xml     |  16 +--
+ .../structures/sele/temple_patron_trade.xml   |  16 +--
+ .../structures/sele/temple_patron_war.xml     |  16 +--
+ .../spart/temple_patron_fertility.xml         |  16 +--
+ .../structures/spart/temple_patron_sea.xml    |  16 +--
+ .../structures/spart/temple_patron_trade.xml  |  16 +--
+ .../structures/spart/temple_patron_war.xml    |  16 +--
+ .../template_structure_civic_civil_centre.xml |   2 +-
+ ...emplate_structure_civic_civil_centre_a.xml |   2 +-
+ ...emplate_structure_civic_civil_centre_b.xml |   2 +-
+ ...ure_civic_civil_centre_military_colony.xml |   2 +-
+ 39 files changed, 412 insertions(+), 252 deletions(-)
+ create mode 100644 binaries/data/mods/public/art/actors/structures/athenians/metro_centre.xml
+ create mode 100644 binaries/data/mods/public/art/actors/structures/athenians/temple_patron.xml
+ create mode 100644 binaries/data/mods/public/art/actors/structures/hellenes/temple_patron.xml
+ create mode 100644 binaries/data/mods/public/art/actors/structures/macedonians/city_centre.xml
+ create mode 100644 binaries/data/mods/public/art/actors/structures/spartans/temple_patron.xml
+ create mode 100644 binaries/data/mods/public/art/meshes/structural/hele_temple_patron.dae
+ create mode 100644 binaries/data/mods/public/simulation/templates/mixins/civ/athen/temple_patron.xml
+ create mode 100644 binaries/data/mods/public/simulation/templates/mixins/civ/mace/temple_patron.xml
+ create mode 100644 binaries/data/mods/public/simulation/templates/mixins/civ/sele/temple_patron.xml
+ create mode 100644 binaries/data/mods/public/simulation/templates/mixins/civ/spart/temple_patron.xml
+
+diff --git a/binaries/data/mods/public/art/actors/structures/athenians/metro_centre.xml b/binaries/data/mods/public/art/actors/structures/athenians/metro_centre.xml
+new file mode 100644
+index 0000000000..1ef87491f6
+--- /dev/null
++++ b/binaries/data/mods/public/art/actors/structures/athenians/metro_centre.xml
+@@ -0,0 +1,47 @@
++<?xml version="1.0" encoding="utf-8"?>
++<actor version="1">
++  <castshadow/>
++  <group>
++    <variant frequency="1" name="Hellenes_Metro_Centre" file="structures/defensive_building.xml">
++      <mesh>structural/mace_cc_struct.dae</mesh>
++      <props>
++        <prop actor="props/structures/macedonians/civic_centre_decor.xml" attachpoint="root"/>
++        <prop actor="props/structures/macedonians/civic_centre_nature.xml" attachpoint="root"/>
++        <prop actor="props/structures/macedonians/civic_centre_trees.xml" attachpoint="root"/>
++        <prop actor="props/structures/macedonians/civic_centre_props_a.xml" attachpoint="root"/>
++        <prop actor="props/structures/macedonians/civic_centre_struct_b.xml" attachpoint="root"/>
++        <prop actor="props/structures/athenians/civic_centre_shields.xml" attachpoint="root"/>
++        <prop actor="props/structures/macedonians/civic_centre_tiles.xml" attachpoint="root"/>
++      </props>
++      <textures>
++        <texture file="structural/hele_struct.dds" name="baseTex"/>
++        <texture file="structural/hele_struct_norm.png" name="normTex"/>
++        <texture file="structural/hele_struct_spec.png" name="specTex"/>
++        <texture file="structural/ao/mace_civic_centre.png" name="aoTex"/>
++      </textures>
++    </variant>
++  </group>
++  <group>
++    <variant name="ungarrisoned" frequency="1"/>
++    <variant name="garrisoned">
++      <props>
++        <prop actor="props/special/common/garrison_flag_hele.xml" attachpoint="garrisoned"/>
++      </props>
++    </variant>
++  </group>
++  <group>
++    <variant name="alive" frequency="1"/>
++    <variant file="structures/destruction_large.xml">
++      <props>
++        <prop actor="props/structures/macedonians/civic_centre_decor.xml" attachpoint="root"/>
++        <prop actor="props/structures/macedonians/civic_centre_nature.xml" attachpoint="root"/>
++        <prop actor="props/structures/macedonians/civic_centre_trees.xml" attachpoint="root"/>
++        <prop actor="props/structures/macedonians/civic_centre_props_a.xml" attachpoint="root"/>
++        <prop actor="props/structures/macedonians/civic_centre_struct_b.xml" attachpoint="root"/>
++        <prop actor="props/structures/athenians/civic_centre_shields.xml" attachpoint="root"/>
++        <prop actor="props/structures/macedonians/civic_centre_tiles.xml" attachpoint="root"/>
++      </props>
++    </variant>
++  </group>
++  <material>player_trans_ao_parallax_spec.xml</material>
++</actor>
+diff --git a/binaries/data/mods/public/art/actors/structures/athenians/temple_patron.xml b/binaries/data/mods/public/art/actors/structures/athenians/temple_patron.xml
+new file mode 100644
+index 0000000000..39cb0ae7e7
+--- /dev/null
++++ b/binaries/data/mods/public/art/actors/structures/athenians/temple_patron.xml
+@@ -0,0 +1,25 @@
++<?xml version="1.0" encoding="utf-8"?>
++<actor version="1">
++  <castshadow/>
++  <group>
++    <variant frequency="1" name="Patron temple">
++      <mesh>structural/hele_temple_patron.dae</mesh>
++      <props>
++				<prop actor="structures/hellenes/temple_b.xml" attachpoint="root"/>
++				<prop actor="flora/trees/cypress_xlarge_branches.xml" attachpoint="tree_left_a"/>
++				<prop actor="flora/trees/cypress_xlarge_branches.xml" attachpoint="tree_left_b"/>
++				<prop actor="flora/trees/cypress_xlarge_branches.xml" attachpoint="tree_left_c"/>
++				<prop actor="flora/trees/cypress_xlarge_branches.xml" attachpoint="tree_left_d"/>
++				<prop actor="flora/trees/cypress_xlarge_branches.xml" attachpoint="tree_right_a"/>
++				<prop actor="flora/trees/cypress_xlarge_branches.xml" attachpoint="tree_right_b"/>
++				<prop actor="flora/trees/cypress_xlarge_branches.xml" attachpoint="tree_right_c"/>
++				<prop actor="flora/trees/cypress_xlarge_branches.xml" attachpoint="tree_right_d"/>
++      </props>
++      <textures><texture file="props/hele_tile_c.dds" name="baseTex"/></textures>
++    </variant>
++  </group>
++  <group>
++    <variant name="alive" frequency="1"/>
++    <variant file="structures/destruction_medium.xml"/>
++  </group>
++</actor>
+diff --git a/binaries/data/mods/public/art/actors/structures/hellenes/temple_patron.xml b/binaries/data/mods/public/art/actors/structures/hellenes/temple_patron.xml
+new file mode 100644
+index 0000000000..7c37845252
+--- /dev/null
++++ b/binaries/data/mods/public/art/actors/structures/hellenes/temple_patron.xml
+@@ -0,0 +1,25 @@
++<?xml version="1.0" encoding="utf-8"?>
++<actor version="1">
++  <castshadow/>
++  <group>
++    <variant frequency="1" name="Patron temple">
++      <mesh>structural/hele_temple_patron.dae</mesh>
++      <props>
++				<prop actor="structures/macedonians/temple.xml" attachpoint="root"/>
++				<prop actor="flora/trees/cypress_xlarge_branches.xml" attachpoint="tree_left_a"/>
++				<prop actor="flora/trees/cypress_xlarge_branches.xml" attachpoint="tree_left_b"/>
++				<prop actor="flora/trees/cypress_xlarge_branches.xml" attachpoint="tree_left_c"/>
++				<prop actor="flora/trees/cypress_xlarge_branches.xml" attachpoint="tree_left_d"/>
++				<prop actor="flora/trees/cypress_xlarge_branches.xml" attachpoint="tree_right_a"/>
++				<prop actor="flora/trees/cypress_xlarge_branches.xml" attachpoint="tree_right_b"/>
++				<prop actor="flora/trees/cypress_xlarge_branches.xml" attachpoint="tree_right_c"/>
++				<prop actor="flora/trees/cypress_xlarge_branches.xml" attachpoint="tree_right_d"/>
++      </props>
++      <textures><texture file="props/hele_tile_c.dds" name="baseTex"/></textures>
++    </variant>
++  </group>
++  <group>
++    <variant name="alive" frequency="1"/>
++    <variant file="structures/destruction_medium.xml"/>
++  </group>
++</actor>
+diff --git a/binaries/data/mods/public/art/actors/structures/macedonians/city_centre.xml b/binaries/data/mods/public/art/actors/structures/macedonians/city_centre.xml
+new file mode 100644
+index 0000000000..1d0abb73f9
+--- /dev/null
++++ b/binaries/data/mods/public/art/actors/structures/macedonians/city_centre.xml
+@@ -0,0 +1,47 @@
++<?xml version="1.0" encoding="utf-8"?>
++<actor version="1">
++  <castshadow/>
++  <group>
++    <variant frequency="1" name="Hellenes_City_Centre" file="structures/defensive_building.xml">
++      <mesh>structural/athen_cc_struct.dae</mesh>
++      <props>
++        <prop actor="props/structures/athenians/civic_centre_decor.xml" attachpoint="root"/>
++        <prop actor="props/structures/athenians/civic_centre_nature.xml" attachpoint="root"/>
++        <prop actor="props/structures/athenians/civic_centre_trees.xml" attachpoint="root"/>
++        <prop actor="props/structures/athenians/civic_centre_props_a.xml" attachpoint="root"/>
++        <prop actor="props/structures/athenians/civic_centre_roundroof.xml" attachpoint="root"/>
++        <prop actor="props/structures/macedonians/civic_centre_shields.xml" attachpoint="root"/>
++        <prop actor="props/structures/athenians/civic_centre_tiles.xml" attachpoint="root"/>
++      </props>
++      <textures>
++        <texture file="structural/hele_struct.dds" name="baseTex"/>
++        <texture file="structural/hele_struct_norm.png" name="normTex"/>
++        <texture file="structural/hele_struct_spec.png" name="specTex"/>
++        <texture file="structural/ao/athen_civic_centre.png" name="aoTex"/>
++      </textures>
++    </variant>
++  </group>
++  <group>
++    <variant name="ungarrisoned" frequency="1"/>
++    <variant name="garrisoned">
++      <props>
++        <prop actor="props/special/common/garrison_flag_hele.xml" attachpoint="garrisoned"/>
++      </props>
++    </variant>
++  </group>
++  <group>
++    <variant name="alive" frequency="1"/>
++    <variant file="structures/destruction_large.xml">
++      <props>
++        <prop actor="props/structures/athenians/civic_centre_decor.xml" attachpoint="root"/>
++        <prop actor="props/structures/athenians/civic_centre_nature.xml" attachpoint="root"/>
++        <prop actor="props/structures/athenians/civic_centre_trees.xml" attachpoint="root"/>
++        <prop actor="props/structures/athenians/civic_centre_props_a.xml" attachpoint="root"/>
++        <prop actor="props/structures/athenians/civic_centre_roundroof.xml" attachpoint="root"/>
++        <prop actor="props/structures/macedonians/civic_centre_shields.xml" attachpoint="root"/>
++        <prop actor="props/structures/athenians/civic_centre_tiles.xml" attachpoint="root"/>
++      </props>
++    </variant>
++  </group>
++  <material>player_trans_ao_parallax_spec.xml</material>
++</actor>
+diff --git a/binaries/data/mods/public/art/actors/structures/spartans/temple_patron.xml b/binaries/data/mods/public/art/actors/structures/spartans/temple_patron.xml
+new file mode 100644
+index 0000000000..eabb1cc9ec
+--- /dev/null
++++ b/binaries/data/mods/public/art/actors/structures/spartans/temple_patron.xml
+@@ -0,0 +1,25 @@
++<?xml version="1.0" encoding="utf-8"?>
++<actor version="1">
++  <castshadow/>
++  <group>
++    <variant frequency="1" name="Patron temple">
++      <mesh>structural/hele_temple_patron.dae</mesh>
++      <props>
++				<prop actor="structures/spartans/temple.xml" attachpoint="root"/>
++				<prop actor="flora/trees/cypress_xlarge_branches.xml" attachpoint="tree_left_a"/>
++				<prop actor="flora/trees/cypress_xlarge_branches.xml" attachpoint="tree_left_b"/>
++				<prop actor="flora/trees/cypress_xlarge_branches.xml" attachpoint="tree_left_c"/>
++				<prop actor="flora/trees/cypress_xlarge_branches.xml" attachpoint="tree_left_d"/>
++				<prop actor="flora/trees/cypress_xlarge_branches.xml" attachpoint="tree_right_a"/>
++				<prop actor="flora/trees/cypress_xlarge_branches.xml" attachpoint="tree_right_b"/>
++				<prop actor="flora/trees/cypress_xlarge_branches.xml" attachpoint="tree_right_c"/>
++				<prop actor="flora/trees/cypress_xlarge_branches.xml" attachpoint="tree_right_d"/>
++      </props>
++      <textures><texture file="props/hele_tile_c.dds" name="baseTex"/></textures>
++    </variant>
++  </group>
++  <group>
++    <variant name="alive" frequency="1"/>
++    <variant file="structures/destruction_medium.xml"/>
++  </group>
++</actor>
+diff --git a/binaries/data/mods/public/art/meshes/structural/hele_temple_patron.dae b/binaries/data/mods/public/art/meshes/structural/hele_temple_patron.dae
+new file mode 100644
+index 0000000000..b15eccba10
+--- /dev/null
++++ b/binaries/data/mods/public/art/meshes/structural/hele_temple_patron.dae
+@@ -0,0 +1,133 @@
++<?xml version="1.0" encoding="utf-8"?>
++<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
++  <asset>
++    <contributor>
++      <author>hopeless-ponderer</author>
++      <authoring_tool>Blender 2.82.7 commit date:2020-03-12, commit time:05:06, hash:375c7dc4caf4</authoring_tool>
++    </contributor>
++    <created>2020-06-12T09:00:32</created>
++    <modified>2020-06-12T09:00:32</modified>
++    <unit name="meter" meter="1"/>
++    <up_axis>Z_UP</up_axis>
++  </asset>
++  <library_images/>
++  <library_geometries>
++    <geometry id="hele_temple_patron-mesh" name="hele_temple_patron">
++      <mesh>
++        <source id="hele_temple_patron-mesh-positions">
++          <float_array id="hele_temple_patron-mesh-positions-array" count="9">0.002253293 -0.04146367 -5 -0.05909466 0.02633929 -5 0.05684131 0.01512432 -5</float_array>
++          <technique_common>
++            <accessor source="#hele_temple_patron-mesh-positions-array" count="3" stride="3">
++              <param name="X" type="float"/>
++              <param name="Y" type="float"/>
++              <param name="Z" type="float"/>
++            </accessor>
++          </technique_common>
++        </source>
++        <source id="hele_temple_patron-mesh-normals">
++          <float_array id="hele_temple_patron-mesh-normals-array" count="3">0 0 -1</float_array>
++          <technique_common>
++            <accessor source="#hele_temple_patron-mesh-normals-array" count="1" stride="3">
++              <param name="X" type="float"/>
++              <param name="Y" type="float"/>
++              <param name="Z" type="float"/>
++            </accessor>
++          </technique_common>
++        </source>
++        <source id="hele_temple_patron-mesh-map-0">
++          <float_array id="hele_temple_patron-mesh-map-0-array" count="6">1 1 1 1 1 1</float_array>
++          <technique_common>
++            <accessor source="#hele_temple_patron-mesh-map-0-array" count="3" stride="2">
++              <param name="S" type="float"/>
++              <param name="T" type="float"/>
++            </accessor>
++          </technique_common>
++        </source>
++        <vertices id="hele_temple_patron-mesh-vertices">
++          <input semantic="POSITION" source="#hele_temple_patron-mesh-positions"/>
++        </vertices>
++        <triangles count="1">
++          <input semantic="VERTEX" source="#hele_temple_patron-mesh-vertices" offset="0"/>
++          <input semantic="NORMAL" source="#hele_temple_patron-mesh-normals" offset="1"/>
++          <input semantic="TEXCOORD" source="#hele_temple_patron-mesh-map-0" offset="2" set="0"/>
++          <p>0 0 0 1 0 1 2 0 2</p>
++        </triangles>
++      </mesh>
++    </geometry>
++  </library_geometries>
++  <library_visual_scenes>
++    <visual_scene id="Scene" name="Scene">
++      <node id="hele_temple_patron" name="hele_temple_patron" type="NODE">
++        <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
++        <instance_geometry url="#hele_temple_patron-mesh" name="hele_temple_patron"/>
++        <node id="prop_tree_left_a" name="prop_tree_left_a" type="NODE">
++          <matrix sid="transform">
++						1 0 0 -10.0
++						0 1 0 -6.0
++						0 0 1 0
++						0 0 0 1
++					</matrix>
++        </node>
++        <node id="prop_tree_left_b" name="prop_tree_left_b" type="NODE">
++          <matrix sid="transform">
++						1 0 0 -10.0
++						0 1 0 -2.0
++						0 0 1 0
++						0 0 0 1
++					</matrix>
++        </node>
++        <node id="prop_tree_left_c" name="prop_tree_left_c" type="NODE">
++          <matrix sid="transform">
++						1 0 0 -10.0
++						0 1 0 2.0
++						0 0 1 0
++						0 0 0 1
++					</matrix>
++        </node>
++        <node id="prop_tree_left_d" name="prop_tree_left_d" type="NODE">
++          <matrix sid="transform">
++						1 0 0 -10.0
++						0 1 0 6.0
++						0 0 1 0
++						0 0 0 1
++					</matrix>
++        </node>
++        <node id="prop_tree_right_a" name="prop_tree_right_a" type="NODE">
++          <matrix sid="transform">
++						1 0 0 10.0
++						0 1 0 -6.0
++						0 0 1 0
++						0 0 0 1
++					</matrix>
++        </node>
++        <node id="prop_tree_right_b" name="prop_tree_right_b" type="NODE">
++          <matrix sid="transform">
++						1 0 0 10.0
++						0 1 0 -2.0
++						0 0 1 0
++						0 0 0 1
++					</matrix>
++        </node>
++        <node id="prop_tree_right_c" name="prop_tree_right_c" type="NODE">
++          <matrix sid="transform">
++						1 0 0 10.0
++						0 1 0 2.0
++						0 0 1 0
++						0 0 0 1
++					</matrix>
++        </node>
++        <node id="prop_tree_right_d" name="prop_tree_right_d" type="NODE">
++          <matrix sid="transform">
++						1 0 0 10.0
++						0 1 0 6.0
++						0 0 1 0
++						0 0 0 1
++					</matrix>
++        </node>
++      </node>
++    </visual_scene>
++  </library_visual_scenes>
++  <scene>
++    <instance_visual_scene url="#Scene"/>
++  </scene>
++</COLLADA>
+diff --git a/binaries/data/mods/public/simulation/templates/mixins/civ/athen/temple_patron.xml b/binaries/data/mods/public/simulation/templates/mixins/civ/athen/temple_patron.xml
+new file mode 100644
+index 0000000000..8450b61de4
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/templates/mixins/civ/athen/temple_patron.xml
+@@ -0,0 +1,17 @@
++<?xml version="1.0" encoding="utf-8" standalone="no"?>
++<Entity>
++  <Footprint>
++    <Square width="19.0" depth="28"/>
++    <Height>12.0</Height>
++  </Footprint>
++  <Identity>
++    <Civ>athen</Civ>
++  </Identity>
++  <Obstruction>
++    <Static width="17.5" depth="27"/>
++  </Obstruction>
++  <VisualActor>
++		<Actor>structures/athenians/temple_patron.xml</Actor>
++    <FoundationActor>props/special/eyecandy/greek_temple_unfinished.xml</FoundationActor>
++  </VisualActor>
++</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/mixins/civ/mace/temple_patron.xml b/binaries/data/mods/public/simulation/templates/mixins/civ/mace/temple_patron.xml
+new file mode 100644
+index 0000000000..845bbf2295
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/templates/mixins/civ/mace/temple_patron.xml
+@@ -0,0 +1,17 @@
++<?xml version="1.0" encoding="utf-8" standalone="no"?>
++<Entity>
++  <Footprint>
++    <Square width="19.0" depth="31.5"/>
++    <Height>12.0</Height>
++  </Footprint>
++  <Identity>
++    <Civ>mace</Civ>
++  </Identity>
++  <Obstruction>
++    <Static width="17.5" depth="30.0"/>
++  </Obstruction>
++  <VisualActor>
++    <Actor>structures/hellenes/temple_patron.xml</Actor>
++    <FoundationActor>props/special/eyecandy/greek_temple_unfinished.xml</FoundationActor>
++  </VisualActor>
++</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/mixins/civ/sele/temple_patron.xml b/binaries/data/mods/public/simulation/templates/mixins/civ/sele/temple_patron.xml
+new file mode 100644
+index 0000000000..5809b4615a
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/templates/mixins/civ/sele/temple_patron.xml
+@@ -0,0 +1,17 @@
++<?xml version="1.0" encoding="utf-8" standalone="no"?>
++<Entity>
++  <Footprint>
++    <Square width="19.0" depth="31.5"/>
++    <Height>12.0</Height>
++  </Footprint>
++  <Identity>
++    <Civ>sele</Civ>
++  </Identity>
++  <Obstruction>
++    <Static width="17.5" depth="30.0"/>
++  </Obstruction>
++  <VisualActor>
++    <Actor>structures/seleucids/temple.xml</Actor>
++    <FoundationActor>props/special/eyecandy/greek_temple_unfinished.xml</FoundationActor>
++  </VisualActor>
++</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/mixins/civ/spart/temple_patron.xml b/binaries/data/mods/public/simulation/templates/mixins/civ/spart/temple_patron.xml
+new file mode 100644
+index 0000000000..bb99ad95f7
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/templates/mixins/civ/spart/temple_patron.xml
+@@ -0,0 +1,17 @@
++<?xml version="1.0" encoding="utf-8" standalone="no"?>
++<Entity>
++  <Footprint>
++    <Square width="19.0" depth="37.0"/>
++    <Height>12.0</Height>
++  </Footprint>
++  <Identity>
++    <Civ>spart</Civ>
++  </Identity>
++  <Obstruction>
++    <Static width="17.5" depth="35.5"/>
++  </Obstruction>
++  <VisualActor>
++    <Actor>structures/spartans/temple_patron.xml</Actor>
++    <FoundationActor>props/special/eyecandy/greek_temple_unfinished.xml</FoundationActor>
++  </VisualActor>
++</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/athen/city_centre.xml b/binaries/data/mods/public/simulation/templates/structures/athen/city_centre.xml
+index ba5dc87ee0..08a1b1f2e8 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/athen/city_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/athen/city_centre.xml
+@@ -1,8 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_civil_centre_c">
+-  <City merge="">
+-    <Upgrade>structures/{native}/metro_centre</Upgrade>
+-  </City>
+   <Health>
+     <SpawnEntityOnDeath>decay|rubble/rubble_hele_cc</SpawnEntityOnDeath>
+   </Health>
+@@ -11,6 +8,6 @@
+ 		<SpecificName>Pōlis</SpecificName>
+   </Identity>
+   <VisualActor>
+-		<Actor>special/greek_stoa_great.xml</Actor>
++    <Actor>structures/athenians/civil_centre.xml</Actor>
+   </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/athen/civil_centre.xml b/binaries/data/mods/public/simulation/templates/structures/athen/civil_centre.xml
+index f91a2ef3b0..1dc938a4a4 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/athen/civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/athen/civil_centre.xml
+@@ -1,8 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_civil_centre_a">
+-  <City merge="">
+-    <Upgrade>structures/{native}/town_centre</Upgrade>
+-  </City>
+   <Footprint>
+     <Square width="40.0" depth="40.0"/>
+     <Height>8.0</Height>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/athen/metro_centre.xml b/binaries/data/mods/public/simulation/templates/structures/athen/metro_centre.xml
+index 39666da776..eb34c712e4 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/athen/metro_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/athen/metro_centre.xml
+@@ -7,6 +7,6 @@
+     <Civ>athen</Civ>
+   </Identity>
+   <VisualActor>
+-    <Actor>structures/athenians/civil_centre.xml</Actor>
++		<Actor>structures/athenians/metro_centre.xml</Actor>
+   </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/athen/temple_patron_fertility.xml b/binaries/data/mods/public/simulation/templates/structures/athen/temple_patron_fertility.xml
+index 1d4c97ccc0..fcba1069ac 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/athen/temple_patron_fertility.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/athen/temple_patron_fertility.xml
+@@ -1,18 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_fertility">
+-  <Footprint>
+-    <Square width="19.0" depth="28"/>
+-    <Height>12.0</Height>
+-  </Footprint>
++<Entity parent="civ/athen/temple_patron|template_structure_civic_temple_patron_fertility">
+   <Identity>
+-    <Civ>athen</Civ>
+     <SpecificName>Naṓs Demetros</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="17.5" depth="27"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/hellenes/temple_c.xml</Actor>
+-    <FoundationActor>props/special/eyecandy/greek_temple_unfinished.xml</FoundationActor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/athen/temple_patron_sea.xml b/binaries/data/mods/public/simulation/templates/structures/athen/temple_patron_sea.xml
+index 0db80afb84..01c3c066e2 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/athen/temple_patron_sea.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/athen/temple_patron_sea.xml
+@@ -1,18 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_sea">
+-  <Footprint>
+-    <Square width="19.0" depth="28"/>
+-    <Height>12.0</Height>
+-  </Footprint>
++<Entity parent="civ/athen/temple_patron|template_structure_civic_temple_patron_fertility">
+   <Identity>
+-    <Civ>athen</Civ>
+     <SpecificName>Naṓs Poseidonos</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="17.5" depth="27"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/hellenes/temple_c.xml</Actor>
+-    <FoundationActor>props/special/eyecandy/greek_temple_unfinished.xml</FoundationActor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/athen/temple_patron_trade.xml b/binaries/data/mods/public/simulation/templates/structures/athen/temple_patron_trade.xml
+index a1ce948d87..a8038e7880 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/athen/temple_patron_trade.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/athen/temple_patron_trade.xml
+@@ -1,18 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_trade">
+-  <Footprint>
+-    <Square width="19.0" depth="28"/>
+-    <Height>12.0</Height>
+-  </Footprint>
++<Entity parent="civ/athen/temple_patron|template_structure_civic_temple_patron_fertility">
+   <Identity>
+-    <Civ>athen</Civ>
+-    <SpecificName>Ναός Hermes</SpecificName>
++    <SpecificName>Naṓs Hermes</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="17.5" depth="27"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/hellenes/temple_c.xml</Actor>
+-    <FoundationActor>props/special/eyecandy/greek_temple_unfinished.xml</FoundationActor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/athen/temple_patron_war.xml b/binaries/data/mods/public/simulation/templates/structures/athen/temple_patron_war.xml
+index 5748047639..beff82b823 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/athen/temple_patron_war.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/athen/temple_patron_war.xml
+@@ -1,18 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_war">
+-  <Footprint>
+-    <Square width="19.0" depth="28"/>
+-    <Height>12.0</Height>
+-  </Footprint>
++<Entity parent="civ/athen/temple_patron|template_structure_civic_temple_patron_war">
+   <Identity>
+-    <Civ>athen</Civ>
+     <SpecificName>Naṓs Athenas Nikis</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="17.5" depth="27"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/hellenes/temple_c.xml</Actor>
+-    <FoundationActor>props/special/eyecandy/greek_temple_unfinished.xml</FoundationActor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/athen/town_centre.xml b/binaries/data/mods/public/simulation/templates/structures/athen/town_centre.xml
+index 61182051d4..88024c6ce4 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/athen/town_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/athen/town_centre.xml
+@@ -1,8 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_civil_centre_b">
+-  <City merge="">
+-    <Upgrade>structures/{native}/city_centre</Upgrade>
+-  </City>
+   <Footprint>
+     <Square width="40.0" depth="40.0"/>
+     <Height>8.0</Height>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/mace/city_centre.xml b/binaries/data/mods/public/simulation/templates/structures/mace/city_centre.xml
+index 8aff2eed96..780c1e8a5d 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/mace/city_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/mace/city_centre.xml
+@@ -1,8 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_civil_centre_c">
+-  <City merge="">
+-    <Upgrade>structures/{native}/metro_centre</Upgrade>
+-  </City>
+   <Health>
+     <SpawnEntityOnDeath>decay|rubble/rubble_hele_cc</SpawnEntityOnDeath>
+   </Health>
+@@ -11,6 +8,6 @@
+     <SpecificName>Pōlis</SpecificName>
+   </Identity>
+   <VisualActor>
+-		<Actor>special/greek_stoa_great.xml</Actor>
++		<Actor>structures/macedonians/city_centre.xml</Actor>
+   </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/mace/civil_centre.xml b/binaries/data/mods/public/simulation/templates/structures/mace/civil_centre.xml
+index a38d14f387..3f5dc7e20a 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/mace/civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/mace/civil_centre.xml
+@@ -1,8 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_civil_centre_a">
+-  <City merge="">
+-    <Upgrade>structures/{native}/town_centre</Upgrade>
+-  </City>
+   <Footprint>
+     <Square width="40.0" depth="40.0"/>
+     <Height>8.0</Height>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/mace/temple.xml b/binaries/data/mods/public/simulation/templates/structures/mace/temple.xml
+index a87657aee3..b0171d2ac7 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/mace/temple.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/mace/temple.xml
+@@ -1,7 +1,7 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_temple">
+   <Footprint>
+-    <Square width="19.0" depth="31.5"/>
++    <Square width="19.0" depth="28"/>
+     <Height>12.0</Height>
+   </Footprint>
+   <Identity>
+@@ -9,10 +9,10 @@
+     <SpecificName>Naos</SpecificName>
+   </Identity>
+   <Obstruction>
+-    <Static width="17.5" depth="30.0"/>
++    <Static width="17.5" depth="27"/>
+   </Obstruction>
+   <VisualActor>
+-    <Actor>structures/macedonians/temple.xml</Actor>
++		<Actor>structures/hellenes/temple_c.xml</Actor>
+     <FoundationActor>props/special/eyecandy/greek_temple_unfinished.xml</FoundationActor>
+   </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/mace/temple_patron_fertility.xml b/binaries/data/mods/public/simulation/templates/structures/mace/temple_patron_fertility.xml
+index 375a452f50..c1337da425 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/mace/temple_patron_fertility.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/mace/temple_patron_fertility.xml
+@@ -1,18 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_fertility">
+-  <Footprint>
+-    <Square width="19.0" depth="31.5"/>
+-    <Height>12.0</Height>
+-  </Footprint>
++<Entity parent="civ/mace/temple_patron|template_structure_civic_temple_patron_fertility">
+   <Identity>
+-    <Civ>mace</Civ>
+-    <SpecificName>Ναός Demetros</SpecificName>
++    <SpecificName>Naos Demetros</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="17.5" depth="30.0"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/hellenes/temple_c.xml</Actor>
+-    <FoundationActor>props/special/eyecandy/greek_temple_unfinished.xml</FoundationActor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/mace/temple_patron_sea.xml b/binaries/data/mods/public/simulation/templates/structures/mace/temple_patron_sea.xml
+index 04310c53f1..3edc9a09e9 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/mace/temple_patron_sea.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/mace/temple_patron_sea.xml
+@@ -1,18 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_sea">
+-  <Footprint>
+-    <Square width="19.0" depth="31.5"/>
+-    <Height>12.0</Height>
+-  </Footprint>
++<Entity parent="civ/mace/temple_patron|template_structure_civic_temple_patron_sea">
+   <Identity>
+-    <Civ>mace</Civ>
+-    <SpecificName>Ναός Poseidonos</SpecificName>
++    <SpecificName>Naos Poseidonos</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="17.5" depth="30.0"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/hellenes/temple_c.xml</Actor>
+-    <FoundationActor>props/special/eyecandy/greek_temple_unfinished.xml</FoundationActor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/mace/temple_patron_trade.xml b/binaries/data/mods/public/simulation/templates/structures/mace/temple_patron_trade.xml
+index 4798a45618..0ca3e8eb86 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/mace/temple_patron_trade.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/mace/temple_patron_trade.xml
+@@ -1,18 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_trade">
+-  <Footprint>
+-    <Square width="19.0" depth="28"/>
+-    <Height>12.0</Height>
+-  </Footprint>
++<Entity parent="civ/mace/temple_patron|template_structure_civic_temple_patron_trade">
+   <Identity>
+-    <Civ>mace</Civ>
+-    <SpecificName>Ναός Hermes</SpecificName>
++    <SpecificName>Naos Hermes</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="17.5" depth="27"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/hellenes/temple_c.xml</Actor>
+-    <FoundationActor>props/special/eyecandy/greek_temple_unfinished.xml</FoundationActor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/mace/temple_patron_war.xml b/binaries/data/mods/public/simulation/templates/structures/mace/temple_patron_war.xml
+index 6fb5e25b1d..422df0cb85 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/mace/temple_patron_war.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/mace/temple_patron_war.xml
+@@ -1,18 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_war">
+-  <Footprint>
+-    <Square width="19.0" depth="31.5"/>
+-    <Height>12.0</Height>
+-  </Footprint>
++<Entity parent="civ/mace/temple_patron|template_structure_civic_temple_patron_war">
+   <Identity>
+-    <Civ>mace</Civ>
+-    <SpecificName>Ναός Athenis</SpecificName>
++    <SpecificName>Naos Athenis</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="17.5" depth="30.0"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/hellenes/temple_c.xml</Actor>
+-    <FoundationActor>props/special/eyecandy/greek_temple_unfinished.xml</FoundationActor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/mace/town_centre.xml b/binaries/data/mods/public/simulation/templates/structures/mace/town_centre.xml
+index f16e9da9cc..5c92dc3d56 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/mace/town_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/mace/town_centre.xml
+@@ -1,8 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_civil_centre_b">
+-  <City merge="">
+-    <Upgrade>structures/{native}/city_centre</Upgrade>
+-  </City>
+   <Footprint>
+     <Square width="40.0" depth="40.0"/>
+     <Height>8.0</Height>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/sele/temple.xml b/binaries/data/mods/public/simulation/templates/structures/sele/temple.xml
+index 30c5abc594..10d08ee7ba 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/sele/temple.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/sele/temple.xml
+@@ -1,7 +1,7 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_temple">
+   <Footprint>
+-    <Square width="19.0" depth="31.5"/>
++    <Square width="19.0" depth="28"/>
+     <Height>12.0</Height>
+   </Footprint>
+   <Identity>
+@@ -9,10 +9,10 @@
+     <SpecificName>Naos</SpecificName>
+   </Identity>
+   <Obstruction>
+-    <Static width="17.5" depth="30.0"/>
++    <Static width="17.5" depth="27"/>
+   </Obstruction>
+   <VisualActor>
+-    <Actor>structures/seleucids/temple.xml</Actor>
++		<Actor>structures/hellenes/temple_c.xml</Actor>
+     <FoundationActor>props/special/eyecandy/greek_temple_unfinished.xml</FoundationActor>
+   </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/sele/temple_patron_fertility.xml b/binaries/data/mods/public/simulation/templates/structures/sele/temple_patron_fertility.xml
+index 3378f548ed..c5a83b1629 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/sele/temple_patron_fertility.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/sele/temple_patron_fertility.xml
+@@ -1,18 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_fertility">
+-  <Footprint>
+-    <Square width="19.0" depth="31.5"/>
+-    <Height>12.0</Height>
+-  </Footprint>
++<Entity parent="civ/sele/temple_patron|template_structure_civic_temple_patron_fertility">
+   <Identity>
+-    <Civ>sele</Civ>
+-    <SpecificName>Ναός Demetros</SpecificName>
++    <SpecificName>Naos Demetros</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="17.5" depth="30.0"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/hellenes/temple_c.xml</Actor>
+-    <FoundationActor>props/special/eyecandy/greek_temple_unfinished.xml</FoundationActor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/sele/temple_patron_sea.xml b/binaries/data/mods/public/simulation/templates/structures/sele/temple_patron_sea.xml
+index 76b4d43a40..15bae65a25 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/sele/temple_patron_sea.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/sele/temple_patron_sea.xml
+@@ -1,18 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_sea">
+-  <Footprint>
+-    <Square width="19.0" depth="31.5"/>
+-    <Height>12.0</Height>
+-  </Footprint>
++<Entity parent="civ/sele/temple_patron|template_structure_civic_temple_patron_sea">
+   <Identity>
+-    <Civ>sele</Civ>
+-    <SpecificName>Ναός Poseidonos</SpecificName>
++    <SpecificName>Naos Poseidonos</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="17.5" depth="30.0"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/hellenes/temple_c.xml</Actor>
+-    <FoundationActor>props/special/eyecandy/greek_temple_unfinished.xml</FoundationActor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/sele/temple_patron_trade.xml b/binaries/data/mods/public/simulation/templates/structures/sele/temple_patron_trade.xml
+index fe1010896f..fd603ed528 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/sele/temple_patron_trade.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/sele/temple_patron_trade.xml
+@@ -1,18 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_trade">
+-  <Footprint>
+-    <Square width="19.0" depth="28"/>
+-    <Height>12.0</Height>
+-  </Footprint>
++<Entity parent="civ/sele/temple_patron|template_structure_civic_temple_patron_trade">
+   <Identity>
+-    <Civ>sele</Civ>
+-    <SpecificName>Ναός Hermes</SpecificName>
++    <SpecificName>Naos Hermes</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="17.5" depth="27"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/hellenes/temple_c.xml</Actor>
+-    <FoundationActor>props/special/eyecandy/greek_temple_unfinished.xml</FoundationActor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/sele/temple_patron_war.xml b/binaries/data/mods/public/simulation/templates/structures/sele/temple_patron_war.xml
+index 73da63c37c..841dbf453e 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/sele/temple_patron_war.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/sele/temple_patron_war.xml
+@@ -1,18 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_war">
+-  <Footprint>
+-    <Square width="19.0" depth="31.5"/>
+-    <Height>12.0</Height>
+-  </Footprint>
++<Entity parent="civ/sele/temple_patron|template_structure_civic_temple_patron_war">
+   <Identity>
+-    <Civ>sele</Civ>
+-    <SpecificName>Ναός Athenis</SpecificName>
++    <SpecificName>Naos Athenis</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="17.5" depth="30.0"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/hellenes/temple_c.xml</Actor>
+-    <FoundationActor>props/special/eyecandy/greek_temple_unfinished.xml</FoundationActor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/spart/temple_patron_fertility.xml b/binaries/data/mods/public/simulation/templates/structures/spart/temple_patron_fertility.xml
+index 4346208ff9..8b5e9fd758 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/spart/temple_patron_fertility.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/spart/temple_patron_fertility.xml
+@@ -1,18 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_fertility">
+-  <Footprint>
+-    <Square width="19.0" depth="37.0"/>
+-    <Height>12.0</Height>
+-  </Footprint>
++<Entity parent="civ/spart/temple_patron|template_structure_civic_temple_patron_fertility">
+   <Identity>
+-    <Civ>spart</Civ>
+-    <SpecificName>Ναός Demetros</SpecificName>
++    <SpecificName>Naos Demetros</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="17.5" depth="35.5"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/hellenes/temple_c.xml</Actor>
+-    <FoundationActor>props/special/eyecandy/greek_temple_unfinished.xml</FoundationActor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/spart/temple_patron_sea.xml b/binaries/data/mods/public/simulation/templates/structures/spart/temple_patron_sea.xml
+index 7755a5b6b8..7d8ea369b2 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/spart/temple_patron_sea.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/spart/temple_patron_sea.xml
+@@ -1,18 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_sea">
+-  <Footprint>
+-    <Square width="19.0" depth="37.0"/>
+-    <Height>12.0</Height>
+-  </Footprint>
++<Entity parent="civ/spart/temple_patron|template_structure_civic_temple_patron_sea">
+   <Identity>
+-    <Civ>spart</Civ>
+-    <SpecificName>Ναός Poseidonos</SpecificName>
++    <SpecificName>Naos Poseidonos</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="17.5" depth="35.5"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/hellenes/temple_c.xml</Actor>
+-    <FoundationActor>props/special/eyecandy/greek_temple_unfinished.xml</FoundationActor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/spart/temple_patron_trade.xml b/binaries/data/mods/public/simulation/templates/structures/spart/temple_patron_trade.xml
+index b7b17d7247..687317dd47 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/spart/temple_patron_trade.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/spart/temple_patron_trade.xml
+@@ -1,18 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_trade">
+-  <Footprint>
+-    <Square width="19.0" depth="28"/>
+-    <Height>12.0</Height>
+-  </Footprint>
++<Entity parent="civ/spart/temple_patron|template_structure_civic_temple_patron_trade">
+   <Identity>
+-    <Civ>spart</Civ>
+-    <SpecificName>Ναός Hermes</SpecificName>
++    <SpecificName>Naos Hermes</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="17.5" depth="27"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/hellenes/temple_c.xml</Actor>
+-    <FoundationActor>props/special/eyecandy/greek_temple_unfinished.xml</FoundationActor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/spart/temple_patron_war.xml b/binaries/data/mods/public/simulation/templates/structures/spart/temple_patron_war.xml
+index 8e8bf0e3c2..9f787551b9 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/spart/temple_patron_war.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/spart/temple_patron_war.xml
+@@ -1,18 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_war">
+-  <Footprint>
+-    <Square width="19.0" depth="37.0"/>
+-    <Height>12.0</Height>
+-  </Footprint>
++<Entity parent="civ/spart/temple_patron|template_structure_civic_temple_patron_war">
+   <Identity>
+-    <Civ>spart</Civ>
+-    <SpecificName>Ναός Ares</SpecificName>
++    <SpecificName>Naos Ares</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="17.5" depth="35.5"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/hellenes/temple_c.xml</Actor>
+-    <FoundationActor>props/special/eyecandy/greek_temple_unfinished.xml</FoundationActor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre.xml b/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre.xml
+index fe7205a61b..8e53041deb 100644
+--- a/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre.xml
+@@ -1,7 +1,7 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic">
+   <AlertRaiser>
+-    <List datatype="tokens">Support Citizen</List>
++    <List datatype="tokens">Support+Worker</List>
+     <RaiseAlertRange>120</RaiseAlertRange>
+     <EndOfAlertRange>180</EndOfAlertRange>
+     <SearchRange>100</SearchRange>
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_a.xml b/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_a.xml
+index 1126056551..69b79254dc 100644
+--- a/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_a.xml
++++ b/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_a.xml
+@@ -11,7 +11,7 @@
+       <Init>100</Init>
+       <Max>500</Max>
+     </Population>
+-    <Upgrade>structures/{native}/town_centre</Upgrade>
++    <Upgrade>structures/{civ}/town_centre</Upgrade>
+   </City>
+   <Identity>
+     <GenericName>Village</GenericName>
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_b.xml b/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_b.xml
+index 3ec14eaddf..17959f20ec 100644
+--- a/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_b.xml
++++ b/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_b.xml
+@@ -12,7 +12,7 @@
+       <Min>400</Min>
+       <Max>5000</Max>
+     </Population>
+-    <Upgrade>structures/{native}/city_centre</Upgrade>
++    <Upgrade>structures/{civ}/city_centre</Upgrade>
+     <Downgrade>structures/{native}/civil_centre</Downgrade>
+   </City>
+   <GarrisonHolder>
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_military_colony.xml b/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_military_colony.xml
+index 069068a2ba..48ef7ac8c0 100644
+--- a/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_military_colony.xml
++++ b/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_military_colony.xml
+@@ -13,7 +13,7 @@
+       </CivilCentre>
+     </DistancesExclusive>
+   </BuildRestrictions>
+-  <City merge="">
++  <City>
+     <Initial>true</Initial>
+   </City>
+   <Cost>
+-- 
+2.25.1
+

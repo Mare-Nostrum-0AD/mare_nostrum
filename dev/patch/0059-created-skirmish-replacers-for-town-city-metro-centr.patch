@@ -1,0 +1,95 @@
+From dc38a70e6a40cfdbb7a6f152ca0db4f4a87a5df5 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sun, 30 May 2021 23:28:22 -0700
+Subject: [PATCH 59/86] created skirmish replacers for town, city, metro
+ centres
+
+---
+ .../skirmish/structures/default_city_centre.xml     | 13 +++++++++++++
+ .../skirmish/structures/default_civil_centre.xml    |  4 ++--
+ .../skirmish/structures/default_metro_centre.xml    | 13 +++++++++++++
+ .../skirmish/structures/default_town_centre.xml     | 13 +++++++++++++
+ 4 files changed, 41 insertions(+), 2 deletions(-)
+ create mode 100644 binaries/data/mods/public/simulation/templates/skirmish/structures/default_city_centre.xml
+ create mode 100644 binaries/data/mods/public/simulation/templates/skirmish/structures/default_metro_centre.xml
+ create mode 100644 binaries/data/mods/public/simulation/templates/skirmish/structures/default_town_centre.xml
+
+diff --git a/binaries/data/mods/public/simulation/templates/skirmish/structures/default_city_centre.xml b/binaries/data/mods/public/simulation/templates/skirmish/structures/default_city_centre.xml
+new file mode 100644
+index 0000000000..de381ef380
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/templates/skirmish/structures/default_city_centre.xml
+@@ -0,0 +1,13 @@
++<?xml version="1.0" encoding="utf-8"?>
++<Entity parent="template_structure_civic_civil_centre_c">
++  <Identity>
++    <Civ>skirm</Civ>
++  </Identity>
++  <ProductionQueue disable=""/>
++  <SkirmishReplacer>
++    <general>structures/{civ}/city_centre</general>
++  </SkirmishReplacer>
++  <VisualActor>
++    <Actor>structures/athenians/civil_centre.xml</Actor>
++  </VisualActor>
++</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/skirmish/structures/default_civil_centre.xml b/binaries/data/mods/public/simulation/templates/skirmish/structures/default_civil_centre.xml
+index 39ac7538a0..351f481702 100644
+--- a/binaries/data/mods/public/simulation/templates/skirmish/structures/default_civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/skirmish/structures/default_civil_centre.xml
+@@ -1,5 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre">
++<Entity parent="template_structure_civic_civil_centre_a">
+   <Identity>
+     <Civ>skirm</Civ>
+   </Identity>
+@@ -8,6 +8,6 @@
+     <general>structures/{civ}/civil_centre</general>
+   </SkirmishReplacer>
+   <VisualActor>
+-    <Actor>structures/athenians/civil_centre.xml</Actor>
++    <Actor>structures/athenians/village.xml</Actor>
+   </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/skirmish/structures/default_metro_centre.xml b/binaries/data/mods/public/simulation/templates/skirmish/structures/default_metro_centre.xml
+new file mode 100644
+index 0000000000..b7b2b64c3b
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/templates/skirmish/structures/default_metro_centre.xml
+@@ -0,0 +1,13 @@
++<?xml version="1.0" encoding="utf-8"?>
++<Entity parent="template_structure_civic_civil_centre_d">
++  <Identity>
++    <Civ>skirm</Civ>
++  </Identity>
++  <ProductionQueue disable=""/>
++  <SkirmishReplacer>
++    <general>structures/{civ}/metro_centre</general>
++  </SkirmishReplacer>
++  <VisualActor>
++    <Actor>structures/athenians/metro_centre.xml</Actor>
++  </VisualActor>
++</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/skirmish/structures/default_town_centre.xml b/binaries/data/mods/public/simulation/templates/skirmish/structures/default_town_centre.xml
+new file mode 100644
+index 0000000000..394b1e3dc5
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/templates/skirmish/structures/default_town_centre.xml
+@@ -0,0 +1,13 @@
++<?xml version="1.0" encoding="utf-8"?>
++<Entity parent="template_structure_civic_civil_centre_b">
++  <Identity>
++    <Civ>skirm</Civ>
++  </Identity>
++  <ProductionQueue disable=""/>
++  <SkirmishReplacer>
++    <general>structures/{civ}/town_centre</general>
++  </SkirmishReplacer>
++  <VisualActor>
++    <Actor>structures/athenians/town.xml</Actor>
++  </VisualActor>
++</Entity>
+-- 
+2.25.1
+

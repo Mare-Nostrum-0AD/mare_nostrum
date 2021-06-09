@@ -1,0 +1,1182 @@
+From aa4220e6d260af518bba4709b7924b4b38b08367 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Tue, 1 Jun 2021 20:44:57 -0700
+Subject: [PATCH 66/86] created patron temple mixins
+
+civs that can build palaces in city phase don't get patron temples until hegemon phase
+---
+ .../mixins/civ/athen/temple_patron.xml        |  2 +-
+ .../mixins/civ/cart/temple_patron.xml         | 32 +++++++++++++++++++
+ .../mixins/civ/celt/temple_patron.xml         | 27 ++++++++++++++++
+ .../mixins/civ/kush/temple_patron.xml         | 16 ++++++++++
+ .../mixins/civ/maur/temple_patron.xml         | 20 ++++++++++++
+ .../mixins/civ/pers/temple_patron.xml         | 20 ++++++++++++
+ .../mixins/civ/ptol/temple_patron.xml         | 20 ++++++++++++
+ .../mixins/civ/rome/temple_patron.xml         | 16 ++++++++++
+ .../mixins/civ/spart/temple_patron.xml        |  2 +-
+ .../mixins/temple_patron_hegemon.xml          |  6 ++++
+ .../brit/temple_patron_fertility.xml          | 26 +--------------
+ .../structures/brit/temple_patron_horse.xml   | 26 +--------------
+ .../structures/brit/temple_patron_trade.xml   | 26 +--------------
+ .../structures/brit/temple_patron_war.xml     | 26 +--------------
+ .../cart/temple_patron_fertility.xml          | 29 +----------------
+ .../structures/cart/temple_patron_trade.xml   | 32 +------------------
+ .../structures/cart/temple_patron_war.xml     | 29 +----------------
+ .../gaul/temple_patron_fertility.xml          | 26 +--------------
+ .../structures/gaul/temple_patron_horse.xml   | 26 +--------------
+ .../structures/gaul/temple_patron_trade.xml   | 26 +--------------
+ .../structures/gaul/temple_patron_war.xml     | 26 +--------------
+ .../iber/temple_patron_fertility.xml          | 16 +---------
+ .../structures/iber/temple_patron_trade.xml   | 16 +---------
+ .../structures/iber/temple_patron_war.xml     | 16 +---------
+ .../kush/temple_patron_fertility.xml          | 13 +-------
+ .../structures/kush/temple_patron_trade.xml   | 13 +-------
+ .../structures/kush/temple_patron_war.xml     | 13 +-------
+ .../maur/temple_patron_fertility.xml          | 17 +---------
+ .../structures/maur/temple_patron_trade.xml   | 17 +---------
+ .../structures/maur/temple_patron_war.xml     | 17 +---------
+ .../pers/temple_patron_fertility.xml          | 17 +---------
+ .../structures/pers/temple_patron_trade.xml   | 20 +-----------
+ .../structures/pers/temple_patron_war.xml     | 17 +---------
+ .../ptol/temple_patron_fertility.xml          | 17 +---------
+ .../structures/ptol/temple_patron_trade.xml   | 17 +---------
+ .../structures/ptol/temple_patron_war.xml     |  5 ++-
+ .../rome/temple_patron_fertility.xml          | 13 +-------
+ .../structures/rome/temple_patron_sea.xml     | 13 +-------
+ .../structures/rome/temple_patron_trade.xml   | 13 +-------
+ .../structures/rome/temple_patron_war.xml     | 13 +-------
+ 40 files changed, 190 insertions(+), 552 deletions(-)
+ create mode 100644 binaries/data/mods/public/simulation/templates/mixins/civ/cart/temple_patron.xml
+ create mode 100644 binaries/data/mods/public/simulation/templates/mixins/civ/celt/temple_patron.xml
+ create mode 100644 binaries/data/mods/public/simulation/templates/mixins/civ/kush/temple_patron.xml
+ create mode 100644 binaries/data/mods/public/simulation/templates/mixins/civ/maur/temple_patron.xml
+ create mode 100644 binaries/data/mods/public/simulation/templates/mixins/civ/pers/temple_patron.xml
+ create mode 100644 binaries/data/mods/public/simulation/templates/mixins/civ/ptol/temple_patron.xml
+ create mode 100644 binaries/data/mods/public/simulation/templates/mixins/civ/rome/temple_patron.xml
+ create mode 100644 binaries/data/mods/public/simulation/templates/mixins/temple_patron_hegemon.xml
+
+diff --git a/binaries/data/mods/public/simulation/templates/mixins/civ/athen/temple_patron.xml b/binaries/data/mods/public/simulation/templates/mixins/civ/athen/temple_patron.xml
+index 8450b61de4..1a6a868f31 100644
+--- a/binaries/data/mods/public/simulation/templates/mixins/civ/athen/temple_patron.xml
++++ b/binaries/data/mods/public/simulation/templates/mixins/civ/athen/temple_patron.xml
+@@ -1,5 +1,5 @@
+ <?xml version="1.0" encoding="utf-8" standalone="no"?>
+-<Entity>
++<Entity parent="temple_patron_hegemon">
+   <Footprint>
+     <Square width="19.0" depth="28"/>
+     <Height>12.0</Height>
+diff --git a/binaries/data/mods/public/simulation/templates/mixins/civ/cart/temple_patron.xml b/binaries/data/mods/public/simulation/templates/mixins/civ/cart/temple_patron.xml
+new file mode 100644
+index 0000000000..24caf4babe
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/templates/mixins/civ/cart/temple_patron.xml
+@@ -0,0 +1,32 @@
++<?xml version="1.0" encoding="utf-8" standalone="no"?>
++<Entity parent="temple_patron_hegemon">
++  <Cost>
++    <Resources>
++      <stone>800</stone>
++    </Resources>
++  </Cost>
++  <Footprint>
++    <Square width="24.0" depth="26.0"/>
++    <Height>8.0</Height>
++  </Footprint>
++  <Identity>
++    <Civ>cart</Civ>
++    <Tooltip>Train Healers and Champions and research healing technologies. Provides food production bonuses.</Tooltip>
++  </Identity>
++  <Loot>
++    <stone>80</stone>
++  </Loot>
++  <Obstruction>
++    <Static width="17.0" depth="30.0"/>
++  </Obstruction>
++  <ProductionQueue>
++    <Entities datatype="tokens">
++      units/{civ}/champion_infantry
++      units/{civ}/champion_cavalry
++    </Entities>
++  </ProductionQueue>
++  <VisualActor>
++    <FoundationActor>structures/fndn_5x5.xml</FoundationActor>
++    <Actor>structures/carthaginians/tophet.xml</Actor>
++  </VisualActor>
++</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/mixins/civ/celt/temple_patron.xml b/binaries/data/mods/public/simulation/templates/mixins/civ/celt/temple_patron.xml
+new file mode 100644
+index 0000000000..cd5286bf44
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/templates/mixins/civ/celt/temple_patron.xml
+@@ -0,0 +1,27 @@
++<?xml version="1.0" encoding="utf-8" standalone="no"?>
++<Entity parent="temple_patron_hegemon">
++  <Cost>
++    <Resources>
++      <wood>300</wood>
++      <stone>0</stone>
++    </Resources>
++  </Cost>
++  <Footprint replace="">
++    <Circle radius="17.0"/>
++    <Height>8.0</Height>
++  </Footprint>
++  <Health>
++    <SpawnEntityOnDeath>decay|rubble/rubble_stone_5x5</SpawnEntityOnDeath>
++  </Health>
++  <Loot>
++    <wood>60</wood>
++    <stone>0</stone>
++  </Loot>
++  <Obstruction>
++    <Static width="29.0" depth="29.0"/>
++  </Obstruction>
++  <VisualActor>
++    <Actor>structures/celts/shrine.xml</Actor>
++    <FoundationActor>structures/fndn_9x9.xml</FoundationActor>
++  </VisualActor>
++</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/mixins/civ/kush/temple_patron.xml b/binaries/data/mods/public/simulation/templates/mixins/civ/kush/temple_patron.xml
+new file mode 100644
+index 0000000000..aae7801a18
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/templates/mixins/civ/kush/temple_patron.xml
+@@ -0,0 +1,16 @@
++<?xml version="1.0" encoding="utf-8" standalone="no"?>
++<Entity>
++  <Footprint>
++    <Square width="24.0" depth="36.0"/>
++  </Footprint>
++  <Identity>
++    <Civ>kush</Civ>
++    <Tooltip>Train Healers and research healing technologies. Provides food production bonuses.</Tooltip>
++  </Identity>
++  <Obstruction>
++    <Static width="18" depth="30.0"/>
++  </Obstruction>
++  <VisualActor>
++    <Actor>structures/kushites/temple_3.xml</Actor>
++  </VisualActor>
++</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/mixins/civ/maur/temple_patron.xml b/binaries/data/mods/public/simulation/templates/mixins/civ/maur/temple_patron.xml
+new file mode 100644
+index 0000000000..574157ed1f
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/templates/mixins/civ/maur/temple_patron.xml
+@@ -0,0 +1,20 @@
++<?xml version="1.0" encoding="utf-8" standalone="no"?>
++<Entity>
++  <Footprint>
++    <Square width="16.0" depth="30.5"/>
++    <Height>12.0</Height>
++  </Footprint>
++  <Health>
++    <SpawnEntityOnDeath>decay|rubble/rubble_stone_4x4</SpawnEntityOnDeath>
++  </Health>
++  <Identity>
++    <Civ>maur</Civ>
++  </Identity>
++  <Obstruction>
++    <Static width="15.0" depth="30.5"/>
++  </Obstruction>
++  <VisualActor>
++    <Actor>structures/mauryas/temple.xml</Actor>
++    <FoundationActor>structures/fndn_4x6.xml</FoundationActor>
++  </VisualActor>
++</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/mixins/civ/pers/temple_patron.xml b/binaries/data/mods/public/simulation/templates/mixins/civ/pers/temple_patron.xml
+new file mode 100644
+index 0000000000..4c304ef28e
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/templates/mixins/civ/pers/temple_patron.xml
+@@ -0,0 +1,20 @@
++<?xml version="1.0" encoding="utf-8" standalone="no"?>
++<Entity>
++  <Footprint>
++    <Square width="19.0" depth="19.0"/>
++    <Height>12.0</Height>
++  </Footprint>
++  <Health>
++    <SpawnEntityOnDeath>decay|rubble/rubble_stone_4x4</SpawnEntityOnDeath>
++  </Health>
++  <Identity>
++    <Civ>pers</Civ>
++  </Identity>
++  <Obstruction>
++    <Static width="17.5" depth="17.5"/>
++  </Obstruction>
++  <VisualActor>
++    <Actor>structures/persians/temple.xml</Actor>
++    <FoundationActor>structures/fndn_4x4.xml</FoundationActor>
++  </VisualActor>
++</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/mixins/civ/ptol/temple_patron.xml b/binaries/data/mods/public/simulation/templates/mixins/civ/ptol/temple_patron.xml
+new file mode 100644
+index 0000000000..76cc67b92e
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/templates/mixins/civ/ptol/temple_patron.xml
+@@ -0,0 +1,20 @@
++<?xml version="1.0" encoding="utf-8" standalone="no"?>
++<Entity>
++  <Footprint>
++    <Square width="23.0" depth="24"/>
++    <Height>12.0</Height>
++  </Footprint>
++  <Health>
++    <SpawnEntityOnDeath>decay|rubble/rubble_stone_4x6</SpawnEntityOnDeath>
++  </Health>
++  <Identity>
++    <Civ>ptol</Civ>
++  </Identity>
++  <Obstruction>
++    <Static width="20" depth="21"/>
++  </Obstruction>
++  <VisualActor>
++    <Actor>structures/ptolemies/shrine.xml</Actor>
++    <FoundationActor>structures/fndn_6x6.xml</FoundationActor>
++  </VisualActor>
++</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/mixins/civ/rome/temple_patron.xml b/binaries/data/mods/public/simulation/templates/mixins/civ/rome/temple_patron.xml
+new file mode 100644
+index 0000000000..78cf668e22
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/templates/mixins/civ/rome/temple_patron.xml
+@@ -0,0 +1,16 @@
++<?xml version="1.0" encoding="utf-8" standalone="no"?>
++<Entity parent="temple_patron_hegemon">
++  <Footprint>
++    <Square width="24.0" depth="44.0"/>
++    <Height>12.0</Height>
++  </Footprint>
++  <Identity>
++    <Civ>rome</Civ>
++  </Identity>
++  <Obstruction>
++    <Static width="20.0" depth="40.0"/>
++  </Obstruction>
++  <VisualActor>
++    <Actor>structures/romans/temple_mars.xml</Actor>
++  </VisualActor>
++</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/mixins/civ/spart/temple_patron.xml b/binaries/data/mods/public/simulation/templates/mixins/civ/spart/temple_patron.xml
+index bb99ad95f7..61c4018ec9 100644
+--- a/binaries/data/mods/public/simulation/templates/mixins/civ/spart/temple_patron.xml
++++ b/binaries/data/mods/public/simulation/templates/mixins/civ/spart/temple_patron.xml
+@@ -1,5 +1,5 @@
+ <?xml version="1.0" encoding="utf-8" standalone="no"?>
+-<Entity>
++<Entity parent="temple_patron_hegemon">
+   <Footprint>
+     <Square width="19.0" depth="37.0"/>
+     <Height>12.0</Height>
+diff --git a/binaries/data/mods/public/simulation/templates/mixins/temple_patron_hegemon.xml b/binaries/data/mods/public/simulation/templates/mixins/temple_patron_hegemon.xml
+new file mode 100644
+index 0000000000..ade460c0af
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/templates/mixins/temple_patron_hegemon.xml
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="utf-8" standalone="no"?>
++<Entity>
++	<Identity>
++		<RequiredTechnology>phase_hegemon</RequiredTechnology>
++	</Identity>
++</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/brit/temple_patron_fertility.xml b/binaries/data/mods/public/simulation/templates/structures/brit/temple_patron_fertility.xml
+index e7b35e077d..5159fcaf83 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/brit/temple_patron_fertility.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/brit/temple_patron_fertility.xml
+@@ -1,31 +1,7 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_fertility">
+-  <Cost>
+-    <Resources>
+-      <wood>600</wood>
+-      <stone>0</stone>
+-    </Resources>
+-  </Cost>
+-  <Footprint replace="">
+-    <Circle radius="17.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_stone_5x5</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/celt/temple_patron|template_structure_civic_temple_patron_fertility">
+   <Identity>
+     <Civ>brit</Civ>
+     <SpecificName>Shrine of Amaethon</SpecificName>
+   </Identity>
+-  <Loot>
+-    <wood>120</wood>
+-    <stone>0</stone>
+-  </Loot>
+-  <Obstruction>
+-    <Static width="29.0" depth="29.0"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/celts/shrine.xml</Actor>
+-    <FoundationActor>structures/fndn_9x9.xml</FoundationActor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/brit/temple_patron_horse.xml b/binaries/data/mods/public/simulation/templates/structures/brit/temple_patron_horse.xml
+index a89a344778..b557309565 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/brit/temple_patron_horse.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/brit/temple_patron_horse.xml
+@@ -1,31 +1,7 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_horse">
+-  <Cost>
+-    <Resources>
+-      <wood>600</wood>
+-      <stone>0</stone>
+-    </Resources>
+-  </Cost>
+-  <Footprint replace="">
+-    <Circle radius="17.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_stone_5x5</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/celt/temple_patron|template_structure_civic_temple_patron_horse">
+   <Identity>
+     <Civ>brit</Civ>
+     <SpecificName>Shrine of Epona</SpecificName>
+   </Identity>
+-  <Loot>
+-    <wood>120</wood>
+-    <stone>0</stone>
+-  </Loot>
+-  <Obstruction>
+-    <Static width="29.0" depth="29.0"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/celts/shrine.xml</Actor>
+-    <FoundationActor>structures/fndn_9x9.xml</FoundationActor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/brit/temple_patron_trade.xml b/binaries/data/mods/public/simulation/templates/structures/brit/temple_patron_trade.xml
+index 53ef2293bc..71e368645d 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/brit/temple_patron_trade.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/brit/temple_patron_trade.xml
+@@ -1,31 +1,7 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_trade">
+-  <Cost>
+-    <Resources>
+-      <wood>600</wood>
+-      <stone>0</stone>
+-    </Resources>
+-  </Cost>
+-  <Footprint replace="">
+-    <Circle radius="17.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_stone_5x5</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/celt/temple_patron|template_structure_civic_temple_patron_trade">
+   <Identity>
+     <Civ>brit</Civ>
+     <SpecificName>Shrine of Cissonius</SpecificName>
+   </Identity>
+-  <Loot>
+-    <wood>120</wood>
+-    <stone>0</stone>
+-  </Loot>
+-  <Obstruction>
+-    <Static width="29.0" depth="29.0"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/celts/shrine.xml</Actor>
+-    <FoundationActor>structures/fndn_9x9.xml</FoundationActor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/brit/temple_patron_war.xml b/binaries/data/mods/public/simulation/templates/structures/brit/temple_patron_war.xml
+index cd2676f27b..95969f879b 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/brit/temple_patron_war.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/brit/temple_patron_war.xml
+@@ -1,31 +1,7 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_war">
+-  <Cost>
+-    <Resources>
+-      <wood>300</wood>
+-      <stone>0</stone>
+-    </Resources>
+-  </Cost>
+-  <Footprint replace="">
+-    <Circle radius="17.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_stone_5x5</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/celt/temple_patron|template_structure_civic_temple_patron_war">
+   <Identity>
+     <Civ>brit</Civ>
+     <SpecificName>Shrine of Vernostonos</SpecificName>
+   </Identity>
+-  <Loot>
+-    <wood>60</wood>
+-    <stone>0</stone>
+-  </Loot>
+-  <Obstruction>
+-    <Static width="29.0" depth="29.0"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/celts/shrine.xml</Actor>
+-    <FoundationActor>structures/fndn_9x9.xml</FoundationActor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/cart/temple_patron_fertility.xml b/binaries/data/mods/public/simulation/templates/structures/cart/temple_patron_fertility.xml
+index c494433eee..aade23bd8c 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/cart/temple_patron_fertility.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/cart/temple_patron_fertility.xml
+@@ -1,33 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_fertility">
+-  <Cost>
+-    <Resources>
+-      <stone>800</stone>
+-    </Resources>
+-  </Cost>
+-  <Footprint>
+-    <Square width="24.0" depth="26.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
++<Entity parent="civ/cart/temple_patron|template_structure_civic_temple_patron_fertility">
+   <Identity>
+-    <Civ>cart</Civ>
+     <SpecificName>Temple of Melqart</SpecificName>
+-    <Tooltip>Train Healers and Champions and research healing technologies. Provides food production bonuses.</Tooltip>
+   </Identity>
+-  <Loot>
+-    <stone>80</stone>
+-  </Loot>
+-  <Obstruction>
+-    <Static width="17.0" depth="30.0"/>
+-  </Obstruction>
+-  <ProductionQueue>
+-    <Entities datatype="tokens">
+-      units/{civ}/champion_infantry
+-      units/{civ}/champion_cavalry
+-    </Entities>
+-  </ProductionQueue>
+-  <VisualActor>
+-    <FoundationActor>structures/fndn_5x5.xml</FoundationActor>
+-    <Actor>structures/carthaginians/tophet.xml</Actor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/cart/temple_patron_trade.xml b/binaries/data/mods/public/simulation/templates/structures/cart/temple_patron_trade.xml
+index 1f306e554b..d9b1c530d2 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/cart/temple_patron_trade.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/cart/temple_patron_trade.xml
+@@ -1,32 +1,2 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_trade">
+-  <Cost>
+-    <Resources>
+-      <stone>800</stone>
+-    </Resources>
+-  </Cost>
+-  <Footprint>
+-    <Square width="24.0" depth="26.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Identity>
+-    <Civ>cart</Civ>
+-    <Tooltip>Train Healers and Champions and research healing technologies. Provides food production bonuses.</Tooltip>
+-  </Identity>
+-  <Loot>
+-    <stone>80</stone>
+-  </Loot>
+-  <Obstruction>
+-    <Static width="17.0" depth="30.0"/>
+-  </Obstruction>
+-  <ProductionQueue>
+-    <Entities datatype="tokens">
+-      units/{civ}/champion_infantry
+-      units/{civ}/champion_cavalry
+-    </Entities>
+-  </ProductionQueue>
+-  <VisualActor>
+-    <FoundationActor>structures/fndn_5x5.xml</FoundationActor>
+-    <Actor>structures/carthaginians/tophet.xml</Actor>
+-  </VisualActor>
+-</Entity>
++<Entity parent="civ/cart/temple_patron|template_structure_civic_temple_patron_trade" />
+diff --git a/binaries/data/mods/public/simulation/templates/structures/cart/temple_patron_war.xml b/binaries/data/mods/public/simulation/templates/structures/cart/temple_patron_war.xml
+index e63129a21c..cd5ce945dc 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/cart/temple_patron_war.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/cart/temple_patron_war.xml
+@@ -1,33 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_war">
+-  <Cost>
+-    <Resources>
+-      <stone>800</stone>
+-    </Resources>
+-  </Cost>
+-  <Footprint>
+-    <Square width="24.0" depth="26.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
++<Entity parent="civ/cart/temple_patron|template_structure_civic_temple_patron_war">
+   <Identity>
+-    <Civ>cart</Civ>
+     <SpecificName>Temple of Tanit</SpecificName>
+-    <Tooltip>Train Healers and Champions and research healing technologies.</Tooltip>
+   </Identity>
+-  <Loot>
+-    <stone>160</stone>
+-  </Loot>
+-  <Obstruction>
+-    <Static width="17.0" depth="30.0"/>
+-  </Obstruction>
+-  <ProductionQueue>
+-    <Entities datatype="tokens">
+-      units/{civ}/champion_infantry
+-      units/{civ}/champion_cavalry
+-    </Entities>
+-  </ProductionQueue>
+-  <VisualActor>
+-    <FoundationActor>structures/fndn_5x5.xml</FoundationActor>
+-    <Actor>structures/carthaginians/tophet.xml</Actor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/gaul/temple_patron_fertility.xml b/binaries/data/mods/public/simulation/templates/structures/gaul/temple_patron_fertility.xml
+index 10ce50fe39..db46fbcc48 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/gaul/temple_patron_fertility.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/gaul/temple_patron_fertility.xml
+@@ -1,31 +1,7 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_fertility">
+-  <Cost>
+-    <Resources>
+-      <wood>300</wood>
+-      <stone>0</stone>
+-    </Resources>
+-  </Cost>
+-  <Footprint replace="">
+-    <Circle radius="17.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_stone_5x5</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/celt/temple_patron|template_structure_civic_temple_patron_fertility">
+   <Identity>
+     <Civ>gaul</Civ>
+     <SpecificName>Shrine of Rosmerta</SpecificName>
+   </Identity>
+-  <Loot>
+-    <wood>60</wood>
+-    <stone>0</stone>
+-  </Loot>
+-  <Obstruction>
+-    <Static width="29.0" depth="29.0"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/celts/shrine.xml</Actor>
+-    <FoundationActor>structures/fndn_9x9.xml</FoundationActor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/gaul/temple_patron_horse.xml b/binaries/data/mods/public/simulation/templates/structures/gaul/temple_patron_horse.xml
+index 8c85c9baf1..01d28023e6 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/gaul/temple_patron_horse.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/gaul/temple_patron_horse.xml
+@@ -1,31 +1,7 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_horse">
+-  <Cost>
+-    <Resources>
+-      <wood>300</wood>
+-      <stone>0</stone>
+-    </Resources>
+-  </Cost>
+-  <Footprint replace="">
+-    <Circle radius="17.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_stone_5x5</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/celt/temple_patron|template_structure_civic_temple_patron_horse">
+   <Identity>
+     <Civ>gaul</Civ>
+     <SpecificName>Shrine of Epona</SpecificName>
+   </Identity>
+-  <Loot>
+-    <wood>60</wood>
+-    <stone>0</stone>
+-  </Loot>
+-  <Obstruction>
+-    <Static width="29.0" depth="29.0"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/celts/shrine.xml</Actor>
+-    <FoundationActor>structures/fndn_9x9.xml</FoundationActor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/gaul/temple_patron_trade.xml b/binaries/data/mods/public/simulation/templates/structures/gaul/temple_patron_trade.xml
+index 36748cf3ae..8b958beeb5 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/gaul/temple_patron_trade.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/gaul/temple_patron_trade.xml
+@@ -1,31 +1,7 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_trade">
+-  <Cost>
+-    <Resources>
+-      <wood>300</wood>
+-      <stone>0</stone>
+-    </Resources>
+-  </Cost>
+-  <Footprint replace="">
+-    <Circle radius="17.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_stone_5x5</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/celt/temple_patron|template_structure_civic_temple_patron_trade">
+   <Identity>
+     <Civ>gaul</Civ>
+     <SpecificName>Shrine of Cissonius</SpecificName>
+   </Identity>
+-  <Loot>
+-    <wood>60</wood>
+-    <stone>0</stone>
+-  </Loot>
+-  <Obstruction>
+-    <Static width="29.0" depth="29.0"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/celts/shrine.xml</Actor>
+-    <FoundationActor>structures/fndn_9x9.xml</FoundationActor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/gaul/temple_patron_war.xml b/binaries/data/mods/public/simulation/templates/structures/gaul/temple_patron_war.xml
+index 9542683fc5..4a60233c13 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/gaul/temple_patron_war.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/gaul/temple_patron_war.xml
+@@ -1,31 +1,7 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_war">
+-  <Cost>
+-    <Resources>
+-      <wood>300</wood>
+-      <stone>0</stone>
+-    </Resources>
+-  </Cost>
+-  <Footprint replace="">
+-    <Circle radius="17.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_stone_5x5</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/celt/temple_patron|template_structure_civic_temple_patron_war">
+   <Identity>
+     <Civ>gaul</Civ>
+     <SpecificName>Shrine of Caturix</SpecificName>
+   </Identity>
+-  <Loot>
+-    <wood>60</wood>
+-    <stone>0</stone>
+-  </Loot>
+-  <Obstruction>
+-    <Static width="29.0" depth="29.0"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/celts/shrine.xml</Actor>
+-    <FoundationActor>structures/fndn_9x9.xml</FoundationActor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/iber/temple_patron_fertility.xml b/binaries/data/mods/public/simulation/templates/structures/iber/temple_patron_fertility.xml
+index eabbac0844..8ae6bb12f2 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/iber/temple_patron_fertility.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/iber/temple_patron_fertility.xml
+@@ -1,21 +1,7 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_fertility">
+-  <Footprint>
+-    <Square width="24.0" depth="24.0"/>
+-    <Height>10.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_stone_4x4</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/celt/temple_patron|template_structure_civic_temple_patron_fertility">
+   <Identity>
+     <Civ>iber</Civ>
+     <SpecificName>Temple of Ataegina</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="20.0" depth="20.0"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/iberians/temple.xml</Actor>
+-    <FoundationActor>structures/fndn_4x4.xml</FoundationActor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/iber/temple_patron_trade.xml b/binaries/data/mods/public/simulation/templates/structures/iber/temple_patron_trade.xml
+index 411c9658e2..27d4f0de84 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/iber/temple_patron_trade.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/iber/temple_patron_trade.xml
+@@ -1,21 +1,7 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_trade">
+-  <Footprint>
+-    <Square width="24.0" depth="24.0"/>
+-    <Height>10.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_stone_4x4</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/celt/temple_patron|template_structure_civic_temple_patron_trade">
+   <Identity>
+     <Civ>iber</Civ>
+     <SpecificName>Temple of Lugus</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="20.0" depth="20.0"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/iberians/temple.xml</Actor>
+-    <FoundationActor>structures/fndn_4x4.xml</FoundationActor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/iber/temple_patron_war.xml b/binaries/data/mods/public/simulation/templates/structures/iber/temple_patron_war.xml
+index 85bf998a55..21ef8fc311 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/iber/temple_patron_war.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/iber/temple_patron_war.xml
+@@ -1,21 +1,7 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_war">
+-  <Footprint>
+-    <Square width="24.0" depth="24.0"/>
+-    <Height>10.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_stone_4x4</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/celt/temple_patron|template_structure_civic_temple_patron_war">
+   <Identity>
+     <Civ>iber</Civ>
+     <SpecificName>Temple of Turiacus</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="20.0" depth="20.0"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/iberians/temple.xml</Actor>
+-    <FoundationActor>structures/fndn_4x4.xml</FoundationActor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/kush/temple_patron_fertility.xml b/binaries/data/mods/public/simulation/templates/structures/kush/temple_patron_fertility.xml
+index e2f05cc563..5efb72e182 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/kush/temple_patron_fertility.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/kush/temple_patron_fertility.xml
+@@ -1,17 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_fertility">
+-  <Footprint>
+-    <Square width="24.0" depth="36.0"/>
+-  </Footprint>
++<Entity parent="civ/kush/temple_patron|template_structure_civic_temple_patron_fertility">
+   <Identity>
+-    <Civ>kush</Civ>
+     <GenericName>Temple of Osiris</GenericName>
+-    <Tooltip>Train Healers and research healing technologies. Provides food production bonuses.</Tooltip>
+   </Identity>
+-  <Obstruction>
+-    <Static width="18" depth="30.0"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/kushites/temple_3.xml</Actor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/kush/temple_patron_trade.xml b/binaries/data/mods/public/simulation/templates/structures/kush/temple_patron_trade.xml
+index e8d24e1edd..994a619a01 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/kush/temple_patron_trade.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/kush/temple_patron_trade.xml
+@@ -1,17 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_trade">
+-  <Footprint>
+-    <Square width="24.0" depth="36.0"/>
+-  </Footprint>
++<Entity parent="civ/kush/temple_patron|template_structure_civic_temple_patron_trade">
+   <Identity>
+-    <Civ>kush</Civ>
+     <GenericName>Temple of Dedun</GenericName>
+-    <Tooltip>Train Healers and research healing technologies. Provides trade bonuses.</Tooltip>
+   </Identity>
+-  <Obstruction>
+-    <Static width="18" depth="30.0"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/kushites/temple_3.xml</Actor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/kush/temple_patron_war.xml b/binaries/data/mods/public/simulation/templates/structures/kush/temple_patron_war.xml
+index fd1845cc28..f5f42f6427 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/kush/temple_patron_war.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/kush/temple_patron_war.xml
+@@ -1,17 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_war">
+-  <Footprint>
+-    <Square width="24.0" depth="36.0"/>
+-  </Footprint>
++<Entity parent="civ/kush/temple_patron|template_structure_civic_temple_patron_war">
+   <Identity>
+-    <Civ>kush</Civ>
+     <GenericName>Temple of Anhur</GenericName>
+-    <Tooltip>Train Healers and research healing technologies. Provides military bonuses.</Tooltip>
+   </Identity>
+-  <Obstruction>
+-    <Static width="18" depth="30.0"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/kushites/temple_3.xml</Actor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/maur/temple_patron_fertility.xml b/binaries/data/mods/public/simulation/templates/structures/maur/temple_patron_fertility.xml
+index 977a24411f..58aa4627d7 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/maur/temple_patron_fertility.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/maur/temple_patron_fertility.xml
+@@ -1,21 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_fertility">
+-  <Footprint>
+-    <Square width="16.0" depth="30.5"/>
+-    <Height>12.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_stone_4x4</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/maur/temple_patron|template_structure_civic_temple_patron_fertility">
+   <Identity>
+-    <Civ>maur</Civ>
+     <SpecificName>Temple of Annapurna</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="15.0" depth="30.5"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/mauryas/temple.xml</Actor>
+-    <FoundationActor>structures/fndn_4x6.xml</FoundationActor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/maur/temple_patron_trade.xml b/binaries/data/mods/public/simulation/templates/structures/maur/temple_patron_trade.xml
+index 32c5b6a5af..48157c10b4 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/maur/temple_patron_trade.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/maur/temple_patron_trade.xml
+@@ -1,21 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_trade">
+-  <Footprint>
+-    <Square width="16.0" depth="30.5"/>
+-    <Height>12.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_stone_4x4</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/maur/temple_patron|template_structure_civic_temple_patron_trade">
+   <Identity>
+-    <Civ>maur</Civ>
+     <SpecificName>Temple of Ganesha</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="15.0" depth="30.5"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/mauryas/temple.xml</Actor>
+-    <FoundationActor>structures/fndn_4x6.xml</FoundationActor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/maur/temple_patron_war.xml b/binaries/data/mods/public/simulation/templates/structures/maur/temple_patron_war.xml
+index 6922da37be..074c48dbb3 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/maur/temple_patron_war.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/maur/temple_patron_war.xml
+@@ -1,21 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_war">
+-  <Footprint>
+-    <Square width="16.0" depth="30.5"/>
+-    <Height>12.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_stone_4x4</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/maur/temple_patron|template_structure_civic_temple_patron_war">
+   <Identity>
+-    <Civ>maur</Civ>
+     <SpecificName>Temple of Skanda</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="15.0" depth="30.5"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/mauryas/temple.xml</Actor>
+-    <FoundationActor>structures/fndn_4x6.xml</FoundationActor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/pers/temple_patron_fertility.xml b/binaries/data/mods/public/simulation/templates/structures/pers/temple_patron_fertility.xml
+index 633cd68a6f..2575c2531d 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/pers/temple_patron_fertility.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/pers/temple_patron_fertility.xml
+@@ -1,21 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_fertility">
+-  <Footprint>
+-    <Square width="19.0" depth="19.0"/>
+-    <Height>12.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_stone_4x4</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/pers/temple_patron|template_structure_civic_temple_patron_fertility">
+   <Identity>
+-    <Civ>pers</Civ>
+     <SpecificName>Temple of Tishtrya</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="17.5" depth="17.5"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/persians/temple.xml</Actor>
+-    <FoundationActor>structures/fndn_4x4.xml</FoundationActor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/pers/temple_patron_trade.xml b/binaries/data/mods/public/simulation/templates/structures/pers/temple_patron_trade.xml
+index 9f6bf003bc..fe62106322 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/pers/temple_patron_trade.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/pers/temple_patron_trade.xml
+@@ -1,20 +1,2 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_trade">
+-  <Footprint>
+-    <Square width="19.0" depth="19.0"/>
+-    <Height>12.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_stone_4x4</SpawnEntityOnDeath>
+-  </Health>
+-  <Identity>
+-    <Civ>pers</Civ>
+-  </Identity>
+-  <Obstruction>
+-    <Static width="17.5" depth="17.5"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/persians/temple.xml</Actor>
+-    <FoundationActor>structures/fndn_4x4.xml</FoundationActor>
+-  </VisualActor>
+-</Entity>
++<Entity parent="civ/pers/temple_patron|template_structure_civic_temple_patron_trade"/>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/pers/temple_patron_war.xml b/binaries/data/mods/public/simulation/templates/structures/pers/temple_patron_war.xml
+index 89fcfdf779..b720db680d 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/pers/temple_patron_war.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/pers/temple_patron_war.xml
+@@ -1,21 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_war">
+-  <Footprint>
+-    <Square width="19.0" depth="19.0"/>
+-    <Height>12.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_stone_4x4</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/pers/temple_patron|template_structure_civic_temple_patron_war">
+   <Identity>
+-    <Civ>pers</Civ>
+     <SpecificName>Temple of Verethragna</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="17.5" depth="17.5"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/persians/temple.xml</Actor>
+-    <FoundationActor>structures/fndn_4x4.xml</FoundationActor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/ptol/temple_patron_fertility.xml b/binaries/data/mods/public/simulation/templates/structures/ptol/temple_patron_fertility.xml
+index 0bc986a86e..dda9183f15 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/ptol/temple_patron_fertility.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/ptol/temple_patron_fertility.xml
+@@ -1,21 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_fertility">
+-  <Footprint>
+-    <Square width="23.0" depth="24"/>
+-    <Height>12.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_stone_4x6</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/ptol/temple_patron|template_structure_civic_temple_patron_fertility">
+   <Identity>
+-    <Civ>ptol</Civ>
+     <SpecificName>Shrine of Serapis</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="20" depth="21"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/ptolemies/shrine.xml</Actor>
+-    <FoundationActor>structures/fndn_6x6.xml</FoundationActor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/ptol/temple_patron_trade.xml b/binaries/data/mods/public/simulation/templates/structures/ptol/temple_patron_trade.xml
+index 1267bd57a9..54a9616c58 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/ptol/temple_patron_trade.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/ptol/temple_patron_trade.xml
+@@ -1,21 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_trade">
+-  <Footprint>
+-    <Square width="23.0" depth="24"/>
+-    <Height>12.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_stone_4x6</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/ptol/temple_patron|template_structure_civic_temple_patron_trade">
+   <Identity>
+-    <Civ>ptol</Civ>
+     <SpecificName>Shrine of Isis</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="20" depth="21"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/ptolemies/shrine.xml</Actor>
+-    <FoundationActor>structures/fndn_6x6.xml</FoundationActor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/ptol/temple_patron_war.xml b/binaries/data/mods/public/simulation/templates/structures/ptol/temple_patron_war.xml
+index 3a55dd5c92..cb9628f254 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/ptol/temple_patron_war.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/ptol/temple_patron_war.xml
+@@ -1,5 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_war">
++<Entity parent="civ/ptol/temple_patron|template_structure_civic_temple_patron_war">
+   <Footprint>
+     <Square width="24.0" depth="36.0"/>
+   </Footprint>
+@@ -7,13 +7,12 @@
+     <SpawnEntityOnDeath>decay|rubble/rubble_stone_4x6</SpawnEntityOnDeath>
+   </Health>
+   <Identity>
+-    <Civ>ptol</Civ>
+     <SpecificName>Temple of Sekhmet</SpecificName>
+   </Identity>
+   <Obstruction>
+     <Static width="18" depth="30.0"/>
+   </Obstruction>
+   <VisualActor>
+-    <Actor>structures/kushites/temple_3.xml</Actor>
++    <Actor>structures/ptolemies/temple_2.xml</Actor>
+   </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/rome/temple_patron_fertility.xml b/binaries/data/mods/public/simulation/templates/structures/rome/temple_patron_fertility.xml
+index 8aeea69eb5..7493781031 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/rome/temple_patron_fertility.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/rome/temple_patron_fertility.xml
+@@ -1,17 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_fertility">
+-  <Footprint>
+-    <Square width="24.0" depth="44.0"/>
+-    <Height>12.0</Height>
+-  </Footprint>
++<Entity parent="civ/rome/temple_patron|template_structure_civic_temple_patron_fertility">
+   <Identity>
+-    <Civ>rome</Civ>
+     <SpecificName>Aedes Cereris</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="20.0" depth="40.0"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/romans/temple_mars.xml</Actor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/rome/temple_patron_sea.xml b/binaries/data/mods/public/simulation/templates/structures/rome/temple_patron_sea.xml
+index 5d5f7b1914..31d088e517 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/rome/temple_patron_sea.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/rome/temple_patron_sea.xml
+@@ -1,17 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_sea">
+-  <Footprint>
+-    <Square width="24.0" depth="44.0"/>
+-    <Height>12.0</Height>
+-  </Footprint>
++<Entity parent="civ/rome/temple_patron|template_structure_civic_temple_patron_sea">
+   <Identity>
+-    <Civ>rome</Civ>
+     <SpecificName>Aedes Neptuni</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="20.0" depth="40.0"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/romans/temple_mars.xml</Actor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/rome/temple_patron_trade.xml b/binaries/data/mods/public/simulation/templates/structures/rome/temple_patron_trade.xml
+index 7ffc8f718a..2907d59bb8 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/rome/temple_patron_trade.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/rome/temple_patron_trade.xml
+@@ -1,17 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_trade">
+-  <Footprint>
+-    <Square width="24.0" depth="44.0"/>
+-    <Height>12.0</Height>
+-  </Footprint>
++<Entity parent="civ/rome/temple_patron|template_structure_civic_temple_patron_trade">
+   <Identity>
+-    <Civ>rome</Civ>
+     <SpecificName>Aedes Mercurii</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="20.0" depth="40.0"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/romans/temple_mars.xml</Actor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/rome/temple_patron_war.xml b/binaries/data/mods/public/simulation/templates/structures/rome/temple_patron_war.xml
+index 12de2730fb..e85e44b835 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/rome/temple_patron_war.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/rome/temple_patron_war.xml
+@@ -1,17 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_temple_patron_war">
+-  <Footprint>
+-    <Square width="24.0" depth="44.0"/>
+-    <Height>12.0</Height>
+-  </Footprint>
++<Entity parent="civ/rome/temple_patron|template_structure_civic_temple_patron_war">
+   <Identity>
+-    <Civ>rome</Civ>
+     <SpecificName>Aedes Martis</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="20.0" depth="40.0"/>
+-  </Obstruction>
+-  <VisualActor>
+-    <Actor>structures/romans/temple_mars.xml</Actor>
+-  </VisualActor>
+ </Entity>
+-- 
+2.25.1
+

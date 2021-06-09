@@ -1,0 +1,118 @@
+From dad0073738b9970e08bf54c2692b30642b21ccb5 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Tue, 8 Jun 2021 22:52:56 -0700
+Subject: [PATCH 86/86] CityMember schema uses back ticks instead of sequential
+ quotes
+
+helper script Entity.js checks EntityTransformer for whether entity has been replaced after posting message EntityCreated
+
+refactored dev scripts to use git am instead of git apply
+---
+ binaries/data/mods/public/dev/git_base.txt    |  6 ------
+ binaries/data/mods/public/dev/parent/utils.sh | 19 ++++++++++++-------
+ binaries/data/mods/public/dev/setup-parent.sh |  8 ++++----
+ 3 files changed, 16 insertions(+), 17 deletions(-)
+ delete mode 100644 binaries/data/mods/public/dev/git_base.txt
+
+diff --git a/binaries/data/mods/public/dev/git_base.txt b/binaries/data/mods/public/dev/git_base.txt
+deleted file mode 100644
+index 679302f36f..0000000000
+--- a/binaries/data/mods/public/dev/git_base.txt
++++ /dev/null
+@@ -1,6 +0,0 @@
+-commit ecf654a89af2e95f1e674893fa9944634b0ca1bb
+-Merge: acdb4adc 87d90b82
+-Author: na-Itms <na.itms76@gmail.com>
+-Date:   Sat May 22 05:04:55 2021 +0200
+-
+-    Merge 'remotes/trunk'
+diff --git a/binaries/data/mods/public/dev/parent/utils.sh b/binaries/data/mods/public/dev/parent/utils.sh
+index 6c23db55e2..84bf3b6a34 100644
+--- a/binaries/data/mods/public/dev/parent/utils.sh
++++ b/binaries/data/mods/public/dev/parent/utils.sh
+@@ -3,13 +3,14 @@
+ # OAD_PARENT_DIR
+ # OAD_MOD_DIR
+ # OAD_CHILD_DIR
+-# OAD_GIT_BASE
++# OAD_GIT_BASE_FILE
++# OAD_GIT_PATCH
+ 
+ # extract diff of mod files
+ function extract_diff() {
+ 	(
+ 	cd "${OAD_PARENT_DIR}"
+-	git diff --patch --binary "${OAD_GIT_BASE}" -- binaries/data/mods/public
++	git diff --patch --binary "$(git merge-base --fork-point master)" -- binaries/data/mods/public
+ 	)
+ }
+ 
+@@ -39,7 +40,10 @@ function sync_to_child() {
+ 		cp -f "${file}" "${outfile}"
+ 	done
+ 	extract_diff > "${OAD_CHILD_DIR}/dev/mod.diff"
+-	git log -n 1 "${OAD_GIT_BASE}" > "${OAD_CHILD_DIR}/dev/git_base.txt"
++	cd "${OAD_PARENT_DIR}"
++	rm -rf "${OAD_GIT_PATCH}"
++	git format-patch -o "${OAD_GIT_PATCH}" "$(git merge-base --fork-point master)"..HEAD -- binaries/data/mods/public
++	git log -n 1 --date=short "$(git merge-base --fork-point master)" > "${OAD_GIT_BASE_FILE}"
+ 	cd "${OAD_CHILD_DIR}"
+ 	git add ${moved_files[@]}
+ 	)
+@@ -74,8 +78,9 @@ function commit() {
+ 
+ # rebase onto another revision, changing variables accordingly
+ function rebase() {
+-	[[ $1 ]] && local git_base="$1" || local git_base='master'
+-	OAD_GIT_BASE="$(git log -n 1 "${git_base}" | grep -m 1 -o -e '^commit \S\+' < "${OAD_GIT_BASE_FILE}" | cut -c8-)"
+-	git rebase "${OAD_GIT_BASE}"
+-	echo "OAD_GIT_BASE=\"${OAD_GIT_BASE}\"" >> "${OAD_PARENT_DIR}/dev/utils.sh"
++	(
++		[[ $1 ]] && local git_base="$1" || local git_base='master'
++		cd "${OAD_PARENT_DIR}"
++		git rebase "${git_base}"
++	)
+ }
+diff --git a/binaries/data/mods/public/dev/setup-parent.sh b/binaries/data/mods/public/dev/setup-parent.sh
+index d05d6ce115..7fb6325a74 100755
+--- a/binaries/data/mods/public/dev/setup-parent.sh
++++ b/binaries/data/mods/public/dev/setup-parent.sh
+@@ -21,7 +21,7 @@ else
+ fi
+ [[ ! ${OAD_MOD_NAME} ]] && OAD_MOD_NAME='mare_nostrum'
+ 
+-oad_git_patch="${child_dir}/dev/mod.diff"
++oad_git_patch="${child_dir}/dev/patch"
+ 
+ if [[ ! ${parent_dir} ]]; then
+ 	echo "usage: $(dirname $0)) DEST_DIR [GIT_BASE]" >&2
+@@ -35,15 +35,16 @@ fi
+ 
+ # setup new branch, save latest master commit to child dir dev files
+ cd "${parent_dir}"
+-git log -n 1 "${git_base}" > "${git_base_file}"
++git log -n 1 --date=short "${git_base}" > "${git_base_file}"
+ # set git_base to exact commit hash
+ git_base="$(grep -m 1 -o -e '^commit \S\+' < "${git_base_file}" | cut -c8-)"
++git switch master
+ git checkout "${git_base}"
+ git switch -c "${OAD_MOD_NAME}"
+ 
+ # apply patch if it exists, else port all files individually
+ if [[ -f "${oad_git_patch}" ]]; then
+-	git apply "${oad_git_patch}"
++	git am --ignore-whitespace "${oad_git_patch}"/*
+ else
+ 	cd "${child_dir}"
+ 	IFS=$'\n\r'
+@@ -63,7 +64,6 @@ echo "\
+ OAD_PARENT_DIR=\"${parent_dir}\"
+ OAD_MOD_DIR=\"${mod_dir}\"
+ OAD_CHILD_DIR=\"${child_dir}\"
+-OAD_GIT_BASE=\"${git_base}\"
+ OAD_GIT_BASE_FILE=\"${child_dir}/dev/git_base.txt\"
+ OAD_GIT_PATCH=\"${oad_git_patch}\"
+ " >> "${parent_dir}/dev/utils.sh"
+-- 
+2.25.1
+

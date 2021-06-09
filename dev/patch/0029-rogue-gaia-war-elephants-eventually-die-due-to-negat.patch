@@ -1,0 +1,59 @@
+From 368612865a72d3713ee3afe8bd1bb52bd07eefca Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Mon, 24 May 2021 00:35:17 -0700
+Subject: [PATCH 29/86] rogue (gaia) war elephants eventually die due to
+ negative health regen rate ("Death by Mahout"); reflects fact that mahouts
+ carried a spike to kill their elephants if they went rogue
+
+---
+ .../data/auras/player/gaia_elephant_soldier_decay.json | 10 ++++++++++
+ .../simulation/data/auras/structures/courier_post.json |  2 +-
+ .../templates/special/player/player_gaia.xml           |  3 +++
+ 3 files changed, 14 insertions(+), 1 deletion(-)
+ create mode 100644 binaries/data/mods/public/simulation/data/auras/player/gaia_elephant_soldier_decay.json
+
+diff --git a/binaries/data/mods/public/simulation/data/auras/player/gaia_elephant_soldier_decay.json b/binaries/data/mods/public/simulation/data/auras/player/gaia_elephant_soldier_decay.json
+new file mode 100644
+index 0000000000..5023b69dbc
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/data/auras/player/gaia_elephant_soldier_decay.json
+@@ -0,0 +1,10 @@
++{
++	"type": "global",
++	"affects": ["Elephant Soldier"],
++	"modifications": [
++		{ "value": "Health/RegenRate", "replace": -10 },
++		{ "value": "Health/IdleRegenRate", "replace": -10 }
++	],
++	"auraName": "Death by Mahout",
++	"auraDescription": "Rogue elephants are eventually killed by their riders."
++}
+diff --git a/binaries/data/mods/public/simulation/data/auras/structures/courier_post.json b/binaries/data/mods/public/simulation/data/auras/structures/courier_post.json
+index d7013c0b57..36466ea385 100644
+--- a/binaries/data/mods/public/simulation/data/auras/structures/courier_post.json
++++ b/binaries/data/mods/public/simulation/data/auras/structures/courier_post.json
+@@ -1,7 +1,7 @@
+ {
+ 	"type": "range",
+ 	"radius": 500,
+-	"affects": ["Trader+!Ship"],
++	"affects": ["Trader !Ship"],
+ 	"modifications": [
+ 		{ "value": "Trader/GainMultiplier", "multiply": 1.1 },
+ 		{ "value": "UnitMotion/WalkSpeed", "multiply": 1.4 }
+diff --git a/binaries/data/mods/public/simulation/templates/special/player/player_gaia.xml b/binaries/data/mods/public/simulation/templates/special/player/player_gaia.xml
+index e39d6ab192..cb8853415e 100644
+--- a/binaries/data/mods/public/simulation/templates/special/player/player_gaia.xml
++++ b/binaries/data/mods/public/simulation/templates/special/player/player_gaia.xml
+@@ -1,5 +1,8 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity>
++	<Auras datatype="tokens">
++		player/gaia_elephant_soldier_decay
++	</Auras>
+   <Player>
+     <SharedLosTech/>
+     <SharedDropsitesTech/>
+-- 
+2.25.1
+

@@ -1,0 +1,144 @@
+From 2d4c5bb344573bc3826996cbd762ec99a40cd86c Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Tue, 1 Jun 2021 18:42:19 -0700
+Subject: [PATCH 63/86] corrected outdated entity promotion template names
+
+---
+ .../simulation/templates/units/gaul/cavalry_swordsman_a.xml     | 2 +-
+ .../public/simulation/templates/units/kush/support_healer_a.xml | 2 +-
+ .../public/simulation/templates/units/mace/support_healer_a.xml | 2 +-
+ .../simulation/templates/units/maur/cavalry_swordsman_a.xml     | 2 +-
+ .../public/simulation/templates/units/maur/support_healer_a.xml | 2 +-
+ .../public/simulation/templates/units/pers/cavalry_archer_b.xml | 2 +-
+ .../public/simulation/templates/units/pers/support_healer_a.xml | 2 +-
+ .../public/simulation/templates/units/ptol/support_healer_a.xml | 2 +-
+ .../public/simulation/templates/units/sele/support_healer_a.xml | 2 +-
+ .../simulation/templates/units/spart/support_healer_a.xml       | 2 +-
+ 10 files changed, 10 insertions(+), 10 deletions(-)
+
+diff --git a/binaries/data/mods/public/simulation/templates/units/gaul/cavalry_swordsman_a.xml b/binaries/data/mods/public/simulation/templates/units/gaul/cavalry_swordsman_a.xml
+index edd05efcd6..255ed40cc0 100644
+--- a/binaries/data/mods/public/simulation/templates/units/gaul/cavalry_swordsman_a.xml
++++ b/binaries/data/mods/public/simulation/templates/units/gaul/cavalry_swordsman_a.xml
+@@ -4,7 +4,7 @@
+     <Rank>Advanced</Rank>
+   </Identity>
+   <Promotion>
+-    <Entity>units/gaul_cavalry_swordsman_e</Entity>
++		<Entity>units/gaul/cavalry_swordsman_e</Entity>
+   </Promotion>
+   <VisualActor>
+     <Actor>units/gauls/cavalry_swordsman_a_m.xml</Actor>
+diff --git a/binaries/data/mods/public/simulation/templates/units/kush/support_healer_a.xml b/binaries/data/mods/public/simulation/templates/units/kush/support_healer_a.xml
+index 5a0bbfd973..f92257a7d9 100644
+--- a/binaries/data/mods/public/simulation/templates/units/kush/support_healer_a.xml
++++ b/binaries/data/mods/public/simulation/templates/units/kush/support_healer_a.xml
+@@ -4,6 +4,6 @@
+     <Rank>Advanced</Rank>
+   </Identity>
+   <Promotion>
+-    <Entity>units/kush_support_healer_e</Entity>
++		<Entity>units/kush/support_healer_e</Entity>
+   </Promotion>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/units/mace/support_healer_a.xml b/binaries/data/mods/public/simulation/templates/units/mace/support_healer_a.xml
+index d76c2f3f0c..7bac94944b 100644
+--- a/binaries/data/mods/public/simulation/templates/units/mace/support_healer_a.xml
++++ b/binaries/data/mods/public/simulation/templates/units/mace/support_healer_a.xml
+@@ -4,6 +4,6 @@
+     <Rank>Advanced</Rank>
+   </Identity>
+   <Promotion>
+-    <Entity>units/mace_support_healer_e</Entity>
++		<Entity>units/mace/support_healer_e</Entity>
+   </Promotion>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/units/maur/cavalry_swordsman_a.xml b/binaries/data/mods/public/simulation/templates/units/maur/cavalry_swordsman_a.xml
+index 2b937e6128..1c4834ac12 100644
+--- a/binaries/data/mods/public/simulation/templates/units/maur/cavalry_swordsman_a.xml
++++ b/binaries/data/mods/public/simulation/templates/units/maur/cavalry_swordsman_a.xml
+@@ -4,7 +4,7 @@
+     <Rank>Advanced</Rank>
+   </Identity>
+   <Promotion>
+-    <Entity>units/maur_cavalry_swordsman_e</Entity>
++		<Entity>units/maur/cavalry_swordsman_e</Entity>
+   </Promotion>
+   <VisualActor>
+     <Actor>units/mauryas/cavalry_swordsman_a_m.xml</Actor>
+diff --git a/binaries/data/mods/public/simulation/templates/units/maur/support_healer_a.xml b/binaries/data/mods/public/simulation/templates/units/maur/support_healer_a.xml
+index 81c9819b21..4315828c6b 100644
+--- a/binaries/data/mods/public/simulation/templates/units/maur/support_healer_a.xml
++++ b/binaries/data/mods/public/simulation/templates/units/maur/support_healer_a.xml
+@@ -4,6 +4,6 @@
+     <Rank>Advanced</Rank>
+   </Identity>
+   <Promotion>
+-    <Entity>units/maur_support_healer_e</Entity>
++		<Entity>units/maur/support_healer_e</Entity>
+   </Promotion>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/units/pers/cavalry_archer_b.xml b/binaries/data/mods/public/simulation/templates/units/pers/cavalry_archer_b.xml
+index 225a2d71c9..f875e7a0c6 100644
+--- a/binaries/data/mods/public/simulation/templates/units/pers/cavalry_archer_b.xml
++++ b/binaries/data/mods/public/simulation/templates/units/pers/cavalry_archer_b.xml
+@@ -14,7 +14,7 @@
+     <RequiredTechnology>phase_town</RequiredTechnology>
+   </Identity>
+   <Promotion>
+-    <Entity>units/pers_cavalry_archer_a</Entity>
++		<Entity>units/pers/cavalry_archer_a</Entity>
+   </Promotion>
+   <VisualActor>
+     <Actor>units/persians/chariot_archer_b_m.xml</Actor>
+diff --git a/binaries/data/mods/public/simulation/templates/units/pers/support_healer_a.xml b/binaries/data/mods/public/simulation/templates/units/pers/support_healer_a.xml
+index feb321dc3e..197e9e06f8 100644
+--- a/binaries/data/mods/public/simulation/templates/units/pers/support_healer_a.xml
++++ b/binaries/data/mods/public/simulation/templates/units/pers/support_healer_a.xml
+@@ -4,6 +4,6 @@
+     <Rank>Advanced</Rank>
+   </Identity>
+   <Promotion>
+-    <Entity>units/pers_support_healer_e</Entity>
++		<Entity>units/pers/support_healer_e</Entity>
+   </Promotion>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/units/ptol/support_healer_a.xml b/binaries/data/mods/public/simulation/templates/units/ptol/support_healer_a.xml
+index d475b55435..fcb1bfc198 100644
+--- a/binaries/data/mods/public/simulation/templates/units/ptol/support_healer_a.xml
++++ b/binaries/data/mods/public/simulation/templates/units/ptol/support_healer_a.xml
+@@ -4,6 +4,6 @@
+     <Rank>Advanced</Rank>
+   </Identity>
+   <Promotion>
+-    <Entity>units/ptol_support_healer_e</Entity>
++		<Entity>units/ptol/support_healer_e</Entity>
+   </Promotion>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/units/sele/support_healer_a.xml b/binaries/data/mods/public/simulation/templates/units/sele/support_healer_a.xml
+index 5e899e4143..d34cafa423 100644
+--- a/binaries/data/mods/public/simulation/templates/units/sele/support_healer_a.xml
++++ b/binaries/data/mods/public/simulation/templates/units/sele/support_healer_a.xml
+@@ -4,6 +4,6 @@
+     <Rank>Advanced</Rank>
+   </Identity>
+   <Promotion>
+-    <Entity>units/sele_support_healer_e</Entity>
++		<Entity>units/sele/support_healer_e</Entity>
+   </Promotion>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/units/spart/support_healer_a.xml b/binaries/data/mods/public/simulation/templates/units/spart/support_healer_a.xml
+index 44301f4862..e5bc1c1eaa 100644
+--- a/binaries/data/mods/public/simulation/templates/units/spart/support_healer_a.xml
++++ b/binaries/data/mods/public/simulation/templates/units/spart/support_healer_a.xml
+@@ -4,6 +4,6 @@
+     <Rank>Advanced</Rank>
+   </Identity>
+   <Promotion>
+-    <Entity>units/spart_support_healer_e</Entity>
++		<Entity>units/spart/support_healer_e</Entity>
+   </Promotion>
+ </Entity>
+-- 
+2.25.1
+

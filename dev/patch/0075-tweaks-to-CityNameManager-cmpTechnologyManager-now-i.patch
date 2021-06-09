@@ -1,0 +1,1859 @@
+From 9d7f1250a7b488bb32456d10f8cf96c0f8d31b6d Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Fri, 4 Jun 2021 16:21:05 -0700
+Subject: [PATCH 75/86] tweaks to CityNameManager; cmpTechnologyManager now
+ instantiated correctly
+
+created city name files for carthaginians, macedonians, mauryas, persians, ptolemies, seleucids, spartans
+---
+ binaries/data/mods/public/TODO.md             |   2 +
+ .../mods/public/simulation/components/City.js |  77 +-
+ .../simulation/components/CityNameManager.js  |  23 +-
+ .../simulation/components/GuiInterface.js     |  15 +
+ .../components/StatisticsTracker.js           |   2 +-
+ .../public/simulation/data/cities/athen.json  | 949 +++++++++++++++++-
+ .../public/simulation/data/cities/cart.json   |  19 +
+ .../public/simulation/data/cities/mace.json   |  21 +
+ .../public/simulation/data/cities/maur.json   |   9 +
+ .../public/simulation/data/cities/pers.json   |  37 +
+ .../public/simulation/data/cities/ptol.json   |  70 ++
+ .../public/simulation/data/cities/rome.json   | 299 +++++-
+ .../public/simulation/data/cities/sele.json   |  36 +
+ .../public/simulation/data/cities/spart.json  |  45 +
+ 14 files changed, 1525 insertions(+), 79 deletions(-)
+ create mode 100644 binaries/data/mods/public/simulation/data/cities/cart.json
+ create mode 100644 binaries/data/mods/public/simulation/data/cities/mace.json
+ create mode 100644 binaries/data/mods/public/simulation/data/cities/maur.json
+ create mode 100644 binaries/data/mods/public/simulation/data/cities/pers.json
+ create mode 100644 binaries/data/mods/public/simulation/data/cities/ptol.json
+ create mode 100644 binaries/data/mods/public/simulation/data/cities/sele.json
+ create mode 100644 binaries/data/mods/public/simulation/data/cities/spart.json
+
+diff --git a/binaries/data/mods/public/TODO.md b/binaries/data/mods/public/TODO.md
+index 11d2e3e469..b1a21d2edc 100644
+--- a/binaries/data/mods/public/TODO.md
++++ b/binaries/data/mods/public/TODO.md
+@@ -48,6 +48,8 @@ Please feel free to contribute if you see anything you can do here. If there is
+ - Create Maurya monument(s)
+ - Create government technologies for celts, iberians, various other civs
+ - Give pastures decal to make them more distinctive
++- Create second set of heroes for Rome, consisting of dictatorial figures from the late Republic (Sulla, Julius Caesar, Mark Antony?)
++	- Romans get to choose from two different sets of heroes by choosing Res Publica or Dictatura
+ - Create range of different starting levels, selectable from a dropdown list:
+ 	- Nomad
+ 	- Village
+diff --git a/binaries/data/mods/public/simulation/components/City.js b/binaries/data/mods/public/simulation/components/City.js
+index 08b678e79f..73b90bbda7 100644
+--- a/binaries/data/mods/public/simulation/components/City.js
++++ b/binaries/data/mods/public/simulation/components/City.js
+@@ -99,31 +99,15 @@ City.prototype.Schema =
+ 
+ City.prototype.Init = function()
+ {
+-	let initPop = ApplyValueModificationsToEntity("City/Population/Init", +this.template.Population.Init, this.entity);
+-	initPop = this.SetPopulation(initPop);
++	this.population = ApplyValueModificationsToEntity("City/Population/Init", +this.template.Population.Init, this.entity);
+ 	this.cityMembers = new Set();
+ 	// set timer this.growthTimer to grow population at interval
+ 	this.ResetGrowthTimer();
+-	// get city name from city name manager, if possible
+-	// if not, try again on game startup
+-	let cmpCityNameManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_CityNameManager);
+-	if (cmpCityNameManager)
+-		this.SetName(cmpCityNameManager.ChooseCityName(this.entity));
+-	// count initial pop for statistics tracker
+-	// only if initial city, not for city upgrades
+-	if (!this.IsInitial())
+-		return;
+-	let cmpTimer = Engine.QueryInterface(SYSTEM_ENTITY, IID_Timer);
+-	let initPopTimerInterval = 1;
+-	cmpTimer.SetTimeout(this.entity, IID_City, 'TrackInitialPop', initPopTimerInterval, initPop);
+ };
+ 
+-// messy workaround for statistics tracker to count initial city pop
+-City.prototype.TrackInitialPop = function(initPop)
++City.prototype.SetInitialized = function()
+ {
+-	let cmpStatisticsTracker = QueryOwnerInterface(this.entity, IID_StatisticsTracker);
+-	if (cmpStatisticsTracker)
+-		cmpStatisticsTracker.IncreaseCivicPopulation(initPop);
++	this.initialized = true;
+ };
+ 
+ City.prototype.ResetGrowthTimer = function()
+@@ -155,9 +139,9 @@ City.prototype.GetMinPopulation = function()
+ 	return Math.max(Math.round(ApplyValueModificationsToEntity("City/Population/Min", +this.template.Population.Min, this.entity)), 0);
+ };
+ 
+-City.prototype.SetPopulation = function(value)
++City.prototype.SetPopulation = function(value, toTrack=true)
+ {
+-	let oldPopulation = this.population;
++	const oldPopulation = this.population;
+ 	let val = Math.round(value);
+ 	if (typeof(val) !== 'number')
+ 		return this.population;
+@@ -165,6 +149,7 @@ City.prototype.SetPopulation = function(value)
+ 	let max = this.GetMaxPopulation();
+ 	if (value < min) {
+ 		if (this.template.Downgrade) {
++			this.SetPopulation(min);// for statistics tracker
+ 			let replacement = this.Downgrade();
+ 			let cmpNewCity = Engine.QueryInterface(replacement, IID_City);
+ 			if (cmpNewCity)
+@@ -173,13 +158,11 @@ City.prototype.SetPopulation = function(value)
+ 		this.population = min;
+ 	} else if (value > max) {
+ 		if (this.template.Upgrade) {
++			this.SetPopulation(max);// for statistics tracker
+ 			let replacement = this.Upgrade();
+ 			let cmpNewCity = Engine.QueryInterface(replacement, IID_City);
+ 			if (cmpNewCity)
+-			{
+-				cmpNewCity.SetName(this.name || "");
+ 				return cmpNewCity.SetPopulation(value);
+-			}
+ 		}
+ 		this.population = max;
+ 	} else {
+@@ -187,12 +170,15 @@ City.prototype.SetPopulation = function(value)
+ 	}
+ 	Engine.PostMessage(this.entity, MT_CityPopulationChanged, {
+ 		"entity": this.entity,
++		"from": oldPopulation,
+ 		"to": this.population
+ 	});
+ 	let popChange = this.population - oldPopulation;
+-	let cmpStatisticsTracker = QueryOwnerInterface(this.entity, IID_StatisticsTracker);
+-	if (cmpStatisticsTracker)
+-		cmpStatisticsTracker.IncreaseCivicPopulation(popChange);
++	if (toTrack) {
++		let cmpStatisticsTracker = QueryOwnerInterface(this.entity, IID_StatisticsTracker);
++		if (cmpStatisticsTracker)
++			cmpStatisticsTracker.IncreaseCivicPopulation(popChange);
++	}
+ 	return this.population;
+ };
+ 
+@@ -245,7 +231,7 @@ City.prototype.GetPopulationGrowthInterval = function()
+ 
+ City.prototype.GetPopulationGrowthAmount = function()
+ {
+-	const { growthAmount, growthAmountMultiplier } = this.GetCityMembers().map((ent) => Engine.QueryInterface(ent, IID_CityMember)).reduce((data, ent) => ent.ModifyGrowthRate(data), {
++	const { growthAmount, growthAmountMultiplier } = this.GetCityMembers().map((ent) => Engine.QueryInterface(ent, IID_CityMember)).filter((cmp) => cmp).reduce((data, cmp) => cmp.ModifyGrowthRate(data), {
+ 		"growthAmount": +this.template.Population.Growth.Amount,
+ 		"growthAmountMultiplier": 1
+ 	});
+@@ -310,10 +296,12 @@ City.prototype.Upgrade = function()
+ 		return null;
+ 	
+ 	let newEntity = ChangeEntityTemplate(this.entity, upgradeTemplate);
+-	// Disabling because it interferes with phase up sound notification
+-	// TODO: find a way to play sound without interfering with phaseup
+-	// if (newEntity)
+-	// 	PlaySound('upgraded', newEntity);
++	let cmpNewCity = Engine.QueryInterface(newEntity, IID_City);
++	if (cmpNewCity)
++	{
++		cmpNewCity.SetInitialized();
++		cmpNewCity.SetName(this.name || "");
++	}
+ 	
+ 	return newEntity;
+ };
+@@ -341,8 +329,12 @@ City.prototype.Downgrade = function()
+ 		return null;
+ 	
+ 	let newEntity = ChangeEntityTemplate(this.entity, downgradeTemplate);
+-	if (newEntity)
+-		PlaySound('downgraded', newEntity);
++	let cmpNewCity = Engine.QueryInterface(newEntity, IID_City);
++	if (cmpNewCity)
++	{
++		cmpNewCity.SetInitialized();
++		cmpNewCity.SetName(this.name || "");
++	}
+ 	
+ 	return newEntity;
+ };
+@@ -512,6 +504,16 @@ City.prototype.OnOwnershipChanged = function(msg)
+ 	let newOwnerStatisticsTracker = QueryPlayerIDInterface(msg.to, IID_StatisticsTracker);
+ 	if (newOwnerStatisticsTracker)
+ 		newOwnerStatisticsTracker.IncreaseCivicPopulation(+this.population);
++	// post-init of certain values
++	if (this.initialized)
++		return;
++	this.initialized = true;
++	if ((!this.GetName() || !this.GetName().length) && msg.to)
++	{
++		let cmpCityNameManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_CityNameManager);
++		if (cmpCityNameManager)
++			this.SetName(cmpCityNameManager.ChooseCityName(this.entity));
++	}
+ };
+ 
+ City.prototype.OnDestroy = function(msg)
+@@ -537,13 +539,6 @@ City.prototype.OnDestroy = function(msg)
+ City.prototype.OnInitGame = function()
+ {
+ 	this.SetupCityMembersQuery();
+-	// try to set city name
+-	if (!this.GetName() || !this.GetName().length)
+-	{
+-		let cmpCityNameManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_CityNameManager);
+-		if (cmpCityNameManager)
+-			this.SetName(cmpCityNameManager.ChooseCityName(this.entity));
+-	}
+ };
+ 
+ City.prototype.OnTradePerformed = function({ market, goods })
+diff --git a/binaries/data/mods/public/simulation/components/CityNameManager.js b/binaries/data/mods/public/simulation/components/CityNameManager.js
+index 760b031552..b8ad14527a 100644
+--- a/binaries/data/mods/public/simulation/components/CityNameManager.js
++++ b/binaries/data/mods/public/simulation/components/CityNameManager.js
+@@ -2,9 +2,10 @@ function CityNameManager() {}
+ 
+ // City names are stored in simulation/data/cities/<CIV>.json files
+ // Each <CIV>.json file should contain an object mapping city name codes to either a string containing a city name
+-// or an object of the format { "Name": String, "Properties": [String ...] }
+-// Each city name code should be the city's name in modern English, lowercase, without diacritics, and with spaces replaced with underscores (_)
+-// The purpose of this is to prevent situations where two separate names referring to the same city in different languages or time periods are chosen in the same game.
++// or an object of the format { "Name": String, EXTRA_PROPERTIES... }
++// Each city name code should be the city's modern name in English, lowercase, without diacritics, and with spaces replaced with underscores (_)
++// The purpose of this is to prevent situations where two names referring to the same city in different languages or time periods are chosen in the same game.
++// ex: { "istanbul": "Byzantium" } vs. { "istanbul": "Constantinople" } vs. { "istanbul": "Istanbul" }
+ 
+ CityNameManager.prototype.Schema = "<a:component type='system'/><empty/>";
+ 
+@@ -59,12 +60,12 @@ CityNameManager.prototype.ChooseCityName = function(cityEntity)
+ 		Object.values(CityNameManager.CityEntityFilters).every((f) => f(cityEntity, cityName));
+ 	const filter = this.playersWithNamedCapital.has(playerID) ?
+ 		(cityName) => cityEntityFilter(cityName) :
+-		(cityName) => typeof cityName === 'object' && cityName.Properties && cityName.Properties.indexOf("capital") !== -1 && cityEntityFilter(cityName);
++		(cityName) => typeof cityName === 'object' && cityName.Capital && cityEntityFilter(cityName);
+ 	this.playersWithNamedCapital.add(playerID);
+ 	let candidate = this.ChooseCityNameByFilter(civCode, filter);
+ 	if (candidate && candidate.length)
+ 		return candidate;
+-	// if no eligible capital name found, default to any city name
++	// if no eligible capital name found, default to any city name that satisfies cityEntityFilter
+ 	return this.ChooseCityNameByFilter(civCode, cityEntityFilter);
+ };
+ 
+@@ -84,16 +85,10 @@ CityNameManager.CityEntityFilters = {
+ 	// filters by whether city owner has researched the required phase tech
+ 	// returns true by default
+ 	"phase": (ent, cityName) => {
+-		if (typeof cityName !== 'object' || !cityName.Properties)
++		if (typeof cityName !== 'object' || !cityName.Phase)
+ 			return true;
+-		// should only be one phase property; if there are multiple, only the first will be counted
+-		let [phase] = cityName.Properties.filter((prop) => prop.match(/^phase_/g));
+-		if (!phase)
+-			return true;
+-		let cmpPlayer = QueryOwnerInterface(ent);
+-		if (!cmpPlayer)
+-			return true;
+-		let cmpTechnologyManager = Engine.QueryInterface(cmpPlayer.GetPlayerID(), IID_TechnologyManager);
++		const phase = "phase_" + cityName.Phase;
++		let cmpTechnologyManager = QueryOwnerInterface(ent, IID_TechnologyManager);
+ 		if (!cmpTechnologyManager)
+ 			return true;
+ 		return cmpTechnologyManager.GetResearchedTechs().has(phase);
+diff --git a/binaries/data/mods/public/simulation/components/GuiInterface.js b/binaries/data/mods/public/simulation/components/GuiInterface.js
+index fede05443a..8a80157b65 100644
+--- a/binaries/data/mods/public/simulation/components/GuiInterface.js
++++ b/binaries/data/mods/public/simulation/components/GuiInterface.js
+@@ -302,6 +302,21 @@ GuiInterface.prototype.GetEntityState = function(player, ent)
+ 			"downgrade": cmpCity.GetDowngradeTemplate(),
+ 			"name": cmpCity.GetName()
+ 		};
++	
++	// get city name for miraged entities
++	if (ret.mirage)
++	{
++		let cmpMirage = Engine.QueryInterface(ent, IID_Mirage);
++		let cmpCity = Engine.QueryInterface(cmpMirage.GetParent(), IID_City);
++		if (cmpCity)
++			ret.city = {
++				"maxPopulation": cmpCity.GetMaxPopulation(),
++				"minPopulation": cmpCity.GetMinPopulation(),
++				"upgrade": cmpCity.GetUpgradeTemplate(),
++				"downgrade": cmpCity.GetDowngradeTemplate(),
++				"name": cmpCity.GetName()
++			};
++	}
+ 
+ 	let cmpCityMember = Engine.QueryInterface(ent, IID_CityMember);
+ 	if (cmpCityMember)
+diff --git a/binaries/data/mods/public/simulation/components/StatisticsTracker.js b/binaries/data/mods/public/simulation/components/StatisticsTracker.js
+index 96817906d5..6d6c683e72 100644
+--- a/binaries/data/mods/public/simulation/components/StatisticsTracker.js
++++ b/binaries/data/mods/public/simulation/components/StatisticsTracker.js
+@@ -439,7 +439,7 @@ StatisticsTracker.prototype.IncreaseCivicPopulation = function(amount)
+ {
+ 	this.civicPopulation += amount;
+ 	if (this.civicPopulation < 0)
+-		warn(sprintf('civic population should not drop below zero (currently %d, after increase of %d)', this.civicPopulation, amount));
++		warnf('civic population should not drop below zero (currently %d, after increase of %d)', this.civicPopulation, amount);
+ };
+ 
+ StatisticsTracker.prototype.GetPercentMapExplored = function()
+diff --git a/binaries/data/mods/public/simulation/data/cities/athen.json b/binaries/data/mods/public/simulation/data/cities/athen.json
+index f0df2abdb7..e647e4025d 100644
+--- a/binaries/data/mods/public/simulation/data/cities/athen.json
++++ b/binaries/data/mods/public/simulation/data/cities/athen.json
+@@ -1,9 +1,9 @@
+ {
+ 	"athens": {
+-		"Name": "Athenai",
+-		"Properties": ["capital"]
++		"Name":			"Athênai",
++		"Capital":	true
+ 	},
+-	"piraeus": "Peiraieus",
++	"piraeus": "Peiraieús",
+ 	"erechtheis": "Erechtheis",
+ 	"aigeis": "Aigeis",
+ 	"pandionis": "Pandionis",
+@@ -13,5 +13,946 @@
+ 	"kekropis": "Kekropis",
+ 	"hippothontis": "Hippothontis",
+ 	"aiantis": "Aiantis",
+-	"antiochis": "Antiochis"
++	"antiochis": "Antiochis",
++	"marathon": "Marathon",
++  "aegina": {
++		"Name": "Aegina",
++		"Phase": "city"
++	},
++	"athenae_diades": {
++		"Name": "Athenae Diades",
++		"Phase": "city"
++	},
++	"carystus": {
++		"Name": "Carystus",
++		"Phase": "city"
++	},
++	"airaies": {
++		"Name": "Airaies",
++		"Phase": "city"
++	},
++	"amorgioi": {
++		"Name": "Amorgioi",
++		"Phase": "city"
++	},
++	"amynandes": {
++		"Name": "Amynandes",
++		"Phase": "city"
++	},
++	"anaphe": {
++		"Name": "Anaphe",
++		"Phase": "city"
++	},
++	"andros": {
++		"Name": "Andros",
++		"Phase": "city"
++	},
++	"belbina": {
++		"Name": "Belbina",
++		"Phase": "city"
++	},
++	"boutheia": {
++		"Name": "Boutheia",
++		"Phase": "city"
++	},
++	"chalcis": {
++		"Name": "Chalcis",
++		"Phase": "city"
++	},
++	"chalkeatai": {
++		"Name": "Chalkeatai",
++		"Phase": "city"
++	},
++	"cheronnesioi": {
++		"Name": "Cheronnesioi",
++		"Phase": "city"
++	},
++	"chios": {
++		"Name": "Chios",
++		"Phase": "city"
++	},
++	"clazomenae": {
++		"Name": "Clazomenae",
++		"Phase": "city"
++	},
++	"colophon": {
++		"Name": "Colophon",
++		"Phase": "city"
++	},
++	"cyme": {
++		"Name": "Cyme",
++		"Phase": "city"
++	},
++	"diakrioi": {
++		"Name": "Diakrioi",
++		"Phase": "city"
++	},
++	"diosiritai": {
++		"Name": "Diosiritai",
++		"Phase": "city"
++	},
++	"edries_messes": {
++		"Name": "Edries Messes",
++		"Phase": "city"
++	},
++	"ephesus": {
++		"Name": "Ephesus",
++		"Phase": "city"
++	},
++	"eretria": {
++		"Name": "Eretria",
++		"Phase": "city"
++	},
++	"erines": {
++		"Name": "Erines",
++		"Phase": "city"
++	},
++	"erythrae": {
++		"Name": "Erythrae",
++		"Phase": "city"
++	},
++	"gargares": {
++		"Name": "Gargares",
++		"Phase": "city"
++	},
++	"grynches": {
++		"Name": "Grynches",
++		"Phase": "city"
++	},
++	"hephaestia": {
++		"Name": "Hephaestia",
++		"Phase": "city"
++	},
++	"heraioi": {
++		"Name": "Heraioi",
++		"Phase": "city"
++	},
++	"hiera_para_sidymeas": {
++		"Name": "Hiera para Sidymeas",
++		"Phase": "city"
++	},
++	"hyblisses": {
++		"Name": "Hyblisses",
++		"Phase": "city"
++	},
++	"idymes": {
++		"Name": "Idymes",
++		"Phase": "city"
++	},
++	"imbros": {
++		"Name": "Imbros",
++		"Phase": "city"
++	},
++	"ios": {
++		"Name": "Ios",
++		"Phase": "city"
++	},
++	"isindioi": {
++		"Name": "Isindioi",
++		"Phase": "city"
++	},
++	"karbasyandes": {
++		"Name": "Karbasyandes",
++		"Phase": "city"
++	},
++	"karyes": {
++		"Name": "Karyes",
++		"Phase": "city"
++	},
++	"kasolabes": {
++		"Name": "Kasolabes",
++		"Phase": "city"
++	},
++	"keos": {
++		"Name": "Keos",
++		"Phase": "city"
++	},
++	"keria": {
++		"Name": "Keria",
++		"Phase": "city"
++	},
++	"killares": {
++		"Name": "Killares",
++		"Phase": "city"
++	},
++	"kimolos": {
++		"Name": "Kimolos",
++		"Phase": "city"
++	},
++	"kindyes": {
++		"Name": "Kindyes",
++		"Phase": "city"
++	},
++	"klaundes": {
++		"Name": "Klaundes",
++		"Phase": "city"
++	},
++	"kodapes": {
++		"Name": "Kodapes",
++		"Phase": "city"
++	},
++	"koioi": {
++		"Name": "Koioi",
++		"Phase": "city"
++	},
++	"krosa": {
++		"Name": "Krosa",
++		"Phase": "city"
++	},
++	"kyrbissos": {
++		"Name": "Kyrbissos",
++		"Phase": "city"
++	},
++	"kyromes": {
++		"Name": "Kyromes",
++		"Phase": "city"
++	},
++	"kythnos": {
++		"Name": "Kythnos",
++		"Phase": "city"
++	},
++	"lebedus": {
++		"Name": "Lebedus",
++		"Phase": "city"
++	},
++	"lepsimandes": {
++		"Name": "Lepsimandes",
++		"Phase": "city"
++	},
++	"maiandrioi": {
++		"Name": "Maiandrioi",
++		"Phase": "city"
++	},
++	"marathesioi": {
++		"Name": "Marathesioi",
++		"Phase": "city"
++	},
++	"melos": {
++		"Name": "Melos",
++		"Phase": "city"
++	},
++	"miletus": {
++		"Name": "Miletus",
++		"Phase": "city"
++	},
++	"myesos": {
++		"Name": "Myesos",
++		"Phase": "city"
++	},
++	"mykonos": {
++		"Name": "Mykonos",
++		"Phase": "city"
++	},
++	"myrina": {
++		"Name": "Myrina",
++		"Phase": "city"
++	},
++	"naxos": {
++		"Name": "Naxos",
++		"Phase": "city"
++	},
++	"nisyrioi": {
++		"Name": "Nisyrioi",
++		"Phase": "city"
++	},
++	"notion": {
++		"Name": "Notion",
++		"Phase": "city"
++	},
++	"oinaioi": {
++		"Name": "Oinaioi",
++		"Phase": "city"
++	},
++	"oranietai": {
++		"Name": "Oranietai",
++		"Phase": "city"
++	},
++	"pactyes": {
++		"Name": "Pactyes",
++		"Phase": "city"
++	},
++	"paros": {
++		"Name": "Paros",
++		"Phase": "city"
++	},
++	"pasandes": {
++		"Name": "Pasandes",
++		"Phase": "city"
++	},
++	"phocaea": {
++		"Name": "Phocaea",
++		"Phase": "city"
++	},
++	"pholegandros": {
++		"Name": "Pholegandros",
++		"Phase": "city"
++	},
++	"pitane": {
++		"Name": "Pitane",
++		"Phase": "city"
++	},
++	"pladases": {
++		"Name": "Pladases",
++		"Phase": "city"
++	},
++	"polichnitai": {
++		"Name": "Polichnitai",
++		"Phase": "city"
++	},
++	"poseideion": {
++		"Name": "Poseideion",
++		"Phase": "city"
++	},
++	"priene": {
++		"Name": "Priene",
++		"Phase": "city"
++	},
++	"pteleosioi": {
++		"Name": "Pteleosioi",
++		"Phase": "city"
++	},
++	"pygeles": {
++		"Name": "Pygeles",
++		"Phase": "city"
++	},
++	"rineia": {
++		"Name": "Rineia",
++		"Phase": "city"
++	},
++	"seriphos": {
++		"Name": "Seriphos",
++		"Phase": "city"
++	},
++	"sidosioi": {
++		"Name": "Sidosioi",
++		"Phase": "city"
++	},
++	"sifnos": {
++		"Name": "Sifnos",
++		"Phase": "city"
++	},
++	"sikinos": {
++		"Name": "Sikinos",
++		"Phase": "city"
++	},
++	"styra": {
++		"Name": "Styra",
++		"Phase": "city"
++	},
++	"syros": {
++		"Name": "Syros",
++		"Phase": "city"
++	},
++	"taramptos": {
++		"Name": "Taramptos",
++		"Phase": "city"
++	},
++	"tarbanes": {
++		"Name": "Tarbanes",
++		"Phase": "city"
++	},
++	"teichiossa": {
++		"Name": "Teichiossa",
++		"Phase": "city"
++	},
++	"tenos": {
++		"Name": "Tenos",
++		"Phase": "city"
++	},
++	"teos": {
++		"Name": "Teos",
++		"Phase": "city"
++	},
++	"thera": {
++		"Name": "Thera",
++		"Phase": "city"
++	},
++	"thermaioi": {
++		"Name": "Thermaioi",
++		"Phase": "city"
++	},
++	"abdera": {
++		"Name": "Abdera",
++		"Phase": "hegemon"
++	},
++	"acanthus": {
++		"Name": "Acanthus",
++		"Phase": "hegemon"
++	},
++	"aeneia": {
++		"Name": "Aeneia",
++		"Phase": "hegemon"
++	},
++	"aenus": {
++		"Name": "Aenus",
++		"Phase": "hegemon"
++	},
++	"alinda": {
++		"Name": "Alinda",
++		"Phase": "hegemon"
++	},
++	"amynandeis": {
++		"Name": "Amynandeis",
++		"Phase": "hegemon"
++	},
++	"aphytis": {
++		"Name": "Aphytis",
++		"Phase": "hegemon"
++	},
++	"argilus": {
++		"Name": "Argilus",
++		"Phase": "hegemon"
++	},
++	"aspendos": {
++		"Name": "Aspendos",
++		"Phase": "hegemon"
++	},
++	"asseritai": {
++		"Name": "Asseritai",
++		"Phase": "hegemon"
++	},
++	"astypalaia": {
++		"Name": "Astypalaia",
++		"Phase": "hegemon"
++	},
++	"bormiscus": {
++		"Name": "Bormiscus",
++		"Phase": "hegemon"
++	},
++	"caryanda": {
++		"Name": "Caryanda",
++		"Phase": "hegemon"
++	},
++	"chalketores": {
++		"Name": "Chalketores",
++		"Phase": "hegemon"
++	},
++	"chedrolioi": {
++		"Name": "Chedrolioi",
++		"Phase": "hegemon"
++	},
++	"dicaea": {
++		"Name": "Dicaea",
++		"Phase": "hegemon"
++	},
++	"dion": {
++		"Name": "Dion",
++		"Phase": "hegemon"
++	},
++	"eteocarpathians": {
++		"Name": "Eteocarpathians",
++		"Phase": "hegemon"
++	},
++	"galaia": {
++		"Name": "Galaia",
++		"Phase": "hegemon"
++	},
++	"haisa": {
++		"Name": "Haisa",
++		"Phase": "hegemon"
++	},
++	"halicarnassus": {
++		"Name": "Halicarnassus",
++		"Phase": "hegemon"
++	},
++	"heracleium": {
++		"Name": "Heraklion",
++		"Phase": "hegemon"
++	},
++	"ialysos": {
++		"Name": "Ialysos",
++		"Phase": "hegemon"
++	},
++	"ikos": {
++		"Name": "Ikos",
++		"Phase": "hegemon"
++	},
++	"ityra": {
++		"Name": "Ityra",
++		"Phase": "hegemon"
++	},
++	"kalindoia": {
++		"Name": "Kalindoia",
++		"Phase": "hegemon"
++	},
++	"kalymnos": {
++		"Name": "Kalyndos",
++		"Phase": "hegemon"
++	},
++	"kameiros": {
++		"Name": "Kameiros",
++		"Phase": "hegemon"
++	},
++	"kaunians": {
++		"Name": "Kaunians",
++		"Phase": "hegemon"
++	},
++	"kedriatai": {
++		"Name": "Kedriatai",
++		"Phase": "hegemon"
++	},
++	"kelenderis": {
++		"Name": "Kelenderis",
++		"Phase": "hegemon"
++	},
++	"knidos": {
++		"Name": "Knidos",
++		"Phase": "hegemon"
++	},
++	"kossaioi": {
++		"Name": "Kossaioi",
++		"Phase": "hegemon"
++	},
++	"kryes": {
++		"Name": "Kryes",
++		"Phase": "hegemon"
++	},
++	"kyllandios": {
++		"Name": "Kyllandios",
++		"Phase": "hegemon"
++	},
++	"latmus": {
++		"Name": "Latmus",
++		"Phase": "hegemon"
++	},
++	"leros": {
++		"Name": "Leros",
++		"Phase": "hegemon"
++	},
++	"lindos": {
++		"Name": "Lindos",
++		"Phase": "hegemon"
++	},
++	"mekyberna": {
++		"Name": "Mekyberna",
++		"Phase": "hegemon"
++	},
++	"mende": {
++		"Name": "Mende",
++		"Phase": "hegemon"
++	},
++	"methone": {
++		"Name": "Methone",
++		"Phase": "hegemon"
++	},
++	"miltorioi": {
++		"Name": "Miltorioi",
++		"Phase": "hegemon"
++	},
++	"myndus": {
++		"Name": "Myndus",
++		"Phase": "hegemon"
++	},
++	"neapolis": {
++		"Name": "Neapolis",
++		"Phase": "hegemon"
++	},
++	"olophyxus": {
++		"Name": "Olophyxus",
++		"Phase": "hegemon"
++	},
++	"olynthus": {
++		"Name": "Olynthus",
++		"Phase": "hegemon"
++	},
++	"othorioi": {
++		"Name": "Othorioi",
++		"Phase": "hegemon"
++	},
++	"pedassus": {
++		"Name": "Pedassus",
++		"Phase": "hegemon"
++	},
++	"pedies": {
++		"Name": "Pedies",
++		"Phase": "hegemon"
++	},
++	"peparethos": {
++		"Name": "Peparethos",
++		"Phase": "hegemon"
++	},
++	"perga": {
++		"Name": "Perga",
++		"Phase": "hegemon"
++	},
++	"pergamoteichitai": {
++		"Name": "Pergamoteichitai",
++		"Phase": "hegemon"
++	},
++	"pharbelioi": {
++		"Name": "Pharbelioi",
++		"Phase": "hegemon"
++	},
++	"phaselis": {
++		"Name": "Phaselis",
++		"Phase": "hegemon"
++	},
++	"potidaea": {
++		"Name": "Potidaea",
++		"Phase": "hegemon"
++	},
++	"samothrace": {
++		"Name": "Samothrace",
++		"Phase": "hegemon"
++	},
++	"sane": {
++		"Name": "Sane",
++		"Phase": "hegemon"
++	},
++	"sarioi": {
++		"Name": "Sarioi",
++		"Phase": "hegemon"
++	},
++	"scione": {
++		"Name": "Scione",
++		"Phase": "hegemon"
++	},
++	"sermaies": {
++		"Name": "Sermaies",
++		"Phase": "hegemon"
++	},
++	"sermylia": {
++		"Name": "Sermylia",
++		"Phase": "hegemon"
++	},
++	"sillyon": {
++		"Name": "Sillyon",
++		"Phase": "hegemon"
++	},
++	"singeion": {
++		"Name": "Singeion",
++		"Phase": "hegemon"
++	},
++	"skablaioi": {
++		"Name": "Skablaioi",
++		"Phase": "hegemon"
++	},
++	"skiathos": {
++		"Name": "Skiathos",
++		"Phase": "hegemon"
++	},
++	"spartolos": {
++		"Name": "Spartolos",
++		"Phase": "hegemon"
++	},
++	"stolos": {
++		"Name": "Stolos",
++		"Phase": "hegemon"
++	},
++	"strepsa": {
++		"Name": "Strepsa",
++		"Phase": "hegemon"
++	},
++	"syagella": {
++		"Name": "Syagella",
++		"Phase": "hegemon"
++	},
++	"syme": {
++		"Name": "Syme",
++		"Phase": "hegemon"
++	},
++	"telandros": {
++		"Name": "Telandros",
++		"Phase": "hegemon"
++	},
++	"telmessos": {
++		"Name": "Telmessos",
++		"Phase": "hegemon"
++	},
++	"telos": {
++		"Name": "Telos",
++		"Phase": "hegemon"
++	},
++	"termeres": {
++		"Name": "Termeres",
++		"Phase": "hegemon"
++	},
++	"thasos": {
++		"Name": "Thasos",
++		"Phase": "hegemon"
++	},
++	"thyssioi": {
++		"Name": "Thyssioi",
++		"Phase": "hegemon"
++	},
++	"tinda": {
++		"Name": "Tinda",
++		"Phase": "hegemon"
++	},
++	"torone": {
++		"Name": "Torone",
++		"Phase": "hegemon"
++	},
++	"tragilus": {
++		"Name": "Tragilus",
++		"Phase": "hegemon"
++	},
++	"tymnessos": {
++		"Name": "Tymnessos",
++		"Phase": "hegemon"
++	},
++	"imrali": {
++		"Name": "Bysbikos",
++		"Phase": "empire"
++	},
++	"abydos": {
++		"Name": "Abydos",
++		"Phase": "empire"
++	},
++	"achilleion": {
++		"Name": "Achilleion",
++		"Phase": "empire"
++	},
++	"alopeconnesus": {
++		"Name": "Alopeconnesus",
++		"Phase": "empire"
++	},
++	"antandros": {
++		"Name": "Antandros",
++		"Phase": "empire"
++	},
++	"apollonia": {
++		"Name": "Apollonia",
++		"Phase": "empire"
++	},
++	"arisbaioi": {
++		"Name": "Arisbaioi",
++		"Phase": "empire"
++	},
++	"artaioteichitai": {
++		"Name": "Artaioteichitai",
++		"Phase": "empire"
++	},
++	"artake": {
++		"Name": "Artake",
++		"Phase": "empire"
++	},
++	"azeies": {
++		"Name": "Azeies",
++		"Phase": "empire"
++	},
++	"bisanthe": {
++		"Name": "Bisanthe",
++		"Phase": "empire"
++	},
++	"brylleianoi": {
++		"Name": "Brylleianoi",
++		"Phase": "empire"
++	},
++	"istanbul": {
++		"Name": "Byzantium",
++		"Phase": "empire"
++	},
++	"chalcedon": {
++		"Name": "Chalcedon",
++		"Phase": "empire"
++	},
++	"cyzicus": {
++		"Name": "Cyzicus",
++		"Phase": "empire"
++	},
++	"dandakes": {
++		"Name": "Dandakes",
++		"Phase": "empire"
++	},
++	"dardaneis": {
++		"Name": "Dardaneis",
++		"Phase": "empire"
++	},
++	"daskyleion": {
++		"Name": "Daskyleion",
++		"Phase": "empire"
++	},
++	"daunioteichitai": {
++		"Name": "Daunioteichitai",
++		"Phase": "empire"
++	},
++	"didymoteichitai": {
++		"Name": "Didymoteichitai",
++		"Phase": "empire"
++	},
++	"elaeus": {
++		"Name": "Elaeus",
++		"Phase": "empire"
++	},
++	"gentinioi": {
++		"Name": "Gentinioi",
++		"Phase": "empire"
++	},
++	"halonesioi": {
++		"Name": "Halonesioi",
++		"Phase": "empire"
++	},
++	"hamaxitus": {
++		"Name": "Hamaxitus",
++		"Phase": "empire"
++	},
++	"harpagianoi": {
++		"Name": "Harpagianoi",
++		"Phase": "empire"
++	},
++	"kallipolis": {
++		"Name": "Kallipolis",
++		"Phase": "empire"
++	},
++	"karosa": {
++		"Name": "Karosa",
++		"Phase": "empire"
++	},
++	"kerasus": {
++		"Name": "Kerasus",
++		"Phase": "empire"
++	},
++	"kianoi": {
++		"Name": "Kianoi",
++		"Phase": "empire"
++	},
++	"kolonai": {
++		"Name": "Kolonai",
++		"Phase": "empire"
++	},
++	"kolones": {
++		"Name": "Kolones",
++		"Phase": "empire"
++	},
++	"lamponeies": {
++		"Name": "Lamponeies",
++		"Phase": "empire"
++	},
++	"lampsacus": {
++		"Name": "Lampsacus",
++		"Phase": "empire"
++	},
++	"larisa": {
++		"Name": "Larisa",
++		"Phase": "empire"
++	},
++	"limnaioi": {
++		"Name": "Limnaioi",
++		"Phase": "empire"
++	},
++	"madytus": {
++		"Name": "Madytus",
++		"Phase": "empire"
++	},
++	"mesembria": {
++		"Name": "Mesembria",
++		"Phase": "empire"
++	},
++	"mysians": {
++		"Name": "Mysians",
++		"Phase": "empire"
++	},
++	"neandreies": {
++		"Name": "Neandreies",
++		"Phase": "empire"
++	},
++	"nesos": {
++		"Name": "Nesos",
++		"Phase": "empire"
++	},
++	"niphsa": {
++		"Name": "Niphsa",
++		"Phase": "empire"
++	},
++	"olbia": {
++		"Name": "Olbia",
++		"Phase": "empire"
++	},
++	"ophryneion": {
++		"Name": "Ophryneion",
++		"Phase": "empire"
++	},
++	"otlenoi": {
++		"Name": "Otlenoi",
++		"Phase": "empire"
++	},
++	"paisenoi": {
++		"Name": "Paisenoi",
++		"Phase": "empire"
++	},
++	"palaiperkosioi": {
++		"Name": "Palaiperkosioi",
++		"Phase": "empire"
++	},
++	"palamedeion": {
++		"Name": "Palamedeion",
++		"Phase": "empire"
++	},
++	"patrasys": {
++		"Name": "Patrasys",
++		"Phase": "empire"
++	},
++	"perinthus": {
++		"Name": "Perinthus",
++		"Phase": "empire"
++	},
++	"petra": {
++		"Name": "Petra",
++		"Phase": "empire"
++	},
++	"pordoselene": {
++		"Name": "Pordoselene",
++		"Phase": "empire"
++	},
++	"priapos": {
++		"Name": "Priapos",
++		"Phase": "empire"
++	},
++	"proconnesus": {
++		"Name": "Proconnesus",
++		"Phase": "empire"
++	},
++	"pythopolis": {
++		"Name": "Pythopolis",
++		"Phase": "empire"
++	},
++	"rhoiteion": {
++		"Name": "Rhoiteion",
++		"Phase": "empire"
++	},
++	"selymbra": {
++		"Name": "Selymbra",
++		"Phase": "empire"
++	},
++	"serioteichitai": {
++		"Name": "Serioteichitai",
++		"Phase": "empire"
++	},
++	"sestus": {
++		"Name": "Sestus",
++		"Phase": "empire"
++	},
++	"sigeion": {
++		"Name": "Sigeion",
++		"Phase": "empire"
++	},
++	"skapsioi": {
++		"Name": "Skapsioi",
++		"Phase": "empire"
++	},
++	"sombia": {
++		"Name": "Sombia",
++		"Phase": "empire"
++	},
++	"tamyrake": {
++		"Name": "Tamyrake",
++		"Phase": "empire"
++	},
++	"tenedos": {
++		"Name": "Tenedos",
++		"Phase": "empire"
++	},
++	"thymbra": {
++		"Name": "Thymbra",
++		"Phase": "empire"
++	},
++	"tyrodiza": {
++		"Name": "Tyrodiza",
++		"Phase": "empire"
++	},
++	"zeleia": {
++		"Name": "Zeleia",
++		"Phase": "empire"
++	}
+ }
+diff --git a/binaries/data/mods/public/simulation/data/cities/cart.json b/binaries/data/mods/public/simulation/data/cities/cart.json
+new file mode 100644
+index 0000000000..dd3ac45b73
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/data/cities/cart.json
+@@ -0,0 +1,19 @@
++{
++	"carthage": {
++		"Name":				"Qart Hadasht",
++		"Capital":		true
++	},
++	"cartagena":		"Qart Hadasht",
++	"leptis_magna":	"Leptis Magna",
++	"mehidya":			"Thymaterion",
++	"el_jadida": 		"Gytte",
++	"oualidia":			"Melitta",
++	"utica":				"Utica",
++	"bizerte":			"Hippo",
++	"zama":					"Zama",
++	"motya":				"Motya",
++	"marsala":			"Lilybaeum",
++	"lampedusa":		"Lampas",
++	"pantelleria":	"Kosyra",
++	"cadiz":				"Gades"
++}
+diff --git a/binaries/data/mods/public/simulation/data/cities/mace.json b/binaries/data/mods/public/simulation/data/cities/mace.json
+new file mode 100644
+index 0000000000..1fd5431161
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/data/cities/mace.json
+@@ -0,0 +1,21 @@
++{
++	"pella": {
++		"Name":				"Pella",
++		"Capital":		true
++	},
++	"avdira":							"Abdera",
++	"enez":								"Aenus",
++	"amfipoli":						"Amphipolis",
++	"bitola":							"Heraclea Lyncestis",
++	"iolcus":              "Iolcus",
++	"larissa":             "Larissa",
++	"leibethra":           "Leibethra",
++	"maroneia":						"Maroneia",
++	"orestias":						"Orestias",
++	"pherae":							"Pherae",
++	"destroyed":						"Pteleum",
++	"pydna":								"Pydna",
++	"serres":							"Siris",
++	"thassos":							"Thassos",
++	"tripolis":						"Tripolis"
++}
+diff --git a/binaries/data/mods/public/simulation/data/cities/maur.json b/binaries/data/mods/public/simulation/data/cities/maur.json
+new file mode 100644
+index 0000000000..8d2e089af6
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/data/cities/maur.json
+@@ -0,0 +1,9 @@
++{
++	"patna": {
++		"Name":				"Pataliputra",
++		"Capital":		true
++	},
++	"taxila":				"Taxila",
++	"ujjain":				"Ujjain",
++	"tosali":				"Tosali"
++}
+diff --git a/binaries/data/mods/public/simulation/data/cities/pers.json b/binaries/data/mods/public/simulation/data/cities/pers.json
+new file mode 100644
+index 0000000000..0b5d222f6b
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/data/cities/pers.json
+@@ -0,0 +1,37 @@
++{
++  "pasargadae": {
++		"Name":			"Pasargadae",
++		"Capital":	true
++	},
++  "persepolis": {
++		"Name":			"Pārsa",
++		"Capital":	true
++	},
++	"ecbatana":		"Hagmatāna",
++	"ardericca": "Ardericca",
++	"boryza":			"Boryza",
++	"celaenae":			"Celaenae",
++	"cyropolis":			"Kurush Bazarg",
++	"dahan-e_gholaman":			"Dahan-e Gholaman",
++	"darab":			"Darab",
++	"dascylium":			"Dascylium",
++	"eion":			"Eion",
++	"ganzak":			"Ganzak",
++	"gonabad":			"Gonabad",
++	"isfahan":			"Isfahan",
++	"issus":			"Issus",
++	"istakhr":			"Istakhr",
++	"kashmar":			"Kashmar",
++	"nahavand":			"Nahavand",
++	"neyriz":			"Neyriz",
++	"paishiyauvada":			"Paishiyauvada",
++	"panjakent":			"Panjakent",
++	"ray":			"Ray",
++	"sardis":			"Sardis",
++	"susa":			"Susa",
++	"ulug_depe":			"Ulug Depe",
++	"halicarnassus": {
++		"Name":			"Halikarnas",
++		"Phase":		"hegemon"
++	}
++}
+diff --git a/binaries/data/mods/public/simulation/data/cities/ptol.json b/binaries/data/mods/public/simulation/data/cities/ptol.json
+new file mode 100644
+index 0000000000..7777d8e3bc
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/data/cities/ptol.json
+@@ -0,0 +1,70 @@
++{
++	"alexandria": {
++		"Name":				"Alexándreia",
++		"Capital":		true
++	},
++	"memphis":										"Memphis",
++	"rashid":             				"Bolbitine",
++	"tanta":              				"Ptkheka",
++	"sa_el_hagar":        				"Sais",
++	"tell_al_farain":     				"Butus",
++	"xeos":               				"Xois",
++	"damanhur":           				"Hermopolis",
++	"kom_gieif":          				"Naúkratis",
++	"thonis":             				"Herákleion",
++	"menouthis":          				"Menouthis",
++	"aboukir":            				"Kanopos",
++	"tell_el_maskhuta":   				"Heroonopolis",
++	"abu_sir_bana":       				"Busiris",
++	"banha":              				"Athribis",
++	"kafr_al_muqdam":     				"Leontopolis",
++	"horbeit":            				"Pharbaetus",
++	"samanud":            				"Sebennytos",
++	"ayn_shams":          				"Heliopolis",
++	"tel_el_habua":       				"Sile",
++	"tell_el_farama":     				"Pelusium",
++	"tell_al_naqus":      				"Hermopolis",
++	"tell_el_ruba":       				"Mendes",
++	"tel_el_balamun":     				"Diospolis",
++	"tell_basta":         				"Bubastis",
++	"tell_nebesha":       				"Tanis",
++	"tell_el_dab":      					"Avaris",
++	"saft_el_hinna":      				"Per_Sopdu",
++	"aswan":              				"Elephantine",
++	"kom_ombo":           				"Kom Ombo",
++	"naga_el_goneima":    				"Apollonopolis",
++	"el_kab":              				"Eileithyiaspolis",
++	"esna":               				"Latopolis",
++	"luxor":              				"Thebes",
++	"gebelein":           				"Aphroditopolis",
++	"armant":             				"Hermonthis",
++	"el_tod":             				"Touphion",
++	"medamud":            				"Medamud",
++	"naqada":             				"Naqada",
++	"khozam":             				"Iushenshen",
++	"qus":                				"Qus",
++	"qift":               				"Koptos",
++	"dendera":            				"Tentyra",
++	"hu":                 				"Seshesh",
++	"al_birba":           				"Abydos",
++	"thinis":             				"Thinis",
++	"akhmim":             				"Akhmim",
++	"wannina":            				"Athribis",
++	"qaw":                				"Antaeopolis",
++	"shutb":              				"Apotheke",
++	"al_atawla":          				"Hierakon",
++	"asyut":              				"Lycopolis",
++	"el_qusiya":          				"Cusae",
++	"amarna":             				"Amarna",
++	"el_ashmunein":       				"Hermopolis",
++	"hur":                				"Herwer",
++	"kom_el_ahmar":       				"Hebenu",
++	"el_kays":            				"Cynopolis",
++	"el_hiba":            				"Ankyronpolis",
++	"pemdje":             				"Oxyrhynchus",
++	"heracleopolis_magna":				"Herakleopolis",
++	"faiyum":             				"Crocodilopolis",
++	"atfih":              				"Aphroditopolis",
++	"medinet_el_haras":   				"Berenike",
++	"el_qoseir":          				"Kosseir"
++}
+diff --git a/binaries/data/mods/public/simulation/data/cities/rome.json b/binaries/data/mods/public/simulation/data/cities/rome.json
+index 46a656522d..c8687e678e 100644
+--- a/binaries/data/mods/public/simulation/data/cities/rome.json
++++ b/binaries/data/mods/public/simulation/data/cities/rome.json
+@@ -1,26 +1,287 @@
+ {
+ 	"rome": {
+-		"Name": "Roma",
+-		"Properties": ["capital"]
+-	},
+-	"ostia": "Ostia",
+-	"tusculum": "Tusculum",
+-	"anzio": "Antium",
+-	"alba_longa": "Alba Longa",
+-	"laurentum": "Laurentum",
+-	"mentana": "Nomentum",
+-	"velletri": "Velitrae",
+-	"benevento": "Beneventum",
++		"Name":				"Roma",
++		"Capital":		true
++	},
++	"ostia":				"Ostia",
++	"tusculum":			"Tusculum",
++	"anzio":				"Antium",
++	"alba_longa":		"Alba Longa",
++	"laurentum":		"Laurentum",
++	"mentana":			"Nomentum",
++	"velletri":			"Velitrae",
++	"benevento":		"Beneventum",
++	"fidenae":			"Fidenae",
++	"le_ferriere":	"Satricum",
++	"palestrina":		"Praeneste",
++	"labicum":			"Labicum",
++	"capua":				"Capua",
+ 	"milan": {
+-		"Name": "Mediolanum",
+-		"Properties": ["phase_city"]
++		"Name":				"Mediolanum",
++		"Phase":			"city"
++	},
++	"naples":							{
++		"Name":				"Neapolis",
++		"Phase":			"city"
++	},
++	"rimini":             {
++		"Name":				"Ariminum",
++		"Phase":			"city"
++	},
++	"belluno":            {
++		"Name":				"Belum",
++		"Phase":			"city"
++	},
++	"piacenza":           {
++		"Name":				"Placentia",
++		"Phase":			"city"
++	},
++	"santiponce":         {
++		"Name":				"Italica",
++		"Phase":			"city"
++	},
++	"monza":              {
++		"Name":				"Modoetia",
++		"Phase":			"city"
++	},
++	"salerno":            {
++		"Name":				"Salernum",
++		"Phase":			"city"
++	},
++	"bologna":            {
++		"Name":				"Bononia",
++		"Phase":			"city"
++	},
++	"forli":              {
++		"Name":				"Forum Livii",
++		"Phase":			"city"
++	},
++	"reggio_emilia":      {
++		"Name":				"Regium Lepidi",
++		"Phase":			"city"
++	},
++	"aquileia":           {
++		"Name":				"Aquileia",
++		"Phase":			"city"
++	},
++	"massa":              {
++		"Name":				"Massa",
++		"Phase":			"city"
++	},
++	"pistoia":            {
++		"Name":				"Pistoria",
++		"Phase":			"city"
++	},
++	"florence":           {
++		"Name":				"Florentia",
++		"Phase":			"city"
++	},
++	"turin":              {
++		"Name":				"Augusta Taurinorum",
++		"Phase":			"city"
++	},
++	"aosta":              {
++		"Name":				"Augusta Praetoria Salassorum",
++		"Phase":			"city"
++	},
++	"bolzano":            {
++		"Name":				"Pons Drusi",                          
++		"Phase":			"city"
++	},
++	"narbonne":           {
++		"Name":				"Colonia Narbo Martius",
++		"Phase":			"hegemon"
++	},
++	"barcelona":          {
++		"Name":				"Faventia Paterna Barcino",
++		"Phase":			"hegemon"
++	},
++	"tarragona":          {
++		"Name":				"Tarraco",
++		"Phase":			"hegemon"
++	},
++	"cordoba":            {
++		"Name":				"Colonia Patricia Corduba",
++		"Phase":			"hegemon"
++	},
++	"kotor":              {
++		"Name":				"Ascrivium",
++		"Phase":			"hegemon"
++	},
++	"valencia":           {
++		"Name":				"Valentia Edetanorum",
++		"Phase":			"hegemon"
++	},
++	"santarem":           {
++		"Name":				"Scalabis",
++		"Phase":			"hegemon"
++	},
++	"povoa_de_varzim":    {
++		"Name":				"Villa Euracini",
++		"Phase":			"hegemon"
++	},
++	"palma_de_mallorca":  {
++		"Name":				"Palma",
++		"Phase":			"hegemon"
++	},
++	"duraton":            {
++		"Name":				"Confloenta",
++		"Phase":			"hegemon"
++	},
++	"girona":             {
++		"Name":				"Gerunda",
++		"Phase":			"hegemon"
++	},
++	"pamplona":           {
++		"Name":				"Pompaelo",
++		"Phase":			"hegemon"
++	},
++	"nis":                {
++		"Name":				"Naissus",
++		"Phase":			"hegemon"
++	},
++	"besancon":           {
++		"Name":				"Vesontio",
++		"Phase":			"hegemon"
++	},
++	"seville":            {
++		"Name":				"Iulia Romula Hispalis",
++		"Phase":			"hegemon"
++	},
++	"nyon":               {
++		"Name":				"Noviodunum",
++		"Phase":			"hegemon"
++	},
++	"sisak":              {
++		"Name":				"Siscia",
++		"Phase":			"hegemon"
++	},
++	"slavonski_brod":     {
++		"Name":				"Marsonia",
++		"Phase":			"hegemon"
++	},
++	"wels":               {
++		"Name":				"Ovilava",
++		"Phase":			"empire"
++	},
++	"salzburg":           {
++		"Name":				"Iuvavum",
++		"Phase":			"empire"
++	},
++	"augsburg":           {
++		"Name":				"Augusta Vindelicorum",
++		"Phase":			"empire"
++	},
++	"zurich":             {
++		"Name":				"Turicum",
++		"Phase":			"empire"
++	},
++	"astorga":            {
++		"Name":				"Asturica Augusta",
++		"Phase":			"empire"
++	},
++	"worms":              {
++		"Name":				"Borbetomagus",
++		"Phase":			"empire"
++	},
++	"zaragoza":           {
++		"Name":				"Caesaraugusta",
++		"Phase":			"empire"
++	},
++	"sremska_mitrovica":  {
++		"Name":				"Sirmium",
++		"Phase":			"empire"
++	},
++	"straubing":          {
++		"Name":				"Sorviodurum",
++		"Phase":			"empire"
++	},
++	"mainz":              {
++		"Name":				"Mogontiacum",
++		"Phase":			"empire"
++	},
++	"strasbourg":         {
++		"Name":				"Argentoratum",                        
++		"Phase":			"empire"
++	},
++	"bonn":               {
++		"Name":				"Bonna",
++		"Phase":			"empire"
++	},
++	"speyer":             {
++		"Name":				"Noviomagus",
++		"Phase":			"empire"
++	},
++	"koblenz":            {
++		"Name":				"Castellum apud Confluentes",
++		"Phase":			"empire"
++	},
++	"metz":               {
++		"Name":				"Divodurum",
++		"Phase":			"empire"
++	},
++	"beauvais":           {
++		"Name":				"Caesaromagus",
++		"Phase":			"empire"
++	},
++	"amiens":             {
++		"Name":				"Ambianum",
++		"Phase":			"empire"
++	},
++	"paris":              {
++		"Name":				"Lutetia Parisiorum",
++		"Phase":			"empire"
++	},
++	"tongeren":           {
++		"Name":				"Atuatuca Tungrorum",
++		"Phase":			"empire"
++	},
++	"augst":              {
++		"Name":				"Augusta Raurica",
++		"Phase":			"empire"
++	},
++	"lyon":               {
++		"Name":				"Lugdunum",
++		"Phase":			"empire"
++	},
++	"trier":              {
++		"Name":				"Augusta Treverorum",
++		"Phase":			"empire"
++	},
++	"leon":               {
++		"Name":				"Castra Legionis",
++		"Phase":			"empire"
++	},
++	"sofia":              {
++		"Name":				"Ulpia Serdica",
++		"Phase":			"empire"
++	},
++	"merida":             {
++		"Name":				"Emerita Augusta",
++		"Phase":			"empire"
++	},
++	"caceres":            {
++		"Name":				"Norba Caesarina",
++		"Phase":			"empire"
++	},
++	"lugo":               {
++		"Name":				"Lucus Augusta",
++		"Phase":			"empire"
++	},
++	"caesarea":           {
++		"Name":				"Caesarea",
++		"Phase":			"empire"
++	},
++	"braga":              {
++		"Name":				"Bracara Augusta",
++		"Phase":			"empire"
+ 	},
+-	"naples": {
+-		"Name": "Neapolis",
+-		"Properties": ["phase_city"]
++	"neuss":              {
++		"Name":				"Novaesium",
++		"Phase":			"empire"
+ 	},
+-	"bologna": {
+-		"Name": "Bononia",
+-		"Properties": ["phase_city"]
++	"a_coruna":           {
++		"Name":				"Brigantium",
++		"Phase":			"empire"
+ 	}
+ }
+diff --git a/binaries/data/mods/public/simulation/data/cities/sele.json b/binaries/data/mods/public/simulation/data/cities/sele.json
+new file mode 100644
+index 0000000000..39c25ea630
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/data/cities/sele.json
+@@ -0,0 +1,36 @@
++{
++	"antioch": {
++		"Name": "Antiókheia",
++		"Capital": true
++	},
++	"seleucia": {
++		"Name": "Seleúkeia",
++		"Capital": true
++	},
++	"nysa": 				"Nysa",
++	"stratonicea":					"Stratonicea",
++	"magnesia":					"Magnesia",
++	"palaemagnesia":					"Palaemagnesia",
++	"thyatira":					"Thyatira",
++	"acrasus":					"Acrasus",
++	"doedye":					"Doedye",
++	"cobedyle":					"Cobedyle",
++	"hyrcanis":					"Hyrcanis",
++	"hierapolis":					"Hierapolis",
++	"themisonium":					"Themisonium",
++	"apollonia":					"Apollonia",
++	"peltae":					"Peltae",
++	"docimium":					"Docimium",
++	"apamea":					"Apamea",
++	"arethusa":					"Arethusa",
++	"chalcis":					"Chalcis",
++	"beroea":					"Beroea",
++	"ichnae":					"Ichnae",
++	"nicephorium":					"Nicephorium",
++	"larissa":					"Larissa",
++	"chalcis":					"Chalcis",
++	"hecatompylos":					"Hecatompylos",
++	"calliope":					"Calliope",
++	"soteira":					"Soteira",
++	"achaea":					"Achaea"
++}
+diff --git a/binaries/data/mods/public/simulation/data/cities/spart.json b/binaries/data/mods/public/simulation/data/cities/spart.json
+new file mode 100644
+index 0000000000..553d9f9778
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/data/cities/spart.json
+@@ -0,0 +1,45 @@
++{
++	"sparta": {
++		"Name":			"Spártā",
++		"Capital":	true
++	},
++	"kythira": "Kythira",
++	"melos": "Melos",
++	"pylos": "Pylos",
++	"mantinea": "Mantinea",
++	"elis": "Elis",
++	"epidaurus": "Epidaurus",
++	"boeotia": "Boeotia",
++	"lefkada": "Lefkada",
++	"ambracia": "Ambrakía",
++	"aigion":									"Aegium",
++	"amphigeneia":						"Amphigeneia",
++	"skoutari":							"Asine",
++	"boura":									"Boura",
++	"archaies_kleones":			"Cleonae",
++	"dyme":									"Dyme",
++	"epidauros":							"Epidauros",
++	"gytheio":								"Gythium",
++	"halieis":								"Halieis",
++	"helike":								"Helike",
++	"ermioni":								"Hermione",
++	"laodicea":							"Laodicea",
++	"lepreum":								"Lepreum",
++	"mantineia":							"Mantineia",
++	"methone":								"Methone",
++	"mukenai":								"Mukenai",
++	"nemea":									"Nemea",
++	"oenoe":									"Oenoe",
++	"olympia":								"Olympia",
++	"patrai":								"Patrae",
++	"pavlopetri":						"Pavlopetri",
++	"sicyon":								"Sicyon",
++	"alea":									"Tegea",
++	"tenea":									"Tenea",
++	"tiruns":								"Tiruns",
++	"troizen":								"Troizen",
++	"corinth": {
++		"Name":		"Kórinthos",
++		"Phase":	"hegemon"
++	}
++}
+-- 
+2.25.1
+

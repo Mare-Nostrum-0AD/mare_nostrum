@@ -1,0 +1,17 @@
+From 08fc5908fb71f84a2ad28e384fac9f7e73ba2bb5 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sun, 23 May 2021 13:03:26 -0700
+Subject: [PATCH 06/86] renamed pers hero 4 to hero 3
+
+---
+ .../simulation/templates/units/pers/{hero_04.xml => hero_03.xml}  | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename binaries/data/mods/public/simulation/templates/units/pers/{hero_04.xml => hero_03.xml} (100%)
+
+diff --git a/binaries/data/mods/public/simulation/templates/units/pers/hero_04.xml b/binaries/data/mods/public/simulation/templates/units/pers/hero_03.xml
+similarity index 100%
+rename from binaries/data/mods/public/simulation/templates/units/pers/hero_04.xml
+rename to binaries/data/mods/public/simulation/templates/units/pers/hero_03.xml
+-- 
+2.25.1
+

@@ -1,0 +1,26 @@
+From 098a418a8547882a8cf854b062d5f105f6715665 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sat, 5 Jun 2021 16:51:46 -0700
+Subject: [PATCH 81/86] Replace component uses OnOwnershipChanged instead of
+ OnInitGame
+
+---
+ binaries/data/mods/public/simulation/components/Replace.js | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/binaries/data/mods/public/simulation/components/Replace.js b/binaries/data/mods/public/simulation/components/Replace.js
+index 2c107e513d..4d89e20581 100644
+--- a/binaries/data/mods/public/simulation/components/Replace.js
++++ b/binaries/data/mods/public/simulation/components/Replace.js
+@@ -43,7 +43,7 @@ Replace.prototype.Init = function() {};
+ 
+ Replace.prototype.Serialize = null;
+ 
+-Replace.prototype.OnInitGame = function()
++Replace.prototype.OnOwnershipChanged = function()
+ {
+ 	this.Replace();
+ };
+-- 
+2.25.1
+

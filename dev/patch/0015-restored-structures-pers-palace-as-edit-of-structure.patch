@@ -1,0 +1,92 @@
+From 473e994c93d23022b0a4b17b3a4a10c194b69aff Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sun, 23 May 2021 18:36:32 -0700
+Subject: [PATCH 15/86] restored structures/pers/palace as edit of
+ structures/pers/apadana
+
+added Vision, VisualActor components to template_structure_civic_palace
+---
+ .../pers/{apadana.xml => palace.xml}          | 21 +------------------
+ .../template_structure_civic_palace.xml       |  6 ++++++
+ 2 files changed, 7 insertions(+), 20 deletions(-)
+ rename binaries/data/mods/public/simulation/templates/structures/pers/{apadana.xml => palace.xml} (75%)
+
+diff --git a/binaries/data/mods/public/simulation/templates/structures/pers/apadana.xml b/binaries/data/mods/public/simulation/templates/structures/pers/palace.xml
+similarity index 75%
+rename from binaries/data/mods/public/simulation/templates/structures/pers/apadana.xml
+rename to binaries/data/mods/public/simulation/templates/structures/pers/palace.xml
+index af45460019..fde123b11e 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/pers/apadana.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/pers/palace.xml
+@@ -1,22 +1,12 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_special">
++<Entity parent="template_structure_civic_palace">
+   <BuildRestrictions>
+     <Category>Palace</Category>
+   </BuildRestrictions>
+-  <Cost>
+-    <BuildTime>300</BuildTime>
+-    <Resources>
+-      <stone>300</stone>
+-      <metal>200</metal>
+-    </Resources>
+-  </Cost>
+   <Footprint>
+     <Square width="32.0" depth="32.0"/>
+     <Height>8.0</Height>
+   </Footprint>
+-  <GarrisonHolder>
+-    <Max>10</Max>
+-  </GarrisonHolder>
+   <Health>
+     <Max>3000</Max>
+     <SpawnEntityOnDeath>decay|rubble/rubble_stone_6x6</SpawnEntityOnDeath>
+@@ -27,7 +17,6 @@
+     <SpecificName>Apadāna</SpecificName>
+     <Tooltip>Train Champions and Heroes.</Tooltip>
+     <Classes datatype="tokens">ConquestCritical CivSpecific</Classes>
+-    <VisibleClasses datatype="tokens">Palace</VisibleClasses>
+     <Icon>structures/palace.png</Icon>
+   </Identity>
+   <Loot>
+@@ -41,9 +30,6 @@
+     <BatchTimeModifier>0.8</BatchTimeModifier>
+     <Entities datatype="tokens">
+       units/{civ}/champion_infantry
+-      units/{civ}/hero_cyrus_ii
+-      units/{civ}/hero_darius_i
+-      units/{civ}/hero_xerxes_i
+     </Entities>
+     <Technologies datatype="tokens">
+       immortals
+@@ -64,11 +50,6 @@
+       <constructed>interface/complete/building/complete_broch.xml</constructed>
+     </SoundGroups>
+   </Sound>
+-  <TerritoryInfluence>
+-    <Root>true</Root>
+-    <Radius>48</Radius>
+-    <Weight>40000</Weight>
+-  </TerritoryInfluence>
+   <Vision>
+     <Range>40</Range>
+   </Vision>
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_civic_palace.xml b/binaries/data/mods/public/simulation/templates/template_structure_civic_palace.xml
+index ddddd0d640..2257e7e98e 100644
+--- a/binaries/data/mods/public/simulation/templates/template_structure_civic_palace.xml
++++ b/binaries/data/mods/public/simulation/templates/template_structure_civic_palace.xml
+@@ -62,4 +62,10 @@
+     <Radius>48</Radius>
+     <Weight>40000</Weight>
+   </TerritoryInfluence>
++  <Vision>
++    <Range>40</Range>
++  </Vision>
++  <VisualActor>
++    <FoundationActor>structures/fndn_8x9.xml</FoundationActor>
++  </VisualActor>
+ </Entity>
+-- 
+2.25.1
+

@@ -1,0 +1,68 @@
+From 9049c4ba46e812773479b6f3460240ca4cf84514 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sun, 23 May 2021 18:30:45 -0700
+Subject: [PATCH 13/86] restored structures/celt/palace as edit of
+ structures/gaul/assembly
+
+---
+ .../{gaul/assembly.xml => celt/palace.xml}     | 18 +++---------------
+ 1 file changed, 3 insertions(+), 15 deletions(-)
+ rename binaries/data/mods/public/simulation/templates/structures/{gaul/assembly.xml => celt/palace.xml} (74%)
+
+diff --git a/binaries/data/mods/public/simulation/templates/structures/gaul/assembly.xml b/binaries/data/mods/public/simulation/templates/structures/celt/palace.xml
+similarity index 74%
+rename from binaries/data/mods/public/simulation/templates/structures/gaul/assembly.xml
+rename to binaries/data/mods/public/simulation/templates/structures/celt/palace.xml
+index 662577fd0f..62f530863e 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/gaul/assembly.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/celt/palace.xml
+@@ -1,23 +1,15 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure">
++<Entity parent="template_structure_civic_palace">
+   <Cost>
+     <BuildTime>200</BuildTime>
+     <Resources>
+-      <wood>400</wood>
++      <stone>0</stone>
+     </Resources>
+   </Cost>
+   <Footprint replace="">
+     <Circle radius="15.0"/>
+     <Height>10.0</Height>
+   </Footprint>
+-  <GarrisonHolder>
+-    <Max>20</Max>
+-    <EjectHealth>0.1</EjectHealth>
+-    <EjectClassesOnDestroy datatype="tokens">Unit</EjectClassesOnDestroy>
+-    <List datatype="tokens">Support Infantry Cavalry</List>
+-    <BuffHeal>0</BuffHeal>
+-    <LoadingRange>2</LoadingRange>
+-  </GarrisonHolder>
+   <Health>
+     <Max>2000</Max>
+     <SpawnEntityOnDeath>decay|rubble/rubble_stone_6x6</SpawnEntityOnDeath>
+@@ -28,9 +20,8 @@
+     <SpecificName>Remogantion</SpecificName>
+     <Tooltip>Train Champion Trumpeters and Heroes.</Tooltip>
+     <Classes datatype="tokens">ConquestCritical CivSpecific</Classes>
+-    <VisibleClasses datatype="tokens">City Council</VisibleClasses>
++    <VisibleClasses datatype="tokens">Council</VisibleClasses>
+     <Icon>structures/tholos.png</Icon>
+-    <RequiredTechnology>phase_city</RequiredTechnology>
+   </Identity>
+   <Loot>
+     <wood>80</wood>
+@@ -42,9 +33,6 @@
+     <BatchTimeModifier>0.7</BatchTimeModifier>
+     <Entities datatype="tokens">
+       units/{civ}/champion_infantry_trumpeter
+-      units/{civ}/hero_brennus
+-      units/{civ}/hero_viridomarus
+-      units/{civ}/hero_vercingetorix
+     </Entities>
+   </ProductionQueue>
+   <Resistance>
+-- 
+2.25.1
+

@@ -1,0 +1,124 @@
+From 9c62f6c9ec7ed2518cb3840d673d1b0d8ae11022 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Tue, 1 Jun 2021 20:19:40 -0700
+Subject: [PATCH 65/86] changed government techs to city phase, taxation techs
+ to hegemon phase
+
+---
+ .../simulation/data/technologies/government_democracy_cart.json | 2 +-
+ .../data/technologies/government_democracy_generic.json         | 2 +-
+ .../simulation/data/technologies/government_democracy_rome.json | 2 +-
+ .../simulation/data/technologies/government_tyranny_cart.json   | 2 +-
+ .../data/technologies/government_tyranny_generic.json           | 2 +-
+ .../simulation/data/technologies/government_tyranny_rome.json   | 2 +-
+ .../simulation/data/technologies/taxation_kind_generic.json     | 2 +-
+ .../simulation/data/technologies/taxation_monetary_generic.json | 2 +-
+ 8 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/binaries/data/mods/public/simulation/data/technologies/government_democracy_cart.json b/binaries/data/mods/public/simulation/data/technologies/government_democracy_cart.json
+index 4c7e4c6cc4..b925a431e7 100644
+--- a/binaries/data/mods/public/simulation/data/technologies/government_democracy_cart.json
++++ b/binaries/data/mods/public/simulation/data/technologies/government_democracy_cart.json
+@@ -2,7 +2,7 @@
+ 	"genericName": "Republic",
+ 	"description": "Government by a council of wealthy citizens.",
+ 	"cost": {"stone": 500, "wealth": 500},
+-	"requirements": {"tech": "phase_hegemon"},
++	"requirements": {"tech": "phase_city"},
+ 	"icon": "statue_face_stone.png",
+ 	"researchTime": 60,
+ 	"tooltip": "Citizen Soldiers -20% cost and training time.",
+diff --git a/binaries/data/mods/public/simulation/data/technologies/government_democracy_generic.json b/binaries/data/mods/public/simulation/data/technologies/government_democracy_generic.json
+index 91e023d7b5..0d765c297f 100644
+--- a/binaries/data/mods/public/simulation/data/technologies/government_democracy_generic.json
++++ b/binaries/data/mods/public/simulation/data/technologies/government_democracy_generic.json
+@@ -7,7 +7,7 @@
+ 	},
+ 	"description": "Government by the citizen body",
+ 	"cost": {"stone": 500, "wealth": 500},
+-	"requirements": {"tech": "phase_hegemon"},
++	"requirements": {"tech": "phase_city"},
+ 	"icon": "statue_face_stone.png",
+ 	"researchTime": 60,
+ 	"tooltip": "Citizen Soldiers -20% cost and training time.",
+diff --git a/binaries/data/mods/public/simulation/data/technologies/government_democracy_rome.json b/binaries/data/mods/public/simulation/data/technologies/government_democracy_rome.json
+index 92b92782a4..82df6a3150 100644
+--- a/binaries/data/mods/public/simulation/data/technologies/government_democracy_rome.json
++++ b/binaries/data/mods/public/simulation/data/technologies/government_democracy_rome.json
+@@ -5,7 +5,7 @@
+ 	},
+ 	"description": "Government by the Senate and Plebeian Tribunals, with two elected Consuls as leaders.",
+ 	"cost": {"stone": 500, "wealth": 500},
+-	"requirements": {"tech": "phase_hegemon"},
++	"requirements": {"tech": "phase_city"},
+ 	"icon": "statue_face_stone.png",
+ 	"researchTime": 60,
+ 	"tooltip": "Citizen Soldiers -20% cost and training time. Hero limit increased to two.",
+diff --git a/binaries/data/mods/public/simulation/data/technologies/government_tyranny_cart.json b/binaries/data/mods/public/simulation/data/technologies/government_tyranny_cart.json
+index b2f3aa2d0f..fb7859eb0f 100644
+--- a/binaries/data/mods/public/simulation/data/technologies/government_tyranny_cart.json
++++ b/binaries/data/mods/public/simulation/data/technologies/government_tyranny_cart.json
+@@ -2,7 +2,7 @@
+ 	"genericName": "Autocracy",
+ 	"description": "Government by an all-powerful Autocrat.",
+ 	"cost": {"wealth": 1000},
+-	"requirements": {"tech": "phase_hegemon"},
++	"requirements": {"tech": "phase_city"},
+ 	"icon": "political_face.png",
+ 	"researchTime": 60,
+ 	"tooltip": "Champion units -20% cost and training time.",
+diff --git a/binaries/data/mods/public/simulation/data/technologies/government_tyranny_generic.json b/binaries/data/mods/public/simulation/data/technologies/government_tyranny_generic.json
+index e3966c82d2..a1b4e00f42 100644
+--- a/binaries/data/mods/public/simulation/data/technologies/government_tyranny_generic.json
++++ b/binaries/data/mods/public/simulation/data/technologies/government_tyranny_generic.json
+@@ -7,7 +7,7 @@
+ 	},
+ 	"description": "Government by an all-powerful autocrat.",
+ 	"cost": {"wealth": 1000},
+-	"requirements": {"tech": "phase_hegemon"},
++	"requirements": {"tech": "phase_city"},
+ 	"icon": "political_face.png",
+ 	"researchTime": 60,
+ 	"tooltip": "Champion units -20% cost and training time.",
+diff --git a/binaries/data/mods/public/simulation/data/technologies/government_tyranny_rome.json b/binaries/data/mods/public/simulation/data/technologies/government_tyranny_rome.json
+index 606d73c986..e5d4ad7400 100644
+--- a/binaries/data/mods/public/simulation/data/technologies/government_tyranny_rome.json
++++ b/binaries/data/mods/public/simulation/data/technologies/government_tyranny_rome.json
+@@ -5,7 +5,7 @@
+ 	},
+ 	"description": "Government by an all-powerful Dictator.",
+ 	"cost": {"wealth": 1000},
+-	"requirements": {"tech": "phase_hegemon"},
++	"requirements": {"tech": "phase_city"},
+ 	"icon": "political_face.png",
+ 	"researchTime": 60,
+ 	"tooltip": "Champion units -20% cost and training time. Unlocks Legionaries at the barracks.",
+diff --git a/binaries/data/mods/public/simulation/data/technologies/taxation_kind_generic.json b/binaries/data/mods/public/simulation/data/technologies/taxation_kind_generic.json
+index 569096abf4..9849a23f97 100644
+--- a/binaries/data/mods/public/simulation/data/technologies/taxation_kind_generic.json
++++ b/binaries/data/mods/public/simulation/data/technologies/taxation_kind_generic.json
+@@ -2,7 +2,7 @@
+ 	"genericName": "Taxes in Kind",
+ 	"description": "Gather taxes from your cities' population in the four basic resources.",
+ 	"cost": {"food": 750, "wood": 750, "stone": 750, "metal": 750},
+-	"requirements": {"tech": "phase_empire"},
++	"requirements": {"tech": "phase_hegemon"},
+ 	"icon": "cornucopia.png",
+ 	"researchTime": 60,
+ 	"tooltip": "Gather 2 food, wood, stone, and metal per 1000 city population every 30 seconds.",
+diff --git a/binaries/data/mods/public/simulation/data/technologies/taxation_monetary_generic.json b/binaries/data/mods/public/simulation/data/technologies/taxation_monetary_generic.json
+index ac9c038077..52c06bc76d 100644
+--- a/binaries/data/mods/public/simulation/data/technologies/taxation_monetary_generic.json
++++ b/binaries/data/mods/public/simulation/data/technologies/taxation_monetary_generic.json
+@@ -2,7 +2,7 @@
+ 	"genericName": "Monetary Taxes",
+ 	"description": "Gather taxes from your cities' population in wealth.",
+ 	"cost": {"wealth": 1000},
+-	"requirements": {"tech": "phase_empire"},
++	"requirements": {"tech": "phase_hegemon"},
+ 	"icon": "coinage.png",
+ 	"researchTime": 60,
+ 	"tooltip": "Gather 5 wealth per 1000 city population every 30 seconds.",
+-- 
+2.25.1
+

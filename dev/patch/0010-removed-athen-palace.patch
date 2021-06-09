@@ -1,0 +1,70 @@
+From aa8b858688f85e4f6042bfe0c183ec0ac4e83bff Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sun, 23 May 2021 18:26:51 -0700
+Subject: [PATCH 10/86] removed athen/palace
+
+---
+ .../templates/structures/athen/palace.xml     | 51 -------------------
+ 1 file changed, 51 deletions(-)
+ delete mode 100644 binaries/data/mods/public/simulation/templates/structures/athen/palace.xml
+
+diff --git a/binaries/data/mods/public/simulation/templates/structures/athen/palace.xml b/binaries/data/mods/public/simulation/templates/structures/athen/palace.xml
+deleted file mode 100644
+index 7d8deeb3ab..0000000000
+--- a/binaries/data/mods/public/simulation/templates/structures/athen/palace.xml
++++ /dev/null
+@@ -1,51 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_palace">
+-  <Cost>
+-    <BuildTime>200</BuildTime>
+-    <Resources>
+-      <wood op="mul">0.5</wood>
+-      <stone op="mul">0.5</stone>
+-      <wealth op="mul">0.5</wealth>
+-    </Resources>
+-  </Cost>
+-  <Footprint replace="">
+-    <Circle radius="16.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <Max>2000</Max>
+-  </Health>
+-  <Identity>
+-    <Civ>athen</Civ>
+-    <GenericName>Council Chamber</GenericName>
+-    <SpecificName>Prytaneîon</SpecificName>
+-    <Tooltip>Train heroes. Research special technologies.</Tooltip>
+-    <Icon>structures/tholos.png</Icon>
+-  </Identity>
+-  <Loot>
+-    <wood>0</wood>
+-    <stone>25</stone>
+-    <metal>50</metal>
+-  </Loot>
+-  <Obstruction>
+-    <Static width="24.0" depth="30.0"/>
+-  </Obstruction>
+-  <ProductionQueue>
+-    <BatchTimeModifier>0.7</BatchTimeModifier>
+-    <Technologies datatype="tokens">
+-	  	pair_government_{civ}
+-      long_walls
+-      iphicratean_reforms
+-    </Technologies>
+-  </ProductionQueue>
+-  <Sound>
+-    <SoundGroups>
+-      <select>interface/select/building/sel_tholos.xml</select>
+-      <constructed>interface/complete/building/complete_tholos.xml</constructed>
+-      <death>attack/destruction/building_collapse_large.xml</death>
+-    </SoundGroups>
+-  </Sound>
+-  <VisualActor>
+-    <Actor>structures/athenians/prytaneion.xml</Actor>
+-  </VisualActor>
+-</Entity>
+-- 
+2.25.1
+

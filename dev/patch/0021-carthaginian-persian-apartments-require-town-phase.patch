@@ -1,0 +1,37 @@
+From 26c480d65567c07e288a3ccbf03409c4cc56b94d Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sun, 23 May 2021 19:40:51 -0700
+Subject: [PATCH 21/86] carthaginian, persian apartments require town phase
+
+---
+ .../public/simulation/templates/structures/cart/apartment.xml    | 1 +
+ .../public/simulation/templates/structures/pers/apartment.xml    | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/binaries/data/mods/public/simulation/templates/structures/cart/apartment.xml b/binaries/data/mods/public/simulation/templates/structures/cart/apartment.xml
+index f2b006fa72..8451ffc4ed 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/cart/apartment.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/cart/apartment.xml
+@@ -15,6 +15,7 @@
+   <Identity>
+     <GenericName>Apartment Building</GenericName>
+ 		<Icon>structures/apartment.png</Icon>
++		<RequiredTechnology>phase_town</RequiredTechnology>
+   </Identity>
+   <Loot>
+     <wood>30</wood>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/pers/apartment.xml b/binaries/data/mods/public/simulation/templates/structures/pers/apartment.xml
+index 6564e0c79c..6962cce83c 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/pers/apartment.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/pers/apartment.xml
+@@ -11,6 +11,7 @@
+     <Civ>pers</Civ>
+     <GenericName>Apartment Block</GenericName>
+ 		<Icon>structures/apartment.png</Icon>
++		<RequiredTechnology>phase_town</RequiredTechnology>
+   </Identity>
+   <Obstruction>
+     <Static width="23.0" depth="12.0"/>
+-- 
+2.25.1
+

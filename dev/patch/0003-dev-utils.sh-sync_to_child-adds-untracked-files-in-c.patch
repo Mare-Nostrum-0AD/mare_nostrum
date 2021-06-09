@@ -1,0 +1,141 @@
+From e9f0d34cf28e223e4eebedc0291941002ba9a882 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sun, 23 May 2021 12:51:47 -0700
+Subject: [PATCH 03/86] dev/utils.sh:sync_to_child adds untracked files in
+ child dir
+
+delphi bot:headquarters.js: replaced numberOfGarrisonedUnits with numberOfGarrisonedSlots
+
+restored component Pack.js to default
+---
+ binaries/data/mods/public/dev/parent/utils.sh |  6 ++-
+ .../simulation/ai/delphi/headquarters.js      |  2 +-
+ .../mods/public/simulation/components/Pack.js | 53 +------------------
+ 3 files changed, 8 insertions(+), 53 deletions(-)
+
+diff --git a/binaries/data/mods/public/dev/parent/utils.sh b/binaries/data/mods/public/dev/parent/utils.sh
+index 756b30451a..f53b4be104 100644
+--- a/binaries/data/mods/public/dev/parent/utils.sh
++++ b/binaries/data/mods/public/dev/parent/utils.sh
+@@ -27,7 +27,8 @@ function sync_to_child() {
+ 	rm -rf ./*
+ 	cd "${OAD_MOD_DIR}"
+ 	IFS=$'\n\r'
+-	for file in $(extract_files); do
++	files=($(extract_files))
++	for file in ${files[@]}; do
+ 		outfile="${OAD_CHILD_DIR}/${file}"
+ 		outdir="$(dirname "${outfile}")"
+ 		[[ ! -d "${outdir}" ]] && mkdir -p "${outdir}"
+@@ -35,9 +36,12 @@ function sync_to_child() {
+ 	done
+ 	extract_diff > "${OAD_CHILD_DIR}/dev/mod.diff"
+ 	git log -n 1 "${OAD_GIT_BASE}" > "${OAD_CHILD_DIR}/dev/git_base.txt"
++	cd "${OAD_CHILD_DIR}"
++	git add ${files[@]}
+ 	)
+ }
+ 
++
+ function sync_from_child() {
+ 	(
+ 	cd "${OAD_CHILD_DIR}"
+diff --git a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
+index ab12f60ebb..f36f4d178a 100644
+--- a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
++++ b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
+@@ -2432,7 +2432,7 @@ DELPHI.HQ.prototype.trainEmergencyUnits = function(gameState, positions)
+ 
+ 	// We will choose randomly ranged and melee units, except when garrisonHolder is full
+ 	// in which case we prefer melee units
+-	let numGarrisoned = this.garrisonManager.numberOfGarrisonedUnits(nearestAnchor);
++	let numGarrisoned = this.garrisonManager.numberOfGarrisonedSlots(nearestAnchor);
+ 	if (nearestAnchor._entity.trainingQueue)
+ 	{
+ 		for (let item of nearestAnchor._entity.trainingQueue)
+diff --git a/binaries/data/mods/public/simulation/components/Pack.js b/binaries/data/mods/public/simulation/components/Pack.js
+index 1b81bdaba0..8cd5a9cc71 100644
+--- a/binaries/data/mods/public/simulation/components/Pack.js
++++ b/binaries/data/mods/public/simulation/components/Pack.js
+@@ -22,7 +22,6 @@ Pack.prototype.Init = function()
+ 	this.packing = false;
+ 	this.elapsedTime = 0;
+ 	this.timer = undefined;
+-	this.stateLocked = false;
+ };
+ 
+ Pack.prototype.OnDestroy = function()
+@@ -62,7 +61,7 @@ Pack.prototype.CanUnpack = function()
+ 
+ Pack.prototype.Pack = function()
+ {
+-	if (!this.CanPack() || this.IsPacked() || this.IsPacking())
++	if (this.IsPacked() || this.IsPacking())
+ 		return;
+ 
+ 	this.packing = true;
+@@ -77,7 +76,7 @@ Pack.prototype.Pack = function()
+ 
+ Pack.prototype.Unpack = function()
+ {
+-	if (!this.CanPack() || !this.IsPacked() || this.IsPacking())
++	if (!this.IsPacked() || this.IsPacking())
+ 		return;
+ 
+ 	this.packing = true;
+@@ -147,52 +146,4 @@ Pack.prototype.PackProgress = function(data, lateness)
+ 
+ };
+ 
+-Pack.prototype.SetPacked = function()
+-{
+-	this.CancelPack();
+-	this.CancelTimer();
+-	if (this.IsPacked())
+-		return;
+-
+-	Engine.PostMessage(this.entity, MT_PackFinished, { "packed": this.packed });
+-
+-	let newEntity = ChangeEntityTemplate(this.entity, this.template.Entity);
+-
+-	if (newEntity)
+-		PlaySound("packed", newEntity);
+-};
+-
+-Pack.prototype.SetUnpacked = function()
+-{
+-	this.CancelPack();
+-	this.CancelTimer();
+-	if (!this.IsPacked())
+-		return;
+-
+-	Engine.PostMessage(this.entity, MT_PackFinished, { "packed": this.packed });
+-
+-	let newEntity = ChangeEntityTemplate(this.entity, this.template.Entity);
+-
+-	if (newEntity)
+-		PlaySound("unpacked", newEntity);
+-};
+-
+-Pack.prototype.CanPack = function()
+-{
+-	return !this.stateLocked;
+-};
+-
+-Pack.prototype.LockState = function()
+-{
+-	this.CancelPack();
+-	this.stateLocked = true;
+-	return this.IsPacked();
+-};
+-
+-Pack.prototype.UnlockState = function()
+-{
+-	this.stateLocked = false;
+-	return this.IsPacked();
+-};
+-
+ Engine.RegisterComponentType(IID_Pack, "Pack", Pack);
+-- 
+2.25.1
+

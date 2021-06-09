@@ -1,0 +1,183 @@
+From be18803eeb9bb302667ed486b08bc5fd52c2ae07 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Wed, 26 May 2021 18:23:32 -0700
+Subject: [PATCH 42/86] added City Member tooltip detailing growth contribution
+
+refactored CityMember component; now uses a choice between Add and Multiply elements instead of separate Operation and Value elements for GrowthContrib
+
+population growth rate (with CityMember modifiers) now shown in the entity selection gui (in portrait caption) and in detailed tooltips
+---
+ .../mods/public/globalscripts/Templates.js    |  9 +++++++++
+ .../data/mods/public/gui/common/tooltips.js   | 19 +++++++++++++++++++
+ .../public/gui/reference/viewer/ViewerPage.js |  3 ++-
+ .../public/gui/session/selection_details.js   |  3 ++-
+ .../simulation/components/CityMember.js       | 17 +++++++++++++----
+ .../simulation/components/GuiInterface.js     |  8 ++++++++
+ .../templates/template_structure_civic.xml    |  1 -
+ .../template_structure_civic_temple.xml       |  3 +--
+ 8 files changed, 54 insertions(+), 9 deletions(-)
+
+diff --git a/binaries/data/mods/public/globalscripts/Templates.js b/binaries/data/mods/public/globalscripts/Templates.js
+index f899312c95..19b0b76278 100644
+--- a/binaries/data/mods/public/globalscripts/Templates.js
++++ b/binaries/data/mods/public/globalscripts/Templates.js
+@@ -588,6 +588,15 @@ function GetTemplateDataHelper(template, player, auraTemplates, modifiers = {})
+ 			ret.city.upgrade = template.City.Upgrade;
+ 	}
+ 
++	if (template.CityMember)
++	{
++		ret.cityMember = {};
++		if (template.CityMember.GrowthContrib.Add)
++			ret.cityMember.growthContrib = {"add": getEntityValue("CityMember/GrowthContrib/Add")};
++		else if (template.CityMember.GrowthContrib.Multiply)
++			ret.cityMember.growthContrib = {"multiply": getEntityValue("CityMember/GrowthContrib/Multiply")};
++	}
++
+ 	return ret;
+ }
+ 
+diff --git a/binaries/data/mods/public/gui/common/tooltips.js b/binaries/data/mods/public/gui/common/tooltips.js
+index f026c3d8f3..7d250f3721 100644
+--- a/binaries/data/mods/public/gui/common/tooltips.js
++++ b/binaries/data/mods/public/gui/common/tooltips.js
+@@ -1261,6 +1261,25 @@ function getCityUpgradeText(template, playerCiv)
+ 	});
+ }
+ 
++function getCityMemberText(template)
++{
++	if (!template.cityMember || !template.cityMember.growthContrib)
++		return;
++	let { growthContrib } = template.cityMember;
++	let text = (() => {
++		if (growthContrib.add)
++			return sprintf("Increases city growth rate by %d.", growthContrib.add);
++		if (growthContrib.multiply)
++			return sprintf("Multiplies city growth rate by %s.", growthContrib.multiply);
++		// there should always be some valid growthContrib value
++		throw new Error("No valid growth contrib value for template CityMember component");
++	})();
++	return translate(sprintf("%(label)s %(text)s", {
++		"label": headerFont("City Member:"),
++		"text": bodyFont(text)
++	}));
++}
++
+ function showTemplateViewerOnRightClickTooltip()
+ {
+ 	// Translation: Appears in a tooltip to indicate that right-clicking the corresponding GUI element will open the Template Details GUI page.
+diff --git a/binaries/data/mods/public/gui/reference/viewer/ViewerPage.js b/binaries/data/mods/public/gui/reference/viewer/ViewerPage.js
+index f81161606d..a6fba52a6d 100644
+--- a/binaries/data/mods/public/gui/reference/viewer/ViewerPage.js
++++ b/binaries/data/mods/public/gui/reference/viewer/ViewerPage.js
+@@ -167,7 +167,8 @@ ViewerPage.prototype.InfoFunctions = [
+ 	getResearchText,
+ 	getUpgradeText,
+ 	getCityPopulationText,
+-	getCityUpgradeText
++	getCityUpgradeText,
++	getCityMemberText
+ ];
+ 
+ ViewerPage.prototype.CloseButtonTooltip =
+diff --git a/binaries/data/mods/public/gui/session/selection_details.js b/binaries/data/mods/public/gui/session/selection_details.js
+index f7dfc00ede..25d10385c7 100644
+--- a/binaries/data/mods/public/gui/session/selection_details.js
++++ b/binaries/data/mods/public/gui/session/selection_details.js
+@@ -377,7 +377,8 @@ function displaySingle(entState)
+ 		getResourceTrickleTooltip,
+ 		getUpkeepTooltip,
+ 		getLootTooltip,
+-		getCityPopulationTooltip
++		getCityPopulationTooltip,
++		getCityMemberText
+ 	].map(func => func(entState)).filter(tip => tip).join("\n");
+ 	if (detailedTooltip)
+ 	{
+diff --git a/binaries/data/mods/public/simulation/components/CityMember.js b/binaries/data/mods/public/simulation/components/CityMember.js
+index 64de0dfbf9..4a3e0e470f 100644
+--- a/binaries/data/mods/public/simulation/components/CityMember.js
++++ b/binaries/data/mods/public/simulation/components/CityMember.js
+@@ -21,13 +21,12 @@ CityMember.prototype.Init = function()
+ 				'growthAmount': growthAmount + ApplyValueModificationsToEntity("CityMember/GrowthContrib/Add", +this.template.GrowthContrib.Add, this.entity),
+ 				growthAmountMultiplier
+ 			});
+-		else if (this.template.GrowthContrib.Multiply)
++		if (this.template.GrowthContrib.Multiply)
+ 			return ({ growthAmount, growthAmountMultiplier }) => ({
+ 				growthAmount,
+-				'growthAmountMultiplier': ApplyValueModificationsToEntity("CityMember/GrowthContrib/Multiply", +growthAmountMultiplier, this.entity) * growthVal
++				'growthAmountMultiplier': ApplyValueModificationsToEntity("CityMember/GrowthContrib/Multiply", +growthAmountMultiplier, this.entity) * +this.template.GrowthContrib.Multiply
+ 			});
+-		else
+-			throw new Error(sprintf('CityMember component for entity %d does not have a valid GrowthContrib modifier', this.entity));
++		throw new Error(sprintf('CityMember component for entity %d does not have a valid GrowthContrib modifier', this.entity));
+ 	})();
+ };
+ 
+@@ -38,6 +37,16 @@ CityMember.prototype.ModifyGrowthRate = function({growthAmount, growthAmountMult
+ 	return this.growthAmountModifier({growthAmount, growthAmountMultiplier});
+ };
+ 
++// @return		[String, Number]		name of modifier, modifier value
++CityMember.prototype.GetGrowthContrib = function()
++{
++	if (this.template.GrowthContrib.Add)
++		return ['add', ApplyValueModificationsToEntity("CityMember/GrowthContrib/Add", +this.template.GrowthContrib.Add, this.entity)];
++	if (this.template.GrowthContrib.Multiply)
++		return ['multiply', ApplyValueModificationsToEntity("CityMember/GrowthContrib/Multiply", +this.template.GrowthContrib.Multiply, this.entity)];
++	throw new Error(sprintf('CityMember component for entity %d does not have a valid GrowthContrib modifier', this.entity));
++};
++
+ // no dynamic state to save
+ CityMember.prototype.Serialize = null;
+ 
+diff --git a/binaries/data/mods/public/simulation/components/GuiInterface.js b/binaries/data/mods/public/simulation/components/GuiInterface.js
+index 9fc70b5e5f..6fcaa24a20 100644
+--- a/binaries/data/mods/public/simulation/components/GuiInterface.js
++++ b/binaries/data/mods/public/simulation/components/GuiInterface.js
+@@ -302,6 +302,14 @@ GuiInterface.prototype.GetEntityState = function(player, ent)
+ 			"downgrade": cmpCity.GetDowngradeTemplate()
+ 		};
+ 
++	let cmpCityMember = Engine.QueryInterface(ent, IID_CityMember);
++	if (cmpCityMember)
++	{
++		let [growthModifier, growthVal] = cmpCityMember.GetGrowthContrib();
++		ret.cityMember = {"growthContrib": {}};
++		ret.cityMember.growthContrib[growthModifier] = growthVal;
++	}
++
+ 	let cmpPosition = Engine.QueryInterface(ent, IID_Position);
+ 	if (cmpPosition && cmpPosition.IsInWorld())
+ 		ret.position = cmpPosition.GetPosition();
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_civic.xml b/binaries/data/mods/public/simulation/templates/template_structure_civic.xml
+index 9267dead54..cbaf0efd01 100644
+--- a/binaries/data/mods/public/simulation/templates/template_structure_civic.xml
++++ b/binaries/data/mods/public/simulation/templates/template_structure_civic.xml
+@@ -23,7 +23,6 @@
+   </BuildRestrictions>
+   <CityMember>
+     <GrowthContrib>
+-      <Operation>add</Operation>
+       <Add>2</Add>
+     </GrowthContrib>
+   </CityMember>
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_civic_temple.xml b/binaries/data/mods/public/simulation/templates/template_structure_civic_temple.xml
+index 4b1e85befb..1c3c9464a8 100644
+--- a/binaries/data/mods/public/simulation/templates/template_structure_civic_temple.xml
++++ b/binaries/data/mods/public/simulation/templates/template_structure_civic_temple.xml
+@@ -7,8 +7,7 @@
+     <Category>Temple</Category>
+   </BuildRestrictions>
+   <CityMember>
+-    <GrowthContrib>
+-      <Operation>multiply</Operation>
++    <GrowthContrib replace="">
+       <Multiply>1.2</Multiply>
+     </GrowthContrib>
+   </CityMember>
+-- 
+2.25.1
+

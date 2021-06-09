@@ -1,0 +1,139 @@
+From f83f578311a1598d3e3a67db3d75b009b65ae7ba Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Fri, 28 May 2021 17:01:07 -0700
+Subject: [PATCH 48/86] fixed Roman amphitheatre production queue
+
+updated civil centre radius auras
+
+tried to implement markets being activated by civil centre radius auras
+---
+ binaries/data/mods/public/simulation/components/Market.js | 2 +-
+ .../simulation/data/auras/structures/city_radius.json     | 4 ++--
+ .../simulation/data/auras/structures/metro_radius.json    | 4 ++--
+ .../simulation/data/auras/structures/town_radius.json     | 4 ++--
+ .../simulation/data/auras/structures/village_radius.json  | 4 ++--
+ .../simulation/templates/structures/rome/monument_02.xml  | 8 ++++++++
+ .../templates/template_structure_civic_market.xml         | 8 ++------
+ 7 files changed, 19 insertions(+), 15 deletions(-)
+
+diff --git a/binaries/data/mods/public/simulation/components/Market.js b/binaries/data/mods/public/simulation/components/Market.js
+index 8f097c5bcc..bf52cfda29 100644
+--- a/binaries/data/mods/public/simulation/components/Market.js
++++ b/binaries/data/mods/public/simulation/components/Market.js
+@@ -38,7 +38,7 @@ Market.prototype.RemoveTrader = function(ent)
+ 
+ Market.prototype.GetDemandMultiplier = function()
+ {
+-	if (!this.template.DemandMultiplier)
++	if (!this.template.hasOwnProperty('DemandMultiplier'))
+ 		return 1;
+ 	return ApplyValueModificationsToEntity("Market/DemandMultiplier", +this.template.DemandMultiplier, this.entity);
+ };
+diff --git a/binaries/data/mods/public/simulation/data/auras/structures/city_radius.json b/binaries/data/mods/public/simulation/data/auras/structures/city_radius.json
+index 78b014398e..d32aa99d1e 100644
+--- a/binaries/data/mods/public/simulation/data/auras/structures/city_radius.json
++++ b/binaries/data/mods/public/simulation/data/auras/structures/city_radius.json
+@@ -1,9 +1,9 @@
+ {
+ 	"type": "range",
+ 	"radius": 150,
+-	"affects": ["Structure Civic !CivilCentre"],
++	"affects": ["Market"],
+ 	"modifications": [
+-		{ "value": "BuildRestrictions/Distance/MaxDistance", "add": 60 }
++		{ "value": "Market/DemandMultiplier", "replace": 1 }
+ 	],
+ 	"auraName": "City Radius",
+ 	"auraDescription": "Cities have +30 radius compared to towns."
+diff --git a/binaries/data/mods/public/simulation/data/auras/structures/metro_radius.json b/binaries/data/mods/public/simulation/data/auras/structures/metro_radius.json
+index 59ca7a358d..2634551dcf 100644
+--- a/binaries/data/mods/public/simulation/data/auras/structures/metro_radius.json
++++ b/binaries/data/mods/public/simulation/data/auras/structures/metro_radius.json
+@@ -1,9 +1,9 @@
+ {
+ 	"type": "range",
+ 	"radius": 180,
+-	"affects": ["Structure Civic !CivilCentre"],
++	"affects": ["Market"],
+ 	"modifications": [
+-		{ "value": "BuildRestrictions/Distance/MaxDistance", "add": 90 }
++		{ "value": "Market/DemandMultiplier", "replace": 1 }
+ 	],
+ 	"auraName": "Metropolis Radius",
+ 	"auraDescription": "Metropoli have +30 radius compared to cities."
+diff --git a/binaries/data/mods/public/simulation/data/auras/structures/town_radius.json b/binaries/data/mods/public/simulation/data/auras/structures/town_radius.json
+index 35a9b61883..5ca2222c2d 100644
+--- a/binaries/data/mods/public/simulation/data/auras/structures/town_radius.json
++++ b/binaries/data/mods/public/simulation/data/auras/structures/town_radius.json
+@@ -1,9 +1,9 @@
+ {
+ 	"type": "range",
+ 	"radius": 120,
+-	"affects": ["Structure Civic !CivilCentre"],
++	"affects": ["Market"],
+ 	"modifications": [
+-		{ "value": "BuildRestrictions/Distance/MaxDistance", "add": 0 }
++		{ "value": "Market/DemandMultiplier", "replace": 1 }
+ 	],
+ 	"auraName": "Town Radius",
+ 	"auraDescription": "Towns have a radius of 120 meters."
+diff --git a/binaries/data/mods/public/simulation/data/auras/structures/village_radius.json b/binaries/data/mods/public/simulation/data/auras/structures/village_radius.json
+index 079a138f7a..da83a51187 100644
+--- a/binaries/data/mods/public/simulation/data/auras/structures/village_radius.json
++++ b/binaries/data/mods/public/simulation/data/auras/structures/village_radius.json
+@@ -1,9 +1,9 @@
+ {
+ 	"type": "range",
+ 	"radius": 120,
+-	"affects": ["Structure Civic !CivilCentre"],
++	"affects": ["Market"],
+ 	"modifications": [
+-		{ "value": "BuildRestrictions/Distance/MaxDistance", "add": 0 }
++		{ "value": "Market/DemandMultiplier", "replace": 1 }
+ 	],
+ 	"auraName": "Village Radius",
+ 	"auraDescription": "Villages have a radius of 120 meters."
+diff --git a/binaries/data/mods/public/simulation/templates/structures/rome/monument_02.xml b/binaries/data/mods/public/simulation/templates/structures/rome/monument_02.xml
+index 96bdf0406b..c8ae4a0be6 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/rome/monument_02.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/rome/monument_02.xml
+@@ -24,6 +24,14 @@
+       units/{civ}/champion_infantry_spear_gladiator
+       units/{civ}/champion_infantry_sword_gladiator
+     </Entities>
++    <TechCostMultiplier>
++      <food>1.0</food>
++      <wood>1.0</wood>
++      <stone>1.0</stone>
++      <metal>1.0</metal>
++      <wealth>1.0</wealth>
++      <time>1.0</time>
++    </TechCostMultiplier>
+   </ProductionQueue>
+   <TerritoryInfluence>
+     <Root>false</Root>
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_civic_market.xml b/binaries/data/mods/public/simulation/templates/template_structure_civic_market.xml
+index 34d51f5fd7..44cc9c92c5 100644
+--- a/binaries/data/mods/public/simulation/templates/template_structure_civic_market.xml
++++ b/binaries/data/mods/public/simulation/templates/template_structure_civic_market.xml
+@@ -39,15 +39,11 @@
+     <VisibleClasses datatype="tokens">Town Market</VisibleClasses>
+   </Identity>
+   <Loot>
+-    <food>25</food>
+-    <wood>25</wood>
+-    <stone>25</stone>
+-    <metal>25</metal>
+-    <wealth>25</wealth>
++    <wealth>100</wealth>
+   </Loot>
+   <Market>
+     <TradeType>land</TradeType>
+-    <DemandMultiplier>1.0</DemandMultiplier>
++    <DemandMultiplier>0.0</DemandMultiplier>
+     <InternationalBonus>0.2</InternationalBonus>
+   </Market>
+   <Obstruction>
+-- 
+2.25.1
+

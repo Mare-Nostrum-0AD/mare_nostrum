@@ -1,0 +1,124 @@
+From 170cd6ba6b4a290b4a524604528d54db00167570 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Tue, 1 Jun 2021 22:59:58 -0700
+Subject: [PATCH 68/86] renamed civ military docks/shipyards (specific names
+ thanks to Delenda Est)
+
+added height to nile govcentre footprint
+---
+ .../mods/public/simulation/templates/structures/athen/dock.xml  | 2 +-
+ .../mods/public/simulation/templates/structures/mace/dock.xml   | 2 +-
+ .../mods/public/simulation/templates/structures/maur/dock.xml   | 2 +-
+ .../public/simulation/templates/structures/nile/govcentre.xml   | 1 +
+ .../mods/public/simulation/templates/structures/ptol/dock.xml   | 2 +-
+ .../mods/public/simulation/templates/structures/rome/dock.xml   | 2 +-
+ .../mods/public/simulation/templates/structures/sele/dock.xml   | 2 +-
+ .../mods/public/simulation/templates/structures/spart/dock.xml  | 2 +-
+ 8 files changed, 8 insertions(+), 7 deletions(-)
+
+diff --git a/binaries/data/mods/public/simulation/templates/structures/athen/dock.xml b/binaries/data/mods/public/simulation/templates/structures/athen/dock.xml
+index e2684b4047..bf084d10c6 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/athen/dock.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/athen/dock.xml
+@@ -9,7 +9,7 @@
+   </Health>
+   <Identity>
+     <Civ>athen</Civ>
+-    <SpecificName>Limēn</SpecificName>
++    <SpecificName>Neōsoikoi</SpecificName>
+   </Identity>
+   <Obstruction>
+     <Static width="22.0" depth="26.0"/>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/mace/dock.xml b/binaries/data/mods/public/simulation/templates/structures/mace/dock.xml
+index 70300bba9f..d26e4f4bdc 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/mace/dock.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/mace/dock.xml
+@@ -9,7 +9,7 @@
+   </Health>
+   <Identity>
+     <Civ>mace</Civ>
+-    <SpecificName>Limēn</SpecificName>
++    <SpecificName>Neōsoikoi</SpecificName>
+   </Identity>
+   <Obstruction>
+     <Static width="26.0" depth="24.0"/>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/maur/dock.xml b/binaries/data/mods/public/simulation/templates/structures/maur/dock.xml
+index 1094316e3d..cfe2798b34 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/maur/dock.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/maur/dock.xml
+@@ -6,7 +6,7 @@
+   </Footprint>
+   <Identity>
+     <Civ>maur</Civ>
+-    <SpecificName>Naukasthanaka</SpecificName>
++    <SpecificName>Yuddhanaukaa</SpecificName>
+   </Identity>
+   <Obstruction>
+     <Static width="24.0" depth="24.0"/>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/nile/govcentre.xml b/binaries/data/mods/public/simulation/templates/structures/nile/govcentre.xml
+index ffd9f5ceb6..59968074e9 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/nile/govcentre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/nile/govcentre.xml
+@@ -2,6 +2,7 @@
+ <Entity parent="template_structure_civic_govcentre_palace">
+   <Footprint>
+     <Square width="24.0" depth="36.0"/>
++    <Height>8.0</Height>
+   </Footprint>
+   <Identity>
+     <Civ>gaia</Civ>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/ptol/dock.xml b/binaries/data/mods/public/simulation/templates/structures/ptol/dock.xml
+index 8580b9d058..615d9985c2 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/ptol/dock.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/ptol/dock.xml
+@@ -6,7 +6,7 @@
+   </Footprint>
+   <Identity>
+     <Civ>ptol</Civ>
+-    <SpecificName>Limēn</SpecificName>
++    <SpecificName>Neōsoikoi</SpecificName>
+   </Identity>
+   <Obstruction>
+     <Static width="26.0" depth="26.0"/>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/rome/dock.xml b/binaries/data/mods/public/simulation/templates/structures/rome/dock.xml
+index a3f467b85e..646357be41 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/rome/dock.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/rome/dock.xml
+@@ -9,7 +9,7 @@
+   </Health>
+   <Identity>
+     <Civ>rome</Civ>
+-    <SpecificName>Portus</SpecificName>
++    <SpecificName>Navalia</SpecificName>
+   </Identity>
+   <Obstruction>
+     <Static width="26.0" depth="24.0"/>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/sele/dock.xml b/binaries/data/mods/public/simulation/templates/structures/sele/dock.xml
+index a7f9a7bea2..e85fe11870 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/sele/dock.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/sele/dock.xml
+@@ -6,7 +6,7 @@
+   </Footprint>
+   <Identity>
+     <Civ>sele</Civ>
+-    <SpecificName>Limēn</SpecificName>
++    <SpecificName>Neōsoikoi</SpecificName>
+   </Identity>
+   <Obstruction>
+     <Static width="25.0" depth="25.0"/>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/spart/dock.xml b/binaries/data/mods/public/simulation/templates/structures/spart/dock.xml
+index 503fa2a40f..ebd5b1970f 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/spart/dock.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/spart/dock.xml
+@@ -9,7 +9,7 @@
+   </Health>
+   <Identity>
+     <Civ>spart</Civ>
+-    <SpecificName>Limēn</SpecificName>
++    <SpecificName>Neōsoikoi</SpecificName>
+   </Identity>
+   <Obstruction>
+     <Static width="24.0" depth="24.0"/>
+-- 
+2.25.1
+

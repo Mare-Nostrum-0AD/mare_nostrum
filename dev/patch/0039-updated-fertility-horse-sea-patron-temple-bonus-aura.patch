@@ -1,0 +1,62 @@
+From da60480275c9a55ac879115c6656161dbaa33e7a Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Tue, 25 May 2021 18:35:43 -0700
+Subject: [PATCH 39/86] updated fertility, horse, sea patron temple bonus auras
+
+---
+ .../data/auras/structures/temple_fertility_global.json      | 3 +++
+ .../data/auras/structures/temple_horse_global.json          | 6 +++---
+ .../simulation/data/auras/structures/temple_sea_global.json | 6 +++---
+ 3 files changed, 9 insertions(+), 6 deletions(-)
+
+diff --git a/binaries/data/mods/public/simulation/data/auras/structures/temple_fertility_global.json b/binaries/data/mods/public/simulation/data/auras/structures/temple_fertility_global.json
+index 7ffa652afc..b03670f9a5 100644
+--- a/binaries/data/mods/public/simulation/data/auras/structures/temple_fertility_global.json
++++ b/binaries/data/mods/public/simulation/data/auras/structures/temple_fertility_global.json
+@@ -5,6 +5,9 @@
+ 		{ "value": "ResourceGatherer/Rates/food.grain", "multiply": 1.10 },
+ 		{ "value": "ResourceGatherer/Rates/food.fruit", "multiply": 1.10 },
+ 		{ "value": "ResourceGatherer/Rates/food.meat", "multiply": 1.10 },
++		{ "value": "ResourceGatherer/Rates/food.fish", "multiply": 1.10 },
++		{ "value": "ResourceGatherer/Rates/wood.tree", "multiply": 1.10 },
++		{ "value": "ResourceGatherer/Rates/wood.ruins", "multiply": 1.10 },
+ 		{ "value": "ResourceGatherer/Rates/stone.rock", "multiply": 1.10 },
+ 		{ "value": "ResourceGatherer/Rates/stone.ruins", "multiply": 1.10 },
+ 		{ "value": "ResourceGatherer/Rates/metal.ore", "multiply": 1.10 },
+diff --git a/binaries/data/mods/public/simulation/data/auras/structures/temple_horse_global.json b/binaries/data/mods/public/simulation/data/auras/structures/temple_horse_global.json
+index afb4f44223..f35f915ae1 100644
+--- a/binaries/data/mods/public/simulation/data/auras/structures/temple_horse_global.json
++++ b/binaries/data/mods/public/simulation/data/auras/structures/temple_horse_global.json
+@@ -4,9 +4,9 @@
+ 	"modifications": [
+ 		{ "value": "UnitMotion/WalkSpeed", "multiply": 1.20 },
+ 		{ "value": "UnitMotion/RunSpeed", "multiply": 1.20 },
+-		{ "value": "Armour/Pierce", "add": 2 },
+-		{ "value": "Armour/Hack", "add": 2 },
+-		{ "value": "Armour/Crush", "add": 2 }
++		{ "value": "Resistance/Entity/Damage/Pierce", "add": 2 },
++		{ "value": "Resistance/Entity/Damage/Hack", "add": 2 },
++		{ "value": "Resistance/Entity/Damage/Crush", "add": 2 }
+ 	],
+ 	"auraDescription" : "Cavalry units move 20% faster and have +2 armour.",
+ 	"auraName": "Global Equine Blessing",
+diff --git a/binaries/data/mods/public/simulation/data/auras/structures/temple_sea_global.json b/binaries/data/mods/public/simulation/data/auras/structures/temple_sea_global.json
+index 99230ba5ac..17cb884008 100644
+--- a/binaries/data/mods/public/simulation/data/auras/structures/temple_sea_global.json
++++ b/binaries/data/mods/public/simulation/data/auras/structures/temple_sea_global.json
+@@ -4,9 +4,9 @@
+ 	"modifications": [
+ 		{ "value": "UnitMotion/WalkSpeed", "multiply": 1.20 },
+ 		{ "value": "UnitMotion/RunSpeed", "multiply": 1.20 },
+-		{ "value": "Armour/Pierce", "add": 2 },
+-		{ "value": "Armour/Hack", "add": 2 },
+-		{ "value": "Armour/Crush", "add": 2 }
++		{ "value": "Resistance/Entity/Damage/Pierce", "add": 2 },
++		{ "value": "Resistance/Entity/Damage/Hack", "add": 2 },
++		{ "value": "Resistance/Entity/Damage/Crush", "add": 2 }
+ 	],
+ 	"auraDescription" : "Ships move 20% faster and have +2 armour.",
+ 	"auraName": "Global Maritime Blessing",
+-- 
+2.25.1
+

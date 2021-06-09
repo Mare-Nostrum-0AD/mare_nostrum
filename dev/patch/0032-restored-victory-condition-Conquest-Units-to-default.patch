@@ -1,0 +1,24 @@
+From 50bc6658a466a8741e9e63985985435c6009f43f Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Mon, 24 May 2021 18:57:10 -0700
+Subject: [PATCH 32/86] restored victory condition "Conquest Units" to default
+
+---
+ .../data/settings/victory_conditions/conquest_units.json        | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/binaries/data/mods/public/simulation/data/settings/victory_conditions/conquest_units.json b/binaries/data/mods/public/simulation/data/settings/victory_conditions/conquest_units.json
+index c66fbc1fd9..58256fef4f 100644
+--- a/binaries/data/mods/public/simulation/data/settings/victory_conditions/conquest_units.json
++++ b/binaries/data/mods/public/simulation/data/settings/victory_conditions/conquest_units.json
+@@ -11,6 +11,6 @@
+ 			"scripts/ConquestUnits.js"
+ 		],
+ 		"DisabledWhenChecked": ["conquest"],
+-		"GUIOrder": 2
++		"GUIOrder": 1
+ 	}
+ }
+-- 
+2.25.1
+

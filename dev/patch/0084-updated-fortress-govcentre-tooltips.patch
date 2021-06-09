@@ -1,0 +1,122 @@
+From 1145d98ac7f7c0f7d7feca359b29295268cfd013 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Mon, 7 Jun 2021 23:52:02 -0700
+Subject: [PATCH 84/86] updated fortress, govcentre tooltips
+
+---
+ .../public/simulation/templates/structures/brit/fortress.xml    | 2 +-
+ .../public/simulation/templates/structures/cart/fortress.xml    | 2 +-
+ .../public/simulation/templates/structures/kush/fortress.xml    | 2 +-
+ .../public/simulation/templates/structures/mace/fortress.xml    | 2 +-
+ .../public/simulation/templates/structures/maur/fortress.xml    | 2 +-
+ .../public/simulation/templates/structures/rome/fortress.xml    | 2 +-
+ .../public/simulation/templates/structures/spart/govcentre.xml  | 1 -
+ .../simulation/templates/template_structure_civic_govcentre.xml | 2 +-
+ 8 files changed, 7 insertions(+), 8 deletions(-)
+
+diff --git a/binaries/data/mods/public/simulation/templates/structures/brit/fortress.xml b/binaries/data/mods/public/simulation/templates/structures/brit/fortress.xml
+index 4ef6954c8e..32f5f0d5dc 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/brit/fortress.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/brit/fortress.xml
+@@ -10,7 +10,7 @@
+   <Identity>
+     <Civ>brit</Civ>
+     <SpecificName>Dunon</SpecificName>
+-    <Tooltip>Train Heroes. Garrison Soldiers for additional arrows.</Tooltip>
++    <Tooltip>Garrison Soldiers for additional arrows.</Tooltip>
+   </Identity>
+   <Obstruction>
+     <Static width="29.0" depth="29.0"/>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/cart/fortress.xml b/binaries/data/mods/public/simulation/templates/structures/cart/fortress.xml
+index 7908470e9f..84043aa315 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/cart/fortress.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/cart/fortress.xml
+@@ -7,7 +7,7 @@
+   <Identity>
+     <Civ>cart</Civ>
+     <SpecificName>Ḥamet</SpecificName>
+-    <Tooltip>Train Heroes. Garrison Soldiers for additional arrows.</Tooltip>
++    <Tooltip>Garrison Soldiers for additional arrows.</Tooltip>
+   </Identity>
+   <Obstruction>
+     <Static width="26.0" depth="28.0"/>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/kush/fortress.xml b/binaries/data/mods/public/simulation/templates/structures/kush/fortress.xml
+index 52c16525fb..64d3c295f7 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/kush/fortress.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/kush/fortress.xml
+@@ -7,7 +7,7 @@
+   <Identity>
+     <Civ>kush</Civ>
+     <SpecificName>Htm</SpecificName>
+-    <Tooltip>Train Heroes. Garrison Soldiers for additional arrows.</Tooltip>
++    <Tooltip>Garrison Soldiers for additional arrows.</Tooltip>
+   </Identity>
+   <Obstruction>
+     <Static width="28.0" depth="28.0"/>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/mace/fortress.xml b/binaries/data/mods/public/simulation/templates/structures/mace/fortress.xml
+index fa6b96c0b3..0aaf9edc40 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/mace/fortress.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/mace/fortress.xml
+@@ -7,7 +7,7 @@
+   <Identity>
+     <Civ>mace</Civ>
+     <SpecificName>Phrourion</SpecificName>
+-    <Tooltip>Train Heroes. Garrison Soldiers for additional arrows.</Tooltip>
++    <Tooltip>Garrison Soldiers for additional arrows.</Tooltip>
+   </Identity>
+   <Obstruction>
+     <Static width="24.0" depth="26.0"/>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/maur/fortress.xml b/binaries/data/mods/public/simulation/templates/structures/maur/fortress.xml
+index 809b314057..4a4f2f07b1 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/maur/fortress.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/maur/fortress.xml
+@@ -3,7 +3,7 @@
+   <Identity>
+     <Civ>maur</Civ>
+     <SpecificName>Durg</SpecificName>
+-    <Tooltip>Train heroes and champion units.</Tooltip>
++    <Tooltip>Train champion units. Garrison soldiers for additional arrows.</Tooltip>
+   </Identity>
+   <ProductionQueue>
+     <Entities datatype="tokens">
+diff --git a/binaries/data/mods/public/simulation/templates/structures/rome/fortress.xml b/binaries/data/mods/public/simulation/templates/structures/rome/fortress.xml
+index a52330e93f..b6bf6402dc 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/rome/fortress.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/rome/fortress.xml
+@@ -3,7 +3,7 @@
+   <Identity>
+     <Civ>rome</Civ>
+     <SpecificName>Castellum</SpecificName>
+-    <Tooltip>Train Heroes. Garrison Soldiers for additional arrows.</Tooltip>
++    <Tooltip>Garrison Soldiers for additional arrows.</Tooltip>
+   </Identity>
+   <ProductionQueue>
+     <Entities datatype="tokens">
+diff --git a/binaries/data/mods/public/simulation/templates/structures/spart/govcentre.xml b/binaries/data/mods/public/simulation/templates/structures/spart/govcentre.xml
+index d7ab75d87f..c344c3a565 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/spart/govcentre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/spart/govcentre.xml
+@@ -8,7 +8,6 @@
+     <Civ>spart</Civ>
+     <GenericName>Spartan Senate</GenericName>
+     <SpecificName>Gerousia</SpecificName>
+-    <Tooltip>Train heroes.</Tooltip>
+   </Identity>
+   <Obstruction>
+     <Static width="20.0" depth="20.0"/>
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_civic_govcentre.xml b/binaries/data/mods/public/simulation/templates/template_structure_civic_govcentre.xml
+index ea568d7373..1a9c8af81a 100644
+--- a/binaries/data/mods/public/simulation/templates/template_structure_civic_govcentre.xml
++++ b/binaries/data/mods/public/simulation/templates/template_structure_civic_govcentre.xml
+@@ -32,7 +32,7 @@
+     <GenericName>Government Centre</GenericName>
+     <VisibleClasses datatype="tokens">GovernmentCentre</VisibleClasses>
+     <Icon>structures/tholos.png</Icon>
+-    <Tooltip>Train hero units.</Tooltip>
++    <Tooltip>Train heroes. Choose governing institutions and policies.</Tooltip>
+     <RequiredTechnology>phase_city</RequiredTechnology>
+   </Identity>
+   <Loot>
+-- 
+2.25.1
+

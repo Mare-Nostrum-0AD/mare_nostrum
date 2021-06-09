@@ -1,0 +1,167 @@
+From c53247b49cc2f9f86d92b0e78ec2bf6dbba5551f Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Fri, 28 May 2021 22:22:04 -0700
+Subject: [PATCH 50/86] handle resources without treasure template in nomad
+ player placement in maps/random/rmgen-common/player.js
+
+ProductionQueue component checks entity limits before continuing auto queue
+
+restored celtic spearmen and slingers to defaults
+---
+ .../public/maps/random/rmgen-common/player.js     |  2 ++
+ .../simulation/components/ProductionQueue.js      |  4 ++++
+ .../templates/units/brit/infantry_slinger_b.xml   | 15 ++++-----------
+ .../templates/units/brit/infantry_spearman_b.xml  | 13 +++----------
+ .../templates/units/gaul/infantry_slinger_b.xml   | 13 +++----------
+ .../templates/units/gaul/infantry_spearman_b.xml  | 12 +++---------
+ 6 files changed, 19 insertions(+), 40 deletions(-)
+
+diff --git a/binaries/data/mods/public/maps/random/rmgen-common/player.js b/binaries/data/mods/public/maps/random/rmgen-common/player.js
+index 51598391e6..03828e8bad 100644
+--- a/binaries/data/mods/public/maps/random/rmgen-common/player.js
++++ b/binaries/data/mods/public/maps/random/rmgen-common/player.js
+@@ -465,6 +465,8 @@ function placePlayersNomad(playerClass, constraints)
+ 		for (let resourceType in ccCost)
+ 		{
+ 			let treasureTemplate = g_NomadTreasureTemplates[resourceType];
++			if (!treasureTemplate)
++				continue;
+ 
+ 			let count = Math.max(0, Math.ceil(
+ 				(ccCost[resourceType] - (g_MapSettings.StartingResources || 0)) /
+diff --git a/binaries/data/mods/public/simulation/components/ProductionQueue.js b/binaries/data/mods/public/simulation/components/ProductionQueue.js
+index 6fc06f9801..26b0a3d1c0 100644
+--- a/binaries/data/mods/public/simulation/components/ProductionQueue.js
++++ b/binaries/data/mods/public/simulation/components/ProductionQueue.js
+@@ -410,9 +410,13 @@ ProductionQueue.prototype.AddItem = function(templateName, type, count, metadata
+ 		if (template.TrainingRestrictions)
+ 		{
+ 			let unitCategory = template.TrainingRestrictions.Category;
++			// check entity limits
+ 			let cmpPlayerEntityLimits = QueryPlayerIDInterface(player, IID_EntityLimits);
++
+ 			if (cmpPlayerEntityLimits)
+ 			{
++				if (!cmpPlayerEntityLimits.AllowedToTrain(template.TrainingRestrictions.Category, count, templateName, template.TrainingRestrictions.MatchLimit))
++					return false;
+ 				cmpPlayerEntityLimits.ChangeCount(unitCategory, count);
+ 				if (template.TrainingRestrictions.MatchLimit)
+ 					cmpPlayerEntityLimits.ChangeMatchCount(templateName, count);
+diff --git a/binaries/data/mods/public/simulation/templates/units/brit/infantry_slinger_b.xml b/binaries/data/mods/public/simulation/templates/units/brit/infantry_slinger_b.xml
+index 8238fd8665..4150992f11 100644
+--- a/binaries/data/mods/public/simulation/templates/units/brit/infantry_slinger_b.xml
++++ b/binaries/data/mods/public/simulation/templates/units/brit/infantry_slinger_b.xml
+@@ -1,21 +1,14 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_unit_infantry_ranged_slinger">
+-  <Builder>
+-    <Entities datatype="tokens">
+-      structures/brit_crannog
+-      structures/brit_kennel
+-      structures/brit_rotarymill
+-    </Entities>
+-  </Builder>
+   <Identity>
+     <Civ>brit</Civ>
+-    <SelectionGroupName>units/brit_infantry_slinger_b</SelectionGroupName>
++    <SelectionGroupName>units/brit/infantry_slinger_b</SelectionGroupName>
+     <GenericName>Celtic Slinger</GenericName>
+-    <SpecificName>Iaosae</SpecificName>
+-    <Icon>units/brit_infantry_slinger.png</Icon>
++    <SpecificName>Talmoris</SpecificName>
++    <Icon>units/gaul_infantry_slinger.png</Icon>
+   </Identity>
+   <Promotion>
+-    <Entity>units/brit_infantry_slinger_a</Entity>
++    <Entity>units/brit/infantry_slinger_a</Entity>
+   </Promotion>
+   <VisualActor>
+     <Actor>units/britons/infantry_slinger_b.xml</Actor>
+diff --git a/binaries/data/mods/public/simulation/templates/units/brit/infantry_spearman_b.xml b/binaries/data/mods/public/simulation/templates/units/brit/infantry_spearman_b.xml
+index 55d82a5d26..5e3b696bb3 100644
+--- a/binaries/data/mods/public/simulation/templates/units/brit/infantry_spearman_b.xml
++++ b/binaries/data/mods/public/simulation/templates/units/brit/infantry_spearman_b.xml
+@@ -1,21 +1,14 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_unit_infantry_melee_spearman">
+-  <Builder>
+-    <Entities datatype="tokens">
+-      structures/brit_crannog
+-      structures/brit_kennel
+-      structures/brit_rotarymill
+-    </Entities>
+-  </Builder>
+   <Identity>
+     <Civ>brit</Civ>
+-    <SelectionGroupName>units/brit_infantry_spearman_b</SelectionGroupName>
+-    <SpecificName>Gaeroa</SpecificName>
++    <SelectionGroupName>units/brit/infantry_spearman_b</SelectionGroupName>
+     <GenericName>Celtic Spearman</GenericName>
++    <SpecificName>Catucos</SpecificName>
+     <Icon>units/brit_infantry_spearman.png</Icon>
+   </Identity>
+   <Promotion>
+-    <Entity>units/brit_infantry_spearman_a</Entity>
++    <Entity>units/brit/infantry_spearman_a</Entity>
+   </Promotion>
+   <VisualActor>
+     <Actor>units/britons/infantry_spearman_b.xml</Actor>
+diff --git a/binaries/data/mods/public/simulation/templates/units/gaul/infantry_slinger_b.xml b/binaries/data/mods/public/simulation/templates/units/gaul/infantry_slinger_b.xml
+index 52e4283d2e..de98a66945 100644
+--- a/binaries/data/mods/public/simulation/templates/units/gaul/infantry_slinger_b.xml
++++ b/binaries/data/mods/public/simulation/templates/units/gaul/infantry_slinger_b.xml
+@@ -1,21 +1,14 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_unit_infantry_ranged_slinger">
+-  <Builder>
+-    <Entities datatype="tokens">
+-      structures/gaul_tavern
+-      structures/gaul_rotarymill
+-    </Entities>
+-  </Builder>
+   <Identity>
+     <Civ>gaul</Civ>
+-    <SelectionGroupName>units/gaul_infantry_slinger_b</SelectionGroupName>
+-    <GenericName>Celtic Slinger</GenericName>
+-    <SpecificName>Iaosae</SpecificName>
++    <SelectionGroupName>units/gaul/infantry_slinger_b</SelectionGroupName>
++    <SpecificName>Talmoris</SpecificName>
+     <Icon>units/gaul_infantry_slinger.png</Icon>
+     <RequiredTechnology>phase_town</RequiredTechnology>
+   </Identity>
+   <Promotion>
+-    <Entity>units/gaul_infantry_slinger_a</Entity>
++    <Entity>units/gaul/infantry_slinger_a</Entity>
+   </Promotion>
+   <VisualActor>
+     <Actor>units/gauls/infantry_slinger_b.xml</Actor>
+diff --git a/binaries/data/mods/public/simulation/templates/units/gaul/infantry_spearman_b.xml b/binaries/data/mods/public/simulation/templates/units/gaul/infantry_spearman_b.xml
+index 05080b8f8c..665984e045 100644
+--- a/binaries/data/mods/public/simulation/templates/units/gaul/infantry_spearman_b.xml
++++ b/binaries/data/mods/public/simulation/templates/units/gaul/infantry_spearman_b.xml
+@@ -1,19 +1,13 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_unit_infantry_melee_spearman">
+-  <Builder>
+-    <Entities datatype="tokens">
+-      structures/gaul_tavern
+-      structures/gaul_rotarymill
+-    </Entities>
+-  </Builder>
+   <Identity>
+     <Civ>gaul</Civ>
+-    <SelectionGroupName>units/gaul_infantry_spearman_b</SelectionGroupName>
+-    <SpecificName>Gaeroa</SpecificName>
++    <SelectionGroupName>units/gaul/infantry_spearman_b</SelectionGroupName>
++    <SpecificName>Catucos</SpecificName>
+     <Icon>units/gaul_infantry_spearman.png</Icon>
+   </Identity>
+   <Promotion>
+-    <Entity>units/gaul_infantry_spearman_a</Entity>
++    <Entity>units/gaul/infantry_spearman_a</Entity>
+   </Promotion>
+   <VisualActor>
+     <Actor>units/gauls/infantry_spearman_b.xml</Actor>
+-- 
+2.25.1
+

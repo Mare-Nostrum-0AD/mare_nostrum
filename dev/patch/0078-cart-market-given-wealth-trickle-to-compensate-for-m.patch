@@ -1,0 +1,31 @@
+From 1b29901d912e8d8d975aa4590ce0066a5b8f8084 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Fri, 4 Jun 2021 19:15:40 -0700
+Subject: [PATCH 78/86] cart market given wealth trickle to compensate for
+ mercenary cost
+
+---
+ .../public/simulation/templates/structures/cart/market.xml | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/binaries/data/mods/public/simulation/templates/structures/cart/market.xml b/binaries/data/mods/public/simulation/templates/structures/cart/market.xml
+index 7addd08994..ca446a6518 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/cart/market.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/cart/market.xml
+@@ -17,6 +17,13 @@
+   <Obstruction>
+     <Static width="30.0" depth="28.0"/>
+   </Obstruction>
++	<ResourceTrickle>
++		<!-- Pays for a little over 10 mercenaries' upkeep -->
++		<Interval>1000</Interval>
++		<Rates>
++			<wealth>3</wealth>
++		</Rates>
++	</ResourceTrickle>
+   <VisualActor>
+     <Actor>structures/carthaginians/market.xml</Actor>
+     <FoundationActor>structures/fndn_7x7.xml</FoundationActor>
+-- 
+2.25.1
+

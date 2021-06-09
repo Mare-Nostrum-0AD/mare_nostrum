@@ -1,0 +1,238 @@
+From 25244b2a3d8b97180a208e5f07a4b73595903236 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Mon, 24 May 2021 00:00:43 -0700
+Subject: [PATCH 26/86] changed carthaginian mercenary embassies to mercenary
+ camps + Italic auxilliary barracks
+
+created new actors to represent camps
+---
+ .../actors/structures/carthaginians/town.xml  |  2 +-
+ .../structures/mercenaries/camp_celtic.xml    | 37 +++++++++++++++++++
+ .../structures/mercenaries/camp_iberian.xml   | 37 +++++++++++++++++++
+ .../structures/cart/embassy_celtic.xml        | 11 +++---
+ .../structures/cart/embassy_iberian.xml       | 11 ++++--
+ .../structures/cart/embassy_italic.xml        | 10 ++---
+ 6 files changed, 94 insertions(+), 14 deletions(-)
+ create mode 100644 binaries/data/mods/public/art/actors/structures/mercenaries/camp_celtic.xml
+ create mode 100644 binaries/data/mods/public/art/actors/structures/mercenaries/camp_iberian.xml
+
+diff --git a/binaries/data/mods/public/art/actors/structures/carthaginians/town.xml b/binaries/data/mods/public/art/actors/structures/carthaginians/town.xml
+index 782c82199f..1bdae99444 100644
+--- a/binaries/data/mods/public/art/actors/structures/carthaginians/town.xml
++++ b/binaries/data/mods/public/art/actors/structures/carthaginians/town.xml
+@@ -9,7 +9,7 @@
+         <prop actor="structures/carthaginians/apartment.xml" attachpoint="bottom_right" minheight="0" maxheight="20"/>
+         <prop actor="props/special/eyecandy/well_1_d.xml" attachpoint="center" minheight="0" maxheight="20"/>
+         <prop actor="props/special/eyecandy/well_darkness.xml" attachpoint="center" minheight="0" maxheight="20"/>
+-        <prop actor="structures/carthaginians/storehouse.xml" attachpoint="top_left" minheight="0" maxheight="20"/>
++        <prop actor="structures/carthaginians/temple.xml" attachpoint="top_left" minheight="0" maxheight="20"/>
+         <prop actor="structures/carthaginians/tower_bolt.xml" attachpoint="top_right" minheight="0" maxheight="20"/>
+         <prop actor="props/structures/decals/gravel_5x5.xml" attachpoint="root"/>
+       </props>
+diff --git a/binaries/data/mods/public/art/actors/structures/mercenaries/camp_celtic.xml b/binaries/data/mods/public/art/actors/structures/mercenaries/camp_celtic.xml
+new file mode 100644
+index 0000000000..2004230693
+--- /dev/null
++++ b/binaries/data/mods/public/art/actors/structures/mercenaries/camp_celtic.xml
+@@ -0,0 +1,37 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<actor version="1">
++  <castshadow/>
++  <group>
++    <variant frequency="100" name="Base" file="structures/defensive_building.xml">
++      <mesh>structural/kush_mercenary_camp_01.dae</mesh>
++      <props>
++				<prop actor="structures/celts/kennel.xml" attachpoint="kush_tent_01" minheight="-20" maxheight="20"/>
++				<prop actor="structures/carthaginians/embassy_celtic.xml" attachpoint="kush_tent_03" minheight="-20" maxheight="20"/>
++				<prop actor="structures/celts/hut.xml" attachpoint="kush_tent_02" minheight="-20" maxheight="20"/>
++        <prop actor="structures/celts/hut.xml" attachpoint="kush_tent_04" minheight="-20" maxheight="20"/>
++        <prop actor="props/structures/decals/dirt_5x5.xml" attachpoint="root" minheight="-20" maxheight="20"/>
++        <prop actor="flora/trees/palm_cretan_date_patch.xml" attachpoint="palm_tree" minheight="-20" maxheight="20"/>
++        <prop actor="props/flora/shrub_tropic_palm.xml" attachpoint="plant" minheight="-20" maxheight="20"/>
++        <prop actor="props/special/eyecandy/campfire_prop.xml" attachpoint="fire_camp" minheight="-20" maxheight="20"/>
++        <prop actor="props/special/eyecandy/campfire_prop.xml" attachpoint="fire_camp" minheight="-20" maxheight="20"/>
++        <prop actor="props/flora/shrub_tropic_palm.xml" attachpoint="camel_01" minheight="-20" maxheight="20"/>
++      </props>
++      <textures>
++        <texture file="null_white.dds" name="baseTex"/>
++      </textures>
++    </variant>
++  </group>
++  <group>
++    <variant name="ungarrisoned" frequency="1"/>
++    <variant name="garrisoned">
++      <props>
++        <prop actor="props/special/common/garrison_flag_celt.xml" attachpoint="garrisoned"/>
++      </props>
++    </variant>
++  </group>
++  <group>
++    <variant name="alive" frequency="1"/>
++    <variant file="structures/destruction_large.xml"/>
++  </group>
++  <material>default.xml</material>
++</actor>
+diff --git a/binaries/data/mods/public/art/actors/structures/mercenaries/camp_iberian.xml b/binaries/data/mods/public/art/actors/structures/mercenaries/camp_iberian.xml
+new file mode 100644
+index 0000000000..cbee157483
+--- /dev/null
++++ b/binaries/data/mods/public/art/actors/structures/mercenaries/camp_iberian.xml
+@@ -0,0 +1,37 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<actor version="1">
++  <castshadow/>
++  <group>
++    <variant frequency="100" name="Base" file="structures/defensive_building.xml">
++      <mesh>structural/kush_mercenary_camp_01.dae</mesh>
++      <props>
++        <prop actor="structures/tent_greek.xml" attachpoint="kush_tent_01" minheight="-20" maxheight="20"/>
++				<prop actor="structures/carthaginians/embassy_iberian.xml" attachpoint="kush_tent_03" minheight="-20" maxheight="20"/>
++				<prop actor="props/structures/romans/rome_tent.xml" attachpoint="kush_tent_02" minheight="-20" maxheight="20"/>
++        <prop actor="props/structures/romans/rome_tent.xml" attachpoint="kush_tent_04" minheight="-20" maxheight="20"/>
++        <prop actor="props/structures/decals/dirt_5x5.xml" attachpoint="root" minheight="-20" maxheight="20"/>
++        <prop actor="flora/trees/palm_cretan_date_patch.xml" attachpoint="palm_tree" minheight="-20" maxheight="20"/>
++        <prop actor="props/flora/shrub_tropic_palm.xml" attachpoint="plant" minheight="-20" maxheight="20"/>
++        <prop actor="props/special/eyecandy/campfire_prop.xml" attachpoint="fire_camp" minheight="-20" maxheight="20"/>
++        <prop actor="props/special/eyecandy/campfire_prop.xml" attachpoint="fire_camp" minheight="-20" maxheight="20"/>
++        <prop actor="props/flora/shrub_tropic_palm.xml" attachpoint="camel_01" minheight="-20" maxheight="20"/>
++      </props>
++      <textures>
++        <texture file="null_white.dds" name="baseTex"/>
++      </textures>
++    </variant>
++  </group>
++  <group>
++    <variant name="ungarrisoned" frequency="1"/>
++    <variant name="garrisoned">
++      <props>
++        <prop actor="props/special/common/garrison_flag_iber.xml" attachpoint="garrisoned"/>
++      </props>
++    </variant>
++  </group>
++  <group>
++    <variant name="alive" frequency="1"/>
++    <variant file="structures/destruction_large.xml"/>
++  </group>
++  <material>default.xml</material>
++</actor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/cart/embassy_celtic.xml b/binaries/data/mods/public/simulation/templates/structures/cart/embassy_celtic.xml
+index 5d06285be7..a286167c05 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/cart/embassy_celtic.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/cart/embassy_celtic.xml
+@@ -6,15 +6,15 @@
+     </Resources>
+   </Cost>
+   <Footprint>
+-    <Square width="16.0" depth="13.0"/>
+-    <Height>11.0</Height>
++    <Square width="29.0" depth="29.0"/>
++    <Height>12.0</Height>
+   </Footprint>
+   <Health>
+     <Max>1200</Max>
+   </Health>
+   <Identity>
+     <Civ>cart</Civ>
+-    <SpecificName>Celtic Embassy</SpecificName>
++    <SpecificName>Celtic Mercenary Camp</SpecificName>
+     <Tooltip>Train Celtic Mercenaries and research Mercenary technologies.</Tooltip>
+     <Classes datatype="tokens">CivSpecific</Classes>
+     <Icon>structures/embassy_celtic.png</Icon>
+@@ -23,7 +23,7 @@
+     <wood>40</wood>
+   </Loot>
+   <Obstruction>
+-    <Static width="15.0" depth="12.0"/>
++    <Static width="29.0" depth="29.0"/>
+   </Obstruction>
+   <ProductionQueue>
+     <Entities datatype="tokens">
+@@ -32,6 +32,7 @@
+     </Entities>
+   </ProductionQueue>
+   <VisualActor>
+-    <Actor>structures/carthaginians/embassy_celtic.xml</Actor>
++    <Actor>structures/mercenaries/camp_celtic.xml</Actor>
++    <FoundationActor>structures/fndn_8x7.xml</FoundationActor>
+   </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/cart/embassy_iberian.xml b/binaries/data/mods/public/simulation/templates/structures/cart/embassy_iberian.xml
+index 88cadf5327..05a3b6c6cf 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/cart/embassy_iberian.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/cart/embassy_iberian.xml
+@@ -5,9 +5,13 @@
+       <stone>200</stone>
+     </Resources>
+   </Cost>
++  <Footprint>
++    <Square width="29.0" depth="29.0"/>
++    <Height>12.0</Height>
++  </Footprint>
+   <Identity>
+     <Civ>cart</Civ>
+-    <SpecificName>Iberian Embassy</SpecificName>
++    <SpecificName>Iberian Mercenary Camp</SpecificName>
+     <Tooltip>Train Iberian Mercenaries and research Mercenary technologies.</Tooltip>
+     <Classes datatype="tokens">CivSpecific</Classes>
+     <Icon>structures/embassy_iberian.png</Icon>
+@@ -16,7 +20,7 @@
+     <stone>40</stone>
+   </Loot>
+   <Obstruction>
+-    <Static width="16.0" depth="16.0"/>
++    <Static width="29.0" depth="29.0"/>
+   </Obstruction>
+   <ProductionQueue>
+     <Entities datatype="tokens">
+@@ -26,6 +30,7 @@
+     </Entities>
+   </ProductionQueue>
+   <VisualActor>
+-    <Actor>structures/carthaginians/embassy_iberian.xml</Actor>
++		<Actor>structures/mercenaries/camp_iberian.xml</Actor>
++    <FoundationActor>structures/fndn_8x7.xml</FoundationActor>
+   </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/cart/embassy_italic.xml b/binaries/data/mods/public/simulation/templates/structures/cart/embassy_italic.xml
+index 8be44cdf6e..585d40d67e 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/cart/embassy_italic.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/cart/embassy_italic.xml
+@@ -6,15 +6,14 @@
+     </Resources>
+   </Cost>
+   <Footprint>
+-    <Square width="13" depth="15.5"/>
+-    <Height>12.0</Height>
++    <Square width="27.0" depth="25.0"/>
+   </Footprint>
+   <Health>
+     <Max>1500</Max>
+   </Health>
+   <Identity>
+     <Civ>cart</Civ>
+-    <SpecificName>Italic Embassy</SpecificName>
++    <SpecificName>Italic Auxilliary Barracks</SpecificName>
+     <Tooltip>Train Italic Mercenaries and research Mercenary technologies.</Tooltip>
+     <Classes datatype="tokens">CivSpecific</Classes>
+     <Icon>structures/embassy_italic.png</Icon>
+@@ -23,7 +22,7 @@
+     <metal>40</metal>
+   </Loot>
+   <Obstruction>
+-    <Static width="11.0" depth="14.0"/>
++    <Static width="26.0" depth="24.0"/>
+   </Obstruction>
+   <ProductionQueue>
+     <Entities datatype="tokens">
+@@ -32,6 +31,7 @@
+     </Entities>
+   </ProductionQueue>
+   <VisualActor>
+-    <Actor>structures/carthaginians/embassy_italic.xml</Actor>
++    <Actor>structures/romans/range.xml</Actor>
++    <FoundationActor>structures/fndn_7x7.xml</FoundationActor>
+   </VisualActor>
+ </Entity>
+-- 
+2.25.1
+

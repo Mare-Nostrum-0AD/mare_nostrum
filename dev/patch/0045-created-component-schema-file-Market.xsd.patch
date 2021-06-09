@@ -1,0 +1,119 @@
+From 213a9cb8e07ee270ca674e592648fea2d033fe68 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Wed, 26 May 2021 22:12:37 -0700
+Subject: [PATCH 45/86] created component schema file Market.xsd
+
+Add and Multiply elements of CityMember/GrowthContrib use positiveInteger and nonNegativeDecimal, respectively
+
+Market DemandMultiplier is now optional
+
+Market DemandMultiplier actually utilized in calculating marketGain1
+---
+ .../public/simulation/components/CityMember.js |  4 ++--
+ .../public/simulation/components/Market.js     | 13 +++++++++----
+ .../components/schemas/CityMember.xsd          |  4 ++--
+ .../simulation/components/schemas/Market.xsd   | 18 ++++++++++++++++++
+ 4 files changed, 31 insertions(+), 8 deletions(-)
+ create mode 100644 binaries/data/mods/public/simulation/components/schemas/Market.xsd
+
+diff --git a/binaries/data/mods/public/simulation/components/CityMember.js b/binaries/data/mods/public/simulation/components/CityMember.js
+index 4a3e0e470f..d07b5d4a7c 100644
+--- a/binaries/data/mods/public/simulation/components/CityMember.js
++++ b/binaries/data/mods/public/simulation/components/CityMember.js
+@@ -5,10 +5,10 @@ CityMember.prototype.Schema =
+ 	"<element name='GrowthContrib' a:help='How much this entity contributes to city growth rate.'>" +
+ 		"<choice>" +
+ 			"<element name='Add' a:help='Value to add to city growth rate.'>" +
+-				"<ref name='decimal' />" +
++				"<data type='positiveInteger' />" +
+ 			"</element>" +
+ 			"<element name='Multiply' a:help='Value by which to multiply city growth rate.'>" +
+-				"<ref name='decimal' />" +
++				"<ref name='nonNegativeDecimal' />" +
+ 			"</element>" +
+ 		"</choice>" +
+ 	"</element>";
+diff --git a/binaries/data/mods/public/simulation/components/Market.js b/binaries/data/mods/public/simulation/components/Market.js
+index 6709513b5d..8f097c5bcc 100644
+--- a/binaries/data/mods/public/simulation/components/Market.js
++++ b/binaries/data/mods/public/simulation/components/Market.js
+@@ -11,9 +11,11 @@ Market.prototype.Schema =
+ 			"</oneOrMore>" +
+ 		"</list>" +
+ 	"</element>" +
+-	"<element name='DemandMultiplier' a:help='Multiplies trader gain.'>" +
+-		"<ref name='nonNegativeDecimal' />" +
+-	"</element>" +
++	"<optional>" +
++		"<element name='DemandMultiplier' a:help='Multiplies trader gain.'>" +
++			"<ref name='nonNegativeDecimal' />" +
++		"</element>" +
++	"</optional>" +
+ 	"<element name='InternationalBonus' a:help='Additional part of the gain donated when two different players trade'>" +
+ 		"<ref name='nonNegativeDecimal'/>" +
+ 	"</element>";
+@@ -36,6 +38,8 @@ Market.prototype.RemoveTrader = function(ent)
+ 
+ Market.prototype.GetDemandMultiplier = function()
+ {
++	if (!this.template.DemandMultiplier)
++		return 1;
+ 	return ApplyValueModificationsToEntity("Market/DemandMultiplier", +this.template.DemandMultiplier, this.entity);
+ };
+ 
+@@ -137,9 +141,10 @@ Market.prototype.CalculateTraderGain = function(secondMarket, traderTemplate, tr
+ 
+ 	if (gain.market1Owner != gain.market2Owner)
+ 	{
++		let demandMultiplier1 = this.GetDemandMultiplier();
+ 		let internationalBonus1 = this.GetInternationalBonus();
+ 		let internationalBonus2 = cmpMarket2.GetInternationalBonus();
+-		gain.market1Gain = Math.round(gain.traderGain * internationalBonus1);
++		gain.market1Gain = Math.round(gain.traderGain * demandMultiplier1 * internationalBonus1);
+ 		gain.market2Gain = Math.round(gain.traderGain * internationalBonus2);
+ 	}
+ 
+diff --git a/binaries/data/mods/public/simulation/components/schemas/CityMember.xsd b/binaries/data/mods/public/simulation/components/schemas/CityMember.xsd
+index 001b66ed0c..b08f522900 100644
+--- a/binaries/data/mods/public/simulation/components/schemas/CityMember.xsd
++++ b/binaries/data/mods/public/simulation/components/schemas/CityMember.xsd
+@@ -2,10 +2,10 @@
+ <element name='GrowthContrib' a:help='How much this entity contributes to city growth rate.'>
+ 	<choice>
+ 		<element name='Add' a:help='Value to add to city growth rate.'>
+-			<ref name='decimal' />
++			<data type='positiveInteger' />
+ 		</element>
+ 		<element name='Multiply' a:help='Value by which to multiply city growth rate.'>
+-			<ref name='decimal' />
++			<ref name='nonNegativeDecimal' />
+ 		</element>
+ 	</choice>
+ </element>
+diff --git a/binaries/data/mods/public/simulation/components/schemas/Market.xsd b/binaries/data/mods/public/simulation/components/schemas/Market.xsd
+new file mode 100644
+index 0000000000..3de358c095
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/components/schemas/Market.xsd
+@@ -0,0 +1,18 @@
++<element name='TradeType' a:help='Specifies the type of possible trade route (land or naval).'>
++	<list>
++		<oneOrMore>
++			<choice>
++				<value>land</value>
++				<value>naval</value>
++			</choice>
++		</oneOrMore>
++	</list>
++</element>
++<optional>
++	<element name='DemandMultiplier' a:help='Multiplies trader gain.'>
++		<ref name='nonNegativeDecimal' />
++	</element>
++</optional>
++<element name='InternationalBonus' a:help='Additional part of the gain donated when two different players trade'>
++	<ref name='nonNegativeDecimal'/>
++</element>
+-- 
+2.25.1
+

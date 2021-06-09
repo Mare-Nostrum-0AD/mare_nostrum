@@ -1,0 +1,25 @@
+From 2ad07ae48da30000036a572627801c4381d75912 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Tue, 1 Jun 2021 20:45:34 -0700
+Subject: [PATCH 67/86] heroes available in city phase
+
+---
+ .../mods/public/simulation/templates/template_unit_hero.xml     | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/binaries/data/mods/public/simulation/templates/template_unit_hero.xml b/binaries/data/mods/public/simulation/templates/template_unit_hero.xml
+index fd2c5c6a98..2762407d43 100644
+--- a/binaries/data/mods/public/simulation/templates/template_unit_hero.xml
++++ b/binaries/data/mods/public/simulation/templates/template_unit_hero.xml
+@@ -25,7 +25,7 @@
+     <Classes datatype="tokens">Human</Classes>
+     <GenericName>Hero</GenericName>
+     <Icon>technologies/laurel_wreath.png</Icon>
+-    <RequiredTechnology>phase_hegemon</RequiredTechnology>
++    <RequiredTechnology>phase_city</RequiredTechnology>
+     <VisibleClasses datatype="tokens">Soldier Hero</VisibleClasses>
+   </Identity>
+   <Loot>
+-- 
+2.25.1
+

@@ -1,0 +1,70 @@
+From 2e097caa0f28f4b5c286f93a40d2418b70551f4d Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sun, 23 May 2021 12:59:18 -0700
+Subject: [PATCH 04/86] changed roman spearman civ from ital to rome
+
+changed nile/ship_fire civ from nile to gaia
+
+removed pers/hero_02 (old Darius)
+---
+ .../templates/units/nile/ship_fire.xml        |  2 +-
+ .../templates/units/pers/hero_02.xml          | 20 -------------------
+ .../units/rome/infantry_spearman_b.xml        |  2 +-
+ 3 files changed, 2 insertions(+), 22 deletions(-)
+ delete mode 100644 binaries/data/mods/public/simulation/templates/units/pers/hero_02.xml
+
+diff --git a/binaries/data/mods/public/simulation/templates/units/nile/ship_fire.xml b/binaries/data/mods/public/simulation/templates/units/nile/ship_fire.xml
+index 8b3432508d..2af8d541e7 100644
+--- a/binaries/data/mods/public/simulation/templates/units/nile/ship_fire.xml
++++ b/binaries/data/mods/public/simulation/templates/units/nile/ship_fire.xml
+@@ -1,7 +1,7 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_unit_ship_fire">
+   <Identity>
+-    <Civ>nile</Civ>
++    <Civ>gaia</Civ>
+     <Icon>units/ship_fire.png</Icon>
+   </Identity>
+   <VisualActor>
+diff --git a/binaries/data/mods/public/simulation/templates/units/pers/hero_02.xml b/binaries/data/mods/public/simulation/templates/units/pers/hero_02.xml
+deleted file mode 100644
+index 7bd440212d..0000000000
+--- a/binaries/data/mods/public/simulation/templates/units/pers/hero_02.xml
++++ /dev/null
+@@ -1,20 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_unit_hero_cavalry_archer">
+-  <Auras datatype="tokens">
+-    units/heroes/pers_hero_darius
+-  </Auras>
+-  <Footprint replace="">
+-    <Square width="6.0" depth="12.0"/>
+-    <Height>5.0</Height>
+-  </Footprint>
+-  <Identity>
+-    <Civ>pers</Civ>
+-    <VisibleClasses datatype="tokens">Chariot</VisibleClasses>
+-    <GenericName>Darius The Great</GenericName>
+-    <SpecificName>Darayavahush I</SpecificName>
+-    <Icon>units/pers_hero_darius.png</Icon>
+-  </Identity>
+-  <VisualActor>
+-    <Actor>units/persians/hero_chariot_archer_darius_m.xml</Actor>
+-  </VisualActor>
+-</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/units/rome/infantry_spearman_b.xml b/binaries/data/mods/public/simulation/templates/units/rome/infantry_spearman_b.xml
+index 903f43337b..50c240bc56 100644
+--- a/binaries/data/mods/public/simulation/templates/units/rome/infantry_spearman_b.xml
++++ b/binaries/data/mods/public/simulation/templates/units/rome/infantry_spearman_b.xml
+@@ -15,7 +15,7 @@
+     </DamageVariants>
+   </Health>
+   <Identity>
+-    <Civ>ital</Civ>
++    <Civ>rome</Civ>
+     <Lang>latin</Lang>
+     <SelectionGroupName>units/rome/infantry_spearman_b</SelectionGroupName>
+     <GenericName>Veteran Spearman</GenericName>
+-- 
+2.25.1
+

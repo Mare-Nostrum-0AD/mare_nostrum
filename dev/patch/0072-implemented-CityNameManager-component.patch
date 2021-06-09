@@ -1,0 +1,200 @@
+From 315db3921f91f32ac80859c38543a10a6c8719b8 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Wed, 2 Jun 2021 19:00:17 -0700
+Subject: [PATCH 72/86] implemented CityNameManager component
+
+City component now automatically chooses city names from CityNameManager
+
+added city names for rome, athens
+---
+ .../mods/public/simulation/components/City.js | 12 ++++
+ .../simulation/components/CityNameManager.js  | 68 +++++++++++++++++++
+ .../components/interfaces/CityNameManager.js  |  1 +
+ .../public/simulation/data/cities/athen.json  | 17 +++++
+ .../public/simulation/data/cities/rome.json   | 11 +++
+ .../public/simulation/data/civs/athen.json    | 14 ----
+ 6 files changed, 109 insertions(+), 14 deletions(-)
+ create mode 100644 binaries/data/mods/public/simulation/components/CityNameManager.js
+ create mode 100644 binaries/data/mods/public/simulation/components/interfaces/CityNameManager.js
+ create mode 100644 binaries/data/mods/public/simulation/data/cities/athen.json
+ create mode 100644 binaries/data/mods/public/simulation/data/cities/rome.json
+
+diff --git a/binaries/data/mods/public/simulation/components/City.js b/binaries/data/mods/public/simulation/components/City.js
+index 27322b7968..08b678e79f 100644
+--- a/binaries/data/mods/public/simulation/components/City.js
++++ b/binaries/data/mods/public/simulation/components/City.js
+@@ -104,6 +104,11 @@ City.prototype.Init = function()
+ 	this.cityMembers = new Set();
+ 	// set timer this.growthTimer to grow population at interval
+ 	this.ResetGrowthTimer();
++	// get city name from city name manager, if possible
++	// if not, try again on game startup
++	let cmpCityNameManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_CityNameManager);
++	if (cmpCityNameManager)
++		this.SetName(cmpCityNameManager.ChooseCityName(this.entity));
+ 	// count initial pop for statistics tracker
+ 	// only if initial city, not for city upgrades
+ 	if (!this.IsInitial())
+@@ -532,6 +537,13 @@ City.prototype.OnDestroy = function(msg)
+ City.prototype.OnInitGame = function()
+ {
+ 	this.SetupCityMembersQuery();
++	// try to set city name
++	if (!this.GetName() || !this.GetName().length)
++	{
++		let cmpCityNameManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_CityNameManager);
++		if (cmpCityNameManager)
++			this.SetName(cmpCityNameManager.ChooseCityName(this.entity));
++	}
+ };
+ 
+ City.prototype.OnTradePerformed = function({ market, goods })
+diff --git a/binaries/data/mods/public/simulation/components/CityNameManager.js b/binaries/data/mods/public/simulation/components/CityNameManager.js
+new file mode 100644
+index 0000000000..3bcd5ef3a1
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/components/CityNameManager.js
+@@ -0,0 +1,68 @@
++function CityNameManager() {}
++
++// City names are stored in simulation/data/cities/<CIV>.json files
++// Each <CIV>.json file should contain an object mapping city name codes to either a string containing a city name
++// or an object of the format { "Name": String, "Properties": [String ...] }
++// Each city name code should be the city's name in modern English, lowercase, without diacritics, and with spaces replaced with underscores (_)
++// The purpose of this is to prevent situations where two separate names referring to the same city in different languages or time periods are chosen in the same game.
++
++CityNameManager.prototype.Schema = "<a:component type='system'/><empty/>";
++
++CityNameManager.prototype.Init = function()
++{
++	const cityFilesDir = "simulation/data/cities/";
++	this.takenNameCodes = new Set();
++	// read city name files, parse into map mapping civ code => map of city codes to names/properties
++	this.civCityNames = new Map();
++	for (let filename of Engine.ListDirectoryFiles(cityFilesDir, "*.json", false))
++	{
++		let civCode = filename.substring(cityFilesDir.length, filename.length - 5);
++		this.civCityNames.set(civCode, new Map(Object.entries(Engine.ReadJSONFile(filename))));
++	}
++	// track which players have had their first city named; first city names should have the property "capital" if possible
++	this.playersWithNamedCapital = new Set();
++};
++
++// chooses from city names for civ identified by civCode, filtered by filter
++// removes chosen name from future eligibility
++// @param civCode			String		code of civ for names to choose from (i.e. "athen", "kush")
++// @param filter			Function	function of the form (cityName (String) OR cityNameObject (Object)) => boolean
++// @return					String		City name; "" if unsuccessful
++CityNameManager.prototype.ChooseCityNameByFilter = function(civCode, filter)
++{
++	let cityNames = this.civCityNames.get(civCode);
++	if (!cityNames)
++		return "";
++	let candidates = [...cityNames.entries()].filter(([cityCode, cityName]) => {
++		if (this.takenNameCodes.has(cityCode))
++			return false;
++		return filter(cityName);
++	});
++	if (!candidates || !candidates.length)
++		return "";
++	let [chosenCityCode, chosenCityName] = pickRandom(candidates);
++	cityNames.delete(chosenCityCode);
++	this.takenNameCodes.add(chosenCityCode);
++	return typeof chosenCityName === 'object' ? chosenCityName.Name : chosenCityName;
++};
++
++CityNameManager.prototype.ChooseCityName = function(cityEntity)
++{
++	const cmpIdentity = Engine.QueryInterface(cityEntity, IID_Identity);
++	const cmpPlayer = QueryOwnerInterface(cityEntity);
++	if (!cmpIdentity || !cmpPlayer)
++		return "";
++	const playerID = cmpPlayer.GetPlayerID();
++	const civCode = cmpIdentity.GetCiv();
++	const filter = this.playersWithNamedCapital.has(playerID) ?
++		() => true :
++		(cityName) => typeof cityName === 'object' && cityName.Properties && cityName.Properties.indexOf("capital") !== -1;
++	this.playersWithNamedCapital.add(playerID);
++	let candidate = this.ChooseCityNameByFilter(civCode, filter);
++	if (candidate && candidate.length)
++		return candidate;
++	// if no eligible capital name found, default to any city name
++	return this.ChooseCityNameByFilter(civCode, () => true);
++};
++
++Engine.RegisterSystemComponentType(IID_CityNameManager, "CityNameManager", CityNameManager);
+diff --git a/binaries/data/mods/public/simulation/components/interfaces/CityNameManager.js b/binaries/data/mods/public/simulation/components/interfaces/CityNameManager.js
+new file mode 100644
+index 0000000000..aba1fa6977
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/components/interfaces/CityNameManager.js
+@@ -0,0 +1 @@
++Engine.RegisterInterface("CityNameManager");
+diff --git a/binaries/data/mods/public/simulation/data/cities/athen.json b/binaries/data/mods/public/simulation/data/cities/athen.json
+new file mode 100644
+index 0000000000..f0df2abdb7
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/data/cities/athen.json
+@@ -0,0 +1,17 @@
++{
++	"athens": {
++		"Name": "Athenai",
++		"Properties": ["capital"]
++	},
++	"piraeus": "Peiraieus",
++	"erechtheis": "Erechtheis",
++	"aigeis": "Aigeis",
++	"pandionis": "Pandionis",
++	"leontis": "Leontis",
++	"acamantis": "Acamantis",
++	"oineis": "Oineis",
++	"kekropis": "Kekropis",
++	"hippothontis": "Hippothontis",
++	"aiantis": "Aiantis",
++	"antiochis": "Antiochis"
++}
+diff --git a/binaries/data/mods/public/simulation/data/cities/rome.json b/binaries/data/mods/public/simulation/data/cities/rome.json
+new file mode 100644
+index 0000000000..fc61ed3465
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/data/cities/rome.json
+@@ -0,0 +1,11 @@
++{
++	"rome": {
++		"Name": "Roma",
++		"Properties": ["capital"]
++	},
++	"ostia": "Ostia",
++	"naples": "Neapolis",
++	"bologna": "Bononia",
++	"milan": "Mediolanum",
++	"benevento": "Beneventum"
++}
+diff --git a/binaries/data/mods/public/simulation/data/civs/athen.json b/binaries/data/mods/public/simulation/data/civs/athen.json
+index 00982cad64..3242d2b26b 100644
+--- a/binaries/data/mods/public/simulation/data/civs/athen.json
++++ b/binaries/data/mods/public/simulation/data/civs/athen.json
+@@ -4,20 +4,6 @@
+ 	"Name": "Athenians",
+ 	"Emblem": "session/portraits/emblems/emblem_athenians.png",
+ 	"History": "As the cradle of Western civilization and the birthplace of democracy, Athens was famed as a center for the arts, learning and philosophy. The Athenians were also powerful warriors, particularly at sea. At its peak, Athens dominated a large part of the Hellenic world for several decades.",
+-	"Cities": [
+-		"Athenai",
+-		"Peiraieus",
+-		"Erechtheis",
+-		"Aigeis",
+-		"Pandionis",
+-		"Leontis",
+-		"Acamantis",
+-		"Oineis",
+-		"Kekropis",
+-		"Hippothontis",
+-		"Aiantis",
+-		"Antiochis"
+-	],
+ 	"Music": [
+ 		{
+ 			"File": "Harvest_Festival.ogg",
+-- 
+2.25.1
+

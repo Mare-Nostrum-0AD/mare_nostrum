@@ -1,0 +1,155 @@
+From 01990b34d14cde8eaf892d1bafa0a00ccbd8f5d6 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Mon, 24 May 2021 18:45:22 -0700
+Subject: [PATCH 31/86] removed millenniumad, terra magna, aristeia random civ
+ groups
+
+removed victory condition "Conquest Civil Centres"; "Conquest Civic Centres" makes it redundant
+
+set "Conquest Civic Centres" as default victory condition
+
+added 400, 500 population capacities, set default to 300
+---
+ .../data/settings/population_capacities.json    |  4 ++--
+ .../data/settings/random_groups/aristeia.json   | 13 -------------
+ .../settings/random_groups/millenniumad.json    | 14 --------------
+ .../settings/random_groups/terra_magna.json     | 12 ------------
+ .../settings/victory_conditions/conquest.json   |  3 +--
+ .../conquest_civiccentres.json                  |  5 +++--
+ .../conquest_civil_centres.json                 | 17 -----------------
+ 7 files changed, 6 insertions(+), 62 deletions(-)
+ delete mode 100644 binaries/data/mods/public/simulation/data/settings/random_groups/aristeia.json
+ delete mode 100644 binaries/data/mods/public/simulation/data/settings/random_groups/millenniumad.json
+ delete mode 100644 binaries/data/mods/public/simulation/data/settings/random_groups/terra_magna.json
+ delete mode 100644 binaries/data/mods/public/simulation/data/settings/victory_conditions/conquest_civil_centres.json
+
+diff --git a/binaries/data/mods/public/simulation/data/settings/population_capacities.json b/binaries/data/mods/public/simulation/data/settings/population_capacities.json
+index e6fdc5e385..bd2c9c7921 100644
+--- a/binaries/data/mods/public/simulation/data/settings/population_capacities.json
++++ b/binaries/data/mods/public/simulation/data/settings/population_capacities.json
+@@ -1,4 +1,4 @@
+ {
+-	"PopulationCapacities": [50, 100, 150, 200, 250, 300, 10000],
+-	"Default": 200
++	"PopulationCapacities": [50, 100, 150, 200, 250, 300, 400, 500, 10000],
++	"Default": 300
+ }
+diff --git a/binaries/data/mods/public/simulation/data/settings/random_groups/aristeia.json b/binaries/data/mods/public/simulation/data/settings/random_groups/aristeia.json
+deleted file mode 100644
+index e726c24ec3..0000000000
+--- a/binaries/data/mods/public/simulation/data/settings/random_groups/aristeia.json
++++ /dev/null
+@@ -1,13 +0,0 @@
+-{
+-	"Title": "Aristeia",
+-	"Tooltip": "Civs from the mod Aristeia.",
+-	"Code": "aristeia",
+-	"Color": "green",
+-	"GUIOrder": 2,
+-	"Weights": {
+-		"arcgreek": 1,
+-		"assyrian": 1,
+-		"egyptian": 1,
+-		"judah": 1
+-	}
+-}
+diff --git a/binaries/data/mods/public/simulation/data/settings/random_groups/millenniumad.json b/binaries/data/mods/public/simulation/data/settings/random_groups/millenniumad.json
+deleted file mode 100644
+index ad3ec93ffb..0000000000
+--- a/binaries/data/mods/public/simulation/data/settings/random_groups/millenniumad.json
++++ /dev/null
+@@ -1,14 +0,0 @@
+-{
+-	"Title": "Millennium A.D.",
+-	"Code": "millenniumad",
+-	"Color": "green",
+-	"GUIOrder": 2,
+-	"Tooltip": "Civs from Millennium A.D.",
+-	"Weights": {
+-		"anglo": 1,
+-		"byza": 1,
+-		"caro": 1,
+-		"norse": 1,
+-		"umay": 1
+-	}
+-}
+diff --git a/binaries/data/mods/public/simulation/data/settings/random_groups/terra_magna.json b/binaries/data/mods/public/simulation/data/settings/random_groups/terra_magna.json
+deleted file mode 100644
+index e355a54eeb..0000000000
+--- a/binaries/data/mods/public/simulation/data/settings/random_groups/terra_magna.json
++++ /dev/null
+@@ -1,12 +0,0 @@
+-{
+-	"Title": "Terra Magna",
+-	"Code": "terra_magna",
+-	"Color": "green",
+-	"GUIOrder": 2,
+-	"Tooltip": "Civs from Terra Magna.",
+-	"Weights": {
+-		"chin": 1,
+-		"xion": 1,
+-		"zapo": 1
+-	}
+-}
+diff --git a/binaries/data/mods/public/simulation/data/settings/victory_conditions/conquest.json b/binaries/data/mods/public/simulation/data/settings/victory_conditions/conquest.json
+index 1868d5bd37..6876a19703 100644
+--- a/binaries/data/mods/public/simulation/data/settings/victory_conditions/conquest.json
++++ b/binaries/data/mods/public/simulation/data/settings/victory_conditions/conquest.json
+@@ -10,8 +10,7 @@
+ 			"scripts/ConquestCommon.js",
+ 			"scripts/Conquest.js"
+ 		],
+-		"Default": true,
+ 		"DisabledWhenChecked": ["conquest_units", "conquest_structures", "conquest_civiccentres"],
+-		"GUIOrder": 0
++		"GUIOrder": 3
+ 	}
+ }
+diff --git a/binaries/data/mods/public/simulation/data/settings/victory_conditions/conquest_civiccentres.json b/binaries/data/mods/public/simulation/data/settings/victory_conditions/conquest_civiccentres.json
+index 6328fbb6c4..ea45a2b000 100644
+--- a/binaries/data/mods/public/simulation/data/settings/victory_conditions/conquest_civiccentres.json
++++ b/binaries/data/mods/public/simulation/data/settings/victory_conditions/conquest_civiccentres.json
+@@ -3,14 +3,15 @@
+ 	"Data":
+ 	{
+ 		"Title": "Conquest Civic Centres",
+-		"Description": "Defeat opponents by destroying all their fully build civic centres.",
++		"Description": "Defeat opponents by destroying all their fully built civic centres.",
+ 		"Scripts":
+ 		[
+ 			"scripts/TriggerHelper.js",
+ 			"scripts/ConquestCommon.js",
+ 			"scripts/ConquestCivicCentres.js"
+ 		],
++		"Default": true,
+ 		"DisabledWhenChecked": ["conquest", "conquest_structures"],
+-		"GUIOrder": 3
++		"GUIOrder": 0
+ 	}
+ }
+diff --git a/binaries/data/mods/public/simulation/data/settings/victory_conditions/conquest_civil_centres.json b/binaries/data/mods/public/simulation/data/settings/victory_conditions/conquest_civil_centres.json
+deleted file mode 100644
+index 1488f43b40..0000000000
+--- a/binaries/data/mods/public/simulation/data/settings/victory_conditions/conquest_civil_centres.json
++++ /dev/null
+@@ -1,17 +0,0 @@
+-{
+-	"TranslatedKeys": ["Title", "Description"],
+-	"Data":
+-	{
+-		"Title": "Conquest Civil Centres",
+-		"Description": "Defeat opponents by capturing or destroying all their civil centres.",
+-		"Scripts":
+-		[
+-			"scripts/TriggerHelper.js",
+-			"scripts/ConquestCommon.js",
+-			"scripts/ConquestCivilCentres.js"
+-		],
+-		"Default": true,
+-		"DisabledWhenChecked": ["conquest"],
+-		"GUIOrder": 0
+-	}
+-}
+-- 
+2.25.1
+

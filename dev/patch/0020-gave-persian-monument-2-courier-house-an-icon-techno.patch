@@ -1,0 +1,25 @@
+From 6c9a540aa0bc7f8ae075555bdd7b43c34837f215 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sun, 23 May 2021 19:36:21 -0700
+Subject: [PATCH 20/86] gave persian monument 2 (courier house) an icon:
+ technologies/horse_rider.png
+
+---
+ .../public/simulation/templates/structures/pers/monument_02.xml  | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/binaries/data/mods/public/simulation/templates/structures/pers/monument_02.xml b/binaries/data/mods/public/simulation/templates/structures/pers/monument_02.xml
+index a9025550dd..eacf2f7181 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/pers/monument_02.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/pers/monument_02.xml
+@@ -14,6 +14,7 @@
+     <Civ>pers</Civ>
+     <SpecificName>Chapar Khaneh</SpecificName>
+     <GenericName>Courier House</GenericName>
++		<Icon>technologies/horse_rider.png</Icon>
+   </Identity>
+   <Obstruction>
+     <Static width="28.0" depth="15.0"/>
+-- 
+2.25.1
+

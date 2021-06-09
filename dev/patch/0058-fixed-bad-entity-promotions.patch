@@ -1,0 +1,74 @@
+From f381af1f124dee7140681af2eccab84b574a6c30 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sun, 30 May 2021 23:07:47 -0700
+Subject: [PATCH 58/86] fixed bad entity promotions
+
+---
+ .../simulation/templates/units/maur/infantry_spearman_a.xml   | 2 +-
+ .../simulation/templates/units/maur/infantry_swordsman_a.xml  | 2 +-
+ .../simulation/templates/units/ptol/infantry_slinger_a.xml    | 2 +-
+ .../simulation/templates/units/sele/infantry_pikeman_b.xml    | 4 ++--
+ 4 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/binaries/data/mods/public/simulation/templates/units/maur/infantry_spearman_a.xml b/binaries/data/mods/public/simulation/templates/units/maur/infantry_spearman_a.xml
+index 1dcb94921c..1f01f38261 100644
+--- a/binaries/data/mods/public/simulation/templates/units/maur/infantry_spearman_a.xml
++++ b/binaries/data/mods/public/simulation/templates/units/maur/infantry_spearman_a.xml
+@@ -4,7 +4,7 @@
+     <Rank>Advanced</Rank>
+   </Identity>
+   <Promotion>
+-    <Entity>units/maur_infantry_spearman_e</Entity>
++		<Entity>units/maur/infantry_spearman_e</Entity>
+   </Promotion>
+   <VisualActor>
+     <Actor>units/mauryas/infantry_spearman_a.xml</Actor>
+diff --git a/binaries/data/mods/public/simulation/templates/units/maur/infantry_swordsman_a.xml b/binaries/data/mods/public/simulation/templates/units/maur/infantry_swordsman_a.xml
+index 0c19aa6cb6..0780900aa9 100644
+--- a/binaries/data/mods/public/simulation/templates/units/maur/infantry_swordsman_a.xml
++++ b/binaries/data/mods/public/simulation/templates/units/maur/infantry_swordsman_a.xml
+@@ -4,7 +4,7 @@
+     <Rank>Advanced</Rank>
+   </Identity>
+   <Promotion>
+-    <Entity>units/maur_infantry_swordsman_e</Entity>
++		<Entity>units/maur/infantry_swordsman_e</Entity>
+   </Promotion>
+   <VisualActor>
+     <Actor>units/mauryas/infantry_swordsman_a.xml</Actor>
+diff --git a/binaries/data/mods/public/simulation/templates/units/ptol/infantry_slinger_a.xml b/binaries/data/mods/public/simulation/templates/units/ptol/infantry_slinger_a.xml
+index ccb3e76a88..340d7ea9cf 100644
+--- a/binaries/data/mods/public/simulation/templates/units/ptol/infantry_slinger_a.xml
++++ b/binaries/data/mods/public/simulation/templates/units/ptol/infantry_slinger_a.xml
+@@ -4,7 +4,7 @@
+     <Rank>Advanced</Rank>
+   </Identity>
+   <Promotion>
+-    <Entity>units/ptol_infantry_slinger_e</Entity>
++		<Entity>units/ptol/infantry_slinger_e</Entity>
+   </Promotion>
+   <VisualActor>
+     <Actor>units/macedonians/infantry_slinger_a.xml</Actor>
+diff --git a/binaries/data/mods/public/simulation/templates/units/sele/infantry_pikeman_b.xml b/binaries/data/mods/public/simulation/templates/units/sele/infantry_pikeman_b.xml
+index 22232ebcbe..21fe371c26 100644
+--- a/binaries/data/mods/public/simulation/templates/units/sele/infantry_pikeman_b.xml
++++ b/binaries/data/mods/public/simulation/templates/units/sele/infantry_pikeman_b.xml
+@@ -8,13 +8,13 @@
+   <Identity>
+     <Civ>sele</Civ>
+     <Lang>greek</Lang>
+-    <SelectionGroupName>units/sele_infantry_pikeman_b</SelectionGroupName>
++		<SelectionGroupName>units/sele/infantry_pikeman</SelectionGroupName>
+     <GenericName>Bronze Shield Pikeman</GenericName>
+     <SpecificName>Chalkaspides</SpecificName>
+     <Icon>units/sele_infantry_spearman.png</Icon>
+   </Identity>
+   <Promotion>
+-    <Entity>units/sele_infantry_pikeman_a</Entity>
++		<Entity>units/sele/infantry_pikeman_a</Entity>
+   </Promotion>
+   <VisualActor>
+     <Actor>units/seleucids/infantry_pikeman_b.xml</Actor>
+-- 
+2.25.1
+

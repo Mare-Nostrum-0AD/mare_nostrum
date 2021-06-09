@@ -1,0 +1,67 @@
+From 17ea12d5bed49b2dcc8d2c1e260ac220149d2eea Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sun, 23 May 2021 19:21:30 -0700
+Subject: [PATCH 17/86] removed spartan palace
+
+---
+ .../templates/structures/spart/palace.xml     | 48 -------------------
+ 1 file changed, 48 deletions(-)
+ delete mode 100644 binaries/data/mods/public/simulation/templates/structures/spart/palace.xml
+
+diff --git a/binaries/data/mods/public/simulation/templates/structures/spart/palace.xml b/binaries/data/mods/public/simulation/templates/structures/spart/palace.xml
+deleted file mode 100644
+index 368f47c695..0000000000
+--- a/binaries/data/mods/public/simulation/templates/structures/spart/palace.xml
++++ /dev/null
+@@ -1,48 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_palace">
+-  <Cost>
+-    <BuildTime>200</BuildTime>
+-    <Resources>
+-      <wood op="mul">0.5</wood>
+-      <stone op="mul">0.5</stone>
+-      <wealth op="mul">0.5</wealth>
+-    </Resources>
+-  </Cost>
+-  <Footprint replace="">
+-    <Circle radius="12.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <Max>2000</Max>
+-  </Health>
+-  <Identity>
+-    <Civ>spart</Civ>
+-    <GenericName>Spartan Senate</GenericName>
+-    <SpecificName>Gerontía</SpecificName>
+-    <Tooltip>Train heroes.</Tooltip>
+-    <Icon>structures/tholos.png</Icon>
+-  </Identity>
+-  <Loot>
+-    <wood>0</wood>
+-    <stone>25</stone>
+-    <metal>50</metal>
+-  </Loot>
+-  <Obstruction>
+-    <Static width="20.0" depth="20.0"/>
+-  </Obstruction>
+-  <ProductionQueue>
+-    <Technologies datatype="tokens">
+-			pair_government_{civ}
+-		</Technologies>
+-  </ProductionQueue>
+-  <Sound>
+-    <SoundGroups>
+-      <select>interface/select/building/sel_tholos.xml</select>
+-      <constructed>interface/complete/building/complete_tholos.xml</constructed>
+-      <death>attack/destruction/building_collapse_large.xml</death>
+-    </SoundGroups>
+-  </Sound>
+-  <VisualActor>
+-    <Actor>structures/spartans/gerousia.xml</Actor>
+-  </VisualActor>
+-</Entity>
+-- 
+2.25.1
+

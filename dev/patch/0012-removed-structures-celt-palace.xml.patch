@@ -1,0 +1,84 @@
+From b804eb97ce9838d16e535e2dce0b138ec5fed5c6 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sun, 23 May 2021 18:29:18 -0700
+Subject: [PATCH 12/86] removed structures/celt/palace.xml
+
+---
+ .../templates/structures/celt/palace.xml      | 65 -------------------
+ 1 file changed, 65 deletions(-)
+ delete mode 100644 binaries/data/mods/public/simulation/templates/structures/celt/palace.xml
+
+diff --git a/binaries/data/mods/public/simulation/templates/structures/celt/palace.xml b/binaries/data/mods/public/simulation/templates/structures/celt/palace.xml
+deleted file mode 100644
+index 62f530863e..0000000000
+--- a/binaries/data/mods/public/simulation/templates/structures/celt/palace.xml
++++ /dev/null
+@@ -1,65 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_palace">
+-  <Cost>
+-    <BuildTime>200</BuildTime>
+-    <Resources>
+-      <stone>0</stone>
+-    </Resources>
+-  </Cost>
+-  <Footprint replace="">
+-    <Circle radius="15.0"/>
+-    <Height>10.0</Height>
+-  </Footprint>
+-  <Health>
+-    <Max>2000</Max>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_stone_6x6</SpawnEntityOnDeath>
+-  </Health>
+-  <Identity>
+-    <Civ>gaul</Civ>
+-    <GenericName>Assembly of Princes</GenericName>
+-    <SpecificName>Remogantion</SpecificName>
+-    <Tooltip>Train Champion Trumpeters and Heroes.</Tooltip>
+-    <Classes datatype="tokens">ConquestCritical CivSpecific</Classes>
+-    <VisibleClasses datatype="tokens">Council</VisibleClasses>
+-    <Icon>structures/tholos.png</Icon>
+-  </Identity>
+-  <Loot>
+-    <wood>80</wood>
+-  </Loot>
+-  <Obstruction>
+-    <Static width="25.0" depth="25.0"/>
+-  </Obstruction>
+-  <ProductionQueue>
+-    <BatchTimeModifier>0.7</BatchTimeModifier>
+-    <Entities datatype="tokens">
+-      units/{civ}/champion_infantry_trumpeter
+-    </Entities>
+-  </ProductionQueue>
+-  <Resistance>
+-    <Entity>
+-      <Damage>
+-        <Hack>20</Hack>
+-        <Pierce>30</Pierce>
+-        <Crush>3</Crush>
+-      </Damage>
+-    </Entity>
+-  </Resistance>
+-  <Sound>
+-    <SoundGroups>
+-      <select>interface/select/building/sel_iber_monument.xml</select>
+-      <constructed>interface/complete/building/complete_iber_monument.xml</constructed>
+-    </SoundGroups>
+-  </Sound>
+-  <TerritoryInfluence>
+-    <Root>false</Root>
+-    <Radius>40</Radius>
+-    <Weight>40000</Weight>
+-  </TerritoryInfluence>
+-  <Vision>
+-    <Range>40</Range>
+-  </Vision>
+-  <VisualActor>
+-    <Actor>structures/gauls/theater.xml</Actor>
+-    <FoundationActor>structures/fndn_6x6.xml</FoundationActor>
+-  </VisualActor>
+-</Entity>
+-- 
+2.25.1
+

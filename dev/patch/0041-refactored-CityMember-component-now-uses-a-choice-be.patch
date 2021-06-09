@@ -1,0 +1,134 @@
+From e5c1de5b5b5613cc57401643a000b0ae019b61cb Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Wed, 26 May 2021 17:29:43 -0700
+Subject: [PATCH 41/86] refactored CityMember component; now uses a choice
+ between Add and Multiply elements instead of separate Operation and Value
+ elements for GrowthContrib
+
+---
+ .../simulation/components/CityMember.js       | 51 ++++++++++---------
+ .../templates/template_structure_civic.xml    |  2 +-
+ .../template_structure_civic_house_big.xml    |  2 +-
+ .../template_structure_civic_temple.xml       |  2 +-
+ ...template_structure_civic_temple_patron.xml |  2 +-
+ 5 files changed, 30 insertions(+), 29 deletions(-)
+
+diff --git a/binaries/data/mods/public/simulation/components/CityMember.js b/binaries/data/mods/public/simulation/components/CityMember.js
+index 9ee4346cc1..64de0dfbf9 100644
+--- a/binaries/data/mods/public/simulation/components/CityMember.js
++++ b/binaries/data/mods/public/simulation/components/CityMember.js
+@@ -1,33 +1,34 @@
+ function CityMember() {}
+ 
+-CityMember.prototype.Schema = "<a:help>Identifies this entity as a potential member of a city, able to contribute to its growth and other attributes. City membership is determined by whether this entity is within the city's radius (see City.js).</a:help>" +
+-"<element name='GrowthContrib' a:help='How much this entity contributes to city growth rate.'>" +
+-"	<element name='Operation' a:help='How to modify city growth. Either add or multiply'>" +
+-"		<choice>" +
+-"			<value>add</value>" +
+-"			<value>multiply</value>" +
+-"		</choice>" +
+-"	</element>" +
+-"	<element name='Value' a:help='Value to either add to or multiply city growth rate.'>" +
+-"		<ref name='decimal' />" +
+-"	</element>" +
+-"</element>";
++CityMember.prototype.Schema =
++	"<a:help>Identifies this entity as a potential member of a city, able to contribute to its growth and other attributes. City membership is determined by whether this entity is within the city's radius (see City.js).</a:help>" +
++	"<element name='GrowthContrib' a:help='How much this entity contributes to city growth rate.'>" +
++		"<choice>" +
++			"<element name='Add' a:help='Value to add to city growth rate.'>" +
++				"<ref name='decimal' />" +
++			"</element>" +
++			"<element name='Multiply' a:help='Value by which to multiply city growth rate.'>" +
++				"<ref name='decimal' />" +
++			"</element>" +
++		"</choice>" +
++	"</element>";
+ 
+ CityMember.prototype.Init = function()
+ {
+-	const modifier = this.template.GrowthContrib.Operation;
+-	const growthVal = +this.template.GrowthContrib.Value;
+-	this.growthAmountModifier = ((() => {
+-		switch (modifier)
+-		{
+-			case 'add':
+-				return ({ growthAmount, growthAmountMultiplier }) => ({ 'growthAmount': growthAmount + growthVal, growthAmountMultiplier });
+-			case 'multiply':
+-				return ({ growthAmount, growthAmountMultiplier }) => ({ growthAmount, 'growthAmountMultiplier': growthAmountMultiplier * growthVal });
+-			default:
+-				return ({ growthAmount, growthAmountMultiplier }) => ({ growthAmount, growthAmountMultiplier });
+-		}
+-	})());
++	this.growthAmountModifier = (() => {
++		if (this.template.GrowthContrib.Add)
++			return ({ growthAmount, growthAmountMultiplier }) => ({
++				'growthAmount': growthAmount + ApplyValueModificationsToEntity("CityMember/GrowthContrib/Add", +this.template.GrowthContrib.Add, this.entity),
++				growthAmountMultiplier
++			});
++		else if (this.template.GrowthContrib.Multiply)
++			return ({ growthAmount, growthAmountMultiplier }) => ({
++				growthAmount,
++				'growthAmountMultiplier': ApplyValueModificationsToEntity("CityMember/GrowthContrib/Multiply", +growthAmountMultiplier, this.entity) * growthVal
++			});
++		else
++			throw new Error(sprintf('CityMember component for entity %d does not have a valid GrowthContrib modifier', this.entity));
++	})();
+ };
+ 
+ CityMember.prototype.ModifyGrowthRate = function({growthAmount, growthAmountMultiplier})
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_civic.xml b/binaries/data/mods/public/simulation/templates/template_structure_civic.xml
+index 9ae8f14cb6..9267dead54 100644
+--- a/binaries/data/mods/public/simulation/templates/template_structure_civic.xml
++++ b/binaries/data/mods/public/simulation/templates/template_structure_civic.xml
+@@ -24,7 +24,7 @@
+   <CityMember>
+     <GrowthContrib>
+       <Operation>add</Operation>
+-      <Value>2</Value>
++      <Add>2</Add>
+     </GrowthContrib>
+   </CityMember>
+   <Identity>
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_civic_house_big.xml b/binaries/data/mods/public/simulation/templates/template_structure_civic_house_big.xml
+index 20b69016cb..4e169f62f6 100644
+--- a/binaries/data/mods/public/simulation/templates/template_structure_civic_house_big.xml
++++ b/binaries/data/mods/public/simulation/templates/template_structure_civic_house_big.xml
+@@ -5,7 +5,7 @@
+ 	</BuildRestrictions>
+   <CityMember>
+     <GrowthContrib>
+-      <Value op="mul">2.0</Value>
++      <Add op="mul">2.0</Add>
+     </GrowthContrib>
+   </CityMember>
+   <Cost>
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_civic_temple.xml b/binaries/data/mods/public/simulation/templates/template_structure_civic_temple.xml
+index df84ef5a3c..4b1e85befb 100644
+--- a/binaries/data/mods/public/simulation/templates/template_structure_civic_temple.xml
++++ b/binaries/data/mods/public/simulation/templates/template_structure_civic_temple.xml
+@@ -9,7 +9,7 @@
+   <CityMember>
+     <GrowthContrib>
+       <Operation>multiply</Operation>
+-      <Value>1.2</Value>
++      <Multiply>1.2</Multiply>
+     </GrowthContrib>
+   </CityMember>
+   <Cost>
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_civic_temple_patron.xml b/binaries/data/mods/public/simulation/templates/template_structure_civic_temple_patron.xml
+index 974475c86e..be8853d01b 100644
+--- a/binaries/data/mods/public/simulation/templates/template_structure_civic_temple_patron.xml
++++ b/binaries/data/mods/public/simulation/templates/template_structure_civic_temple_patron.xml
+@@ -5,7 +5,7 @@
+   </BuildRestrictions>
+   <CityMember>
+     <GrowthContrib>
+-      <Value>1.5</Value>
++      <Multiply>1.5</Multiply>
+     </GrowthContrib>
+   </CityMember>
+   <Cost>
+-- 
+2.25.1
+

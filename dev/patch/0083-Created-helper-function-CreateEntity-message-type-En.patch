@@ -1,0 +1,280 @@
+From d5fa175d1ed08eee0754aa8c1d8b3b645822bc50 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Mon, 7 Jun 2021 21:00:14 -0700
+Subject: [PATCH 83/86] Created helper function CreateEntity, message type
+ EntityCreated, helper class EntityTransformer
+
+Helper function CreateEntity sends message EntityCreated immediately after instantiating entity
+
+Streamlined how the Replace component works by having it automatically triggered on InitGame or EntityCreated
+
+Changed how City component handles transforming from one template to another while keeping track of population for statistics tracker.
+---
+ .../mods/public/simulation/components/City.js | 62 +++++++++----------
+ .../simulation/components/ProductionQueue.js  |  2 +-
+ .../public/simulation/components/Replace.js   | 20 +++---
+ .../components/interfaces/Messages.js         |  4 ++
+ .../mods/public/simulation/helpers/Entity.js  | 23 +++++++
+ .../public/simulation/helpers/Transform.js    | 23 ++++++-
+ 6 files changed, 85 insertions(+), 49 deletions(-)
+ create mode 100644 binaries/data/mods/public/simulation/helpers/Entity.js
+
+diff --git a/binaries/data/mods/public/simulation/components/City.js b/binaries/data/mods/public/simulation/components/City.js
+index 73b90bbda7..184e2cd21e 100644
+--- a/binaries/data/mods/public/simulation/components/City.js
++++ b/binaries/data/mods/public/simulation/components/City.js
+@@ -105,11 +105,6 @@ City.prototype.Init = function()
+ 	this.ResetGrowthTimer();
+ };
+ 
+-City.prototype.SetInitialized = function()
+-{
+-	this.initialized = true;
+-};
+-
+ City.prototype.ResetGrowthTimer = function()
+ {
+ 	let cmpTimer = Engine.QueryInterface(SYSTEM_ENTITY, IID_Timer);
+@@ -149,7 +144,6 @@ City.prototype.SetPopulation = function(value, toTrack=true)
+ 	let max = this.GetMaxPopulation();
+ 	if (value < min) {
+ 		if (this.template.Downgrade) {
+-			this.SetPopulation(min);// for statistics tracker
+ 			let replacement = this.Downgrade();
+ 			let cmpNewCity = Engine.QueryInterface(replacement, IID_City);
+ 			if (cmpNewCity)
+@@ -158,7 +152,6 @@ City.prototype.SetPopulation = function(value, toTrack=true)
+ 		this.population = min;
+ 	} else if (value > max) {
+ 		if (this.template.Upgrade) {
+-			this.SetPopulation(max);// for statistics tracker
+ 			let replacement = this.Upgrade();
+ 			let cmpNewCity = Engine.QueryInterface(replacement, IID_City);
+ 			if (cmpNewCity)
+@@ -295,15 +288,7 @@ City.prototype.Upgrade = function()
+ 	if (!upgradeTemplate)
+ 		return null;
+ 	
+-	let newEntity = ChangeEntityTemplate(this.entity, upgradeTemplate);
+-	let cmpNewCity = Engine.QueryInterface(newEntity, IID_City);
+-	if (cmpNewCity)
+-	{
+-		cmpNewCity.SetInitialized();
+-		cmpNewCity.SetName(this.name || "");
+-	}
+-	
+-	return newEntity;
++	return ChangeEntityTemplate(this.entity, upgradeTemplate);
+ };
+ 
+ City.prototype.GetDowngradeTemplate = function()
+@@ -328,15 +313,25 @@ City.prototype.Downgrade = function()
+ 	if (!downgradeTemplate)
+ 		return null;
+ 	
+-	let newEntity = ChangeEntityTemplate(this.entity, downgradeTemplate);
+-	let cmpNewCity = Engine.QueryInterface(newEntity, IID_City);
+-	if (cmpNewCity)
+-	{
+-		cmpNewCity.SetInitialized();
+-		cmpNewCity.SetName(this.name || "");
+-	}
+-	
+-	return newEntity;
++	return ChangeEntityTemplate(this.entity, downgradeTemplate);
++};
++
++City.prototype.OnEntityRenamed = function({ entity, newentity })
++{
++	const cmpOldOwnership = Engine.QueryInterface(entity, IID_Ownership);
++	const cmpOldCity = Engine.QueryInterface(entity, IID_City);
++	const cmpNewCity = Engine.QueryInterface(newentity, IID_City);
++	if (!cmpOldCity || !cmpNewCity)
++		return;
++	const population = cmpOldCity.GetPopulation();
++	cmpOldCity.population = 0;
++	cmpNewCity.population = population;
++	const statisticsTracker = QueryPlayerIDInterface(cmpOldOwnership.GetOwner(), IID_StatisticsTracker);
++	if (statisticsTracker)
++		statisticsTracker.IncreaseCivicPopulation(-population);
++	const name = cmpOldCity.GetName();
++	if (name && name.length)
++		cmpNewCity.SetName(name);
+ };
+ 
+ City.prototype.GetRangeOverlays = function()
+@@ -504,13 +499,9 @@ City.prototype.OnOwnershipChanged = function(msg)
+ 	let newOwnerStatisticsTracker = QueryPlayerIDInterface(msg.to, IID_StatisticsTracker);
+ 	if (newOwnerStatisticsTracker)
+ 		newOwnerStatisticsTracker.IncreaseCivicPopulation(+this.population);
+-	// post-init of certain values
+-	if (this.initialized)
+-		return;
+-	this.initialized = true;
+-	if ((!this.GetName() || !this.GetName().length) && msg.to)
++	if (!Engine.QueryInterface(this.entity, IID_SkirmishReplacer) && (!this.GetName() || !this.GetName().length))
+ 	{
+-		let cmpCityNameManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_CityNameManager);
++		const cmpCityNameManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_CityNameManager);
+ 		if (cmpCityNameManager)
+ 			this.SetName(cmpCityNameManager.ChooseCityName(this.entity));
+ 	}
+@@ -522,10 +513,13 @@ City.prototype.OnDestroy = function(msg)
+ 	if (this.cityMembersQuery)
+ 		cmpRangeManager.DestroyActiveQuery(this.cityMembersQuery);
+ 	let cmpModifiersManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_ModifiersManager);
+-	for (let key of this.appliedValueModifiers.keys())
++	if (this.appliedValueModifiers)
+ 	{
+-		let modName = sprintf("%d/GarrisonHolder/ValueModifiers/%s", this.entity, key);
+-		cmpModifiersManager.RemoveAllModifiers(modName, this.entity);
++		for (let key of this.appliedValueModifiers.keys())
++		{
++			let modName = sprintf("%d/GarrisonHolder/ValueModifiers/%s", this.entity, key);
++			cmpModifiersManager.RemoveAllModifiers(modName, this.entity);
++		}
+ 	}
+ 	let cityMemberModName = sprintf('%d:CityMemberGrowthModifiers', this.entity);
+ 	if (cmpModifiersManager.HasAnyModifier(cityMemberModName, this.entity))
+diff --git a/binaries/data/mods/public/simulation/components/ProductionQueue.js b/binaries/data/mods/public/simulation/components/ProductionQueue.js
+index 543fa76ab3..f2e77e6088 100644
+--- a/binaries/data/mods/public/simulation/components/ProductionQueue.js
++++ b/binaries/data/mods/public/simulation/components/ProductionQueue.js
+@@ -673,7 +673,7 @@ ProductionQueue.prototype.SpawnUnits = function(item)
+ 	{
+ 		item.entityCache = [];
+ 		for (let i = 0; i < item.count; ++i)
+-			item.entityCache.push(Engine.AddEntity(item.unitTemplate));
++			item.entityCache.push(((ent) => EntityTransformer.GetEntityReplacement(ent) || ent)(CreateEntity(item.unitTemplate)));
+ 	}
+ 
+ 	let autoGarrison;
+diff --git a/binaries/data/mods/public/simulation/components/Replace.js b/binaries/data/mods/public/simulation/components/Replace.js
+index 50b2010a3f..18a19a8c4a 100644
+--- a/binaries/data/mods/public/simulation/components/Replace.js
++++ b/binaries/data/mods/public/simulation/components/Replace.js
+@@ -32,22 +32,18 @@ Replace.prototype.Replace = function()
+ 			templates.push(parsedTemplate);
+ 		}
+ 	}
+-	if (templates.length === 0)
++	if (!templates || !templates.length)
+ 		return this.entity;
+-	let template = pickRandom(templates);
+-	const newEntity = ChangeEntityTemplate(this.entity, template);
+-	const cmpOldUnitAI = Engine.QueryInterface(this.entity, IID_UnitAI);
+-	const cmpNewUnitAI = Engine.QueryInterface(newEntity, IID_UnitAI);
+-	cmpNewUnitAI.AddOrders(cmpOldUnitAI.GetOrderData());
+-	return newEntity;
++	const template = pickRandom(templates);
++	return EntityTransformer.ChangeEntityTemplate(this.entity, template);
+ };// end Replace.prototype.Replace
+ 
+-// no dynamic state to init or save
+-Replace.prototype.Init = function() {};
+-
+-Replace.prototype.Serialize = null;
++Replace.prototype.OnEntityCreated = function()
++{
++	this.Replace();
++};
+ 
+-Replace.prototype.OnOwnershipChanged = function()
++Replace.prototype.OnInitGame = function()
+ {
+ 	this.Replace();
+ };
+diff --git a/binaries/data/mods/public/simulation/components/interfaces/Messages.js b/binaries/data/mods/public/simulation/components/interfaces/Messages.js
+index 7d7c019139..6c876365b7 100644
+--- a/binaries/data/mods/public/simulation/components/interfaces/Messages.js
++++ b/binaries/data/mods/public/simulation/components/interfaces/Messages.js
+@@ -18,6 +18,10 @@ Engine.RegisterMessageType("EntityRenamed");
+ // - from Upgrade when an entity is upgraded
+ Engine.RegisterMessageType("EntitiesCreated");
+ 
++// Message sent to an entity by helper function CreateEntity
++// Allows post-init of certain components, with the assumption that all other components have been initialized
++Engine.RegisterMessageType("EntityCreated");
++
+ /**
+  * Message of the form {}
+  * sent from InitGame for component map-dependent initialization.
+diff --git a/binaries/data/mods/public/simulation/helpers/Entity.js b/binaries/data/mods/public/simulation/helpers/Entity.js
+new file mode 100644
+index 0000000000..aff00406b6
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/helpers/Entity.js
+@@ -0,0 +1,23 @@
++// wrapper for Engine.AddEntity
++// sends message MT_EntityCreated to allow components to perform post-init procedures
++// @param templateName		String		name of template of entity to create
++// @param owner				Number		player id of entity owner; ownership not set if undefined
++// @return					Number		new entity's id
++function CreateEntity(templateName, owner=undefined)
++{
++	const entity = Engine.AddEntity(templateName);
++	if (entity === INVALID_ENTITY)
++	{
++		throw new Error("Could not create valid entity from template %s", templateName);
++	}
++	Engine.PostMessage(entity, MT_EntityCreated);
++	if (owner)
++	{
++		const cmpOwnership = Engine.QueryInterface(entity, IID_Ownership);
++		if (cmpOwnership)
++			cmpOwnership.SetOwner(owner);
++	}
++	return entity;
++};
++
++Engine.RegisterGlobal("CreateEntity", CreateEntity);
+diff --git a/binaries/data/mods/public/simulation/helpers/Transform.js b/binaries/data/mods/public/simulation/helpers/Transform.js
+index 8edd6bfebd..8f697782d2 100644
+--- a/binaries/data/mods/public/simulation/helpers/Transform.js
++++ b/binaries/data/mods/public/simulation/helpers/Transform.js
+@@ -13,6 +13,8 @@ function ChangeEntityTemplate(oldEnt, newTemplate)
+ 
+ 	Engine.ProfileStart("Transform");
+ 
++	Engine.PostMessage(oldEnt, MT_EntityRenamed, { "entity": oldEnt, "newentity": newEnt });
++
+ 	var cmpPosition = Engine.QueryInterface(oldEnt, IID_Position);
+ 	var cmpNewPosition = Engine.QueryInterface(newEnt, IID_Position);
+ 	if (cmpPosition && cmpNewPosition)
+@@ -125,8 +127,6 @@ function ChangeEntityTemplate(oldEnt, newTemplate)
+ 
+ 	TransferGarrisonedUnits(oldEnt, newEnt);
+ 
+-	Engine.PostMessage(oldEnt, MT_EntityRenamed, { "entity": oldEnt, "newentity": newEnt });
+-
+ 	// UnitAI generally needs other components to be properly initialised.
+ 	let cmpUnitAI = Engine.QueryInterface(oldEnt, IID_UnitAI);
+ 	let cmpNewUnitAI = Engine.QueryInterface(newEnt, IID_UnitAI);
+@@ -289,5 +289,24 @@ function TransferGarrisonedUnits(oldEnt, newEnt)
+ 	}
+ }
+ 
++function EntityTransformer()
++{
++	// maps OldEntity => NewEntity
++	this.entityReplacements = new Map();
++}
++
++EntityTransformer.prototype.GetEntityReplacement = function(entity)
++{
++	return this.entityReplacements.get(entity);
++};
++
++EntityTransformer.prototype.ChangeEntityTemplate = function(entity, newTemplateName)
++{
++	const newEntity = ChangeEntityTemplate(entity, newTemplateName);
++	this.entityReplacements.set(entity, newEntity);
++	return newEntity;
++};
++
+ Engine.RegisterGlobal("ChangeEntityTemplate", ChangeEntityTemplate);
+ Engine.RegisterGlobal("ObstructionsBlockingTemplateChange", ObstructionsBlockingTemplateChange);
++Engine.RegisterGlobal("EntityTransformer", new EntityTransformer());
+-- 
+2.25.1
+

@@ -1,0 +1,108 @@
+From e432cd5a312ccdfa6e87955ce3785d8d43446c69 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sun, 23 May 2021 16:35:47 -0700
+Subject: [PATCH 07/86] added function rebase to dev/parent/utils.sh
+
+refactored dev/setup-parent.sh
+---
+ binaries/data/mods/public/dev/parent/utils.sh | 17 +++++++++++++++--
+ binaries/data/mods/public/dev/setup-parent.sh |  8 +++++++-
+ 2 files changed, 22 insertions(+), 3 deletions(-)
+
+diff --git a/binaries/data/mods/public/dev/parent/utils.sh b/binaries/data/mods/public/dev/parent/utils.sh
+index f53b4be104..6c23db55e2 100644
+--- a/binaries/data/mods/public/dev/parent/utils.sh
++++ b/binaries/data/mods/public/dev/parent/utils.sh
+@@ -21,6 +21,7 @@ function extract_files() {
+ 	)
+ }
+ 
++# sync changes to parent repo into child repo
+ function sync_to_child() {
+ 	(
+ 	cd "${OAD_CHILD_DIR}"
+@@ -28,7 +29,10 @@ function sync_to_child() {
+ 	cd "${OAD_MOD_DIR}"
+ 	IFS=$'\n\r'
+ 	files=($(extract_files))
++	IFS=$'\n\r' moved_files=()
+ 	for file in ${files[@]}; do
++		[[ ! -f "${file}" ]] && continue
++		moved_files+=("${file}")
+ 		outfile="${OAD_CHILD_DIR}/${file}"
+ 		outdir="$(dirname "${outfile}")"
+ 		[[ ! -d "${outdir}" ]] && mkdir -p "${outdir}"
+@@ -37,11 +41,11 @@ function sync_to_child() {
+ 	extract_diff > "${OAD_CHILD_DIR}/dev/mod.diff"
+ 	git log -n 1 "${OAD_GIT_BASE}" > "${OAD_CHILD_DIR}/dev/git_base.txt"
+ 	cd "${OAD_CHILD_DIR}"
+-	git add ${files[@]}
++	git add ${moved_files[@]}
+ 	)
+ }
+ 
+-
++# sync changes to child repo into parent repo
+ function sync_from_child() {
+ 	(
+ 	cd "${OAD_CHILD_DIR}"
+@@ -55,6 +59,7 @@ function sync_from_child() {
+ 	)
+ }
+ 
++# commit, with message, in both parent repo and child repo
+ function commit() {
+ 	(
+ 	[[ ! $1 ]] && echo 'please enter commit message' >&2
+@@ -66,3 +71,11 @@ function commit() {
+ 	git commit -am "${commit_msg}"
+ 	)
+ }
++
++# rebase onto another revision, changing variables accordingly
++function rebase() {
++	[[ $1 ]] && local git_base="$1" || local git_base='master'
++	OAD_GIT_BASE="$(git log -n 1 "${git_base}" | grep -m 1 -o -e '^commit \S\+' < "${OAD_GIT_BASE_FILE}" | cut -c8-)"
++	git rebase "${OAD_GIT_BASE}"
++	echo "OAD_GIT_BASE=\"${OAD_GIT_BASE}\"" >> "${OAD_PARENT_DIR}/dev/utils.sh"
++}
+diff --git a/binaries/data/mods/public/dev/setup-parent.sh b/binaries/data/mods/public/dev/setup-parent.sh
+index dbd99e8e63..f3e30d029e 100755
+--- a/binaries/data/mods/public/dev/setup-parent.sh
++++ b/binaries/data/mods/public/dev/setup-parent.sh
+@@ -27,16 +27,20 @@ if [[ ! ${parent_dir} ]]; then
+ 	exit 1
+ fi
+ 
++# clone 0ad repo into parent dir if it doesn't already exist
+ if [[ ! -d "${parent_dir}" ]]; then
+ 	git clone $([[ "${git_base}" != 'master' ]] && echo --shallow-exclude="${git_base}" || echo --depth=1) "${oad_git_server}" "${parent_dir}"
+ fi
+ 
+ # setup new branch, save latest master commit to child dir dev files
+ cd "${parent_dir}"
+-git log -n 1 "${git_base}" > "${child_dir}/dev/git_base.txt"
++git log -n 1 "${git_base}" > "${git_base_file}"
++# set git_base to exact commit hash
++git_base="$(grep -m 1 -o -e '^commit \S\+' < "${git_base_file}" | cut -c8-)"
+ git checkout "${git_base}"
+ git switch -c "${OAD_MOD_NAME}"
+ 
++# apply patch if it exists, else port all files individually
+ if [[ -f "${oad_git_patch}" ]]; then
+ 	git apply "${oad_git_patch}"
+ else
+@@ -50,8 +54,10 @@ else
+ 	done
+ fi
+ 
++# copy dev scripts for parent into $parent_dir/dev
+ cp -rf "${child_dir}/dev/parent" "${parent_dir}/dev"
+ 
++# append important variables to $parent_dir/dev/utils.sh
+ echo "\
+ OAD_PARENT_DIR=\"${parent_dir}\"
+ OAD_MOD_DIR=\"${mod_dir}\"
+-- 
+2.25.1
+

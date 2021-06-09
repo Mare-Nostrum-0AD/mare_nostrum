@@ -1,0 +1,69 @@
+From 96a37762415ca7153352a7873b1ba82c824cca6b Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sat, 5 Jun 2021 16:49:22 -0700
+Subject: [PATCH 80/86] Replace component works entirely through OnInitGame
+
+ProductionQueue doesn't call cmpReplace.Replace anymore
+---
+ .../simulation/components/ProductionQueue.js       | 12 +++---------
+ .../mods/public/simulation/components/Replace.js   | 14 +-------------
+ 2 files changed, 4 insertions(+), 22 deletions(-)
+
+diff --git a/binaries/data/mods/public/simulation/components/ProductionQueue.js b/binaries/data/mods/public/simulation/components/ProductionQueue.js
+index ac1dde20ba..543fa76ab3 100644
+--- a/binaries/data/mods/public/simulation/components/ProductionQueue.js
++++ b/binaries/data/mods/public/simulation/components/ProductionQueue.js
+@@ -751,20 +751,14 @@ ProductionQueue.prototype.SpawnUnits = function(item)
+ 	{
+ 		// Play a sound, but only for the first in the batch (to avoid nasty phasing effects).
+ 		PlaySound("trained", createdEnts[0]);
+-		// replace entities with Replace component
+-		let actualCreatedEnts = createdEnts.map((ent) => {
+-			let cmpReplace = Engine.QueryInterface(ent, IID_Replace);
+-			if (cmpReplace)
+-				return cmpReplace.Replace();
+-			return ent;
+-		});
++
+ 		Engine.PostMessage(this.entity, MT_TrainingFinished, {
+-		    "entities": actualCreatedEnts,
++		    "entities": createdEnts,
+ 		    "owner": item.player,
+ 		    "metadata": item.metadata
+ 		});
+ 		Engine.BroadcastMessage(MT_EntitiesCreated, {
+-		    "entities": actualCreatedEnts,
++		    "entities": createdEnts,
+ 		    "owner": item.player
+ 		});
+ 	}
+diff --git a/binaries/data/mods/public/simulation/components/Replace.js b/binaries/data/mods/public/simulation/components/Replace.js
+index 7357a87334..2c107e513d 100644
+--- a/binaries/data/mods/public/simulation/components/Replace.js
++++ b/binaries/data/mods/public/simulation/components/Replace.js
+@@ -43,21 +43,9 @@ Replace.prototype.Init = function() {};
+ 
+ Replace.prototype.Serialize = null;
+ 
+-Replace.prototype.OnUpdate = function(msg)
++Replace.prototype.OnInitGame = function()
+ {
+ 	this.Replace();
+ };
+ 
+-Replace.prototype.OnTrainingFinished = function({ entities })
+-{
+-	if (entities && entities.indexOf(this.entity) !== -1)
+-		this.Replace();
+-};
+-
+-Replace.prototype.OnConstructionFinished = function({ newentity })
+-{
+-	if (newentity && newentity === this.entity)
+-		this.Replace();
+-};
+-
+ Engine.RegisterComponentType(IID_Replace, "Replace", Replace);
+-- 
+2.25.1
+

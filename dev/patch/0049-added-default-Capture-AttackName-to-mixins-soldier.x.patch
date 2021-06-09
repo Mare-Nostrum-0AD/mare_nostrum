@@ -1,0 +1,38 @@
+From e22cfaa4cddd8c731fe8011c22d4183f44c3a398 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Fri, 28 May 2021 17:57:48 -0700
+Subject: [PATCH 49/86] added default Capture AttackName to mixins/soldier.xml
+
+disabled Capture attack in elephant archer
+---
+ .../data/mods/public/simulation/templates/mixins/soldier.xml     | 1 +
+ .../simulation/templates/template_unit_elephant_archer.xml       | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/binaries/data/mods/public/simulation/templates/mixins/soldier.xml b/binaries/data/mods/public/simulation/templates/mixins/soldier.xml
+index 73a3083d82..9fd0dfa7f1 100644
+--- a/binaries/data/mods/public/simulation/templates/mixins/soldier.xml
++++ b/binaries/data/mods/public/simulation/templates/mixins/soldier.xml
+@@ -2,6 +2,7 @@
+ <Entity>
+ 	<Attack>
+ 		<Capture>
++			<AttackName>Capture</AttackName>
+       <RestrictedClasses datatype="tokens">Field Palisade Wall Elephant</RestrictedClasses>
+ 		</Capture>
+ 	</Attack>
+diff --git a/binaries/data/mods/public/simulation/templates/template_unit_elephant_archer.xml b/binaries/data/mods/public/simulation/templates/template_unit_elephant_archer.xml
+index ea1b7dfc45..93c2013cb9 100644
+--- a/binaries/data/mods/public/simulation/templates/template_unit_elephant_archer.xml
++++ b/binaries/data/mods/public/simulation/templates/template_unit_elephant_archer.xml
+@@ -1,6 +1,7 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="soldier_ranged|template_unit_elephant">
+   <Attack>
++		<Capture disable="" />
+     <Ranged>
+       <AttackName>Bow</AttackName>
+       <Damage>
+-- 
+2.25.1
+

@@ -1,0 +1,375 @@
+From 57e5e8a3c0e0cf093f18493ac6f47e8e3adf4410 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Fri, 28 May 2021 00:55:57 -0700
+Subject: [PATCH 47/86] City no longer plays "upgraded" sound on upgrade
+ (interferes with phase up sound)
+
+EntityLimits can now be modified using value modifiers
+
+Added Upkeep to civil centres, as well as ResourceTrickle and UpkeepTrickle City value modifiers (set to zero by default, but can be used by auras and technologies)
+
+Updated government technologies, expecially Roman ones
+---
+ .../mods/public/simulation/components/City.js |  6 +-
+ .../simulation/components/EntityLimits.js     | 12 ++--
+ .../components/TechnologyManager.js           |  1 -
+ .../government_democracy_rome.json            |  9 +--
+ .../technologies/government_tyranny_rome.json |  2 +-
+ .../data/technologies/grain_dole.json         | 14 ++--
+ .../data/technologies/phase_city_athen.json   |  5 +-
+ .../data/technologies/phase_city_generic.json |  5 +-
+ .../technologies/taxation_kind_generic.json   | 10 +--
+ .../taxation_monetary_generic.json            |  4 +-
+ .../templates/structures/rome/barracks.xml    |  5 ++
+ .../template_structure_civic_civil_centre.xml | 72 ++++++++++++++++++-
+ .../rome/champion_infantry_swordsman_02.xml   |  1 +
+ 13 files changed, 112 insertions(+), 34 deletions(-)
+
+diff --git a/binaries/data/mods/public/simulation/components/City.js b/binaries/data/mods/public/simulation/components/City.js
+index 8454334565..f560d64a80 100644
+--- a/binaries/data/mods/public/simulation/components/City.js
++++ b/binaries/data/mods/public/simulation/components/City.js
+@@ -312,8 +312,10 @@ City.prototype.Upgrade = function()
+ 		return null;
+ 	
+ 	let newEntity = ChangeEntityTemplate(this.entity, upgradeTemplate);
+-	if (newEntity)
+-		PlaySound('upgraded', newEntity);
++	// Disabling because it interferes with phase up sound notification
++	// TODO: find a way to play sound without interfering with phaseup
++	// if (newEntity)
++	// 	PlaySound('upgraded', newEntity);
+ 	
+ 	return newEntity;
+ };
+diff --git a/binaries/data/mods/public/simulation/components/EntityLimits.js b/binaries/data/mods/public/simulation/components/EntityLimits.js
+index 888260ebe6..dd7273505d 100644
+--- a/binaries/data/mods/public/simulation/components/EntityLimits.js
++++ b/binaries/data/mods/public/simulation/components/EntityLimits.js
+@@ -114,7 +114,10 @@ EntityLimits.prototype.ChangeMatchCount = function(template, value)
+ 
+ EntityLimits.prototype.GetLimits = function()
+ {
+-	return this.limit;
++	return Object.entries(this.limit).reduce((values, [cat, limit]) => {
++		values[cat] = ApplyValueModificationsToEntity("EntityLimits/Limits/" + cat, limit, this.entity);
++		return values;
++	}, {});
+ };
+ 
+ EntityLimits.prototype.GetCounts = function()
+@@ -161,10 +164,11 @@ EntityLimits.prototype.UpdateLimitRemoval = function()
+ 
+ EntityLimits.prototype.AllowedToCreate = function(limitType, category, count, templateName, matchLimit)
+ {
+-	if (this.count[category] !== undefined && this.limit[category] !== undefined &&
+-		this.count[category] + count > this.limit[category])
++	let limits = this.GetLimits();
++	if (this.count[category] !== undefined && limits[category] !== undefined &&
++		this.count[category] + count > limits[category])
+ 	{
+-		this.NotifyLimit(limitType, category, this.limit[category]);
++		this.NotifyLimit(limitType, category, limits[category]);
+ 		return false;
+ 	}
+ 
+diff --git a/binaries/data/mods/public/simulation/components/TechnologyManager.js b/binaries/data/mods/public/simulation/components/TechnologyManager.js
+index 3c64bed964..e0e2d61df6 100644
+--- a/binaries/data/mods/public/simulation/components/TechnologyManager.js
++++ b/binaries/data/mods/public/simulation/components/TechnologyManager.js
+@@ -273,7 +273,6 @@ TechnologyManager.prototype.ResearchTechnology = function(tech)
+ 			"phaseName": tech,
+ 			"phaseState": "completed"
+ 		});
+-		PlaySound('phase_up', this.entity);
+ 	}
+ };
+ 
+diff --git a/binaries/data/mods/public/simulation/data/technologies/government_democracy_rome.json b/binaries/data/mods/public/simulation/data/technologies/government_democracy_rome.json
+index 50f4799a8c..92b92782a4 100644
+--- a/binaries/data/mods/public/simulation/data/technologies/government_democracy_rome.json
++++ b/binaries/data/mods/public/simulation/data/technologies/government_democracy_rome.json
+@@ -3,20 +3,21 @@
+ 	"specificName": {
+ 		"rome": "Res Publica"
+ 	},
+-	"description": "Government by the Senate and Plebeian Tribunals.",
++	"description": "Government by the Senate and Plebeian Tribunals, with two elected Consuls as leaders.",
+ 	"cost": {"stone": 500, "wealth": 500},
+ 	"requirements": {"tech": "phase_hegemon"},
+ 	"icon": "statue_face_stone.png",
+ 	"researchTime": 60,
+-	"tooltip": "Citizen Soldiers -20% cost and training time.",
+-	"affects": ["CitizenSoldier"],
++	"tooltip": "Citizen Soldiers -20% cost and training time. Hero limit increased to two.",
++	"affects": ["CitizenSoldier", "Player"],
+ 	"modifications": [
+ 		{"value": "Cost/BuildTime", "multiply": 0.80},
+ 		{"value": "Cost/Resources/food", "multiply": 0.80},
+ 		{"value": "Cost/Resources/wood", "multiply": 0.80},
+ 		{"value": "Cost/Resources/stone", "multiply": 0.80},
+ 		{"value": "Cost/Resources/metal", "multiply": 0.80},
+-		{"value": "Cost/Resources/wealth", "multiply": 0.80}
++		{"value": "Cost/Resources/wealth", "multiply": 0.80},
++		{"value": "EntityLimits/Limits/Hero", "replace": 2}
+ 	],
+ 	"soundComplete": "interface/complete/building/complete_tholos.xml"
+ }
+diff --git a/binaries/data/mods/public/simulation/data/technologies/government_tyranny_rome.json b/binaries/data/mods/public/simulation/data/technologies/government_tyranny_rome.json
+index 9b7453ea4b..606d73c986 100644
+--- a/binaries/data/mods/public/simulation/data/technologies/government_tyranny_rome.json
++++ b/binaries/data/mods/public/simulation/data/technologies/government_tyranny_rome.json
+@@ -8,7 +8,7 @@
+ 	"requirements": {"tech": "phase_hegemon"},
+ 	"icon": "political_face.png",
+ 	"researchTime": 60,
+-	"tooltip": "Champion units -20% cost and training time.",
++	"tooltip": "Champion units -20% cost and training time. Unlocks Legionaries at the barracks.",
+ 	"affects": ["Champion"],
+ 	"modifications": [
+ 		{"value": "Cost/BuildTime", "multiply": 0.80},
+diff --git a/binaries/data/mods/public/simulation/data/technologies/grain_dole.json b/binaries/data/mods/public/simulation/data/technologies/grain_dole.json
+index e6a6485e06..7cd3cab086 100644
+--- a/binaries/data/mods/public/simulation/data/technologies/grain_dole.json
++++ b/binaries/data/mods/public/simulation/data/technologies/grain_dole.json
+@@ -1,16 +1,16 @@
+ {
+ 	"genericName": "Grain Dole",
+ 	"specificName": {"rome": "Cura Annonae"},
+-	"description": "Provide free grain to your citizens. Increases city population growth, but decreases grain gather rate.",
+-	"cost": {"food": 500, "wealth": 500},
++	"description": "Provide free grain to your citizens. Increases city population growth, but adds +10 food upkeep per 1,000 city population.",
++	"cost": {"food": 1000, "wealth": 500},
+ 	"requirements": {"tech": "phase_hegemon"},
+ 	"icon": "grain.png",
+ 	"researchTime": 30,
+-	"tooltip": "Civil Centres +20% growth and trade growth rate, but workers -30% grain gather rate.",
+-	"affects": ["CivilCentre", "Worker", "Citizen"],
++	"tooltip": "Civil Centres +50% growth and trade growth rate, but also +10 food upkeep per 1,000 population.",
++	"affects": ["CivilCentre"],
+ 	"modifications": [
+-		{"value": "City/Population/Growth/Rate", "multiply": 1.20},
+-		{"value": "City/Population/Growth/TradeRate", "multiply": 1.20},
+-		{"value": "ResourceGatherer/Rates/food.grain", "multiply": 0.70}
++		{"value": "City/Population/Growth/Amount", "multiply": 1.50},
++		{"value": "City/Population/Growth/TradeRate", "multiply": 1.50},
++		{"value": "City/ValueModifiers/UpkeepFood/Add", "add": 10}
+ 	]
+ }
+diff --git a/binaries/data/mods/public/simulation/data/technologies/phase_city_athen.json b/binaries/data/mods/public/simulation/data/technologies/phase_city_athen.json
+index 30d87a2cbe..e6d5a01b16 100644
+--- a/binaries/data/mods/public/simulation/data/technologies/phase_city_athen.json
++++ b/binaries/data/mods/public/simulation/data/technologies/phase_city_athen.json
+@@ -12,11 +12,10 @@
+ 	"replaces": ["phase_city"],
+ 	"icon": "city_phase.png",
+ 	"researchTime": 60,
+-	"tooltip": "Advance to City Phase, which unlocks more entities and technologies. Civic Centers +50% territory influence radius. Structures +9 capture points regeneration rate per garrisoned unit. Workers +10% metal gather rate.",
++	"tooltip": "Advance to City Phase, which unlocks more entities and technologies. Structures +9 capture points regeneration rate per garrisoned unit. Workers +10% metal gather rate.",
+ 	"modifications": [
+ 		{ "value": "Capturable/GarrisonRegenRate", "add": 9, "affects": "Structure" },
+-		{ "value": "ResourceGatherer/Rates/metal.ore", "multiply": 1.1, "affects": "Worker" },
+-		{ "value": "TerritoryInfluence/Radius", "multiply": 1.5, "affects": "CivCentre" }
++		{ "value": "ResourceGatherer/Rates/metal.ore", "multiply": 1.1, "affects": "Worker" }
+ 	],
+ 	"soundComplete": "interface/alarm/alarm_phase.xml"
+ }
+diff --git a/binaries/data/mods/public/simulation/data/technologies/phase_city_generic.json b/binaries/data/mods/public/simulation/data/technologies/phase_city_generic.json
+index 9b7fa6c7ba..788b165f79 100644
+--- a/binaries/data/mods/public/simulation/data/technologies/phase_city_generic.json
++++ b/binaries/data/mods/public/simulation/data/technologies/phase_city_generic.json
+@@ -15,10 +15,9 @@
+ 	"replaces": ["phase_city"],
+ 	"icon": "city_phase.png",
+ 	"researchTime": 60,
+-	"tooltip": "Advance to City Phase, which unlocks more entities and technologies. Civic Centers +50% territory influence radius. Structures +9 capture points regeneration rate per garrisoned unit.",
++	"tooltip": "Advance to City Phase, which unlocks more entities and technologies. Structures +9 capture points regeneration rate per garrisoned unit.",
+ 	"modifications": [
+-		{ "value": "Capturable/GarrisonRegenRate", "add": 9, "affects": "Structure" },
+-		{ "value": "TerritoryInfluence/Radius", "multiply": 1.5, "affects": "CivCentre" }
++		{ "value": "Capturable/GarrisonRegenRate", "add": 9, "affects": "Structure" }
+ 	],
+ 	"soundComplete": "interface/alarm/alarm_phase.xml"
+ }
+diff --git a/binaries/data/mods/public/simulation/data/technologies/taxation_kind_generic.json b/binaries/data/mods/public/simulation/data/technologies/taxation_kind_generic.json
+index 4d9c770bdb..569096abf4 100644
+--- a/binaries/data/mods/public/simulation/data/technologies/taxation_kind_generic.json
++++ b/binaries/data/mods/public/simulation/data/technologies/taxation_kind_generic.json
+@@ -5,13 +5,13 @@
+ 	"requirements": {"tech": "phase_empire"},
+ 	"icon": "cornucopia.png",
+ 	"researchTime": 60,
+-	"tooltip": "Gather 2 food, wood, stone, and metal per 1000 city population every minute.",
++	"tooltip": "Gather 2 food, wood, stone, and metal per 1000 city population every 30 seconds.",
+ 	"affects": ["CivilCentre"],
+ 	"modifications": [
+-		{"value": "City/ResourceTrickle/Rates/food", "add": 2},
+-		{"value": "City/ResourceTrickle/Rates/wood", "add": 2},
+-		{"value": "City/ResourceTrickle/Rates/stone", "add": 2},
+-		{"value": "City/ResourceTrickle/Rates/metal", "add": 2}
++		{"value": "City/ValueModifiers/TrickleFood/Add", "add": 2},
++		{"value": "City/ValueModifiers/TrickleWood/Add", "add": 2},
++		{"value": "City/ValueModifiers/TrickleStone/Add", "add": 2},
++		{"value": "City/ValueModifiers/TrickleMetal/Add", "add": 2}
+ 	],
+ 	"soundComplete": "interface/complete/building/complete_tholos.xml"
+ }
+diff --git a/binaries/data/mods/public/simulation/data/technologies/taxation_monetary_generic.json b/binaries/data/mods/public/simulation/data/technologies/taxation_monetary_generic.json
+index dea57430fe..ac9c038077 100644
+--- a/binaries/data/mods/public/simulation/data/technologies/taxation_monetary_generic.json
++++ b/binaries/data/mods/public/simulation/data/technologies/taxation_monetary_generic.json
+@@ -5,10 +5,10 @@
+ 	"requirements": {"tech": "phase_empire"},
+ 	"icon": "coinage.png",
+ 	"researchTime": 60,
+-	"tooltip": "Gather 5 wealth per 1000 city population every minute.",
++	"tooltip": "Gather 5 wealth per 1000 city population every 30 seconds.",
+ 	"affects": ["CivilCentre"],
+ 	"modifications": [
+-		{"value": "City/ResourceTrickle/Rates/wealth", "add": 5}
++		{"value": "City/ValueModifiers/TrickleWealth/Add", "add": 5}
+ 	],
+ 	"soundComplete": "interface/complete/building/complete_tholos.xml"
+ }
+diff --git a/binaries/data/mods/public/simulation/templates/structures/rome/barracks.xml b/binaries/data/mods/public/simulation/templates/structures/rome/barracks.xml
+index 4c36328ce8..cf7b7e08c8 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/rome/barracks.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/rome/barracks.xml
+@@ -20,6 +20,11 @@
+   <Obstruction>
+     <Static width="24.0" depth="24.0"/>
+   </Obstruction>
++	<ProductionQueue>
++		<Entities datatype="tokens">
++			units/{civ}/champion_infantry_swordsman_02
++		</Entities>
++	</ProductionQueue>
+   <VisualActor>
+     <Actor>structures/romans/barracks.xml</Actor>
+     <FoundationActor>structures/fndn_5x5.xml</FoundationActor>
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre.xml b/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre.xml
+index 7ef3783a90..fe7205a61b 100644
+--- a/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre.xml
+@@ -1,7 +1,7 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic">
+   <AlertRaiser>
+-    <List datatype="tokens">Citizen</List>
++    <List datatype="tokens">Support Citizen</List>
+     <RaiseAlertRange>120</RaiseAlertRange>
+     <EndOfAlertRange>180</EndOfAlertRange>
+     <SearchRange>100</SearchRange>
+@@ -32,6 +32,7 @@
+   </Attack>
+   <BuildingAI>
+     <DefaultArrowCount>1</DefaultArrowCount>
++		<MaxArrowCount>10</MaxArrowCount>
+     <GarrisonArrowMultiplier>1</GarrisonArrowMultiplier>
+     <GarrisonArrowClasses>Soldier</GarrisonArrowClasses>
+   </BuildingAI>
+@@ -83,6 +84,62 @@
+ 				<Add>1</Add>
+ 				<PerPop>1000</PerPop>
+ 			</TrickleManpower>
++			<!-- The modifiers below can be utilized by auras and technologies, but are set to zero by default -->
++			<TrickleFood>
++				<Paths datatype="tokens">ResourceTrickle/Rates/food</Paths>
++				<Add>0</Add>
++				<PerPop>1000</PerPop>
++			</TrickleFood>
++			<TrickleWood>
++				<Paths datatype="tokens">ResourceTrickle/Rates/wood</Paths>
++				<Add>0</Add>
++				<PerPop>1000</PerPop>
++			</TrickleWood>
++			<TrickleStone>
++				<Paths datatype="tokens">ResourceTrickle/Rates/stone</Paths>
++				<Add>0</Add>
++				<PerPop>1000</PerPop>
++			</TrickleStone>
++			<TrickleMetal>
++				<Paths datatype="tokens">ResourceTrickle/Rates/metal</Paths>
++				<Add>0</Add>
++				<PerPop>1000</PerPop>
++			</TrickleMetal>
++			<TrickleWealth>
++				<Paths datatype="tokens">ResourceTrickle/Rates/wealth</Paths>
++				<Add>0</Add>
++				<PerPop>1000</PerPop>
++			</TrickleWealth>
++			<UpkeepFood>
++				<Paths datatype="tokens">Upkeep/Rates/food</Paths>
++				<Add>0</Add>
++				<PerPop>1000</PerPop>
++			</UpkeepFood>
++			<UpkeepWood>
++				<Paths datatype="tokens">Upkeep/Rates/wood</Paths>
++				<Add>0</Add>
++				<PerPop>1000</PerPop>
++			</UpkeepWood>
++			<UpkeepStone>
++				<Paths datatype="tokens">Upkeep/Rates/stone</Paths>
++				<Add>0</Add>
++				<PerPop>1000</PerPop>
++			</UpkeepStone>
++			<UpkeepMetal>
++				<Paths datatype="tokens">Upkeep/Rates/metal</Paths>
++				<Add>0</Add>
++				<PerPop>1000</PerPop>
++			</UpkeepMetal>
++			<UpkeepWealth>
++				<Paths datatype="tokens">Upkeep/Rates/wealth</Paths>
++				<Add>0</Add>
++				<PerPop>1000</PerPop>
++			</UpkeepWealth>
++			<UpkeepManpower>
++				<Paths datatype="tokens">Upkeep/Rates/manpower</Paths>
++				<Add>0</Add>
++				<PerPop>1000</PerPop>
++			</UpkeepManpower>
+ 		</ValueModifiers>
+   </City>
+   <CityMember disable=""/>
+@@ -173,7 +230,6 @@
+     <SoundGroups>
+       <select>interface/select/building/sel_civ_center.xml</select>
+       <constructed>interface/complete/building/complete_civ_center.xml</constructed>
+-			<upgraded>interface/complete/building/complete_civ_center.xml</upgraded>
+       <alert_raise>interface/alarm/alarm_alert_0.xml</alert_raise>
+       <alert_end>interface/alarm/alarm_alert_1.xml</alert_end>
+       <attack_ranged>attack/weapon/bow_attack.xml</attack_ranged>
+@@ -185,6 +241,18 @@
+     <Radius>140</Radius>
+     <Weight>10000</Weight>
+   </TerritoryInfluence>
++	<Upkeep>
++		<Rates>
++			<food>0</food>
++			<wood>0</wood>
++			<stone>0</stone>
++			<metal>0</metal>
++			<wealth>0</wealth>
++			<manpower>0</manpower>
++		</Rates>
++		<!-- Every 30 seconds -->
++		<Interval>30000</Interval>
++	</Upkeep>
+   <Vision>
+     <Range>90</Range>
+   </Vision>
+diff --git a/binaries/data/mods/public/simulation/templates/units/rome/champion_infantry_swordsman_02.xml b/binaries/data/mods/public/simulation/templates/units/rome/champion_infantry_swordsman_02.xml
+index d1b3195702..a5177b93f6 100644
+--- a/binaries/data/mods/public/simulation/templates/units/rome/champion_infantry_swordsman_02.xml
++++ b/binaries/data/mods/public/simulation/templates/units/rome/champion_infantry_swordsman_02.xml
+@@ -3,6 +3,7 @@
+   <Identity>
+     <GenericName>Marian Legionary</GenericName>
+     <SpecificName>Legiōnārius</SpecificName>
++		<RequiredTechnology>government_tyranny_rome</RequiredTechnology>
+     <Icon>units/rome_champion_legion_marian.png</Icon>
+   </Identity>
+   <Promotion>
+-- 
+2.25.1
+

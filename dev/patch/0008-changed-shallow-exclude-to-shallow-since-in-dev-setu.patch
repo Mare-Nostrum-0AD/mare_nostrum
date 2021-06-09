@@ -1,0 +1,26 @@
+From a9ee59db3d4c7065bfd860013ccded0d551f64a5 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sun, 23 May 2021 16:48:21 -0700
+Subject: [PATCH 08/86] changed --shallow-exclude to --shallow-since in
+ dev/setup-parent.sh
+
+---
+ binaries/data/mods/public/dev/setup-parent.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/binaries/data/mods/public/dev/setup-parent.sh b/binaries/data/mods/public/dev/setup-parent.sh
+index f3e30d029e..154387eda1 100755
+--- a/binaries/data/mods/public/dev/setup-parent.sh
++++ b/binaries/data/mods/public/dev/setup-parent.sh
+@@ -29,7 +29,7 @@ fi
+ 
+ # clone 0ad repo into parent dir if it doesn't already exist
+ if [[ ! -d "${parent_dir}" ]]; then
+-	git clone $([[ "${git_base}" != 'master' ]] && echo --shallow-exclude="${git_base}" || echo --depth=1) "${oad_git_server}" "${parent_dir}"
++	git clone $([[ "${git_base}" != 'master' ]] && echo --shallow-since="${git_base}" || echo --depth=1) "${oad_git_server}" "${parent_dir}"
+ fi
+ 
+ # setup new branch, save latest master commit to child dir dev files
+-- 
+2.25.1
+
