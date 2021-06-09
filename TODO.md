@@ -13,13 +13,12 @@ Please feel free to contribute if you see anything you can do here. If there is 
 	- Make sure delphi bot randomizes trade routes assignments, weighted by trader gain
 	- Allow building all available civic buildings via generic buildCivicBuilding function, replacing buildForge, buildTemple, etc.
 	- Allow to build wealth resource supplies (olive groves, vineyards, etc.)
-	- Make sure it can train merchant ships
+	- Make sure it can train merchant ships /
 - Implement archer skill growth; archers should start off weaker than other ranged units when first trained, then become stronger through experience
 	- Create advanced, elite archer mixins
 - Modify GarrisonHolder component to enable value modifications based on number, type of units garrisoned /
 - Remove building ai from siege tower, ensure only usable for taking walls/other structures /
 	- Modify Attack component to allow garrisoned units to increase attack, allowing garrisoned infantry to increase siege tower capture attack /
-- Create champion mixin, refactor champion templates to inherit from standard unit templates and apply champion mixin
 - Create library/academy monument for Athenians /
 - Create new palace actors for Hellenistic civs, kushites /
 - Rename Carthaginian embassies to Mercenary Camps /
@@ -30,16 +29,17 @@ Please feel free to contribute if you see anything you can do here. If there is 
 - Resolve infinite queue entity limit exploit (try infinite queueing animals) /
 - Make sure all civ centre actors have projectiles
 - Implement value modifiers for City, scaling by population (see GarrisonHolder for example)/ 
-- Implement DeficitTriggers, DeficitValueModifiers for Upkeep (see GarrisonHolder for example)
-	- Should replace/augment HandleInsufficientUpkeep
+- Implement DeficitTriggers, DeficitValueModifiers for Upkeep (see GarrisonHolder for example) /
+	- Should replace/augment HandleInsufficientUpkeep /
 - Implement directional resistance, allowing weaker flank and rear armor
 - Rename "Population Limit" to "Command Limit", change icon
 - Rebalance city manpower trickle /
 - Create skirmish replacers for different levels of civ centre /
-- Create separate "govcentre" template, from which two templates inherit – palace and assembly
-	- palace available in Hegemon phase
-	- assembly available in City phase
-	- civs with assembly get patron temples in hegemon phase
+- Create separate "govcentre" template, from which two templates inherit – palace and assembly /
+	- palace available in Hegemon phase /
+	- assembly available in City phase /
+	- civs with assembly get patron temples in hegemon phase /
+- Ensure phase upgrade notifications are displayed correctly
 - Document changes in CHANGELOG.md
 - Document unique features in README.md or FEATURES.md
 - Document development scripts in CONTRIBUTING.md
@@ -55,7 +55,7 @@ Please feel free to contribute if you see anything you can do here. If there is 
 	- Village
 	- Town
 	- City
-- Ensure phase upgrade notifications are displayed correctly
+- Create champion mixin, refactor champion templates to inherit from standard unit templates and apply champion mixin
 - Implement AutoSpawn component
 - Create resource caps, which can be expanded by building structures and researching technologies
 - Create local resources, which are stored locally by each resource dropsite and can only be used by nearby production queues and builders

@@ -1,17 +1,17 @@
 function CityMember() {}
 
 CityMember.prototype.Schema =
-	"<a:help>Identifies this entity as a potential member of a city, able to contribute to its growth and other attributes. City membership is determined by whether this entity is within the city's radius (see City.js).</a:help>" +
-	"<element name='GrowthContrib' a:help='How much this entity contributes to city growth rate.'>" +
-		"<choice>" +
-			"<element name='Add' a:help='Value to add to city growth rate.'>" +
-				"<data type='positiveInteger' />" +
-			"</element>" +
-			"<element name='Multiply' a:help='Value by which to multiply city growth rate.'>" +
-				"<ref name='nonNegativeDecimal' />" +
-			"</element>" +
-		"</choice>" +
-	"</element>";
+	`<a:help>Identifies this entity as a potential member of a city, able to contribute to its growth and other attributes. City membership is determined by whether this entity is within the city's radius (see City.js).</a:help>
+	<element name='GrowthContrib' a:help='How much this entity contributes to city growth rate.'>
+		<choice>
+			<element name='Add' a:help='Value to add to city growth rate.'>
+				<data type='positiveInteger' />
+			</element>
+			<element name='Multiply' a:help='Value by which to multiply city growth rate.'>
+				<ref name='nonNegativeDecimal' />
+			</element>
+		</choice>
+	</element>`;
 
 CityMember.prototype.Init = function()
 {

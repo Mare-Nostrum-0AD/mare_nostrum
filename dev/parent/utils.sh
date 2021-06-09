@@ -3,13 +3,14 @@
 # OAD_PARENT_DIR
 # OAD_MOD_DIR
 # OAD_CHILD_DIR
-# OAD_GIT_BASE
+# OAD_GIT_BASE_FILE
+# OAD_GIT_PATCH
 
 # extract diff of mod files
 function extract_diff() {
 	(
 	cd "${OAD_PARENT_DIR}"
-	git diff --patch --binary "${OAD_GIT_BASE}" -- binaries/data/mods/public
+	git diff --patch --binary "$(git merge-base --fork-point master)" -- binaries/data/mods/public
 	)
 }
 
@@ -39,7 +40,10 @@ function sync_to_child() {
 		cp -f "${file}" "${outfile}"
 	done
 	extract_diff > "${OAD_CHILD_DIR}/dev/mod.diff"
-	git log -n 1 "${OAD_GIT_BASE}" > "${OAD_CHILD_DIR}/dev/git_base.txt"
+	cd "${OAD_PARENT_DIR}"
+	rm -rf "${OAD_GIT_PATCH}"
+	git format-patch -o "${OAD_GIT_PATCH}" "$(git merge-base --fork-point master)"..HEAD -- binaries/data/mods/public
+	git log -n 1 --date=short "$(git merge-base --fork-point master)" > "${OAD_GIT_BASE_FILE}"
 	cd "${OAD_CHILD_DIR}"
 	git add ${moved_files[@]}
 	)
@@ -74,8 +78,9 @@ function commit() {
 
 # rebase onto another revision, changing variables accordingly
 function rebase() {
-	[[ $1 ]] && local git_base="$1" || local git_base='master'
-	OAD_GIT_BASE="$(git log -n 1 "${git_base}" | grep -m 1 -o -e '^commit \S\+' < "${OAD_GIT_BASE_FILE}" | cut -c8-)"
-	git rebase "${OAD_GIT_BASE}"
-	echo "OAD_GIT_BASE=\"${OAD_GIT_BASE}\"" >> "${OAD_PARENT_DIR}/dev/utils.sh"
+	(
+		[[ $1 ]] && local git_base="$1" || local git_base='master'
+		cd "${OAD_PARENT_DIR}"
+		git rebase "${git_base}"
+	)
 }

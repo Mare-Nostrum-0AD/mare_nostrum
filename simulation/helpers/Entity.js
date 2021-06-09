@@ -5,12 +5,14 @@
 // @return					Number		new entity's id
 function CreateEntity(templateName, owner=undefined)
 {
-	const entity = Engine.AddEntity(templateName);
+	let entity = Engine.AddEntity(templateName);
 	if (entity === INVALID_ENTITY)
 	{
 		throw new Error("Could not create valid entity from template %s", templateName);
 	}
 	Engine.PostMessage(entity, MT_EntityCreated);
+	// check for entity replacements performed on EntityCreated
+	entity = EntityTransformer.GetEntityReplacement(entity) || entity;
 	if (owner)
 	{
 		const cmpOwnership = Engine.QueryInterface(entity, IID_Ownership);
