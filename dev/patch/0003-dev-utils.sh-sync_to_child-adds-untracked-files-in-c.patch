@@ -1,4 +1,4 @@
-From e9f0d34cf28e223e4eebedc0291941002ba9a882 Mon Sep 17 00:00:00 2001
+From 585abaa47270010e1daad471f5483dc5b62aab2a Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Sun, 23 May 2021 12:51:47 -0700
 Subject: [PATCH] dev/utils.sh:sync_to_child adds untracked files in child dir

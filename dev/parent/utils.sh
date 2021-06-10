@@ -41,7 +41,7 @@ function sync_to_child() {
 	done
 	cd "${OAD_PARENT_DIR}"
 	rm -rf "${OAD_GIT_PATCH}"
-	git format-patch --no-numbered -o "${OAD_GIT_PATCH}" "$(git merge-base --fork-point master)"..HEAD -- binaries/data/mods/public
+	git format-patch --no-numbered --zero-commit -o "${OAD_GIT_PATCH}" "$(git merge-base --fork-point master)"..HEAD -- binaries/data/mods/public
 	git log -n 1 --date=iso-strict "$(git merge-base --fork-point master)" > "${OAD_GIT_BASE_FILE}"
 	cd "${OAD_CHILD_DIR}"
 	git add ${moved_files[@]}

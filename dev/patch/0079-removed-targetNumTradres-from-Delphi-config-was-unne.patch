@@ -1,4 +1,4 @@
-From 0e8613465be5f3655af78f85a8ce90513d1a3b3f Mon Sep 17 00:00:00 2001
+From 1523a1e6d5888575ad6711d8c3063a93916e8107 Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Sat, 5 Jun 2021 16:44:00 -0700
 Subject: [PATCH] removed targetNumTradres from Delphi config (was unnecessary,

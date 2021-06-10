@@ -36,6 +36,7 @@ class TemplateParser
 
 		let affectedPlayers = template.affectedPlayers || this.AuraAffectedPlayerDefault;
 		parsed.affectsTeam = this.AuraTeamIndicators.some(indicator => affectedPlayers.includes(indicator));
+		parsed.affectsSelf = this.AuraSelfIndicators.some(indicator => affectedPlayers.includes(indicator));
 
 		this.auras[auraName] = parsed;
 		return this.auras[auraName];
@@ -356,7 +357,13 @@ class TemplateParser
 
 	deriveModifications(civCode)
 	{
-		this.modifiers[civCode] = this.TemplateLoader.deriveModifications(civCode);
+		const player = this.getPlayer(civCode);
+		const auraList = clone(player.civbonuses);
+		for (const bonusname of player.teambonuses)
+			if (this.getAura(bonusname).affectsSelf)
+				auraList.push(bonusname);
+
+		this.modifiers[civCode] = this.TemplateLoader.deriveModifications(civCode, auraList);
 	}
 
 	derivePhaseList(technologyList, civCode)
@@ -402,3 +409,8 @@ TemplateParser.prototype.AuraAffectedPlayerDefault =
 // that the aura applies to team members.
 TemplateParser.prototype.AuraTeamIndicators =
 	["MutualAlly", "ExclusiveMutualAlly"];
+
+// List of tokens that, if found in an aura's "affectedPlayers" attribute, indicate
+// that the aura applies to the aura's owning civ.
+TemplateParser.prototype.AuraSelfIndicators =
+	["Player", "Ally", "MutualAlly"];

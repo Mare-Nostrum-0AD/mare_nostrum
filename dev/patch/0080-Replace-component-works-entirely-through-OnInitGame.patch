@@ -1,4 +1,4 @@
-From 96a37762415ca7153352a7873b1ba82c824cca6b Mon Sep 17 00:00:00 2001
+From f43afd434371cb2c57b1dfcfe76da6ebaef49d1d Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Sat, 5 Jun 2021 16:49:22 -0700
 Subject: [PATCH] Replace component works entirely through OnInitGame
