@@ -1,0 +1,136 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Wed, 9 Jun 2021 19:40:00 -0700
+Subject: [PATCH] removed unnecessary Identity component merge declarations in
+ cash crop fields
+
+---
+ .../simulation/templates/structures/cart/field_cash_crop.xml | 2 +-
+ .../public/simulation/templates/structures/date_grove.xml    | 2 +-
+ .../simulation/templates/structures/hele/field_cash_crop.xml | 2 +-
+ .../simulation/templates/structures/maur/field_cash_crop.xml | 2 +-
+ .../templates/structures/mesop/field_cash_crop.xml           | 2 +-
+ .../simulation/templates/structures/nile/field_cash_crop.xml | 2 +-
+ .../public/simulation/templates/structures/olive_grove.xml   | 2 +-
+ .../simulation/templates/structures/rome/field_cash_crop.xml | 5 +----
+ .../mods/public/simulation/templates/structures/vineyard.xml | 5 +----
+ 9 files changed, 9 insertions(+), 15 deletions(-)
+
+diff --git a/binaries/data/mods/public/simulation/templates/structures/cart/field_cash_crop.xml b/binaries/data/mods/public/simulation/templates/structures/cart/field_cash_crop.xml
+index a6bc5aa373..3b336de6aa 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/cart/field_cash_crop.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/cart/field_cash_crop.xml
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_resource_field_olives">
+-  <Identity merge="">
++  <Identity>
+     <Civ>cart</Civ>
+   </Identity>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/date_grove.xml b/binaries/data/mods/public/simulation/templates/structures/date_grove.xml
+index 42ab5d0cc7..8cd456b12a 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/date_grove.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/date_grove.xml
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_resource_field_dates">
+-  <Identity merge="">
++  <Identity>
+     <Civ>gaia</Civ>
+   </Identity>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/hele/field_cash_crop.xml b/binaries/data/mods/public/simulation/templates/structures/hele/field_cash_crop.xml
+index 7c3a29c0a7..f3bd33a5a5 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/hele/field_cash_crop.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/hele/field_cash_crop.xml
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_resource_field_olives">
+-  <Identity merge="">
++  <Identity>
+     <Civ>gaia</Civ>
+     <SpecificName>Elai Onas</SpecificName>
+   </Identity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/maur/field_cash_crop.xml b/binaries/data/mods/public/simulation/templates/structures/maur/field_cash_crop.xml
+index d7a14bbacd..d5a55b22df 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/maur/field_cash_crop.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/maur/field_cash_crop.xml
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_resource_field_dates">
+-  <Identity merge="">
++  <Identity>
+     <Civ>maur</Civ>
+   </Identity>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/mesop/field_cash_crop.xml b/binaries/data/mods/public/simulation/templates/structures/mesop/field_cash_crop.xml
+index 42ab5d0cc7..8cd456b12a 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/mesop/field_cash_crop.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/mesop/field_cash_crop.xml
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_resource_field_dates">
+-  <Identity merge="">
++  <Identity>
+     <Civ>gaia</Civ>
+   </Identity>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/nile/field_cash_crop.xml b/binaries/data/mods/public/simulation/templates/structures/nile/field_cash_crop.xml
+index 42ab5d0cc7..8cd456b12a 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/nile/field_cash_crop.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/nile/field_cash_crop.xml
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_resource_field_dates">
+-  <Identity merge="">
++  <Identity>
+     <Civ>gaia</Civ>
+   </Identity>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/olive_grove.xml b/binaries/data/mods/public/simulation/templates/structures/olive_grove.xml
+index 549166236a..d84caa711d 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/olive_grove.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/olive_grove.xml
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_resource_field_olives">
+-  <Identity merge="">
++  <Identity>
+     <Civ>gaia</Civ>
+   </Identity>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/rome/field_cash_crop.xml b/binaries/data/mods/public/simulation/templates/structures/rome/field_cash_crop.xml
+index e0b154fcb6..f72962ba5d 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/rome/field_cash_crop.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/rome/field_cash_crop.xml
+@@ -1,10 +1,7 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_resource_field_vineyard">
+-  <Identity merge="">
++  <Identity>
+     <Civ>rome</Civ>
+     <SpecificName>Vinetum</SpecificName>
+   </Identity>
+-  <VisualActor>
+-    <Actor>structures/plot_vineyard_8x8.xml</Actor>
+-  </VisualActor>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/vineyard.xml b/binaries/data/mods/public/simulation/templates/structures/vineyard.xml
+index 284975725a..51c51d4c7b 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/vineyard.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/vineyard.xml
+@@ -1,9 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_resource_field_vineyard">
+-  <Identity merge="">
++  <Identity>
+     <Civ>gaia</Civ>
+   </Identity>
+-  <VisualActor>
+-    <Actor>structures/plot_vineyard_8x8.xml</Actor>
+-  </VisualActor>
+ </Entity>
+-- 
+2.25.1
+
