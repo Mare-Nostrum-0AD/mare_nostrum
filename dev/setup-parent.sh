@@ -31,9 +31,12 @@ fi
 # clone 0ad repo into parent dir if it doesn't already exist
 if [[ ! -d "${parent_dir}" ]]; then
 	echo "git base date: ${git_base_date}" >&2
-	# TODO: remove debug
-	echo git clone command: git clone $(if [[ ${git_base_date} ]]; then echo --shallow-since="${git_base_date}"; elif [[ "${git_base}" = 'master' ]]; then echo --depth=1; fi) "${oad_git_server}" "${parent_dir}"
 	git clone $(if [[ ${git_base_date} ]]; then echo --shallow-since="${git_base_date}"; elif [[ "${git_base}" = 'master' ]]; then echo --depth=1; fi) "${oad_git_server}" "${parent_dir}"
+fi
+
+if [[ ! -d "${parent_dir}" ]]; then
+	echo "ERROR: could not set up parent dir ${parent_dir}" >&2
+	exit 1
 fi
 
 # setup new branch, save latest master commit to child dir dev files
@@ -41,6 +44,10 @@ cd "${parent_dir}"
 # set git_base to exact commit hash
 git_base="$(grep -m 1 -o -e '^commit \S\+' < "${git_base_file}" | cut -c8-)"
 git switch master
+# fetch commit in question if not present
+if ! git log -n 1 --output=/dev/null "${git_base}"; then
+	git fetch --shallow-since="${git_base_date}"
+fi
 git checkout "${git_base}"
 git switch -c "${OAD_MOD_NAME}"
 
