@@ -1,0 +1,431 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Wed, 9 Jun 2021 19:35:06 -0700
+Subject: [PATCH] removed City component merges in civ-specific civil centres
+
+---
+ .../simulation/templates/structures/brit/city_centre.xml       | 3 ---
+ .../simulation/templates/structures/brit/civil_centre.xml      | 3 ---
+ .../simulation/templates/structures/brit/town_centre.xml       | 3 ---
+ .../simulation/templates/structures/cart/city_centre.xml       | 3 ---
+ .../simulation/templates/structures/cart/civil_centre.xml      | 3 ---
+ .../simulation/templates/structures/cart/town_centre.xml       | 3 ---
+ .../simulation/templates/structures/gaul/city_centre.xml       | 3 ---
+ .../simulation/templates/structures/gaul/civil_centre.xml      | 3 ---
+ .../simulation/templates/structures/gaul/town_centre.xml       | 3 ---
+ .../simulation/templates/structures/iber/city_centre.xml       | 3 ---
+ .../simulation/templates/structures/iber/civil_centre.xml      | 3 ---
+ .../simulation/templates/structures/iber/town_centre.xml       | 3 ---
+ .../simulation/templates/structures/kush/city_centre.xml       | 3 ---
+ .../simulation/templates/structures/kush/civil_centre.xml      | 3 ---
+ .../simulation/templates/structures/kush/town_centre.xml       | 3 ---
+ .../simulation/templates/structures/maur/city_centre.xml       | 3 ---
+ .../simulation/templates/structures/maur/civil_centre.xml      | 3 ---
+ .../simulation/templates/structures/maur/town_centre.xml       | 3 ---
+ .../simulation/templates/structures/pers/city_centre.xml       | 3 ---
+ .../simulation/templates/structures/ptol/civil_centre.xml      | 3 ---
+ .../simulation/templates/structures/ptol/town_centre.xml       | 3 ---
+ .../simulation/templates/structures/rome/city_centre.xml       | 3 ---
+ .../simulation/templates/structures/rome/civil_centre.xml      | 3 ---
+ .../simulation/templates/structures/rome/town_centre.xml       | 3 ---
+ .../simulation/templates/structures/sele/civil_centre.xml      | 3 ---
+ .../simulation/templates/structures/sele/town_centre.xml       | 3 ---
+ .../simulation/templates/structures/spart/city_centre.xml      | 3 ---
+ .../simulation/templates/structures/spart/civil_centre.xml     | 3 ---
+ .../simulation/templates/structures/spart/town_centre.xml      | 3 ---
+ .../public/simulation/templates/structures/village_generic.xml | 3 ---
+ 30 files changed, 90 deletions(-)
+
+diff --git a/binaries/data/mods/public/simulation/templates/structures/brit/city_centre.xml b/binaries/data/mods/public/simulation/templates/structures/brit/city_centre.xml
+index 0a4fabffda..7528011590 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/brit/city_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/brit/city_centre.xml
+@@ -1,8 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_civil_centre_c">
+-  <City merge="">
+-    <Upgrade>structures/{native}/metro_centre</Upgrade>
+-  </City>
+   <Footprint replace="">
+     <Circle radius="15.0"/>
+     <Height>8.0</Height>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/brit/civil_centre.xml b/binaries/data/mods/public/simulation/templates/structures/brit/civil_centre.xml
+index c589a3ffed..33c44e71b6 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/brit/civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/brit/civil_centre.xml
+@@ -1,8 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_civil_centre_a">
+-  <City merge="">
+-    <Upgrade>structures/{native}/town_centre</Upgrade>
+-  </City>
+   <Footprint>
+     <Square width="40.0" depth="40.0"/>
+     <Height>8.0</Height>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/brit/town_centre.xml b/binaries/data/mods/public/simulation/templates/structures/brit/town_centre.xml
+index dbbb111a4d..9c4c2d1ade 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/brit/town_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/brit/town_centre.xml
+@@ -1,8 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_civil_centre_b">
+-  <City merge="">
+-    <Upgrade>structures/{native}/city_centre</Upgrade>
+-  </City>
+   <Footprint>
+     <Square width="40.0" depth="40.0"/>
+     <Height>8.0</Height>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/cart/city_centre.xml b/binaries/data/mods/public/simulation/templates/structures/cart/city_centre.xml
+index 660cd96ad0..4f99c11a60 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/cart/city_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/cart/city_centre.xml
+@@ -1,8 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_civil_centre_c">
+-  <City merge="">
+-    <Upgrade>structures/{native}/metro_centre</Upgrade>
+-  </City>
+   <Health>
+     <SpawnEntityOnDeath>decay|rubble/rubble_kart_cc</SpawnEntityOnDeath>
+   </Health>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/cart/civil_centre.xml b/binaries/data/mods/public/simulation/templates/structures/cart/civil_centre.xml
+index 6b3d109da6..50471b010c 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/cart/civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/cart/civil_centre.xml
+@@ -1,8 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_civil_centre_a">
+-  <City merge="">
+-    <Upgrade>structures/{native}/town_centre</Upgrade>
+-  </City>
+   <Footprint>
+     <Square width="40.0" depth="40.0"/>
+     <Height>8.0</Height>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/cart/town_centre.xml b/binaries/data/mods/public/simulation/templates/structures/cart/town_centre.xml
+index 11ec9b85e0..7a76e7412d 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/cart/town_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/cart/town_centre.xml
+@@ -1,8 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_civil_centre_b">
+-  <City merge="">
+-    <Upgrade>structures/{native}/city_centre</Upgrade>
+-  </City>
+   <Footprint>
+     <Square width="40.0" depth="40.0"/>
+     <Height>8.0</Height>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/gaul/city_centre.xml b/binaries/data/mods/public/simulation/templates/structures/gaul/city_centre.xml
+index 2332237d4f..33c72c1a2a 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/gaul/city_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/gaul/city_centre.xml
+@@ -1,8 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_civil_centre_c">
+-  <City merge="">
+-    <Upgrade>structures/{native}/metro_centre</Upgrade>
+-  </City>
+   <Footprint>
+     <Square width="28.0" depth="28.0"/>
+     <Height>8.0</Height>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/gaul/civil_centre.xml b/binaries/data/mods/public/simulation/templates/structures/gaul/civil_centre.xml
+index 5cdcf86846..28122c0050 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/gaul/civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/gaul/civil_centre.xml
+@@ -1,8 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_civil_centre_a">
+-  <City merge="">
+-    <Upgrade>structures/{native}/town_centre</Upgrade>
+-  </City>
+   <Footprint>
+     <Square width="40.0" depth="40.0"/>
+     <Height>8.0</Height>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/gaul/town_centre.xml b/binaries/data/mods/public/simulation/templates/structures/gaul/town_centre.xml
+index aba1297c6f..0a3a546ed3 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/gaul/town_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/gaul/town_centre.xml
+@@ -1,8 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_civil_centre_b">
+-  <City merge="">
+-    <Upgrade>structures/{native}/city_centre</Upgrade>
+-  </City>
+   <Footprint>
+     <Square width="40.0" depth="40.0"/>
+     <Height>8.0</Height>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/iber/city_centre.xml b/binaries/data/mods/public/simulation/templates/structures/iber/city_centre.xml
+index 540a1c77b3..4495c9d528 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/iber/city_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/iber/city_centre.xml
+@@ -1,8 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_civil_centre_c">
+-  <City merge="">
+-    <Upgrade>structures/{native}/metro_centre</Upgrade>
+-  </City>
+   <Health>
+     <SpawnEntityOnDeath>decay|rubble/rubble_iber_cc</SpawnEntityOnDeath>
+   </Health>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/iber/civil_centre.xml b/binaries/data/mods/public/simulation/templates/structures/iber/civil_centre.xml
+index 4b87b54c9b..ac54e7b765 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/iber/civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/iber/civil_centre.xml
+@@ -1,8 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_civil_centre_a">
+-  <City merge="">
+-    <Upgrade>structures/{native}/town_centre</Upgrade>
+-  </City>
+   <Footprint>
+     <Square width="40.0" depth="40.0"/>
+     <Height>8.0</Height>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/iber/town_centre.xml b/binaries/data/mods/public/simulation/templates/structures/iber/town_centre.xml
+index 5032d6c55f..42e317dde1 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/iber/town_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/iber/town_centre.xml
+@@ -1,8 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_civil_centre_b">
+-  <City merge="">
+-    <Upgrade>structures/{native}/city_centre</Upgrade>
+-  </City>
+   <Footprint>
+     <Square width="40.0" depth="40.0"/>
+     <Height>8.0</Height>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/kush/city_centre.xml b/binaries/data/mods/public/simulation/templates/structures/kush/city_centre.xml
+index 5100d4197b..6e59b6d772 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/kush/city_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/kush/city_centre.xml
+@@ -1,8 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_civil_centre_c">
+-  <City merge="">
+-    <Upgrade>structures/{native}/metro_centre</Upgrade>
+-  </City>
+   <Footprint>
+     <Square width="32.0" depth="32"/>
+     <Height>10.0</Height>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/kush/civil_centre.xml b/binaries/data/mods/public/simulation/templates/structures/kush/civil_centre.xml
+index 0400c5e48c..f049fc9e5f 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/kush/civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/kush/civil_centre.xml
+@@ -1,8 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_civil_centre_a">
+-  <City merge="">
+-    <Upgrade>structures/{native}/town_centre</Upgrade>
+-  </City>
+   <Footprint>
+     <Square width="40.0" depth="40.0"/>
+     <Height>8.0</Height>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/kush/town_centre.xml b/binaries/data/mods/public/simulation/templates/structures/kush/town_centre.xml
+index 82c9e557c9..894031f4e9 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/kush/town_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/kush/town_centre.xml
+@@ -1,8 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_civil_centre_b">
+-  <City merge="">
+-    <Upgrade>structures/{native}/city_centre</Upgrade>
+-  </City>
+   <Footprint>
+     <Square width="40.0" depth="40.0"/>
+     <Height>8.0</Height>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/maur/city_centre.xml b/binaries/data/mods/public/simulation/templates/structures/maur/city_centre.xml
+index 09e0c91475..f575c865d9 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/maur/city_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/maur/city_centre.xml
+@@ -1,8 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_civil_centre_c">
+-  <City merge="">
+-    <Upgrade>structures/{native}/metro_centre</Upgrade>
+-  </City>
+   <Footprint>
+     <Square width="40.0" depth="34.0"/>
+     <Height>8.0</Height>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/maur/civil_centre.xml b/binaries/data/mods/public/simulation/templates/structures/maur/civil_centre.xml
+index d05e8b16b5..065d51ccf4 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/maur/civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/maur/civil_centre.xml
+@@ -1,8 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_civil_centre_a">
+-  <City merge="">
+-    <Upgrade>structures/{native}/town_centre</Upgrade>
+-  </City>
+   <Footprint>
+     <Square width="40.0" depth="40.0"/>
+     <Height>8.0</Height>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/maur/town_centre.xml b/binaries/data/mods/public/simulation/templates/structures/maur/town_centre.xml
+index a8e6ef0120..e752b3328d 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/maur/town_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/maur/town_centre.xml
+@@ -1,8 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_civil_centre_b">
+-  <City merge="">
+-    <Upgrade>structures/{native}/city_centre</Upgrade>
+-  </City>
+   <Footprint>
+     <Square width="40.0" depth="40.0"/>
+     <Height>8.0</Height>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/pers/city_centre.xml b/binaries/data/mods/public/simulation/templates/structures/pers/city_centre.xml
+index 9ba8eebcbd..7ea2440a6b 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/pers/city_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/pers/city_centre.xml
+@@ -1,8 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_civil_centre_c">
+-  <City merge="">
+-    <Upgrade>structures/{native}/metro_centre</Upgrade>
+-  </City>
+   <Health>
+     <SpawnEntityOnDeath>decay|rubble/rubble_pers_cc</SpawnEntityOnDeath>
+   </Health>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/ptol/civil_centre.xml b/binaries/data/mods/public/simulation/templates/structures/ptol/civil_centre.xml
+index 701ecc9059..43817d9530 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/ptol/civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/ptol/civil_centre.xml
+@@ -1,8 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_civil_centre_a">
+-  <City merge="">
+-    <Upgrade>structures/{native}/town_centre</Upgrade>
+-  </City>
+   <Footprint>
+     <Square width="40.0" depth="40.0"/>
+     <Height>8.0</Height>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/ptol/town_centre.xml b/binaries/data/mods/public/simulation/templates/structures/ptol/town_centre.xml
+index f0bebcbe75..d38d3b8757 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/ptol/town_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/ptol/town_centre.xml
+@@ -1,8 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_civil_centre_b">
+-  <City merge="">
+-    <Upgrade>structures/{native}/city_centre</Upgrade>
+-  </City>
+   <Footprint>
+     <Square width="40.0" depth="40.0"/>
+     <Height>8.0</Height>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/rome/city_centre.xml b/binaries/data/mods/public/simulation/templates/structures/rome/city_centre.xml
+index e02179017f..daacf3f11a 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/rome/city_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/rome/city_centre.xml
+@@ -1,8 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_civil_centre_c">
+-  <City merge="">
+-    <Upgrade>structures/{native}/metro_centre</Upgrade>
+-  </City>
+   <Footprint>
+     <Square width="40.0" depth="40.0"/>
+     <Height>8.0</Height>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/rome/civil_centre.xml b/binaries/data/mods/public/simulation/templates/structures/rome/civil_centre.xml
+index 559e36006a..34fedd0032 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/rome/civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/rome/civil_centre.xml
+@@ -1,8 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_civil_centre_a">
+-  <City merge="">
+-    <Upgrade>structures/{native}/town_centre</Upgrade>
+-  </City>
+   <Footprint>
+     <Square width="40.0" depth="40.0"/>
+     <Height>8.0</Height>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/rome/town_centre.xml b/binaries/data/mods/public/simulation/templates/structures/rome/town_centre.xml
+index e511ae3db4..19193a4f55 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/rome/town_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/rome/town_centre.xml
+@@ -1,8 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_civil_centre_b">
+-  <City merge="">
+-    <Upgrade>structures/{native}/city_centre</Upgrade>
+-  </City>
+   <Footprint>
+     <Square width="40.0" depth="40.0"/>
+     <Height>8.0</Height>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/sele/civil_centre.xml b/binaries/data/mods/public/simulation/templates/structures/sele/civil_centre.xml
+index ae80e30dda..59833f45c6 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/sele/civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/sele/civil_centre.xml
+@@ -1,8 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_civil_centre_a">
+-  <City merge="">
+-		<Upgrade>structures/{native}/town_centre</Upgrade>
+-  </City>
+   <Footprint>
+     <Square width="40.0" depth="40.0"/>
+     <Height>8.0</Height>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/sele/town_centre.xml b/binaries/data/mods/public/simulation/templates/structures/sele/town_centre.xml
+index 41d0dc6418..16373b20a2 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/sele/town_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/sele/town_centre.xml
+@@ -1,8 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_civil_centre_b">
+-  <City merge="">
+-    <Upgrade>structures/{native}/city_centre</Upgrade>
+-  </City>
+   <Footprint>
+     <Square width="40.0" depth="40.0"/>
+     <Height>8.0</Height>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/spart/city_centre.xml b/binaries/data/mods/public/simulation/templates/structures/spart/city_centre.xml
+index 9660f59a68..37a2c00c1e 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/spart/city_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/spart/city_centre.xml
+@@ -1,8 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_civil_centre_c">
+-  <City merge="">
+-    <Upgrade>structures/{native}/metro_centre</Upgrade>
+-  </City>
+   <Health>
+     <SpawnEntityOnDeath>decay|rubble/rubble_hele_cc</SpawnEntityOnDeath>
+   </Health>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/spart/civil_centre.xml b/binaries/data/mods/public/simulation/templates/structures/spart/civil_centre.xml
+index fd7204a6e4..b3e428390c 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/spart/civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/spart/civil_centre.xml
+@@ -1,8 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_civil_centre_a">
+-  <City merge="">
+-    <Upgrade>structures/{native}/town_centre</Upgrade>
+-  </City>
+   <Footprint>
+     <Square width="40.0" depth="40.0"/>
+     <Height>8.0</Height>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/spart/town_centre.xml b/binaries/data/mods/public/simulation/templates/structures/spart/town_centre.xml
+index 07e5f5ebbe..024d717163 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/spart/town_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/spart/town_centre.xml
+@@ -1,8 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_civil_centre_b">
+-  <City merge="">
+-    <Upgrade>structures/{native}/city_centre</Upgrade>
+-  </City>
+   <Footprint>
+     <Square width="40.0" depth="40.0"/>
+     <Height>8.0</Height>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/village_generic.xml b/binaries/data/mods/public/simulation/templates/structures/village_generic.xml
+index 294e635cb8..99301a885c 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/village_generic.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/village_generic.xml
+@@ -1,8 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_civil_centre_a">
+-  <City merge="">
+-    <Upgrade>structures/{civ}/civil_centre</Upgrade>
+-  </City>
+   <Footprint>
+     <Square width="40.0" depth="40.0"/>
+     <Height>8.0</Height>
+-- 
+2.25.1
+
