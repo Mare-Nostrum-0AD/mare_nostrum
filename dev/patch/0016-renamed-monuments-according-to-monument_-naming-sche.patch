@@ -1,4 +1,4 @@
-From 0cbc5aa7537aaef77f0bfb70727edfb7104c4455 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Sun, 23 May 2021 19:19:22 -0700
 Subject: [PATCH] renamed monuments according to monument_* naming scheme

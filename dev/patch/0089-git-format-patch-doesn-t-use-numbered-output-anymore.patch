@@ -1,4 +1,4 @@
-From 1fc6af44da2a117248a6ce3e04b47be561fb1f9e Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Tue, 8 Jun 2021 23:08:59 -0700
 Subject: [PATCH] git format-patch doesn't use numbered output anymore

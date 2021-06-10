@@ -1,4 +1,4 @@
-From 515e3c0d13c9d7befbeb8c77a60454ec04ae8a36 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Fri, 28 May 2021 17:57:48 -0700
 Subject: [PATCH] added default Capture AttackName to mixins/soldier.xml

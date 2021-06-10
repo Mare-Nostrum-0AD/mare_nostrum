@@ -1,4 +1,4 @@
-From 8610e2765aec2fda39f2ae3ab305e93fbc4789a6 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Tue, 1 Jun 2021 20:11:36 -0700
 Subject: [PATCH] added assembly and palace templates that inherit from

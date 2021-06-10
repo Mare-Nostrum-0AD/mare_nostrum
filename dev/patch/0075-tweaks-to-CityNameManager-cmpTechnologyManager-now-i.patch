@@ -1,4 +1,4 @@
-From 908654b5eb24d549f20e99d397ee094b3b1c6012 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Fri, 4 Jun 2021 16:21:05 -0700
 Subject: [PATCH] tweaks to CityNameManager; cmpTechnologyManager now

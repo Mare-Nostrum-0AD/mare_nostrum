@@ -1,4 +1,4 @@
-From bacd9150bb0a65cd5f47945504126d19bba656fd Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: hopeless-ponderer <hopelessponderer1123@gmail.com>
 Date: Tue, 8 Jun 2021 23:06:36 -0700
 Subject: [PATCH] dev scripts: sync_to_child adds new patch files as well
