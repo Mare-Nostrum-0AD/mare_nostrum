@@ -22,7 +22,7 @@ index 73a3083d82..9fd0dfa7f1 100644
  		</Capture>
  	</Attack>
 diff --git a/binaries/data/mods/public/simulation/templates/template_unit_elephant_archer.xml b/binaries/data/mods/public/simulation/templates/template_unit_elephant_archer.xml
-index ea1b7dfc45..93c2013cb9 100644
+index 78f3010909..516e6819c0 100644
 --- a/binaries/data/mods/public/simulation/templates/template_unit_elephant_archer.xml
 +++ b/binaries/data/mods/public/simulation/templates/template_unit_elephant_archer.xml
 @@ -1,6 +1,7 @@

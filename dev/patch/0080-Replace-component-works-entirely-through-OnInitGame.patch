@@ -10,10 +10,10 @@ ProductionQueue doesn't call cmpReplace.Replace anymore
  2 files changed, 4 insertions(+), 22 deletions(-)
 
 diff --git a/binaries/data/mods/public/simulation/components/ProductionQueue.js b/binaries/data/mods/public/simulation/components/ProductionQueue.js
-index ac1dde20ba..543fa76ab3 100644
+index e0e3baabe7..381c5d343e 100644
 --- a/binaries/data/mods/public/simulation/components/ProductionQueue.js
 +++ b/binaries/data/mods/public/simulation/components/ProductionQueue.js
-@@ -751,20 +751,14 @@ ProductionQueue.prototype.SpawnUnits = function(item)
+@@ -752,20 +752,14 @@ ProductionQueue.prototype.SpawnUnits = function(item)
  	{
  		// Play a sound, but only for the first in the batch (to avoid nasty phasing effects).
  		PlaySound("trained", createdEnts[0]);

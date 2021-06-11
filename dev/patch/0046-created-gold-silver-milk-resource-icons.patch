@@ -2215,7 +2215,7 @@ index ef034fd17b..2725c2651e 100644
  
  Engine.SetProgress(75);
 diff --git a/binaries/data/mods/public/maps/random/cantabrian_highlands.js b/binaries/data/mods/public/maps/random/cantabrian_highlands.js
-index ec2ec20ada..1f68191a8d 100644
+index 35e9162a90..19f4e40f14 100644
 --- a/binaries/data/mods/public/maps/random/cantabrian_highlands.js
 +++ b/binaries/data/mods/public/maps/random/cantabrian_highlands.js
 @@ -27,6 +27,7 @@ const oApple = g_Gaia.tree3;
@@ -2343,7 +2343,7 @@ index 4a7cb5c030..d0f41c8d92 100644
  		"fish": "gaia/fish/generic",
  		"mainHuntableAnimal": "gaia/fauna_deer",
 diff --git a/binaries/data/mods/public/maps/random/rmbiome/generic/alpine.json b/binaries/data/mods/public/maps/random/rmbiome/generic/alpine.json
-index 596899a8ca..0ac0878b8c 100644
+index 625d080458..6f2b7fcf2d 100644
 --- a/binaries/data/mods/public/maps/random/rmbiome/generic/alpine.json
 +++ b/binaries/data/mods/public/maps/random/rmbiome/generic/alpine.json
 @@ -70,7 +70,7 @@
@@ -2356,7 +2356,7 @@ index 596899a8ca..0ac0878b8c 100644
  		"mainHuntableAnimal": "gaia/fauna_goat",
  		"fish": "gaia/fish/tuna",
 diff --git a/binaries/data/mods/public/maps/random/rmbiome/generic/autumn.json b/binaries/data/mods/public/maps/random/rmbiome/generic/autumn.json
-index 6f359b195a..353661d58d 100644
+index d0acd28c25..447dbc69e0 100644
 --- a/binaries/data/mods/public/maps/random/rmbiome/generic/autumn.json
 +++ b/binaries/data/mods/public/maps/random/rmbiome/generic/autumn.json
 @@ -66,7 +66,7 @@
@@ -2406,10 +2406,10 @@ index b4b87c9edb..be43b3beba 100644
  		"mainHuntableAnimal": "gaia/fauna_deer",
  		"fish": "gaia/fish/generic",
 diff --git a/binaries/data/mods/public/maps/random/rmbiome/generic/savanna.json b/binaries/data/mods/public/maps/random/rmbiome/generic/savanna.json
-index 80740383ca..e482343beb 100644
+index 97ac89056c..9e8c9d87a2 100644
 --- a/binaries/data/mods/public/maps/random/rmbiome/generic/savanna.json
 +++ b/binaries/data/mods/public/maps/random/rmbiome/generic/savanna.json
-@@ -60,7 +60,7 @@
+@@ -62,7 +62,7 @@
  		"tree4": "gaia/tree/baobab_3_mature",
  		"tree5": "gaia/tree/baobab",
  		"fruitBush": "gaia/fruit/berry_05",
@@ -2432,7 +2432,7 @@ index 922c57463e..934f6a743d 100644
  		"mainHuntableAnimal": "gaia/fauna_muskox",
  		"fish": "gaia/fish/tuna",
 diff --git a/binaries/data/mods/public/maps/random/rmbiome/generic/temperate.js b/binaries/data/mods/public/maps/random/rmbiome/generic/temperate.js
-index 0a98d0a584..1e80b6f7bd 100644
+index d5a909d9da..277fbb637c 100644
 --- a/binaries/data/mods/public/maps/random/rmbiome/generic/temperate.js
 +++ b/binaries/data/mods/public/maps/random/rmbiome/generic/temperate.js
 @@ -51,5 +51,5 @@ function setupBiome_temperate()
@@ -2443,7 +2443,7 @@ index 0a98d0a584..1e80b6f7bd 100644
 +	g_Gaia.pasture = "gaia/pasture";
  }
 diff --git a/binaries/data/mods/public/maps/random/rmbiome/generic/temperate.json b/binaries/data/mods/public/maps/random/rmbiome/generic/temperate.json
-index 45539c6819..f84aba8802 100644
+index f254a0993d..eb713870b3 100644
 --- a/binaries/data/mods/public/maps/random/rmbiome/generic/temperate.json
 +++ b/binaries/data/mods/public/maps/random/rmbiome/generic/temperate.json
 @@ -49,7 +49,7 @@

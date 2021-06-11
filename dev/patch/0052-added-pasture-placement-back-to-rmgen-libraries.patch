@@ -409,10 +409,10 @@ index 788a7dc6ca..7ffa108345 100644
  			"types": [
  				{ "template": g_Gaia.metalLarge },
 diff --git a/binaries/data/mods/public/simulation/components/ProductionQueue.js b/binaries/data/mods/public/simulation/components/ProductionQueue.js
-index 26b0a3d1c0..ac1dde20ba 100644
+index 295df9411f..e0e3baabe7 100644
 --- a/binaries/data/mods/public/simulation/components/ProductionQueue.js
 +++ b/binaries/data/mods/public/simulation/components/ProductionQueue.js
-@@ -751,19 +751,20 @@ ProductionQueue.prototype.SpawnUnits = function(item)
+@@ -752,19 +752,20 @@ ProductionQueue.prototype.SpawnUnits = function(item)
  	{
  		// Play a sound, but only for the first in the batch (to avoid nasty phasing effects).
  		PlaySound("trained", createdEnts[0]);
