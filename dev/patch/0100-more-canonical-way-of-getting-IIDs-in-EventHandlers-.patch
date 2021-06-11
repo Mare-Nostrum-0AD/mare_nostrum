@@ -1,0 +1,25 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Thu, 10 Jun 2021 20:09:35 -0700
+Subject: [PATCH] more canonical way of getting IIDs in EventHandlers component
+
+---
+ .../data/mods/public/simulation/components/EventHandlers.js     | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/binaries/data/mods/public/simulation/components/EventHandlers.js b/binaries/data/mods/public/simulation/components/EventHandlers.js
+index ea917c93c7..518fc0e80d 100644
+--- a/binaries/data/mods/public/simulation/components/EventHandlers.js
++++ b/binaries/data/mods/public/simulation/components/EventHandlers.js
+@@ -36,7 +36,7 @@ EventHandlers.prototype.Init = function()
+ {
+ 	for (let [handlerName, handler] of Object.entries(this.template))
+ 	{
+-		const getIID = (componentName) => eval("IID_" + componentName);
++		const getIID = (componentName) => global["IID_" + componentName];
+ 		const [cmp, cmpType, cmpName] = (() => {
+ 			if (handler.EntityComponent)
+ 				return [Engine.QueryInterface(this.entity, getIID(handler.EntityComponent)), "entity", handler.EntityComponent];
+-- 
+2.25.1
+

@@ -36,7 +36,7 @@ EventHandlers.prototype.Init = function()
 {
 	for (let [handlerName, handler] of Object.entries(this.template))
 	{
-		const getIID = (componentName) => eval("IID_" + componentName);
+		const getIID = (componentName) => global["IID_" + componentName];
 		const [cmp, cmpType, cmpName] = (() => {
 			if (handler.EntityComponent)
 				return [Engine.QueryInterface(this.entity, getIID(handler.EntityComponent)), "entity", handler.EntityComponent];
