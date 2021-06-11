@@ -1,0 +1,133 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Thu, 10 Jun 2021 17:48:57 -0700
+Subject: [PATCH] removed specific name from Roman metropolis
+
+updated specific names for phase technologies
+---
+ .../data/technologies/phase_city_generic.json          |  1 +
+ .../data/technologies/phase_empire_athen.json          |  6 ++----
+ .../data/technologies/phase_empire_generic.json        |  6 ++++--
+ .../data/technologies/phase_hegemon_athen.json         |  6 ++----
+ .../data/technologies/phase_hegemon_generic.json       | 10 ++++++----
+ .../data/technologies/phase_town_generic.json          |  1 +
+ .../templates/structures/rome/metro_centre.xml         |  1 -
+ 7 files changed, 16 insertions(+), 15 deletions(-)
+
+diff --git a/binaries/data/mods/public/simulation/data/technologies/phase_city_generic.json b/binaries/data/mods/public/simulation/data/technologies/phase_city_generic.json
+index 788b165f79..1fa79b39fb 100644
+--- a/binaries/data/mods/public/simulation/data/technologies/phase_city_generic.json
++++ b/binaries/data/mods/public/simulation/data/technologies/phase_city_generic.json
+@@ -3,6 +3,7 @@
+ 	"specificName": {
+ 		"mace": "Megalopolis",
+ 		"ptol": "Megalopolis",
++		"rome": "Urbs",
+ 		"sele": "Megalopolis",
+ 		"spart": "Megalopolis"
+ 	},
+diff --git a/binaries/data/mods/public/simulation/data/technologies/phase_empire_athen.json b/binaries/data/mods/public/simulation/data/technologies/phase_empire_athen.json
+index 103dca0178..1d1dab5cfa 100644
+--- a/binaries/data/mods/public/simulation/data/technologies/phase_empire_athen.json
++++ b/binaries/data/mods/public/simulation/data/technologies/phase_empire_athen.json
+@@ -1,11 +1,9 @@
+ {
+ 	"genericName": "Empire Phase",
+ 	"specificName": {
+-		"athen": "Autokratória",
+-		"mace": "Autokratória",
+-		"spart": "Autokratória"
++		"athen": "Autokratória"
+ 	},
+-	"description": "Your power extends beyond a single great city, you now control many great cities and peoples.",
++	"description": "Your power extends beyond a single great city, you now control vast territories and many peoples.",
+ 	"cost": { "food": 0, "wood": 0, "stone": 0, "metal": 0 },
+ 	"requirements": { "all": [{ "entity": {"class": "MetroCentre", "number": 3} }, { "entity": {"class": "Wonder", "number": 1} }] },
+ 	"autoResearch": true,
+diff --git a/binaries/data/mods/public/simulation/data/technologies/phase_empire_generic.json b/binaries/data/mods/public/simulation/data/technologies/phase_empire_generic.json
+index 9b5b98f686..490f49e445 100644
+--- a/binaries/data/mods/public/simulation/data/technologies/phase_empire_generic.json
++++ b/binaries/data/mods/public/simulation/data/technologies/phase_empire_generic.json
+@@ -1,11 +1,13 @@
+ {
+ 	"genericName": "Empire Phase",
+ 	"specificName": {
+-		"athen": "Autokratória",
+ 		"mace": "Autokratória",
++		"ptol": "Autokratória",
++		"rome": "Imperium",
++		"sele": "Autokratória",
+ 		"spart": "Autokratória"
+ 	},
+-	"description": "Your power extends beyond a single great city, you now control many great cities and peoples.",
++	"description": "Your power extends beyond a single great city, you now control vast territories and many peoples.",
+ 	"cost": { "food": 0, "wood": 0, "stone": 0, "metal": 0 },
+ 	"requirements": { "all": [{ "entity": {"class": "MetroCentre", "number": 3} }, { "entity": {"class": "Wonder", "number": 1} }] },
+ 	"autoResearch": true,
+diff --git a/binaries/data/mods/public/simulation/data/technologies/phase_hegemon_athen.json b/binaries/data/mods/public/simulation/data/technologies/phase_hegemon_athen.json
+index 39dc76023e..a2149a8e21 100644
+--- a/binaries/data/mods/public/simulation/data/technologies/phase_hegemon_athen.json
++++ b/binaries/data/mods/public/simulation/data/technologies/phase_hegemon_athen.json
+@@ -1,11 +1,9 @@
+ {
+ 	"genericName": "Hegemon Phase",
+ 	"specificName": {
+-		"athen": "Metrópolis",
+-		"mace": "Metrópolis",
+-		"spart": "Metrópolis"
++		"athen": "Hēgemonía"
+ 	},
+-	"description": "Advances from a respectable city to a veritable metropolis, renowned far and wide for its influence.",
++	"description": "Advance from a respectable city to a veritable metropolis, renowned far and wide for its influence.",
+ 	"cost": { "food": 0, "wood": 0, "stone": 0, "metal": 0 },
+ 	"requirements": { "entity": { "class": "MetroCentre", "number": 1 } },
+ 	"autoResearch": true,
+diff --git a/binaries/data/mods/public/simulation/data/technologies/phase_hegemon_generic.json b/binaries/data/mods/public/simulation/data/technologies/phase_hegemon_generic.json
+index 4c8fa88da4..bbef9e87e5 100644
+--- a/binaries/data/mods/public/simulation/data/technologies/phase_hegemon_generic.json
++++ b/binaries/data/mods/public/simulation/data/technologies/phase_hegemon_generic.json
+@@ -1,11 +1,13 @@
+ {
+ 	"genericName": "Hegemon Phase",
+ 	"specificName": {
+-		"athen": "Metrópolis",
+-		"mace": "Metrópolis",
+-		"spart": "Metrópolis"
++		"mace": "Hēgemonía",
++		"ptol": "Hēgemonía",
++		"rome": "Civitas",
++		"sele": "Hēgemonía",
++		"spart": "Hēgemonía"
+ 	},
+-	"description": "Advances from a respectable city to a veritable metropolis, renowned far and wide for its influence.",
++	"description": "Advance from a respectable city to a veritable metropolis, renowned far and wide for its influence.",
+ 	"cost": { "food": 0, "wood": 0, "stone": 0, "metal": 0 },
+ 	"requirements": { "entity": { "class": "MetroCentre", "number": 1 } },
+ 	"autoResearch": true,
+diff --git a/binaries/data/mods/public/simulation/data/technologies/phase_town_generic.json b/binaries/data/mods/public/simulation/data/technologies/phase_town_generic.json
+index de0242eb8d..1729b784b8 100644
+--- a/binaries/data/mods/public/simulation/data/technologies/phase_town_generic.json
++++ b/binaries/data/mods/public/simulation/data/technologies/phase_town_generic.json
+@@ -3,6 +3,7 @@
+ 	"specificName": {
+ 		"mace": "Kōmopolis",
+ 		"ptol": "Kōmopolis",
++		"rome": "Municipium",
+ 		"sele": "Kōmopolis",
+ 		"spart": "Kōmopolis"
+ 	},
+diff --git a/binaries/data/mods/public/simulation/templates/structures/rome/metro_centre.xml b/binaries/data/mods/public/simulation/templates/structures/rome/metro_centre.xml
+index ddef4f421c..3b3b3a9e3d 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/rome/metro_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/rome/metro_centre.xml
+@@ -9,7 +9,6 @@
+   </Health>
+   <Identity>
+     <Civ>rome</Civ>
+-    <SpecificName>Civitas</SpecificName>
+   </Identity>
+   <Obstruction>
+     <Static width="37.0" depth="37.0"/>
+-- 
+2.25.1
+

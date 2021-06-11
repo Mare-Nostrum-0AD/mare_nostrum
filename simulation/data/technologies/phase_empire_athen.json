@@ -1,11 +1,9 @@
 {
 	"genericName": "Empire Phase",
 	"specificName": {
-		"athen": "Autokratória",
-		"mace": "Autokratória",
-		"spart": "Autokratória"
+		"athen": "Autokratória"
 	},
-	"description": "Your power extends beyond a single great city, you now control many great cities and peoples.",
+	"description": "Your power extends beyond a single great city, you now control vast territories and many peoples.",
 	"cost": { "food": 0, "wood": 0, "stone": 0, "metal": 0 },
 	"requirements": { "all": [{ "entity": {"class": "MetroCentre", "number": 3} }, { "entity": {"class": "Wonder", "number": 1} }] },
 	"autoResearch": true,

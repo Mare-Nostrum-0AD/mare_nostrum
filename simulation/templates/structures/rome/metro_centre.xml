@@ -9,7 +9,6 @@
   </Health>
   <Identity>
     <Civ>rome</Civ>
-    <SpecificName>Civitas</SpecificName>
   </Identity>
   <Obstruction>
     <Static width="37.0" depth="37.0"/>
