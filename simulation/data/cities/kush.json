@@ -1,0 +1,19 @@
+{
+	"napata": {
+		"Name": "Napata",
+		"Capital": true
+	},
+	"meroe": {
+		"Name": "Saba",
+		"Capital": true
+	},
+	"kerma": {
+		"Name": "Kerma",
+		"Capital": true
+	},
+	"aswan":              				"Swenett",
+	"naga_el_goneima":    				"Edfu",
+	"luxor":              				"Waset",
+	"faiyum":             				"Shedet",
+	"amara":											"Amara"
+}

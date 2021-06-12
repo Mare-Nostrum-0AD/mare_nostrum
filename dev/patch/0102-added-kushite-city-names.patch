@@ -1,0 +1,38 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Fri, 11 Jun 2021 19:56:43 -0700
+Subject: [PATCH] added kushite city names
+
+---
+ .../public/simulation/data/cities/kush.json   | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+ create mode 100644 binaries/data/mods/public/simulation/data/cities/kush.json
+
+diff --git a/binaries/data/mods/public/simulation/data/cities/kush.json b/binaries/data/mods/public/simulation/data/cities/kush.json
+new file mode 100644
+index 0000000000..e899e8ee40
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/data/cities/kush.json
+@@ -0,0 +1,19 @@
++{
++	"napata": {
++		"Name": "Napata",
++		"Capital": true
++	},
++	"meroe": {
++		"Name": "Saba",
++		"Capital": true
++	},
++	"kerma": {
++		"Name": "Kerma",
++		"Capital": true
++	},
++	"aswan":              				"Swenett",
++	"naga_el_goneima":    				"Edfu",
++	"luxor":              				"Waset",
++	"faiyum":             				"Shedet",
++	"amara":											"Amara"
++}
+-- 
+2.25.1
+
