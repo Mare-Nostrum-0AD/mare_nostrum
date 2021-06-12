@@ -1,0 +1,49 @@
+{
+	"colchester": {
+		"Name": "Camulodunum",
+		"Capital": true
+	},
+	"cirencester": {
+		"Name": "Corinium Dobunnorum",
+		"Capital": true
+	},
+	"wroxeter": {
+		"Name": "Viroconion",
+		"Capital": true
+	},
+	"ariconium": "Ariconium",
+	"bannaventa": "Bannaventa",
+	"calleva_atrebatum": "Calleva Atrebatum",
+	"cataractonium": "Cataractonium",
+	"cunetio": "Cunetio",
+	"delgovicia": "Delgovicia",
+	"dubris": "Dubris",
+	"durnovaria": "Durnovaria",
+	"durobrivae": "Durobrivae",
+	"durocornovium": "Durocornovium",
+	"durolevum": "Durolevum",
+	"duroliponte": "Duroliponte",
+	"durovernum_cantiacorum": "Durovernum Cantiacorum",
+	"york": "Eburācon",
+	"glevum": "Glevum",
+	"isca_dumnoniorum": "Isca Dumnoniorum",
+	"iscalis": "Iscalis",
+	"isurium_brigantum": "Isurium Brigantum",
+	"lactodurum": "Lactodurum",
+	"leintwardine": "Leintwardine",
+	"letocetum": "Letocetum",
+	"lindinis": "Lindinis",
+	"luguvalium": "Luguvalium",
+	"lutudarum": "Lutudarum",
+	"manduessedum": "Manduessedum",
+	"margidunum": "Margidunum",
+	"moridunum": "Moridunum",
+	"pennocrucium": "Pennocrucium",
+	"petuaria": "Petuaria",
+	"leicester": "Ratae Corieltauvorum",
+	"regulbium": "Regulbium",
+	"uxacona": "Uxacona",
+	"venta_belgarum": "Venta Belgarum",
+	"venta_icenorum": "Venta Icenorum",
+	"verulamium": "Verulamium"
+}

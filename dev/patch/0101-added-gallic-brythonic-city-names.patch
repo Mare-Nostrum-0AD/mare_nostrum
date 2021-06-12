@@ -1,0 +1,131 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Fri, 11 Jun 2021 19:21:12 -0700
+Subject: [PATCH] added gallic, brythonic city names
+
+---
+ .../public/simulation/data/cities/brit.json   | 49 +++++++++++++++++
+ .../public/simulation/data/cities/gaul.json   | 55 +++++++++++++++++++
+ 2 files changed, 104 insertions(+)
+ create mode 100644 binaries/data/mods/public/simulation/data/cities/brit.json
+ create mode 100644 binaries/data/mods/public/simulation/data/cities/gaul.json
+
+diff --git a/binaries/data/mods/public/simulation/data/cities/brit.json b/binaries/data/mods/public/simulation/data/cities/brit.json
+new file mode 100644
+index 0000000000..d1dc9d5625
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/data/cities/brit.json
+@@ -0,0 +1,49 @@
++{
++	"colchester": {
++		"Name": "Camulodunum",
++		"Capital": true
++	},
++	"cirencester": {
++		"Name": "Corinium Dobunnorum",
++		"Capital": true
++	},
++	"wroxeter": {
++		"Name": "Viroconion",
++		"Capital": true
++	},
++	"ariconium": "Ariconium",
++	"bannaventa": "Bannaventa",
++	"calleva_atrebatum": "Calleva Atrebatum",
++	"cataractonium": "Cataractonium",
++	"cunetio": "Cunetio",
++	"delgovicia": "Delgovicia",
++	"dubris": "Dubris",
++	"durnovaria": "Durnovaria",
++	"durobrivae": "Durobrivae",
++	"durocornovium": "Durocornovium",
++	"durolevum": "Durolevum",
++	"duroliponte": "Duroliponte",
++	"durovernum_cantiacorum": "Durovernum Cantiacorum",
++	"york": "Eburācon",
++	"glevum": "Glevum",
++	"isca_dumnoniorum": "Isca Dumnoniorum",
++	"iscalis": "Iscalis",
++	"isurium_brigantum": "Isurium Brigantum",
++	"lactodurum": "Lactodurum",
++	"leintwardine": "Leintwardine",
++	"letocetum": "Letocetum",
++	"lindinis": "Lindinis",
++	"luguvalium": "Luguvalium",
++	"lutudarum": "Lutudarum",
++	"manduessedum": "Manduessedum",
++	"margidunum": "Margidunum",
++	"moridunum": "Moridunum",
++	"pennocrucium": "Pennocrucium",
++	"petuaria": "Petuaria",
++	"leicester": "Ratae Corieltauvorum",
++	"regulbium": "Regulbium",
++	"uxacona": "Uxacona",
++	"venta_belgarum": "Venta Belgarum",
++	"venta_icenorum": "Venta Icenorum",
++	"verulamium": "Verulamium"
++}
+diff --git a/binaries/data/mods/public/simulation/data/cities/gaul.json b/binaries/data/mods/public/simulation/data/cities/gaul.json
+new file mode 100644
+index 0000000000..d8e312d862
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/data/cities/gaul.json
+@@ -0,0 +1,55 @@
++{
++	"gergovia": {
++		"Name": "Gergovia",
++		"Capital": true
++	},
++	"alesia": {
++		"Name": "Alesia",
++		"Capital": true
++	},
++	"bibracte": {
++		"Name": "Bibracte",
++		"Capital": true
++	},
++	"bologna": {
++		"Name": "Bononia",
++		"Capital": true
++	},
++	"amiens": {
++		"Name": "Samarobriva",
++		"Capital": true
++	},
++	"brescia": {
++		"Name": "Brixia",
++		"Capital": true
++	},
++	"bourges":			"Avaricum",
++	"laon":					"Bibrax",
++	"bordeaux":			"Burdigala",
++	"arras":				"Nemetocenna",
++	"bayeux":				"Bodiocassi",
++	"beauvais":			"Bratuspantium",
++	"cahors":				"Divona",
++	"chartres":			"Carnutum",
++	"moutiers":			"Darantasia",
++	"jublains":			"Noeodunum",
++	"tongeren":			"Aduatuca",
++	"milan":				"Mediolanon",
++	"lisieux":			"Novio Magos",
++	"langres":			"Andematunnum",
++	"metz":					"Mediomatrix",
++	"vienna":				"Vindobona",
++	"bavay":				"Belges",
++	"bergamo":			"Bergamum",
++	"paris":				"Lutetia",
++	"poitiers":			"Lemonum",
++	"reims":				"Durocortorum",
++	"rennes":				"Condate",
++	"arialbinnum":	"Arialbinnum",
++	"basel":				"Basilea",
++	"windisch":			"Vindonissa",
++  "geneva":				"Genava",
++  "lausanne":			"Lausodunon",
++  "martigny":			"Octodurum",
++	"drnovo":				"Neviodunum"
++}
+-- 
+2.25.1
+

@@ -1,0 +1,55 @@
+{
+	"gergovia": {
+		"Name": "Gergovia",
+		"Capital": true
+	},
+	"alesia": {
+		"Name": "Alesia",
+		"Capital": true
+	},
+	"bibracte": {
+		"Name": "Bibracte",
+		"Capital": true
+	},
+	"bologna": {
+		"Name": "Bononia",
+		"Capital": true
+	},
+	"amiens": {
+		"Name": "Samarobriva",
+		"Capital": true
+	},
+	"brescia": {
+		"Name": "Brixia",
+		"Capital": true
+	},
+	"bourges":			"Avaricum",
+	"laon":					"Bibrax",
+	"bordeaux":			"Burdigala",
+	"arras":				"Nemetocenna",
+	"bayeux":				"Bodiocassi",
+	"beauvais":			"Bratuspantium",
+	"cahors":				"Divona",
+	"chartres":			"Carnutum",
+	"moutiers":			"Darantasia",
+	"jublains":			"Noeodunum",
+	"tongeren":			"Aduatuca",
+	"milan":				"Mediolanon",
+	"lisieux":			"Novio Magos",
+	"langres":			"Andematunnum",
+	"metz":					"Mediomatrix",
+	"vienna":				"Vindobona",
+	"bavay":				"Belges",
+	"bergamo":			"Bergamum",
+	"paris":				"Lutetia",
+	"poitiers":			"Lemonum",
+	"reims":				"Durocortorum",
+	"rennes":				"Condate",
+	"arialbinnum":	"Arialbinnum",
+	"basel":				"Basilea",
+	"windisch":			"Vindonissa",
+  "geneva":				"Genava",
+  "lausanne":			"Lausodunon",
+  "martigny":			"Octodurum",
+	"drnovo":				"Neviodunum"
+}
