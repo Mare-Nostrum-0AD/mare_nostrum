@@ -283,5 +283,9 @@
 	"a_coruna":           {
 		"Name":				"Brigantium",
 		"Phase":			"empire"
+	},
+	"london":							{
+		"Name":				"Londinium",
+		"Phase":			"empire"
 	}
 }

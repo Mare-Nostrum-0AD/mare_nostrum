@@ -266,7 +266,7 @@ index 0000000000..99762d9434
 +  </scene>
 +</COLLADA>
 diff --git a/binaries/data/mods/public/maps/random/rmgen-common/player.js b/binaries/data/mods/public/maps/random/rmgen-common/player.js
-index 03828e8bad..b004f3462f 100644
+index cbe90758d0..65455cc58d 100644
 --- a/binaries/data/mods/public/maps/random/rmgen-common/player.js
 +++ b/binaries/data/mods/public/maps/random/rmgen-common/player.js
 @@ -22,6 +22,7 @@ var g_PlayerBaseFunctions = [

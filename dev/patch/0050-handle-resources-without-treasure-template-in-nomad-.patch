@@ -17,7 +17,7 @@ restored celtic spearmen and slingers to defaults
  6 files changed, 17 insertions(+), 40 deletions(-)
 
 diff --git a/binaries/data/mods/public/maps/random/rmgen-common/player.js b/binaries/data/mods/public/maps/random/rmgen-common/player.js
-index 51598391e6..03828e8bad 100644
+index 38d12f50e2..cbe90758d0 100644
 --- a/binaries/data/mods/public/maps/random/rmgen-common/player.js
 +++ b/binaries/data/mods/public/maps/random/rmgen-common/player.js
 @@ -465,6 +465,8 @@ function placePlayersNomad(playerClass, constraints)

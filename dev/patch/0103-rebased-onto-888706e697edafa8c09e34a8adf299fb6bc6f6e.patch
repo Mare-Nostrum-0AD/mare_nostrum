@@ -1,0 +1,71 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Fri, 11 Jun 2021 22:28:04 -0700
+Subject: [PATCH] rebased onto 888706e697edafa8c09e34a8adf299fb6bc6f6e7
+
+added iberian city names
+
+removed second Qart Hadasht (cartagena) from Carthaginian city names
+
+added Londinium (london) to Roman city names
+---
+ .../public/simulation/data/cities/cart.json   |  1 -
+ .../public/simulation/data/cities/iber.json   | 19 +++++++++++++++++++
+ .../public/simulation/data/cities/rome.json   |  4 ++++
+ 3 files changed, 23 insertions(+), 1 deletion(-)
+ create mode 100644 binaries/data/mods/public/simulation/data/cities/iber.json
+
+diff --git a/binaries/data/mods/public/simulation/data/cities/cart.json b/binaries/data/mods/public/simulation/data/cities/cart.json
+index dd3ac45b73..8475ce7bd5 100644
+--- a/binaries/data/mods/public/simulation/data/cities/cart.json
++++ b/binaries/data/mods/public/simulation/data/cities/cart.json
+@@ -3,7 +3,6 @@
+ 		"Name":				"Qart Hadasht",
+ 		"Capital":		true
+ 	},
+-	"cartagena":		"Qart Hadasht",
+ 	"leptis_magna":	"Leptis Magna",
+ 	"mehidya":			"Thymaterion",
+ 	"el_jadida": 		"Gytte",
+diff --git a/binaries/data/mods/public/simulation/data/cities/iber.json b/binaries/data/mods/public/simulation/data/cities/iber.json
+new file mode 100644
+index 0000000000..4dd62f24fd
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/data/cities/iber.json
+@@ -0,0 +1,19 @@
++{
++	"albaida":			"Albaida",
++	"camas":			"Camas",
++	"tartessos":			"Tartessos",
++	"teruel":			"Teruel",
++	"bocchoris":			"Bocchoris",
++	"carissa":			"Carissa",
++	"iruna":			"Iruña",
++	"kelin":			"Kelin",
++	"son_oleza":			"Son Oleza",
++	"segorbe":			"Segorbe",
++	"segovia":			"Segovia",
++	"siguenza":			"Sigüenza",
++	"numantia":			"Numantia",
++	"segeda":			"Segeda",
++	"segobriga":			"Segobriga",
++	"termantia":			"Termantia",
++	"uxama_argaela":			"Uxama Argaela"
++}
+diff --git a/binaries/data/mods/public/simulation/data/cities/rome.json b/binaries/data/mods/public/simulation/data/cities/rome.json
+index c8687e678e..5f54f52ca3 100644
+--- a/binaries/data/mods/public/simulation/data/cities/rome.json
++++ b/binaries/data/mods/public/simulation/data/cities/rome.json
+@@ -283,5 +283,9 @@
+ 	"a_coruna":           {
+ 		"Name":				"Brigantium",
+ 		"Phase":			"empire"
++	},
++	"london":							{
++		"Name":				"Londinium",
++		"Phase":			"empire"
+ 	}
+ }
+-- 
+2.25.1
+
