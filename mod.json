@@ -2,7 +2,7 @@
 	"name": "mare_nostrum",
 	"version": "0.25.01",
 	"label": "Mare Nostrum",
-	"url": "https://github.com/hopeless-ponderer/mare_nostrum_0ad",
-	"description": "Mare Nostrum - a 0ad mod that aims to create a more complete city-building experience while still providing plenty of edge-of-your seat combat. Grow your nation from a humble village to a vast military empire, or perhaps a trade superpower, all while building a great metropolis filled with monuments that make even the gods envious.",
+	"url": "https://github.com/Mare-Nostrum-0AD/mare_nostrum",
+	"description": "Mare Nostrum - a 0 A.D. mod that aims to create a more complete city-building experience while still providing plenty of edge-of-your seat combat. Grow your nation from a humble village to a vast military empire, or perhaps a trade superpower, all while building a great metropolis filled with monuments that make even the gods envious.",
 	"dependencies": ["0ad=0.0.25"]
 }

@@ -1,0 +1,26 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sat, 12 Jun 2021 18:04:45 -0700
+Subject: [PATCH] updated github url in mod.json
+
+---
+ binaries/data/mods/public/mod.json | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/binaries/data/mods/public/mod.json b/binaries/data/mods/public/mod.json
+index 54c096f6c5..42ab87e050 100644
+--- a/binaries/data/mods/public/mod.json
++++ b/binaries/data/mods/public/mod.json
+@@ -2,7 +2,7 @@
+ 	"name": "mare_nostrum",
+ 	"version": "0.25.01",
+ 	"label": "Mare Nostrum",
+-	"url": "https://github.com/hopeless-ponderer/mare_nostrum_0ad",
+-	"description": "Mare Nostrum - a 0ad mod that aims to create a more complete city-building experience while still providing plenty of edge-of-your seat combat. Grow your nation from a humble village to a vast military empire, or perhaps a trade superpower, all while building a great metropolis filled with monuments that make even the gods envious.",
++	"url": "https://github.com/Mare-Nostrum-0AD/mare_nostrum",
++	"description": "Mare Nostrum - a 0 A.D. mod that aims to create a more complete city-building experience while still providing plenty of edge-of-your seat combat. Grow your nation from a humble village to a vast military empire, or perhaps a trade superpower, all while building a great metropolis filled with monuments that make even the gods envious.",
+ 	"dependencies": ["0ad=0.0.25"]
+ }
+-- 
+2.25.1
+
