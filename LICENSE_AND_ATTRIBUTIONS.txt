@@ -1,0 +1,23 @@
+Mare Nostrum is an open source project, just like the game and engine on which it is built, 0AD: Empires Ascendant (https://www.play0ad.com/).
+
+You are free to use, distribute, and create derivative works of the contents of this repository, so long as you:
+	1. Provide proper attribution (name this project, link to this git repository, and indicate whether changes were made)
+	2. Distribute your work under the same or compatible licenses (see below)
+
+LICENSE
+
+Code:
+	All code in this repository is released under the terms of the GNU General Public License, Version 3.
+	Source: https://www.gnu.org/licenses/gpl-3.0.en.html
+
+Artwork:
+	All artwork in this repository is released under the terms of the Creative Commons Attribution 4.0 International Public License.
+	Source: https://creativecommons.org/licenses/by/4.0/legalcode
+
+ATTRIBUTIONS
+
+Wikimedia Commons
+	- Triumph of Neptune (mosaic, mid-third century AD), Musée archéologique de Sousse
+		- Utilized, in modified form, in art/textures/skins/props/decal_struct_mosaic_bathhouse_large.png
+		- Author: Asram at French Wikipedia
+		- Source: https://en.wikipedia.org/wiki/File:Sousse_neptune.jpg

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Decal texture source: https://en.wikipedia.org/wiki/File:Sousse_neptune.jpg -->
-<!-- Available under the terms of the GNU Free Documentation License, Version 1.2 -->
+<!-- Decal texture adapted from the following file: https://en.wikipedia.org/wiki/File:Sousse_neptune.jpg -->
+<!-- Used under the terms of the Creative Commons Attribution-Share Alike 3.0 Unported license. -->
+<!-- https://creativecommons.org/licenses/by-sa/3.0/deed.en -->
 <actor version="1">
   <group>
     <variant name="decal_dirt_5x5">
