@@ -422,6 +422,10 @@ Foundation.prototype.OnEntityRenamed = function(msg)
 	let cmpFoundationNew = Engine.QueryInterface(msg.newentity, IID_Foundation);
 	if (cmpFoundationNew)
 		cmpFoundationNew.AddBuilders(this.GetBuilders());
+	const cmpVisual = Engine.QueryInterface(this.entity, IID_Visual);
+	const cmpVisualNew = Engine.QueryInterface(msg.newentity, IID_Visual);
+	if (cmpVisual && cmpVisualNew)
+		cmpVisualNew.SetActorSeed(cmpVisual.GetActorSeed());
 };
 
 function FoundationMirage() {}

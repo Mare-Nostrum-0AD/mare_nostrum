@@ -68,8 +68,6 @@ Please feel free to contribute if you see anything you can do here. If there is 
 	- Alternatively, give Celts and Iberians rushing bonuses to offset their weaker city-building abilities
 - Add "thrust" damage, for spear units
 - Implement "Charge" attack. One-time, extremely strong attack that a unit generates by running a certain distance. Used for spear cav and ships
-- Create city name manager, implement random city naming
-	- Create gui widget for renaming cities (start with a cheat in the short run)
 - Create dropdown sub-menus for random civ groups, to reduce clutter. Implement by adding "Category" to each civ.json, naming which sub-menu the group will be sorted into.
 - Create unique structure artwork for special temples.
 - Create builder/engineer unit to build structures of city level and higher

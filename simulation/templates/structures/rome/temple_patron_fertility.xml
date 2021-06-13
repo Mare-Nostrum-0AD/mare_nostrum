@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Entity parent="civ/rome/temple_patron|template_structure_civic_temple_patron_fertility">
   <Identity>
-    <SpecificName>Aedes Cereris</SpecificName>
+    <SpecificName>Aedes Saturni</SpecificName>
   </Identity>
 </Entity>
