@@ -22,8 +22,8 @@
   <Identity>
     <Civ>spart</Civ>
     <Lang>greek</Lang>
-    <GenericName>Spartan Citizen</GenericName>
-    <SpecificName>Polítes Spartiâtis</SpecificName>
+    <GenericName>Períoikoi Labourer</GenericName>
+    <SpecificName>Ergates Períoikis</SpecificName>
   </Identity>
   <UnitAI>
     <CanPatrol>true</CanPatrol>
