@@ -2134,7 +2134,7 @@ index 0000000000..45ac3e552d
 +	/>
 +</setup>
 diff --git a/binaries/data/mods/public/maps/random/african_plains.js b/binaries/data/mods/public/maps/random/african_plains.js
-index 524a895672..4998a5e2db 100644
+index d67b69f82b..8ff572894a 100644
 --- a/binaries/data/mods/public/maps/random/african_plains.js
 +++ b/binaries/data/mods/public/maps/random/african_plains.js
 @@ -26,6 +26,7 @@ var oBaobab = g_Gaia.tree1;
@@ -2145,7 +2145,7 @@ index 524a895672..4998a5e2db 100644
  var oWildebeest = "gaia/fauna_wildebeest";
  var oZebra = "gaia/fauna_zebra";
  var oRhino = "gaia/fauna_rhinoceros_white";
-@@ -77,7 +78,7 @@ placePlayerBases({
+@@ -79,7 +80,7 @@ placePlayerBases({
  	"Chicken": {
  	},
  	"Berries": {
@@ -2154,7 +2154,7 @@ index 524a895672..4998a5e2db 100644
  	},
  	"Mines": {
  		"types": [
-@@ -269,7 +270,17 @@ createFood(
+@@ -270,7 +271,17 @@ createFood(
  		[new SimpleObject(oBerryBush, 5, 7, 0, 4)]
  	],
  	[
@@ -2215,7 +2215,7 @@ index ef034fd17b..2725c2651e 100644
  
  Engine.SetProgress(75);
 diff --git a/binaries/data/mods/public/maps/random/cantabrian_highlands.js b/binaries/data/mods/public/maps/random/cantabrian_highlands.js
-index 35e9162a90..19f4e40f14 100644
+index b2aae8f21c..7769872c09 100644
 --- a/binaries/data/mods/public/maps/random/cantabrian_highlands.js
 +++ b/binaries/data/mods/public/maps/random/cantabrian_highlands.js
 @@ -27,6 +27,7 @@ const oApple = g_Gaia.tree3;
@@ -2226,7 +2226,7 @@ index 35e9162a90..19f4e40f14 100644
  const oDeer = g_Gaia.mainHuntableAnimal;
  const oFish = g_Gaia.fish;
  const oSheep = g_Gaia.secondaryHuntableAnimal;
-@@ -105,7 +106,7 @@ placePlayerBases({
+@@ -106,7 +107,7 @@ placePlayerBases({
  	"Chicken": {
  	},
  	"Berries": {
@@ -2235,7 +2235,7 @@ index 35e9162a90..19f4e40f14 100644
  	},
  	"Mines": {
  		"types": [
-@@ -252,7 +253,17 @@ createFood(
+@@ -251,7 +252,17 @@ createFood(
  		[new SimpleObject(oBerryBush, 5, 7, 0, 4)]
  	],
  	[
@@ -2255,7 +2255,7 @@ index 35e9162a90..19f4e40f14 100644
  	avoidClasses(clWater, 3, clForest, 0, clPlayer, 20, clHill, 1, clFood, 10),
  	clFood);
 diff --git a/binaries/data/mods/public/maps/random/neareastern_badlands.js b/binaries/data/mods/public/maps/random/neareastern_badlands.js
-index b8c0da3368..6e44f53653 100644
+index a9f3dc276c..89b2a52be1 100644
 --- a/binaries/data/mods/public/maps/random/neareastern_badlands.js
 +++ b/binaries/data/mods/public/maps/random/neareastern_badlands.js
 @@ -23,6 +23,7 @@ const tShore = g_Terrains.shore;
@@ -2266,7 +2266,7 @@ index b8c0da3368..6e44f53653 100644
  const oCamel = "gaia/fauna_camel";
  const oFish = g_Gaia.fish;
  const oGazelle = "gaia/fauna_gazelle";
-@@ -93,7 +94,7 @@ placePlayerBases({
+@@ -94,7 +95,7 @@ placePlayerBases({
  	"Chicken": {
  	},
  	"Berries": {
@@ -2275,7 +2275,7 @@ index b8c0da3368..6e44f53653 100644
  	},
  	"Mines": {
  		"types": [
-@@ -331,6 +332,13 @@ createObjectGroupsDeprecated(group, 0,
+@@ -326,6 +327,13 @@ createObjectGroupsDeprecated(group, 0,
  	avoidClasses(clOasis, 1, clForest, 0, clPlayer, 5, clHill1, 1, clFood, 10),
  	scaleByMapSize(5,20), 50
  );
