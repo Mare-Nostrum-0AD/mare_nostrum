@@ -63,11 +63,14 @@ The phase requirements are as follows:
 - Pigs can transform into flaming pigs, which weaken the attack of nearby elephants. They also decrease elephants' capture points, and in large enough numbers can reduce an elephant's capture points to zero, at which point they go rogue (switch loyalty to Gaia) and become a hazard to their own faction's soldiers.
 - Every faction's merchant ships can transform into fire ships. Just like Iberian fire ships, they burn for a while before self-destructing, dealing damage to any nearby ships in the process.
 - Siege rams are capturable. (This feature was created to compensate for the excessively strong rams of A23; I am considering removing it for A25, given that Empires Ascendant has already rebalanced their stats)
-- Docks have been split into two structures: Shipyards and Ports. Shipyards train warships and fishermen, while Ports train merchant ships, fishermen, and land traders. 
+- Docks have been split into two structures: Shipyards and Ports. Shipyards train warships and fishermen, while Ports train merchant ships, fishermen, and land traders. Only ports work as markets, but both work as resource dropsites.
 - Only one Market can be built per civil center (for this purpose, Ports are classified as Markets).
 - Civil Centers eject garrisoned units when their health is reduced to 40%. This makes it easier to capture a civil center without destroying it.
 - Civil Centers have names, which are assigned randomly at construction from a list of names for each faction. They can be renamed later. City names are held in json files under simulation/data/cities.
 - In addition to "Random", the faction selection menu allows you to choose a faction randomly from a subset of available factions (i.e. Greeks, Barbarians). This feature is ported from the mod [Random Civ Selection Groups](https://github.com/hopeless-ponderer/random_civ_groups_0ad).
+- One new Random map: Western Mediterranean. Spans the entire western half of the Mediterranean Sea, from the Illyrian Coast to the Pillars of Hercules. Perfect for reenacting the Punic War.
+- Three new map sizes: Mega I, Mega II, and Mega III. (Note: some maps will encounter errors rendering elevated terrain at these sizes, I'm working on fixing that)
+- Every faction gets a supply wagon to act as a resource dropsite when they start in Nomad mode.
 
 ## Contributing
 Mare Nostrum is an open source project, and I invite anyone to contribute. I'd especially love some artists to join the team, as I have limited graphic design skills and no idea how to use Blender.

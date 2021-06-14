@@ -1,0 +1,113 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sun, 13 Jun 2021 19:38:53 -0700
+Subject: [PATCH] more documentation changes
+
+---
+ binaries/data/mods/public/CONTRIBUTING.md     | 22 ++++++++++++++++---
+ .../mods/public/LICENSE_AND_ATTRIBUTIONS.txt  |  6 ++---
+ binaries/data/mods/public/README.md           |  5 ++++-
+ 3 files changed, 26 insertions(+), 7 deletions(-)
+
+diff --git a/binaries/data/mods/public/CONTRIBUTING.md b/binaries/data/mods/public/CONTRIBUTING.md
+index 2ef9522159..fa5e3773c0 100644
+--- a/binaries/data/mods/public/CONTRIBUTING.md
++++ b/binaries/data/mods/public/CONTRIBUTING.md
+@@ -3,7 +3,7 @@ Mare Nostrum is a young project, and I would love for more people to help develo
+ 
+ ## Notice
+ Mare Nostrum is free and open source software, made available under the GNU General Public License and the Creative Commons Attribution International Public License (see [LICENSE\_AND\_ATTRIBUTIONS](./LICENSE_AND_ATTRIBUTIONS.txt)).
+-By committing your code or artwork to this repository, you agree to make it available free of charge both to the creators of Mare Nostrum and to the public at large, so long as they provide proper attribution and release any derivative works under the same or compatible licenses.
++By committing your code or artwork to this repository, you agree to make it available free of charge both to the creators of Mare Nostrum and to the public at large, so long as they provide proper attribution and release any derived works under the same or compatible licenses.
+ 
+ ## Implementing Features and Bugfixes
+ A list of unresolved bugs and features requests can be found on the [issues page](./issues) or in [TODO.md](./TODO.md). If you are looking at a feature request in issues, please make sure it has been approved by the repo owner before working on it.
+@@ -17,11 +17,23 @@ I do most of the work on Mare Nostrum on a branch of the 0AD development reposit
+ 
+ To set up your workspace in this manner, run ./dev/setup-parent.sh \<YOUR 0AD REPOSITORY\>. If you haven't cloned the 0AD repo into \<YOUR 0AD REPOSITORY\> yet, the script will do it for you. The script will create a mare\_nostrum branch and apply the commits in dev/patch, starting from the commit stored in [dev/git\_base.txt](./dev/git_base.txt). It will then copy the script(s) stored in dev/parent to \<YOUR 0AD REPOSITORY\>/dev and append a few system-specific variables to dev/utils.sh. You can then add dev/ to your new branch and source dev/utils before you start developing.
+ 
++## Third-party Content
++Any third-party content integrated into Mare Nostrum must also be available under the same or compatible licenses. THIS MEANS ABSOLUTELY NO CLOSED-SOURCE OR MONETIZED CONTENT.
++Any media or code should be distributed with a copy of (or link to) the GNU General Public License or the Creative Commons Attribution-ShareAlike International Public License, or a more permissive variant of either of those two licenses. If you cannot find any such license attached, assume the content is not available for our use.
++
++Any third party content included in your work must be documented in LICENSE\_AND\_ATTRIBUTIONS.txt, including the following information:
++
++- Name of the content provider (i.e. "Wikimedia Commons")
++- Name of the author, either their real name or the pseudonym under which they shared their work (i.e. "hopeless-ponderer at Github.com")
++- The url where you accessed the content
++- A brief summary of how the content was utilized, including the file(s) that use it
++- Any other information required by the attached license
++
+ ## Coding Conventions
+ For the most part, obey the same coding conventions as Wildfire Games, outlined [here](https://trac.wildfiregames.com/wiki/Coding_Conventions). However, there are a few exceptions I'd like to follow, outlined below. Don't modify pre-existing 0AD code to fit these coding conventions, these only apply to new code.
+ 
+ ### JavaScript
+-- Multi-line strings should be written as template literals, which are contained within back ticks (``). This allows you to interpolate values using curly braces (${}) This is particularly true for new component schemas in simulation/components/. See the example below.
++- Multi-line strings should be written as template literals, which are contained within back ticks (``). This allows you to interpolate values using curly braces (${}) This is particularly useful for new component schemas in simulation/components/.
+ ```javascript
+ 		Foobar.prototype.Schema = 
+ 		`<a:help>Sample component</a:help>
+@@ -29,7 +41,7 @@ For the most part, obey the same coding conventions as Wildfire Games, outlined
+ 			${ Resources.BuildSchema("positiveInteger") }
+ 		</element>`;
+ ```
+-- Document functions with at least one sentence explaining what it does, as well as a breakdown of each parameter and the return value(s). See the example below.
++- Document functions with at least one sentence explaining what it does, as well as a breakdown of each parameter and the return value(s).
+ ```javascript
+ 		// Gets the square of the distance between two entities.
+ 		// @param entityA		Number					ID of the first entity
+@@ -37,6 +49,10 @@ For the most part, obey the same coding conventions as Wildfire Games, outlined
+ 		// @return				Number||undefined		The square of the distance between the two entities, or undefined if the position of one or both entities cannot be determined.
+ 		function getSquareVectorDistance(entityA, entityB)
+ ```
++- If one of a function's parameters is an object whose properties are known beforehand, destructure the properties in the parameter declaration.
++```javascript
++		Foobar.prototype.OnEntityRenamed = function({ entity, newentity })
++```
+ 
+ ### XML
+ - Certain components allow you to create elements with any name (i.e. City/ValueModifiers). When creating a new arbitrary element, add at least one line of comments explaining what the element does.
+diff --git a/binaries/data/mods/public/LICENSE_AND_ATTRIBUTIONS.txt b/binaries/data/mods/public/LICENSE_AND_ATTRIBUTIONS.txt
+index aac077948a..eeeca99397 100644
+--- a/binaries/data/mods/public/LICENSE_AND_ATTRIBUTIONS.txt
++++ b/binaries/data/mods/public/LICENSE_AND_ATTRIBUTIONS.txt
+@@ -1,4 +1,4 @@
+-Mare Nostrum is free and open source software, just like the game and engine on which it is built, 0AD: Empires Ascendant (https://www.play0ad.com/).
++Mare Nostrum is free and open source software, just like the game it modifies, 0AD: Empires Ascendant (https://www.play0ad.com/).
+ 
+ You are free to use, distribute, and create derivative works of the contents of this repository, so long as you:
+ 	1. Provide proper attribution (name this project, link to this git repository, and indicate whether changes were made)
+@@ -11,8 +11,8 @@ Code:
+ 	Source: https://www.gnu.org/licenses/gpl-3.0.en.html
+ 
+ Artwork:
+-	All artwork in this repository is available under the terms of the Creative Commons Attribution 4.0 International Public License.
+-	Source: https://creativecommons.org/licenses/by/4.0/legalcode
++	All artwork in this repository is available under the terms of the Creative Commons Attribution-ShareAlike 4.0 International Public License.
++	Source: https://creativecommons.org/licenses/by-sa/4.0/legalcode
+ 
+ ATTRIBUTIONS
+ 
+diff --git a/binaries/data/mods/public/README.md b/binaries/data/mods/public/README.md
+index 50eda02746..9909554fa2 100644
+--- a/binaries/data/mods/public/README.md
++++ b/binaries/data/mods/public/README.md
+@@ -63,11 +63,14 @@ The phase requirements are as follows:
+ - Pigs can transform into flaming pigs, which weaken the attack of nearby elephants. They also decrease elephants' capture points, and in large enough numbers can reduce an elephant's capture points to zero, at which point they go rogue (switch loyalty to Gaia) and become a hazard to their own faction's soldiers.
+ - Every faction's merchant ships can transform into fire ships. Just like Iberian fire ships, they burn for a while before self-destructing, dealing damage to any nearby ships in the process.
+ - Siege rams are capturable. (This feature was created to compensate for the excessively strong rams of A23; I am considering removing it for A25, given that Empires Ascendant has already rebalanced their stats)
+-- Docks have been split into two structures: Shipyards and Ports. Shipyards train warships and fishermen, while Ports train merchant ships, fishermen, and land traders. 
++- Docks have been split into two structures: Shipyards and Ports. Shipyards train warships and fishermen, while Ports train merchant ships, fishermen, and land traders. Only ports work as markets, but both work as resource dropsites.
+ - Only one Market can be built per civil center (for this purpose, Ports are classified as Markets).
+ - Civil Centers eject garrisoned units when their health is reduced to 40%. This makes it easier to capture a civil center without destroying it.
+ - Civil Centers have names, which are assigned randomly at construction from a list of names for each faction. They can be renamed later. City names are held in json files under simulation/data/cities.
+ - In addition to "Random", the faction selection menu allows you to choose a faction randomly from a subset of available factions (i.e. Greeks, Barbarians). This feature is ported from the mod [Random Civ Selection Groups](https://github.com/hopeless-ponderer/random_civ_groups_0ad).
++- One new Random map: Western Mediterranean. Spans the entire western half of the Mediterranean Sea, from the Illyrian Coast to the Pillars of Hercules. Perfect for reenacting the Punic War.
++- Three new map sizes: Mega I, Mega II, and Mega III. (Note: some maps will encounter errors rendering elevated terrain at these sizes, I'm working on fixing that)
++- Every faction gets a supply wagon to act as a resource dropsite when they start in Nomad mode.
+ 
+ ## Contributing
+ Mare Nostrum is an open source project, and I invite anyone to contribute. I'd especially love some artists to join the team, as I have limited graphic design skills and no idea how to use Blender.
+-- 
+2.25.1
+
