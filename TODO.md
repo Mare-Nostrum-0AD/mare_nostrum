@@ -2,6 +2,8 @@
 Please feel free to contribute if you see anything you can do here. If there is anything you would like to see added to this list, please create an issue.
 
 ## First priorities
+- Rename "Population Limit" to "Command Limit", change icon
+- Create tutorial scenario
 - Improve Delphi bot
 	- Make sure delphi bot randomizes trade routes assignments, weighted by trader gain
 	- Allow building all available civic buildings via generic buildCivicBuilding function, replacing buildForge, buildTemple, etc.
@@ -12,7 +14,6 @@ Please feel free to contribute if you see anything you can do here. If there is 
 - Create gold, silver resource supplies
 - Make sure all civ centre actors have projectiles
 - Implement directional resistance, allowing weaker flank and rear armor
-- Rename "Population Limit" to "Command Limit", change icon
 - Ensure phase upgrade notifications are displayed correctly
 
 ## Secondary priorities
@@ -21,6 +22,10 @@ Please feel free to contribute if you see anything you can do here. If there is 
 - Give pastures decal to make them more distinctive
 - Create second set of heroes for Rome, consisting of dictatorial figures from the late Republic (Sulla, Julius Caesar, Mark Antony?)
 	- Romans get to choose from two different sets of heroes by choosing Res Publica or Dictatura
+- Create new actors for Roman, Maurya City Centres
+- Create new actor for Iberian Metro Centre
+- Create new actors for Hellenistic Palaces
+- Implement GUIInterface for popup choices that can be called from Trigger scripts
 - Create range of different starting levels, selectable from a dropdown list:
 	- Nomad
 	- Village
@@ -44,7 +49,6 @@ Please feel free to contribute if you see anything you can do here. If there is 
 - Create builder/engineer unit to build structures of city level and higher
 - Create civ-specific auras for palaces
 - Allow training native units from captured cities, which can themselves build native structures
-- Ensure loyalty decreasing aura for burning pigs works
 - Implement plagues (see below)
 - Create "Advancement Victory" where goal is to reach the Empire Phase
 - Create "local" technologies, which have to be researched by each individual entity to enable certain auras and features
@@ -71,14 +75,18 @@ Please feel free to contribute if you see anything you can do here. If there is 
 	- Sword: maneuverable, good raiders, possible counter to out-of-formation heavy cavalry. Strong vs light infantry, spear cavalry, ranged cavalry, weak vs spearmen, pikemen
 	- Javelin: maneuverable, good raiders. Strong vs out-of-formation infantry, weak vs spearmen, pikemen, swordsmen, sword cavalry
 	- Archer: Like foot archers, start off weak and become very strong through experience. Strong vs. All non-pike infantry at peak experience, weak-ish vs sword cavalry
-- Implement GUIInterface for popup choices that can be called from Trigger scripts
 
 ## New Civs
+Creating new civs is very much a low priority right now, as I'd prefer to iron out the game mechanics first.
+
 ### Near East
-- Phoenicians
-- Nabatean Arabs
-- Judeans
+- Kingdom of Pontus (Mithradaitic)
+- Kingdom of Pergamon (Attalids)
+- Parthians
 - Armenians
+- Judeans
+- Nabatean Arabs
+
 ### Europe
 - Syracusans
 - Rhodians
@@ -86,13 +94,16 @@ Please feel free to contribute if you see anything you can do here. If there is 
 - Etruscans
 - Ionian Greeks (non-selectable)
 - Dorian Greeks (non-selectable)
+
 ### Asia
 - Qin/Han China
 - Vietnamese
 - Kushans
 - Greco-Bactrians
+
 ### Africa
 - Numidians
+
 ### Nomads
 - Xiongnu
 - Scythians
