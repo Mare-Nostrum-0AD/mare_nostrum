@@ -43,9 +43,9 @@ The phase requirements are as follows:
 
 ## Miscellaneous Features
 - Civil Center stats have been completely rebalanced:
-	- Villages, the starting civil center, only cost 200 wood and 200 stone, but have half the armor of Empires Ascendant civil centers, and can only garrison 10 units.
+	- Villages, the starting civil center, only cost 300 wood and 300 stone, but have half the armor of Empires Ascendant civil centers, and can only garrison 10 units.
 	- Villages also lack the ability to shoot arrows. Towns and above can shoot arrows, and have progressively higher garrison limits and health, but all have an arrow limit of 10.
-	- Military Colonies cost more than Villages (which only cost 200 wood, 200 stone), but start off with the same population as Towns, and with higher Resistance.
+	- Military Colonies cost more than Villages, but start off with the same population as Towns, and with higher Resistance.
 - Female Citizens have been replaced by a mixed-gender Citizen class, which more or less the same stats as female citizens.
 - Citizen Soldiers can no longer gather grain, fruit, or wood, but can still gather most other resources.
 - Created a new AI, Delphi Bot, fine tuned to work with Mare Nostrum. Built from a fork of Petra Bot.
