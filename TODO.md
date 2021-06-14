@@ -2,13 +2,6 @@
 Please feel free to contribute if you see anything you can do here. If there is anything you would like to see added to this list, please create an issue.
 
 ## First priorities
-- Balance city growth rate
-	- Implement City population drainage as part of growth rate /
-	- Add house limit, tied to number of civ centres /
-- Remove redundant additions of special buildings to civ-specific Production Queues /
-- Ensure city growth rate is readily apparent in gui /
-- Rewrite City.js to use event listeneres to register new/destroyed city members /
-- Rewrite Market.js to trigger event listeners when trade takes place; use listeners in City.js /
 - Improve Delphi bot
 	- Make sure delphi bot randomizes trade routes assignments, weighted by trader gain
 	- Allow building all available civic buildings via generic buildCivicBuilding function, replacing buildForge, buildTemple, etc.
@@ -16,33 +9,11 @@ Please feel free to contribute if you see anything you can do here. If there is 
 	- Make sure it can train merchant ships /
 - Implement archer skill growth; archers should start off weaker than other ranged units when first trained, then become stronger through experience
 	- Create advanced, elite archer mixins
-- Modify GarrisonHolder component to enable value modifications based on number, type of units garrisoned /
-- Remove building ai from siege tower, ensure only usable for taking walls/other structures /
-	- Modify Attack component to allow garrisoned units to increase attack, allowing garrisoned infantry to increase siege tower capture attack /
-- Create library/academy monument for Athenians /
-- Create new palace actors for Hellenistic civs, kushites /
-- Rename Carthaginian embassies to Mercenary Camps /
-	- Allow to build one per town centre /
 - Create gold, silver resource supplies
-	- icons as well /
-- Create milk resource icon /
-- Resolve infinite queue entity limit exploit (try infinite queueing animals) /
 - Make sure all civ centre actors have projectiles
-- Implement value modifiers for City, scaling by population (see GarrisonHolder for example)/ 
-- Implement DeficitTriggers, DeficitValueModifiers for Upkeep (see GarrisonHolder for example) /
-	- Should replace/augment HandleInsufficientUpkeep /
 - Implement directional resistance, allowing weaker flank and rear armor
 - Rename "Population Limit" to "Command Limit", change icon
-- Rebalance city manpower trickle /
-- Create skirmish replacers for different levels of civ centre /
-- Create separate "govcentre" template, from which two templates inherit – palace and assembly /
-	- palace available in Hegemon phase /
-	- assembly available in City phase /
-	- civs with assembly get patron temples in hegemon phase /
 - Ensure phase upgrade notifications are displayed correctly
-- Document changes in CHANGELOG.md
-- Document unique features in README.md or FEATURES.md
-- Document development scripts in CONTRIBUTING.md
 
 ## Secondary priorities
 - Create Maurya monument(s)
@@ -89,18 +60,18 @@ Please feel free to contribute if you see anything you can do here. If there is 
 
 ## Classification of soldier strengths/weaknesses
 - Infantry
-	- Spearmen: cheap, quick to train; weak on their own, fairly strong in phalanx formation with heavy armor, available to certain civs. Strong vs. light cav, weak vs. swordsmen, light infantry
+	- Spearmen: cheap, quick to train; weak on their own, but fairly strong in phalanx formation, especially with heavy armor technologies, available to certain civs. Strong vs. light cav, weak vs. swordsmen, light infantry
 	- Pikemen: tank units, nearly invulnerable to pierce damage. especially strong in phalanx. However, slow-moving and vulnerable to outmaneuvering/flanking. Strong vs. cav, light infantry, weak vs. swordsmen
 	- Swordsmen: most maneuverable melee infantry; relatively fast-moving. However, wear relatively light armor. Strong vs spearmen, pikemen, weak vs. ranged infantry, cavalry
 	- Javelineer: cheap, quick to train. Maneuverable, fastest infantry unit. Starts off with strong attack straight out of training. Strong vs swordsmen, spearmen, weak vs pikemen, cavalry
 	- Slinger: Medium train time and cost, deadly force to light infantry and cavalry over short distance. Moderate attack out of training, moderate skill acquisition through experience. Strong vs spearmen, swordsmen, javelineer, ranged cav, Weak vs. Pikemen, melee cav
 	- Archer: Long train time and cost, eventually grows to be deadly at a long range. Weak attack and accuracy out of training, but will eventually become extremely strong through experience. Strong vs all light units, weak vs. pikemen, heavy cavalry
 - Cavalry
-	- Spear: strongest cavalry unit in formation; has strong charge attack that can mow down disorganized and light infantry. Strong vs swordsmen, ranged infantry, weak vs pikemen, massed spearmen
-	- Sword: maneuverable, good raiders, possible counter to disorganized heavy cavalry. Strong vs light infantry, spear cavalry, ranged cavalry, weak vs spearmen, pikemen
-	- Javelin: maneuverable, good raiders. Strong vs disorganized infantry, weak vs spearmen, pikemen, swordsmen, sword cavalry
+	- Spear: strongest cavalry unit in formation; has strong charge attack that can mow down light infantry and out-of-formation infantry. Strong vs swordsmen, ranged infantry, weak vs pikemen, massed spearmen
+	- Sword: maneuverable, good raiders, possible counter to out-of-formation heavy cavalry. Strong vs light infantry, spear cavalry, ranged cavalry, weak vs spearmen, pikemen
+	- Javelin: maneuverable, good raiders. Strong vs out-of-formation infantry, weak vs spearmen, pikemen, swordsmen, sword cavalry
 	- Archer: Like foot archers, start off weak and become very strong through experience. Strong vs. All non-pike infantry at peak experience, weak-ish vs sword cavalry
-- Implement GUIInterface for popup dialogs to be called from Trigger scripts
+- Implement GUIInterface for popup choices that can be called from Trigger scripts
 
 ## New Civs
 ### Near East

@@ -74,6 +74,7 @@
     <Radius>90</Radius>
 		<ValueModifiers>
 			<PopulationDecay>
+				<!-- Increase the population decay rate per every 250 citizens, to make it increasingly more difficult to grow the population. -->
 				<Paths datatype="tokens">City/Population/Growth/DecayAmount</Paths>
 				<Add>2</Add>
 				<PerPop>250</PerPop>
