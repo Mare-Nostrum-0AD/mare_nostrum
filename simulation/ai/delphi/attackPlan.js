@@ -1275,6 +1275,13 @@ DELPHI.AttackPlan.prototype.update = function(gameState, events)
 	Engine.ProfileStart("Update Attack");
 
 	this.position = this.unitCollection.getCentrePosition();
+	
+	if (!this.position)
+	{
+		API3.warn('Could not find central position for attack');
+		Engine.ProfileStop();
+		return 0;
+	}
 
 	// we are transporting our units, let's wait
 	// TODO instead of state "arrived", made a state "walking" with a new path

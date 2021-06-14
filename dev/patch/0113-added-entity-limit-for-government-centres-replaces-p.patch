@@ -1,0 +1,46 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sun, 13 Jun 2021 23:56:53 -0700
+Subject: [PATCH] added entity limit for government centres (replaces palace
+ limit)
+
+check for non-existent attack position in DELPHI.AttackPlan.prototype.update
+---
+ .../data/mods/public/simulation/ai/delphi/attackPlan.js    | 7 +++++++
+ .../public/simulation/templates/special/player/player.xml  | 2 +-
+ 2 files changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/binaries/data/mods/public/simulation/ai/delphi/attackPlan.js b/binaries/data/mods/public/simulation/ai/delphi/attackPlan.js
+index ff0bba5003..7492f7d2c8 100644
+--- a/binaries/data/mods/public/simulation/ai/delphi/attackPlan.js
++++ b/binaries/data/mods/public/simulation/ai/delphi/attackPlan.js
+@@ -1275,6 +1275,13 @@ DELPHI.AttackPlan.prototype.update = function(gameState, events)
+ 	Engine.ProfileStart("Update Attack");
+ 
+ 	this.position = this.unitCollection.getCentrePosition();
++	
++	if (!this.position)
++	{
++		API3.warn('Could not find central position for attack');
++		Engine.ProfileStop();
++		return 0;
++	}
+ 
+ 	// we are transporting our units, let's wait
+ 	// TODO instead of state "arrived", made a state "walking" with a new path
+diff --git a/binaries/data/mods/public/simulation/templates/special/player/player.xml b/binaries/data/mods/public/simulation/templates/special/player/player.xml
+index 8713775936..881c229fe6 100644
+--- a/binaries/data/mods/public/simulation/templates/special/player/player.xml
++++ b/binaries/data/mods/public/simulation/templates/special/player/player.xml
+@@ -20,7 +20,7 @@
+ 			<House>6</House>
+ 			<HouseBig>3</HouseBig>
+       <Fortress>10</Fortress>
+-      <Palace>1</Palace>
++      <GovernmentCentre>1</GovernmentCentre>
+       <Hero>1</Hero>
+       <Apadana>1</Apadana>
+       <Embassy>0</Embassy>
+-- 
+2.25.1
+
