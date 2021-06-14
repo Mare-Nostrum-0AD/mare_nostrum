@@ -1,0 +1,25 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sun, 13 Jun 2021 19:49:30 -0700
+Subject: [PATCH] rebased onto 38897a821367f81a9f54ce0b13b186d4c1164d5f
+
+updated TODO.md
+---
+ binaries/data/mods/public/TODO.md | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/binaries/data/mods/public/TODO.md b/binaries/data/mods/public/TODO.md
+index b6dc9b4806..cdb89599db 100644
+--- a/binaries/data/mods/public/TODO.md
++++ b/binaries/data/mods/public/TODO.md
+@@ -8,7 +8,6 @@ Please feel free to contribute if you see anything you can do here. If there is
+ 	- Make sure delphi bot randomizes trade routes assignments, weighted by trader gain
+ 	- Allow building all available civic buildings via generic buildCivicBuilding function, replacing buildForge, buildTemple, etc.
+ 	- Allow to build wealth resource supplies (olive groves, vineyards, etc.)
+-	- Make sure it can train merchant ships /
+ - Implement archer skill growth; archers should start off weaker than other ranged units when first trained, then become stronger through experience
+ 	- Create advanced, elite archer mixins
+ - Create gold, silver resource supplies
+-- 
+2.25.1
+

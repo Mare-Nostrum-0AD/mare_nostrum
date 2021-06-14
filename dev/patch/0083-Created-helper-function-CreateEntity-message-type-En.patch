@@ -137,7 +137,7 @@ index 73b90bbda7..184e2cd21e 100644
  	let cityMemberModName = sprintf('%d:CityMemberGrowthModifiers', this.entity);
  	if (cmpModifiersManager.HasAnyModifier(cityMemberModName, this.entity))
 diff --git a/binaries/data/mods/public/simulation/components/ProductionQueue.js b/binaries/data/mods/public/simulation/components/ProductionQueue.js
-index 381c5d343e..200ad3f530 100644
+index d8b3c177a4..bc95180199 100644
 --- a/binaries/data/mods/public/simulation/components/ProductionQueue.js
 +++ b/binaries/data/mods/public/simulation/components/ProductionQueue.js
 @@ -674,7 +674,7 @@ ProductionQueue.prototype.SpawnUnits = function(item)

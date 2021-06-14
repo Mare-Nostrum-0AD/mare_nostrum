@@ -8,7 +8,6 @@ Please feel free to contribute if you see anything you can do here. If there is 
 	- Make sure delphi bot randomizes trade routes assignments, weighted by trader gain
 	- Allow building all available civic buildings via generic buildCivicBuilding function, replacing buildForge, buildTemple, etc.
 	- Allow to build wealth resource supplies (olive groves, vineyards, etc.)
-	- Make sure it can train merchant ships /
 - Implement archer skill growth; archers should start off weaker than other ranged units when first trained, then become stronger through experience
 	- Create advanced, elite archer mixins
 - Create gold, silver resource supplies

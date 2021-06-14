@@ -10,7 +10,7 @@ ProductionQueue doesn't call cmpReplace.Replace anymore
  2 files changed, 4 insertions(+), 22 deletions(-)
 
 diff --git a/binaries/data/mods/public/simulation/components/ProductionQueue.js b/binaries/data/mods/public/simulation/components/ProductionQueue.js
-index e0e3baabe7..381c5d343e 100644
+index 6365e35c67..d8b3c177a4 100644
 --- a/binaries/data/mods/public/simulation/components/ProductionQueue.js
 +++ b/binaries/data/mods/public/simulation/components/ProductionQueue.js
 @@ -752,20 +752,14 @@ ProductionQueue.prototype.SpawnUnits = function(item)
