@@ -1,0 +1,24 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Tue, 15 Jun 2021 22:43:18 -0700
+Subject: [PATCH] fixed ProductionQueue tags in civil_centre_a template
+
+---
+ .../templates/template_structure_civic_civil_centre_a.xml        | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_a.xml b/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_a.xml
+index 952d25d615..c4e8f209a9 100644
+--- a/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_a.xml
++++ b/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_a.xml
+@@ -22,6 +22,7 @@
+     <Entities datatype="tokens">
+       units/{civ}/support_female_citizen
+     </Entities>
++	</ProductionQueue>
+   <Resistance>
+     <Entity>
+       <Damage>
+-- 
+2.25.1
+

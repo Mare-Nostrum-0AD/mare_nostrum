@@ -22,6 +22,7 @@
     <Entities datatype="tokens">
       units/{civ}/support_female_citizen
     </Entities>
+	</ProductionQueue>
   <Resistance>
     <Entity>
       <Damage>
