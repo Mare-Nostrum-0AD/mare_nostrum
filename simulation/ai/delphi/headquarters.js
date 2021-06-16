@@ -1397,8 +1397,28 @@ DELPHI.HQ.prototype.applyBuildRestrictions = function(placement, gameState, temp
 {
 	// distance from similar structures; try to spread out amongst civ centres
 	const cellSize = this.territoryMap.cellSize; // size of each tile
-	const avoidPenalty = -512;
+	const avoidPenalty = -32;
 	// account for BuildRestrictions distances
+	let distancesInclusive = template.get('BuildRestrictions/DistancesInclusive');
+	if (distancesInclusive)
+	{
+		for (let d in distancesInclusive)
+		{
+			let dist = distancesInclusive[d];
+			if (!dist.MaxDistance)
+				continue;
+			let maxDist = Math.floor(Number(dist.MaxDistance));
+			let distClass = dist.FromClass;
+			let classStructs = gameState.getOwnStructures().filter(API3.Filters.byClass(distClass)).toEntityArray();
+			for (let ent of classStructs)
+			{
+				let entPos = ent.position();
+				if (!entPos)
+					continue;
+				placement.addInfluence(Math.floor(entPos[0] / cellSize), Math.floor(entPos[1] / cellSize), Math.ceil(maxDist / cellSize), -avoidPenalty);
+			}// end for ent
+		}
+	}
 	let distancesExclusive = template.get('BuildRestrictions/DistancesExclusive');
 	if (distancesExclusive)
 	{
@@ -1413,6 +1433,8 @@ DELPHI.HQ.prototype.applyBuildRestrictions = function(placement, gameState, temp
 			for (let ent of classStructs)
 			{
 				let entPos = ent.position();
+				if (!entPos)
+					continue;
 				placement.addInfluence(Math.floor(entPos[0] / cellSize), Math.floor(entPos[1] / cellSize), Math.ceil(minDist / cellSize), avoidPenalty);
 			}// end for ent
 		}// end for dist
@@ -1592,32 +1614,25 @@ DELPHI.HQ.prototype.findCivicLocation = function(gameState, template)
 		halfDepth = halfSize;
 		halfWidth = halfSize;
 	}
+	// distance from similar structures; try to spread out amongst civ centres
+	this.applyBuildRestrictions(placement, gameState, template);
 	let civCentres = gameState.getOwnEntitiesByClass('CivCentre', true).toEntityArray();
 	if (civCentres.length < 1)
 		return false;
 	for (let civCentre of civCentres)
 	{
 		let civCentrePos = civCentre.position();
+		if (!civCentrePos)
+			continue;
 		let civCentrePosX = Math.floor(civCentrePos[0] / cellSize);
 		let civCentrePosZ = Math.floor(civCentrePos[1] / cellSize);
-		let civCentreRadius = Math.floor(Number(civCentre.get('City/Radius')));
+		let civCentreRadius = Math.floor(+civCentre.get('City/Radius'));
 		if (!civCentreRadius)
-			civCentreRadius = 60;
-			placement.addInfluence(civCentrePosX, civCentrePosZ, Math.floor((civCentreRadius * civCentreRadiusRatio) / cellSize), 255);
+			continue;
+		placement.multiplyInfluence(civCentrePosX, civCentrePosZ, Math.floor((civCentreRadius * civCentreRadiusRatio) / cellSize), 2, 'linear');
 	}// end for civCentre
-	// distance from similar structures; try to spread out amongst civ centres
-	this.applyBuildRestrictions(placement, gameState, template);
 	let obstructions = DELPHI.createObstructionMap(gameState, 0, template);
 	const radius = Math.ceil((template.obstructionRadius().max * obstructionRatio / obstructions.cellSize));
-	// loop until find valid position (useful for docks)
-	// choose randomly from a number of valid positions
-// 	if (isDock) {
-// 		for (let tile of this.shoreTiles) {
-// 			if (placement.map[tile.index] > 0) {
-// 				placement.set(tile.index, placement.map[tile.index] + tile.waterValue);
-// 			}// end if placement.map[tile.index] > 0
-// 		}// end for tile of this.shoreTiles
-// 	}// end if isDock
 	let validPositions = [];
 	for (let i = 0; i < maxRetries; i++)
 	{
@@ -1926,14 +1941,25 @@ DELPHI.HQ.prototype.buildFarmstead = function(gameState, queues)
 	queues.economicBuilding.addPlan(new DELPHI.ConstructionPlan(gameState, "structures/{civ}/farmstead"));
 };
 
-DELPHI.HQ.prototype.buildPalace = function(gameState, queues)
+DELPHI.HQ.prototype.buildGovernmentCentre = function(gameState, queues)
 {
 	if (queues.economicBuilding.hasQueuedUnits() ||
-		gameState.getOwnEntitiesByClass("Palace", true).hasEntities())
+		gameState.getOwnEntitiesByClass("GovernmentCentre", true).hasEntities())
 		return;
-	let templateName = "structures/{civ}/palace";
+	let templateName = "structures/{civ}/govcentre";
 	if (!this.canBuild(gameState, templateName))
 		return;
+	queues.economicBuilding.addPlan(new DELPHI.ConstructionPlan(gameState, templateName));
+};
+
+DELPHI.HQ.prototype.buildMonument = function(gameState, queues)
+{
+	if (queues.economicBuilding.hasQueuedUnits())
+		return;
+	const templateNames = [1, 2, 3, 4, 5, 6, 7, 8].map((i) => sprintf('structures/{civ}/monument_%02d', i)).filter((templateName) => this.canBuild(gameState, templateName));
+	if (!templateNames || !templateNames.length)
+		return;
+	const templateName = pickRandom(templateNames);
 	queues.economicBuilding.addPlan(new DELPHI.ConstructionPlan(gameState, templateName));
 };
 
@@ -3082,7 +3108,8 @@ DELPHI.HQ.prototype.update = function(gameState, queues, events)
 			this.buildForge(gameState, queues);
 			this.buildTemple(gameState, queues);
 			this.buildTemplePatron(gameState, queues);
-			this.buildPalace(gameState, queues);
+			this.buildMonument(gameState, queues);
+			this.buildGovernmentCentre(gameState, queues);
 		}
 
 		if (gameState.ai.playedTurn % 30 == 0 &&

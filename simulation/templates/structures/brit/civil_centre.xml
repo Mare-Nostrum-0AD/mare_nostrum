@@ -9,7 +9,6 @@
   </Health>
   <Identity>
     <Civ>brit</Civ>
-    <GenericName>Village</GenericName>
   </Identity>
   <Obstruction>
     <Static width="37.0" depth="37.0"/>

@@ -71,7 +71,7 @@
       <Max>10000</Max>
       <Min>0</Min>
     </Population>
-    <Radius>90</Radius>
+    <Radius>120</Radius>
 		<ValueModifiers>
 			<PopulationDecay>
 				<!-- Increase the population decay rate per every 250 citizens, to make it increasingly more difficult to grow the population. -->

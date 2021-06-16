@@ -21,10 +21,11 @@
   </Loot>
 	<Mercenary />
   <ResourceGatherer disable=""/>
-	<Upkeep>
+	<!-- Disable Upkeep until ai knows how to handle upkeep -->
+	<!-- Upkeep>
 		<Interval>20000</Interval>
 		<Rates>
 			<wealth>5</wealth>
 		</Rates>
-	</Upkeep>
+	</Upkeep -->
 </Entity>

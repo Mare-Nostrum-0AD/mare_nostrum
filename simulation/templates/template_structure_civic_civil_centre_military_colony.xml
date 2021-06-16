@@ -55,7 +55,4 @@
       <constructed>interface/complete/building/complete_gymnasium.xml</constructed>
     </SoundGroups>
   </Sound>
-  <TerritoryInfluence>
-    <Radius>80</Radius>
-  </TerritoryInfluence>
 </Entity>

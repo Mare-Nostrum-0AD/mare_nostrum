@@ -23,7 +23,7 @@
       <GovernmentCentre>1</GovernmentCentre>
       <Hero>1</Hero>
       <Apadana>1</Apadana>
-      <Embassy>0</Embassy>
+      <Embassy>1</Embassy>
       <Monument>0</Monument>
       <Council>1</Council>
       <Gladiator>0</Gladiator>
@@ -73,7 +73,7 @@
         <Ashoka>5</Ashoka>
       </Pillar>
 			<Embassy>
-				<TownCentre>1</TownCentre>
+				<CityCentre>1</CityCentre>
 			</Embassy>
     </LimitChangers>
     <LimitRemovers>

@@ -1,0 +1,821 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Tue, 15 Jun 2021 17:44:06 -0700
+Subject: [PATCH] temporarily removed Upkeep from mercenary mixin (AI doesn't
+ know how to handle upkeep yet)
+
+renamed special_monument to civic_monument
+
+set military colony territory radius to same as town
+
+Delphi bot can build monuments, government centers
+---
+ .../simulation/ai/delphi/headquarters.js      |  65 ++++--
+ .../mods/public/simulation/components/City.js | 204 +++++++++---------
+ .../simulation/templates/mixins/mercenary.xml |   5 +-
+ .../templates/special/player/player.xml       |   4 +-
+ .../structures/athen/monument_01.xml          |   2 +-
+ .../structures/athen/monument_02.xml          |   2 +-
+ .../structures/brit/civil_centre.xml          |   1 -
+ .../templates/structures/cart/monument_01.xml |   2 +-
+ .../templates/structures/ishtar_gate.xml      |   5 +-
+ .../templates/structures/kush/monument_01.xml |   2 +-
+ .../templates/structures/mace/monument_01.xml |   2 +-
+ .../templates/structures/mace/monument_02.xml |   2 +-
+ .../templates/structures/pers/monument_01.xml |   7 +-
+ .../templates/structures/pers/monument_02.xml |   2 +-
+ .../templates/structures/ptol/monument_01.xml |   2 +-
+ .../templates/structures/ptol/monument_02.xml |   2 +-
+ .../templates/structures/ptol/monument_03.xml |   2 +-
+ .../templates/structures/rome/monument_01.xml |   3 +-
+ .../templates/structures/rome/monument_02.xml |   2 +-
+ .../templates/structures/rome/monument_03.xml |   7 +-
+ .../templates/structures/sele/monument_01.xml |   2 +-
+ .../templates/structures/sele/monument_02.xml |   2 +-
+ .../structures/spart/monument_01.xml          |   2 +-
+ .../template_structure_civic_civil_centre.xml |   2 +-
+ ...ure_civic_civil_centre_military_colony.xml |   3 -
+ ... => template_structure_civic_monument.xml} |  15 +-
+ ...late_structure_civic_monument_library.xml} |   3 +-
+ ...late_structure_civic_monument_theater.xml} |   3 +-
+ 28 files changed, 191 insertions(+), 164 deletions(-)
+ rename binaries/data/mods/public/simulation/templates/{template_structure_special_monument.xml => template_structure_civic_monument.xml} (69%)
+ rename binaries/data/mods/public/simulation/templates/{template_structure_special_monument_library.xml => template_structure_civic_monument_library.xml} (91%)
+ rename binaries/data/mods/public/simulation/templates/{template_structure_special_monument_theater.xml => template_structure_civic_monument_theater.xml} (90%)
+
+diff --git a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
+index 8ca9aa2aec..7b9058127e 100644
+--- a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
++++ b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
+@@ -1397,8 +1397,28 @@ DELPHI.HQ.prototype.applyBuildRestrictions = function(placement, gameState, temp
+ {
+ 	// distance from similar structures; try to spread out amongst civ centres
+ 	const cellSize = this.territoryMap.cellSize; // size of each tile
+-	const avoidPenalty = -512;
++	const avoidPenalty = -32;
+ 	// account for BuildRestrictions distances
++	let distancesInclusive = template.get('BuildRestrictions/DistancesInclusive');
++	if (distancesInclusive)
++	{
++		for (let d in distancesInclusive)
++		{
++			let dist = distancesInclusive[d];
++			if (!dist.MaxDistance)
++				continue;
++			let maxDist = Math.floor(Number(dist.MaxDistance));
++			let distClass = dist.FromClass;
++			let classStructs = gameState.getOwnStructures().filter(API3.Filters.byClass(distClass)).toEntityArray();
++			for (let ent of classStructs)
++			{
++				let entPos = ent.position();
++				if (!entPos)
++					continue;
++				placement.addInfluence(Math.floor(entPos[0] / cellSize), Math.floor(entPos[1] / cellSize), Math.ceil(maxDist / cellSize), -avoidPenalty);
++			}// end for ent
++		}
++	}
+ 	let distancesExclusive = template.get('BuildRestrictions/DistancesExclusive');
+ 	if (distancesExclusive)
+ 	{
+@@ -1413,6 +1433,8 @@ DELPHI.HQ.prototype.applyBuildRestrictions = function(placement, gameState, temp
+ 			for (let ent of classStructs)
+ 			{
+ 				let entPos = ent.position();
++				if (!entPos)
++					continue;
+ 				placement.addInfluence(Math.floor(entPos[0] / cellSize), Math.floor(entPos[1] / cellSize), Math.ceil(minDist / cellSize), avoidPenalty);
+ 			}// end for ent
+ 		}// end for dist
+@@ -1592,32 +1614,25 @@ DELPHI.HQ.prototype.findCivicLocation = function(gameState, template)
+ 		halfDepth = halfSize;
+ 		halfWidth = halfSize;
+ 	}
++	// distance from similar structures; try to spread out amongst civ centres
++	this.applyBuildRestrictions(placement, gameState, template);
+ 	let civCentres = gameState.getOwnEntitiesByClass('CivCentre', true).toEntityArray();
+ 	if (civCentres.length < 1)
+ 		return false;
+ 	for (let civCentre of civCentres)
+ 	{
+ 		let civCentrePos = civCentre.position();
++		if (!civCentrePos)
++			continue;
+ 		let civCentrePosX = Math.floor(civCentrePos[0] / cellSize);
+ 		let civCentrePosZ = Math.floor(civCentrePos[1] / cellSize);
+-		let civCentreRadius = Math.floor(Number(civCentre.get('City/Radius')));
++		let civCentreRadius = Math.floor(+civCentre.get('City/Radius'));
+ 		if (!civCentreRadius)
+-			civCentreRadius = 60;
+-			placement.addInfluence(civCentrePosX, civCentrePosZ, Math.floor((civCentreRadius * civCentreRadiusRatio) / cellSize), 255);
++			continue;
++		placement.multiplyInfluence(civCentrePosX, civCentrePosZ, Math.floor((civCentreRadius * civCentreRadiusRatio) / cellSize), 2, 'linear');
+ 	}// end for civCentre
+-	// distance from similar structures; try to spread out amongst civ centres
+-	this.applyBuildRestrictions(placement, gameState, template);
+ 	let obstructions = DELPHI.createObstructionMap(gameState, 0, template);
+ 	const radius = Math.ceil((template.obstructionRadius().max * obstructionRatio / obstructions.cellSize));
+-	// loop until find valid position (useful for docks)
+-	// choose randomly from a number of valid positions
+-// 	if (isDock) {
+-// 		for (let tile of this.shoreTiles) {
+-// 			if (placement.map[tile.index] > 0) {
+-// 				placement.set(tile.index, placement.map[tile.index] + tile.waterValue);
+-// 			}// end if placement.map[tile.index] > 0
+-// 		}// end for tile of this.shoreTiles
+-// 	}// end if isDock
+ 	let validPositions = [];
+ 	for (let i = 0; i < maxRetries; i++)
+ 	{
+@@ -1926,17 +1941,28 @@ DELPHI.HQ.prototype.buildFarmstead = function(gameState, queues)
+ 	queues.economicBuilding.addPlan(new DELPHI.ConstructionPlan(gameState, "structures/{civ}/farmstead"));
+ };
+ 
+-DELPHI.HQ.prototype.buildPalace = function(gameState, queues)
++DELPHI.HQ.prototype.buildGovernmentCentre = function(gameState, queues)
+ {
+ 	if (queues.economicBuilding.hasQueuedUnits() ||
+-		gameState.getOwnEntitiesByClass("Palace", true).hasEntities())
++		gameState.getOwnEntitiesByClass("GovernmentCentre", true).hasEntities())
+ 		return;
+-	let templateName = "structures/{civ}/palace";
++	let templateName = "structures/{civ}/govcentre";
+ 	if (!this.canBuild(gameState, templateName))
+ 		return;
+ 	queues.economicBuilding.addPlan(new DELPHI.ConstructionPlan(gameState, templateName));
+ };
+ 
++DELPHI.HQ.prototype.buildMonument = function(gameState, queues)
++{
++	if (queues.economicBuilding.hasQueuedUnits())
++		return;
++	const templateNames = [1, 2, 3, 4, 5, 6, 7, 8].map((i) => sprintf('structures/{civ}/monument_%02d', i)).filter((templateName) => this.canBuild(gameState, templateName));
++	if (!templateNames || !templateNames.length)
++		return;
++	const templateName = pickRandom(templateNames);
++	queues.economicBuilding.addPlan(new DELPHI.ConstructionPlan(gameState, templateName));
++};
++
+ /**
+  * Try to build a wonder when required
+  * force = true when called from the victoryManager in case of Wonder victory condition.
+@@ -3082,7 +3108,8 @@ DELPHI.HQ.prototype.update = function(gameState, queues, events)
+ 			this.buildForge(gameState, queues);
+ 			this.buildTemple(gameState, queues);
+ 			this.buildTemplePatron(gameState, queues);
+-			this.buildPalace(gameState, queues);
++			this.buildMonument(gameState, queues);
++			this.buildGovernmentCentre(gameState, queues);
+ 		}
+ 
+ 		if (gameState.ai.playedTurn % 30 == 0 &&
+diff --git a/binaries/data/mods/public/simulation/components/City.js b/binaries/data/mods/public/simulation/components/City.js
+index 184e2cd21e..526a0b941e 100644
+--- a/binaries/data/mods/public/simulation/components/City.js
++++ b/binaries/data/mods/public/simulation/components/City.js
+@@ -1,101 +1,100 @@
+ function City() {}
+ 
+-// City.prototype.Schema = Components.ParseSchema('City');
+ City.prototype.Schema =
+-	"<a:help>Identifies this entity as a city centre.</a:help>" +
+-	"<optional>" +
+-		"<element name='Downgrade' a:help='Entity to downgrade to upon reaching min population.'>" +
+-			"<text />" +
+-		"</element>" +
+-	"</optional>" +
+-	"<optional>" +
+-		"<element name='Initial' a:help='Whether or not this is the initial buildable city in a progression of city types.'>" +
+-			"<data type='boolean' />" +
+-		"</element>" +
+-	"</optional>" +
+-	"<element name='Population' a:help='Population of city (does not relate to player population number)'>" +
+-		"<element name='Growth' a:help='Population growth rate'>" +
+-			"<element name='Amount' a:help='Amount to grow population per interval'>" +
+-				"<data type='nonNegativeInteger' />" +
+-			"</element>" +
+-			"<optional>" +
+-				"<element name='AttackMultiplier' a:help='Modify growth rate when city attacked'>" +
+-					"<!-- TODO: implement -->" +
+-					"<ref name='decimal' />" +
+-				"</element>" +
+-			"</optional>" +
+-			"<element name='DecayAmount' a:help='Amount to detract from population per interval'>" +
+-				"<data type='nonNegativeInteger' />" +
+-			"</element>" +
+-			"<element name='Interval' a:help='Interval in milliseconds'>" +
+-				"<data type='positiveInteger' />" +
+-			"</element>" +
+-			"<element name='TradeRate' a:help='Amount to modify population per arriving trader as percentage of trade gain.'>" +
+-				"<ref name='nonNegativeDecimal' />" +
+-			"</element>" +
+-		"</element>" +
+-		"<element name='Init' a:help='Initial population'>" +
+-			"<data type='nonNegativeInteger' />" +
+-		"</element>" +
+-		"<element name='Max' a:help='Maximum population'>" +
+-			"<data type='nonNegativeInteger' />" +
+-		"</element>" +
+-		"<element name='Min' a:help='Minimum population'>" +
+-			"<data type='nonNegativeInteger' />" +
+-		"</element>" +
+-	"</element>" +
+-	"<element name='Radius' a:help='Radius in which structures will belong to this city'>" +
+-		"<ref name='nonNegativeDecimal' />" +
+-	"</element>" +
+-	"<optional>" +
+-		"<element name='RangeOverlay'>" +
+-			"<interleave>" +
+-				"<element name='LineTexture'><text/></element>" +
+-				"<element name='LineTextureMask'><text/></element>" +
+-				"<element name='LineThickness'><ref name='nonNegativeDecimal'/></element>" +
+-			"</interleave>" +
+-		"</element>" +
+-	"</optional>" +
+-	"<optional>" +
+-		"<element name='Upgrade' a:help='Entity to upgrade to upon reaching max population.'>" +
+-			"<text />" +
+-		"</element>" +
+-	"</optional>" +
+-	"<optional>" +
+-		"<!-- Source: globalscripts/ModificationTemplates.js:ModificationSchema  -->" +
+-		"<!-- Value modifiers for this entity, which scale with number of garrisoned units. Can affect either self or entities within city radius.  -->" +
+-		"<element name='ValueModifiers' a:help='List of value modifiers for this entity, scaling by {PerPop} units population.'>" +
+-			"<oneOrMore>" +
+-				"<element>" +
+-					"<anyName />" +
+-					"<interleave>" +
+-						"<element name='Paths' a:help='Space separated value paths to modify.'>" +
+-							"<attribute name='datatype'>" +
+-								"<value>tokens</value>" +
+-							"</attribute>" +
+-							"<text/>" +
+-						"</element>" +
+-						"<choice>" +
+-							"<element name='Add'>" +
+-								"<data type='decimal' />" +
+-							"</element>" +
+-							"<element name='Multiply'>" +
+-								"<data type='decimal' />" +
+-							"</element>" +
+-						"</choice>" +
+-						"<element name='PerPop' a:help='Modifier will scale per {PerPop} citizens living in city.'>" +
+-							"<data type='positiveInteger'/>" +
+-						"</element>" +
+-						"<optional>" +
+-							"<element name='MaxStackable' a:help='Maximum number of times to stack this value modifier; unlimited by default.'>" +
+-								"<data type='positiveInteger'/>" +
+-							"</element>" +
+-						"</optional>" +
+-					"</interleave>" +
+-				"</element>" +
+-			"</oneOrMore>" +
+-		"</element>" +
+-	"</optional>";
++	`<a:help>Identifies this entity as a city centre.</a:help>
++	<optional>
++		<element name='Downgrade' a:help='Entity to downgrade to upon reaching min population.'>
++			<text />
++		</element>
++	</optional>
++	<optional>
++		<element name='Initial' a:help='Whether or not this is the initial buildable city in a progression of city types.'>
++			<data type='boolean' />
++		</element>
++	</optional>
++	<element name='Population' a:help='Population of city (does not relate to player population number)'>
++		<element name='Growth' a:help='Population growth rate'>
++			<element name='Amount' a:help='Amount to grow population per interval'>
++				<data type='nonNegativeInteger' />
++			</element>
++			<optional>
++				<element name='AttackMultiplier' a:help='Modify growth rate when city attacked'>
++					<!-- TODO: implement -->
++					<ref name='decimal' />
++				</element>
++			</optional>
++			<element name='DecayAmount' a:help='Amount to detract from population per interval'>
++				<data type='nonNegativeInteger' />
++			</element>
++			<element name='Interval' a:help='Interval in milliseconds'>
++				<data type='positiveInteger' />
++			</element>
++			<element name='TradeRate' a:help='Amount to modify population per arriving trader as percentage of trade gain.'>
++				<ref name='nonNegativeDecimal' />
++			</element>
++		</element>
++		<element name='Init' a:help='Initial population'>
++			<data type='nonNegativeInteger' />
++		</element>
++		<element name='Max' a:help='Maximum population'>
++			<data type='nonNegativeInteger' />
++		</element>
++		<element name='Min' a:help='Minimum population'>
++			<data type='nonNegativeInteger' />
++		</element>
++	</element>
++	<element name='Radius' a:help='Radius in which structures will belong to this city'>
++		<ref name='nonNegativeDecimal' />
++	</element>
++	<optional>
++		<element name='RangeOverlay'>
++			<interleave>
++				<element name='LineTexture'><text/></element>
++				<element name='LineTextureMask'><text/></element>
++				<element name='LineThickness'><ref name='nonNegativeDecimal'/></element>
++			</interleave>
++		</element>
++	</optional>
++	<optional>
++		<element name='Upgrade' a:help='Entity to upgrade to upon reaching max population.'>
++			<text />
++		</element>
++	</optional>
++	<optional>
++		<!-- Source: globalscripts/ModificationTemplates.js:ModificationSchema  -->
++		<!-- Value modifiers for this entity, which scale with number of garrisoned units. Can affect either self or entities within city radius.  -->
++		<element name='ValueModifiers' a:help='List of value modifiers for this entity, scaling by {PerPop} units population.'>
++			<oneOrMore>
++				<element>
++					<anyName />
++					<interleave>
++						<element name='Paths' a:help='Space separated value paths to modify.'>
++							<attribute name='datatype'>
++								<value>tokens</value>
++							</attribute>
++							<text/>
++						</element>
++						<choice>
++							<element name='Add'>
++								<data type='decimal' />
++							</element>
++							<element name='Multiply'>
++								<data type='decimal' />
++							</element>
++						</choice>
++						<element name='PerPop' a:help='Modifier will scale per {PerPop} citizens living in city.'>
++							<data type='positiveInteger'/>
++						</element>
++						<optional>
++							<element name='MaxStackable' a:help='Maximum number of times to stack this value modifier; unlimited by default.'>
++								<data type='positiveInteger'/>
++							</element>
++						</optional>
++					</interleave>
++				</element>
++			</oneOrMore>
++		</element>
++	</optional>`;
+ 
+ City.prototype.Init = function()
+ {
+@@ -143,16 +142,16 @@ City.prototype.SetPopulation = function(value, toTrack=true)
+ 	let min = this.GetMinPopulation();
+ 	let max = this.GetMaxPopulation();
+ 	if (value < min) {
+-		if (this.template.Downgrade) {
+-			let replacement = this.Downgrade();
++		let replacement = this.Downgrade();
++		if (replacement) {
+ 			let cmpNewCity = Engine.QueryInterface(replacement, IID_City);
+ 			if (cmpNewCity)
+ 				return cmpNewCity.SetPopulation(value);
+ 		}
+ 		this.population = min;
+ 	} else if (value > max) {
+-		if (this.template.Upgrade) {
+-			let replacement = this.Upgrade();
++		let replacement = this.Upgrade();
++		if (replacement) {
+ 			let cmpNewCity = Engine.QueryInterface(replacement, IID_City);
+ 			if (cmpNewCity)
+ 				return cmpNewCity.SetPopulation(value);
+@@ -276,14 +275,13 @@ City.prototype.GetUpgradeTemplate = function()
+ 	let parsedTemplate = templateName.indexOf('{native}') != -1 ?
+ 		parseCivTemplate(templateName, /\{native\}/g, cmpIdentity.GetCiv()) :
+ 		parseCivTemplate(templateName, /\{civ\}/g, cmpPlayer.GetCiv());
++	if (!parsedTemplate)
++		parsedTemplate = parseCivTemplate(templateName, /\{civ\}/g, cmpIdentity.GetCiv());
+ 	return parsedTemplate;
+ };
+ 
+ City.prototype.Upgrade = function()
+ {
+-	if (!this.template.Upgrade)
+-		return null;
+-	
+ 	let upgradeTemplate = this.GetUpgradeTemplate();
+ 	if (!upgradeTemplate)
+ 		return null;
+@@ -301,6 +299,8 @@ City.prototype.GetDowngradeTemplate = function()
+ 	let parsedTemplate = templateName.indexOf('{native}') != -1 ?
+ 		parseCivTemplate(templateName, /\{native\}/g, cmpIdentity.GetCiv()) :
+ 		parseCivTemplate(templateName, /\{civ\}/g, cmpPlayer.GetCiv());
++	if (!parsedTemplate)
++		parsedTemplate = parseCivTemplate(templateName, /\{civ\}/g, cmpIdentity.GetCiv());
+ 	return parsedTemplate;
+ };
+ 
+diff --git a/binaries/data/mods/public/simulation/templates/mixins/mercenary.xml b/binaries/data/mods/public/simulation/templates/mixins/mercenary.xml
+index 1dd7fdb8c8..18260bf0fb 100644
+--- a/binaries/data/mods/public/simulation/templates/mixins/mercenary.xml
++++ b/binaries/data/mods/public/simulation/templates/mixins/mercenary.xml
+@@ -21,10 +21,11 @@
+   </Loot>
+ 	<Mercenary />
+   <ResourceGatherer disable=""/>
+-	<Upkeep>
++	<!-- Disable Upkeep until ai knows how to handle upkeep -->
++	<!-- Upkeep>
+ 		<Interval>20000</Interval>
+ 		<Rates>
+ 			<wealth>5</wealth>
+ 		</Rates>
+-	</Upkeep>
++	</Upkeep -->
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/special/player/player.xml b/binaries/data/mods/public/simulation/templates/special/player/player.xml
+index 881c229fe6..b7d8c131f9 100644
+--- a/binaries/data/mods/public/simulation/templates/special/player/player.xml
++++ b/binaries/data/mods/public/simulation/templates/special/player/player.xml
+@@ -23,7 +23,7 @@
+       <GovernmentCentre>1</GovernmentCentre>
+       <Hero>1</Hero>
+       <Apadana>1</Apadana>
+-      <Embassy>0</Embassy>
++      <Embassy>1</Embassy>
+       <Monument>0</Monument>
+       <Council>1</Council>
+       <Gladiator>0</Gladiator>
+@@ -73,7 +73,7 @@
+         <Ashoka>5</Ashoka>
+       </Pillar>
+ 			<Embassy>
+-				<TownCentre>1</TownCentre>
++				<CityCentre>1</CityCentre>
+ 			</Embassy>
+     </LimitChangers>
+     <LimitRemovers>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/athen/monument_01.xml b/binaries/data/mods/public/simulation/templates/structures/athen/monument_01.xml
+index c8cf50fc12..a9dd54d1c4 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/athen/monument_01.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/athen/monument_01.xml
+@@ -1,5 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_special_monument_library">
++<Entity parent="template_structure_civic_monument_library">
+   <Identity>
+     <Civ>athen</Civ>
+     <SpecificName>Akademia</SpecificName>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/athen/monument_02.xml b/binaries/data/mods/public/simulation/templates/structures/athen/monument_02.xml
+index 282740c20e..7a8b05accc 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/athen/monument_02.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/athen/monument_02.xml
+@@ -1,5 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_special_monument_theater">
++<Entity parent="template_structure_civic_monument_theater">
+   <Identity>
+     <Civ>athen</Civ>
+     <SpecificName>Theatron</SpecificName>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/brit/civil_centre.xml b/binaries/data/mods/public/simulation/templates/structures/brit/civil_centre.xml
+index 33c44e71b6..897bc6cda5 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/brit/civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/brit/civil_centre.xml
+@@ -9,7 +9,6 @@
+   </Health>
+   <Identity>
+     <Civ>brit</Civ>
+-    <GenericName>Village</GenericName>
+   </Identity>
+   <Obstruction>
+     <Static width="37.0" depth="37.0"/>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/cart/monument_01.xml b/binaries/data/mods/public/simulation/templates/structures/cart/monument_01.xml
+index 3ce96b385b..afc72d81e8 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/cart/monument_01.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/cart/monument_01.xml
+@@ -1,5 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_special_monument_library">
++<Entity parent="template_structure_civic_monument_library">
+   <Footprint>
+     <Square width="40.0" depth="40.0"/>
+     <Height>15.0</Height>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/ishtar_gate.xml b/binaries/data/mods/public/simulation/templates/structures/ishtar_gate.xml
+index 5326df8dc6..a4002f778e 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/ishtar_gate.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/ishtar_gate.xml
+@@ -1,5 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_special_monument">
++<Entity parent="template_structure_civic_monument">
+   <Auras datatype="tokens">
+     structures/loyalty_regen
+   </Auras>
+@@ -15,9 +15,6 @@
+     <Square width="40.0" depth="17.0"/>
+     <Height>8.0</Height>
+   </Footprint>
+-  <GarrisonHolder>
+-    <Max>10</Max>
+-  </GarrisonHolder>
+   <Health>
+     <Max>2000</Max>
+   </Health>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/kush/monument_01.xml b/binaries/data/mods/public/simulation/templates/structures/kush/monument_01.xml
+index 72740563f1..852ea76bc9 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/kush/monument_01.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/kush/monument_01.xml
+@@ -1,5 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_special_monument">
++<Entity parent="template_structure_civic_monument">
+   <Auras datatype="tokens">
+     structures/kush_pyramids_military
+   </Auras>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/mace/monument_01.xml b/binaries/data/mods/public/simulation/templates/structures/mace/monument_01.xml
+index 45e668d43d..660b837459 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/mace/monument_01.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/mace/monument_01.xml
+@@ -1,5 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_special_monument_library">
++<Entity parent="template_structure_civic_monument_library">
+   <Identity>
+     <Civ>mace</Civ>
+     <SpecificName>Bibliothēkē</SpecificName>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/mace/monument_02.xml b/binaries/data/mods/public/simulation/templates/structures/mace/monument_02.xml
+index 44b44a5753..de38fd69c5 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/mace/monument_02.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/mace/monument_02.xml
+@@ -1,5 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_special_monument_theater">
++<Entity parent="template_structure_civic_monument_theater">
+   <Identity>
+     <Civ>mace</Civ>
+     <SpecificName>Theatron</SpecificName>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/pers/monument_01.xml b/binaries/data/mods/public/simulation/templates/structures/pers/monument_01.xml
+index 87ca39898b..b8e629779b 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/pers/monument_01.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/pers/monument_01.xml
+@@ -1,5 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_special_monument">
++<Entity parent="template_structure_civic_monument">
+ 	<Auras datatype="tokens">
+ 		-structures/monument_population
+ 		structures/monument_pers
+@@ -10,6 +10,11 @@
+   </Footprint>
+   <GarrisonHolder>
+     <Max>10</Max>
++    <BuffHeal>1</BuffHeal>
++    <EjectHealth>0.1</EjectHealth>
++    <EjectClassesOnDestroy datatype="tokens">Unit</EjectClassesOnDestroy>
++    <List datatype="tokens">Unit</List>
++    <LoadingRange>1</LoadingRange>
+   </GarrisonHolder>
+   <Health>
+     <Max>3000</Max>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/pers/monument_02.xml b/binaries/data/mods/public/simulation/templates/structures/pers/monument_02.xml
+index d220ff561d..52b579a0f0 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/pers/monument_02.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/pers/monument_02.xml
+@@ -1,5 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_special_monument">
++<Entity parent="template_structure_civic_monument">
+   <Auras datatype="tokens">
+ 		-structures/monument_population
+ 		structures/monument_pers_trade
+diff --git a/binaries/data/mods/public/simulation/templates/structures/ptol/monument_01.xml b/binaries/data/mods/public/simulation/templates/structures/ptol/monument_01.xml
+index 2b2f9bdd54..c3cd2fe84e 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/ptol/monument_01.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/ptol/monument_01.xml
+@@ -1,5 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_special_monument_library">
++<Entity parent="template_structure_civic_monument_library">
+   <Identity>
+     <Civ>ptol</Civ>
+     <SpecificName>Bibliothēkē</SpecificName>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/ptol/monument_02.xml b/binaries/data/mods/public/simulation/templates/structures/ptol/monument_02.xml
+index ddf6c08e60..87f8efc56a 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/ptol/monument_02.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/ptol/monument_02.xml
+@@ -1,5 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_special_monument">
++<Entity parent="template_structure_civic_monument">
+   <BuildRestrictions>
+     <Territory>own ally neutral</Territory>
+     <PlacementType>shore</PlacementType>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/ptol/monument_03.xml b/binaries/data/mods/public/simulation/templates/structures/ptol/monument_03.xml
+index e59bcf8b01..3431ee82fb 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/ptol/monument_03.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/ptol/monument_03.xml
+@@ -1,5 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_special_monument_theater">
++<Entity parent="template_structure_civic_monument_theater">
+   <Identity>
+     <Civ>ptol</Civ>
+     <SpecificName>Theatron</SpecificName>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/rome/monument_01.xml b/binaries/data/mods/public/simulation/templates/structures/rome/monument_01.xml
+index 1bcd1fc812..08935d20ec 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/rome/monument_01.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/rome/monument_01.xml
+@@ -1,5 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_special_monument">
++<Entity parent="template_structure_civic_monument">
+   <Cost>
+     <BuildTime>200</BuildTime>
+   </Cost>
+@@ -7,7 +7,6 @@
+     <Square width="20.0" depth="11.0"/>
+     <Height>8.0</Height>
+   </Footprint>
+-  <GarrisonHolder disable=""/>
+   <Health>
+     <Max>2000</Max>
+     <SpawnEntityOnDeath>decay|rubble/rubble_stone_4x4</SpawnEntityOnDeath>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/rome/monument_02.xml b/binaries/data/mods/public/simulation/templates/structures/rome/monument_02.xml
+index c8ae4a0be6..380262f13a 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/rome/monument_02.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/rome/monument_02.xml
+@@ -1,5 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_special_monument_theater">
++<Entity parent="template_structure_civic_monument_theater">
+   <Footprint replace="">
+     <Square width="66.0" depth="90.0"/>
+     <Height>20.0</Height>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/rome/monument_03.xml b/binaries/data/mods/public/simulation/templates/structures/rome/monument_03.xml
+index c3b17cfdc4..12bf725646 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/rome/monument_03.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/rome/monument_03.xml
+@@ -1,5 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_special_monument">
++<Entity parent="template_structure_civic_monument">
+   <Cost>
+     <BuildTime>200</BuildTime>
+   </Cost>
+@@ -9,6 +9,11 @@
+   </Footprint>
+   <GarrisonHolder>
+     <Max>20</Max>
++    <BuffHeal>5</BuffHeal>
++    <EjectHealth>0.1</EjectHealth>
++    <EjectClassesOnDestroy datatype="tokens">Unit</EjectClassesOnDestroy>
++    <List datatype="tokens">Support+!Elephant</List>
++    <LoadingRange>1</LoadingRange>
+   </GarrisonHolder>
+   <Health>
+     <Max>2000</Max>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/sele/monument_01.xml b/binaries/data/mods/public/simulation/templates/structures/sele/monument_01.xml
+index 2755fb49d1..c04aa31d38 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/sele/monument_01.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/sele/monument_01.xml
+@@ -1,5 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_special_monument_library">
++<Entity parent="template_structure_civic_monument_library">
+   <Footprint>
+     <Square width="26.0" depth="26.0"/>
+     <Height>8.0</Height>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/sele/monument_02.xml b/binaries/data/mods/public/simulation/templates/structures/sele/monument_02.xml
+index 050e531667..6eb00ce15e 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/sele/monument_02.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/sele/monument_02.xml
+@@ -1,5 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_special_monument_theater">
++<Entity parent="template_structure_civic_monument_theater">
+   <Identity>
+     <Civ>sele</Civ>
+     <SpecificName>Theatron</SpecificName>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/spart/monument_01.xml b/binaries/data/mods/public/simulation/templates/structures/spart/monument_01.xml
+index d77a16345d..6ea53ecec3 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/spart/monument_01.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/spart/monument_01.xml
+@@ -1,5 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_special_monument_theater">
++<Entity parent="template_structure_civic_monument_theater">
+   <Identity>
+     <Civ>spart</Civ>
+     <SpecificName>Theatron</SpecificName>
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre.xml b/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre.xml
+index 939420cf77..7eb841a4f6 100644
+--- a/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre.xml
+@@ -71,7 +71,7 @@
+       <Max>10000</Max>
+       <Min>0</Min>
+     </Population>
+-    <Radius>90</Radius>
++    <Radius>120</Radius>
+ 		<ValueModifiers>
+ 			<PopulationDecay>
+ 				<!-- Increase the population decay rate per every 250 citizens, to make it increasingly more difficult to grow the population. -->
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_military_colony.xml b/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_military_colony.xml
+index 48ef7ac8c0..f0a6e4085a 100644
+--- a/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_military_colony.xml
++++ b/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_military_colony.xml
+@@ -55,7 +55,4 @@
+       <constructed>interface/complete/building/complete_gymnasium.xml</constructed>
+     </SoundGroups>
+   </Sound>
+-  <TerritoryInfluence>
+-    <Radius>80</Radius>
+-  </TerritoryInfluence>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_special_monument.xml b/binaries/data/mods/public/simulation/templates/template_structure_civic_monument.xml
+similarity index 69%
+rename from binaries/data/mods/public/simulation/templates/template_structure_special_monument.xml
+rename to binaries/data/mods/public/simulation/templates/template_structure_civic_monument.xml
+index 9c5dae707e..01ddb538f5 100644
+--- a/binaries/data/mods/public/simulation/templates/template_structure_special_monument.xml
++++ b/binaries/data/mods/public/simulation/templates/template_structure_civic_monument.xml
+@@ -1,19 +1,13 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_special">
++<Entity parent="template_structure_civic">
+   <Auras datatype="tokens">
+   	structures/monument_population
+   </Auras>
+   <BuildRestrictions>
+     <Category>Monument</Category>
+     <DistancesInclusive>
+-      <CityCentre>
+-        <FromClass>CityCentre</FromClass>
+-        <MaxDistance>120</MaxDistance>
+-      </CityCentre>
+-      <MetroCentre>
+-        <FromClass>MetroCentre</FromClass>
+-        <MaxDistance>150</MaxDistance>
+-      </MetroCentre>
++			<VillageCentre disable="" />
++			<TownCentre disable="" />
+     </DistancesInclusive>
+   </BuildRestrictions>
+   <Cost>
+@@ -31,7 +25,8 @@
+   <Identity>
+     <GenericName>Monument</GenericName>
+     <Tooltip>This is a monument unique to a particular civilization. It aids in the growth of cities.</Tooltip>
+-    <VisibleClasses datatype="tokens">Monument</VisibleClasses>
++    <RequiredTechnology>phase_city</RequiredTechnology>
++    <VisibleClasses datatype="tokens">City Monument</VisibleClasses>
+   </Identity>
+ 	<TerritoryInfluence>
+ 		<Root>false</Root>
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_special_monument_library.xml b/binaries/data/mods/public/simulation/templates/template_structure_civic_monument_library.xml
+similarity index 91%
+rename from binaries/data/mods/public/simulation/templates/template_structure_special_monument_library.xml
+rename to binaries/data/mods/public/simulation/templates/template_structure_civic_monument_library.xml
+index 6f6e3cde81..23b5cb8213 100644
+--- a/binaries/data/mods/public/simulation/templates/template_structure_special_monument_library.xml
++++ b/binaries/data/mods/public/simulation/templates/template_structure_civic_monument_library.xml
+@@ -1,5 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_special_monument">
++<Entity parent="template_structure_civic_monument">
+   <Auras datatype="tokens">
+     structures/library
+   </Auras>
+@@ -14,6 +14,7 @@
+     <GenericName>Library</GenericName>
+     <Tooltip>Research special technologies.</Tooltip>
+     <Icon>structures/library_scroll.png</Icon>
++    <VisibleClasses datatype="tokens">Library</VisibleClasses>
+   </Identity>
+   <Loot>
+     <wood>0</wood>
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_special_monument_theater.xml b/binaries/data/mods/public/simulation/templates/template_structure_civic_monument_theater.xml
+similarity index 90%
+rename from binaries/data/mods/public/simulation/templates/template_structure_special_monument_theater.xml
+rename to binaries/data/mods/public/simulation/templates/template_structure_civic_monument_theater.xml
+index 519cae79f8..e700e8b42b 100644
+--- a/binaries/data/mods/public/simulation/templates/template_structure_special_monument_theater.xml
++++ b/binaries/data/mods/public/simulation/templates/template_structure_civic_monument_theater.xml
+@@ -1,5 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_special_monument">
++<Entity parent="template_structure_civic_monument">
+   <Auras datatype="tokens">
+     structures/theater
+   </Auras>
+@@ -18,6 +18,7 @@
+     <SpecificName>Théātron</SpecificName>
+     <Classes datatype="tokens">Theater</Classes>
+     <Icon>structures/theater.png</Icon>
++    <VisibleClasses datatype="tokens">Theater</VisibleClasses>
+   </Identity>
+   <Loot>
+     <wood>0</wood>
+-- 
+2.25.1
+

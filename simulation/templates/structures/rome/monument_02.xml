@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Entity parent="template_structure_special_monument_theater">
+<Entity parent="template_structure_civic_monument_theater">
   <Footprint replace="">
     <Square width="66.0" depth="90.0"/>
     <Height>20.0</Height>

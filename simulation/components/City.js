@@ -1,101 +1,100 @@
 function City() {}
 
-// City.prototype.Schema = Components.ParseSchema('City');
 City.prototype.Schema =
-	"<a:help>Identifies this entity as a city centre.</a:help>" +
-	"<optional>" +
-		"<element name='Downgrade' a:help='Entity to downgrade to upon reaching min population.'>" +
-			"<text />" +
-		"</element>" +
-	"</optional>" +
-	"<optional>" +
-		"<element name='Initial' a:help='Whether or not this is the initial buildable city in a progression of city types.'>" +
-			"<data type='boolean' />" +
-		"</element>" +
-	"</optional>" +
-	"<element name='Population' a:help='Population of city (does not relate to player population number)'>" +
-		"<element name='Growth' a:help='Population growth rate'>" +
-			"<element name='Amount' a:help='Amount to grow population per interval'>" +
-				"<data type='nonNegativeInteger' />" +
-			"</element>" +
-			"<optional>" +
-				"<element name='AttackMultiplier' a:help='Modify growth rate when city attacked'>" +
-					"<!-- TODO: implement -->" +
-					"<ref name='decimal' />" +
-				"</element>" +
-			"</optional>" +
-			"<element name='DecayAmount' a:help='Amount to detract from population per interval'>" +
-				"<data type='nonNegativeInteger' />" +
-			"</element>" +
-			"<element name='Interval' a:help='Interval in milliseconds'>" +
-				"<data type='positiveInteger' />" +
-			"</element>" +
-			"<element name='TradeRate' a:help='Amount to modify population per arriving trader as percentage of trade gain.'>" +
-				"<ref name='nonNegativeDecimal' />" +
-			"</element>" +
-		"</element>" +
-		"<element name='Init' a:help='Initial population'>" +
-			"<data type='nonNegativeInteger' />" +
-		"</element>" +
-		"<element name='Max' a:help='Maximum population'>" +
-			"<data type='nonNegativeInteger' />" +
-		"</element>" +
-		"<element name='Min' a:help='Minimum population'>" +
-			"<data type='nonNegativeInteger' />" +
-		"</element>" +
-	"</element>" +
-	"<element name='Radius' a:help='Radius in which structures will belong to this city'>" +
-		"<ref name='nonNegativeDecimal' />" +
-	"</element>" +
-	"<optional>" +
-		"<element name='RangeOverlay'>" +
-			"<interleave>" +
-				"<element name='LineTexture'><text/></element>" +
-				"<element name='LineTextureMask'><text/></element>" +
-				"<element name='LineThickness'><ref name='nonNegativeDecimal'/></element>" +
-			"</interleave>" +
-		"</element>" +
-	"</optional>" +
-	"<optional>" +
-		"<element name='Upgrade' a:help='Entity to upgrade to upon reaching max population.'>" +
-			"<text />" +
-		"</element>" +
-	"</optional>" +
-	"<optional>" +
-		"<!-- Source: globalscripts/ModificationTemplates.js:ModificationSchema  -->" +
-		"<!-- Value modifiers for this entity, which scale with number of garrisoned units. Can affect either self or entities within city radius.  -->" +
-		"<element name='ValueModifiers' a:help='List of value modifiers for this entity, scaling by {PerPop} units population.'>" +
-			"<oneOrMore>" +
-				"<element>" +
-					"<anyName />" +
-					"<interleave>" +
-						"<element name='Paths' a:help='Space separated value paths to modify.'>" +
-							"<attribute name='datatype'>" +
-								"<value>tokens</value>" +
-							"</attribute>" +
-							"<text/>" +
-						"</element>" +
-						"<choice>" +
-							"<element name='Add'>" +
-								"<data type='decimal' />" +
-							"</element>" +
-							"<element name='Multiply'>" +
-								"<data type='decimal' />" +
-							"</element>" +
-						"</choice>" +
-						"<element name='PerPop' a:help='Modifier will scale per {PerPop} citizens living in city.'>" +
-							"<data type='positiveInteger'/>" +
-						"</element>" +
-						"<optional>" +
-							"<element name='MaxStackable' a:help='Maximum number of times to stack this value modifier; unlimited by default.'>" +
-								"<data type='positiveInteger'/>" +
-							"</element>" +
-						"</optional>" +
-					"</interleave>" +
-				"</element>" +
-			"</oneOrMore>" +
-		"</element>" +
-	"</optional>";
+	`<a:help>Identifies this entity as a city centre.</a:help>
+	<optional>
+		<element name='Downgrade' a:help='Entity to downgrade to upon reaching min population.'>
+			<text />
+		</element>
+	</optional>
+	<optional>
+		<element name='Initial' a:help='Whether or not this is the initial buildable city in a progression of city types.'>
+			<data type='boolean' />
+		</element>
+	</optional>
+	<element name='Population' a:help='Population of city (does not relate to player population number)'>
+		<element name='Growth' a:help='Population growth rate'>
+			<element name='Amount' a:help='Amount to grow population per interval'>
+				<data type='nonNegativeInteger' />
+			</element>
+			<optional>
+				<element name='AttackMultiplier' a:help='Modify growth rate when city attacked'>
+					<!-- TODO: implement -->
+					<ref name='decimal' />
+				</element>
+			</optional>
+			<element name='DecayAmount' a:help='Amount to detract from population per interval'>
+				<data type='nonNegativeInteger' />
+			</element>
+			<element name='Interval' a:help='Interval in milliseconds'>
+				<data type='positiveInteger' />
+			</element>
+			<element name='TradeRate' a:help='Amount to modify population per arriving trader as percentage of trade gain.'>
+				<ref name='nonNegativeDecimal' />
+			</element>
+		</element>
+		<element name='Init' a:help='Initial population'>
+			<data type='nonNegativeInteger' />
+		</element>
+		<element name='Max' a:help='Maximum population'>
+			<data type='nonNegativeInteger' />
+		</element>
+		<element name='Min' a:help='Minimum population'>
+			<data type='nonNegativeInteger' />
+		</element>
+	</element>
+	<element name='Radius' a:help='Radius in which structures will belong to this city'>
+		<ref name='nonNegativeDecimal' />
+	</element>
+	<optional>
+		<element name='RangeOverlay'>
+			<interleave>
+				<element name='LineTexture'><text/></element>
+				<element name='LineTextureMask'><text/></element>
+				<element name='LineThickness'><ref name='nonNegativeDecimal'/></element>
+			</interleave>
+		</element>
+	</optional>
+	<optional>
+		<element name='Upgrade' a:help='Entity to upgrade to upon reaching max population.'>
+			<text />
+		</element>
+	</optional>
+	<optional>
+		<!-- Source: globalscripts/ModificationTemplates.js:ModificationSchema  -->
+		<!-- Value modifiers for this entity, which scale with number of garrisoned units. Can affect either self or entities within city radius.  -->
+		<element name='ValueModifiers' a:help='List of value modifiers for this entity, scaling by {PerPop} units population.'>
+			<oneOrMore>
+				<element>
+					<anyName />
+					<interleave>
+						<element name='Paths' a:help='Space separated value paths to modify.'>
+							<attribute name='datatype'>
+								<value>tokens</value>
+							</attribute>
+							<text/>
+						</element>
+						<choice>
+							<element name='Add'>
+								<data type='decimal' />
+							</element>
+							<element name='Multiply'>
+								<data type='decimal' />
+							</element>
+						</choice>
+						<element name='PerPop' a:help='Modifier will scale per {PerPop} citizens living in city.'>
+							<data type='positiveInteger'/>
+						</element>
+						<optional>
+							<element name='MaxStackable' a:help='Maximum number of times to stack this value modifier; unlimited by default.'>
+								<data type='positiveInteger'/>
+							</element>
+						</optional>
+					</interleave>
+				</element>
+			</oneOrMore>
+		</element>
+	</optional>`;
 
 City.prototype.Init = function()
 {
@@ -143,16 +142,16 @@ City.prototype.SetPopulation = function(value, toTrack=true)
 	let min = this.GetMinPopulation();
 	let max = this.GetMaxPopulation();
 	if (value < min) {
-		if (this.template.Downgrade) {
-			let replacement = this.Downgrade();
+		let replacement = this.Downgrade();
+		if (replacement) {
 			let cmpNewCity = Engine.QueryInterface(replacement, IID_City);
 			if (cmpNewCity)
 				return cmpNewCity.SetPopulation(value);
 		}
 		this.population = min;
 	} else if (value > max) {
-		if (this.template.Upgrade) {
-			let replacement = this.Upgrade();
+		let replacement = this.Upgrade();
+		if (replacement) {
 			let cmpNewCity = Engine.QueryInterface(replacement, IID_City);
 			if (cmpNewCity)
 				return cmpNewCity.SetPopulation(value);
@@ -276,14 +275,13 @@ City.prototype.GetUpgradeTemplate = function()
 	let parsedTemplate = templateName.indexOf('{native}') != -1 ?
 		parseCivTemplate(templateName, /\{native\}/g, cmpIdentity.GetCiv()) :
 		parseCivTemplate(templateName, /\{civ\}/g, cmpPlayer.GetCiv());
+	if (!parsedTemplate)
+		parsedTemplate = parseCivTemplate(templateName, /\{civ\}/g, cmpIdentity.GetCiv());
 	return parsedTemplate;
 };
 
 City.prototype.Upgrade = function()
 {
-	if (!this.template.Upgrade)
-		return null;
-	
 	let upgradeTemplate = this.GetUpgradeTemplate();
 	if (!upgradeTemplate)
 		return null;
@@ -301,6 +299,8 @@ City.prototype.GetDowngradeTemplate = function()
 	let parsedTemplate = templateName.indexOf('{native}') != -1 ?
 		parseCivTemplate(templateName, /\{native\}/g, cmpIdentity.GetCiv()) :
 		parseCivTemplate(templateName, /\{civ\}/g, cmpPlayer.GetCiv());
+	if (!parsedTemplate)
+		parsedTemplate = parseCivTemplate(templateName, /\{civ\}/g, cmpIdentity.GetCiv());
 	return parsedTemplate;
 };
 
