@@ -1,0 +1,107 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Tue, 15 Jun 2021 22:05:48 -0700
+Subject: [PATCH] updated README.md to account for mercenary upkeep being
+ disabled
+
+Delphi bot destroys buildings suffering from territory decay
+
+City members automatically switch owners when a city is taken (component City.js)
+---
+ binaries/data/mods/public/README.md           |  2 +-
+ .../simulation/ai/delphi/headquarters.js      | 40 +++++++++++++++++++
+ .../mods/public/simulation/components/City.js | 10 +++--
+ 3 files changed, 48 insertions(+), 4 deletions(-)
+
+diff --git a/binaries/data/mods/public/README.md b/binaries/data/mods/public/README.md
+index 49e50770a0..214de85b9f 100644
+--- a/binaries/data/mods/public/README.md
++++ b/binaries/data/mods/public/README.md
+@@ -55,7 +55,7 @@ The phase requirements are as follows:
+ - Metal and Stone mines have had their maximum workers reduced to 10 for large mines and 5 for small mines. This is intended to incentivize building multiple civil centres to increase your resource gather rate.
+ - Most factions get a "cash crop" resource field (i.e. vineyards, olive groves) from which they can gather a small amount of wealth.
+ 	- Britons and Gauls can garrison sheep in corrals to gain a small trickle of wealth (represents harvesting wool).
+-- Mercenaries require a payment (upkeep) of 5 wealth every 20 seconds. If they are not paid, they rebel (switch loyalty to Gaia). To accommodate for the Carthaginians' heavy reliance on mercenaries, I have given the Carthaginian market a small wealth trickle.
++- Mercenaries require a payment (upkeep) of 5 wealth every 20 seconds. If they are not paid, they rebel (switch loyalty to Gaia). To accommodate for the Carthaginians' heavy reliance on mercenaries, I have given the Carthaginian market a small wealth trickle. (DISABLED UNTIL AI CAN DEAL WITH UPKEEP)
+ - Domestic animals can produce food in the form of milk by grazing at pastures, a new food resource available on some random maps. This will play a larger role in gameplay when nomadic factions are eventually integrated into the game.
+ - Siege towers can now capture walls and other structures. Their capture attack strength, as well as their firepower, can be increased by garrisoning more troops inside. At the same time, the strength of their ranged attack has been reduced. This is intended to bring them closer to their historical role as devices for capturing fortifications.
+ - Certain structures have been classed as "Sturdy", including Stone Walls, Forts, City Centers, and Metropolis Centers. Sturdy structures cannot be damaged by organic units, only siege engines.
+diff --git a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
+index 7b9058127e..fb32623f34 100644
+--- a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
++++ b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
+@@ -523,6 +523,46 @@ DELPHI.HQ.prototype.checkEvents = function(gameState, events)
+ 			this.saveSpace = undefined;
+ 			this.maxFields = false;
+ 		}
++
++	}
++	
++	// Then deals with decaying structures: destroy them if being lost to enemy (except in easier difficulties)
++	if (this.Config.difficulty < 2)
++		return;
++	for (let entId of this.decayingStructures)
++	{
++		let ent = gameState.getEntityById(entId);
++		if (ent && ent.decaying() && ent.isOwn(PlayerID))
++		{
++			let capture = ent.capturePoints();
++			if (!capture)
++				continue;
++			let captureRatio = capture[PlayerID] / capture.reduce((a, b) => a + b);
++			if (captureRatio < 0.50)
++				continue;
++			let decayToGaia = true;
++			for (let i = 1; i < capture.length; ++i)
++			{
++				if (gameState.isPlayerAlly(i) || !capture[i])
++					continue;
++				decayToGaia = false;
++				break;
++			}
++			if (decayToGaia)
++				continue;
++			let ratioMax = 0.7 + randFloat(0, 0.1);
++			for (let evt of events.Attacked)
++			{
++				if (ent.id() != evt.target)
++					continue;
++				ratioMax = 0.85 + randFloat(0, 0.1);
++				break;
++			}
++			if (captureRatio > ratioMax)
++				continue;
++			ent.destroy();
++		}
++		this.decayingStructures.delete(entId);
+ 	}
+ };
+ 
+diff --git a/binaries/data/mods/public/simulation/components/City.js b/binaries/data/mods/public/simulation/components/City.js
+index 526a0b941e..9918b97c13 100644
+--- a/binaries/data/mods/public/simulation/components/City.js
++++ b/binaries/data/mods/public/simulation/components/City.js
+@@ -490,13 +490,17 @@ City.prototype.OnValueModification = function(msg)
+ 	}
+ };
+ 
+-City.prototype.OnOwnershipChanged = function(msg)
++City.prototype.OnOwnershipChanged = function({ from, to })
+ {
+ 	this.SetupCityMembersQuery();
+-	let prevOwnerStatisticsTracker = QueryPlayerIDInterface(msg.from, IID_StatisticsTracker);
++	// switch ownership of city members
++	if (to && to !== INVALID_PLAYER)
++		this.GetCityMembers().map((ent) => Engine.QueryInterface(ent, IID_Ownership)).forEach((cmp) => cmp && cmp.SetOwner(to));
++	// transfer population in civic population tracker
++	let prevOwnerStatisticsTracker = QueryPlayerIDInterface(from, IID_StatisticsTracker);
+ 	if (prevOwnerStatisticsTracker)
+ 		prevOwnerStatisticsTracker.IncreaseCivicPopulation(-this.population);
+-	let newOwnerStatisticsTracker = QueryPlayerIDInterface(msg.to, IID_StatisticsTracker);
++	let newOwnerStatisticsTracker = QueryPlayerIDInterface(to, IID_StatisticsTracker);
+ 	if (newOwnerStatisticsTracker)
+ 		newOwnerStatisticsTracker.IncreaseCivicPopulation(+this.population);
+ 	if (!Engine.QueryInterface(this.entity, IID_SkirmishReplacer) && (!this.GetName() || !this.GetName().length))
+-- 
+2.25.1
+

@@ -490,13 +490,17 @@ City.prototype.OnValueModification = function(msg)
 	}
 };
 
-City.prototype.OnOwnershipChanged = function(msg)
+City.prototype.OnOwnershipChanged = function({ from, to })
 {
 	this.SetupCityMembersQuery();
-	let prevOwnerStatisticsTracker = QueryPlayerIDInterface(msg.from, IID_StatisticsTracker);
+	// switch ownership of city members
+	if (to && to !== INVALID_PLAYER)
+		this.GetCityMembers().map((ent) => Engine.QueryInterface(ent, IID_Ownership)).forEach((cmp) => cmp && cmp.SetOwner(to));
+	// transfer population in civic population tracker
+	let prevOwnerStatisticsTracker = QueryPlayerIDInterface(from, IID_StatisticsTracker);
 	if (prevOwnerStatisticsTracker)
 		prevOwnerStatisticsTracker.IncreaseCivicPopulation(-this.population);
-	let newOwnerStatisticsTracker = QueryPlayerIDInterface(msg.to, IID_StatisticsTracker);
+	let newOwnerStatisticsTracker = QueryPlayerIDInterface(to, IID_StatisticsTracker);
 	if (newOwnerStatisticsTracker)
 		newOwnerStatisticsTracker.IncreaseCivicPopulation(+this.population);
 	if (!Engine.QueryInterface(this.entity, IID_SkirmishReplacer) && (!this.GetName() || !this.GetName().length))

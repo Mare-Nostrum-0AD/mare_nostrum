@@ -523,6 +523,46 @@ DELPHI.HQ.prototype.checkEvents = function(gameState, events)
 			this.saveSpace = undefined;
 			this.maxFields = false;
 		}
+
+	}
+	
+	// Then deals with decaying structures: destroy them if being lost to enemy (except in easier difficulties)
+	if (this.Config.difficulty < 2)
+		return;
+	for (let entId of this.decayingStructures)
+	{
+		let ent = gameState.getEntityById(entId);
+		if (ent && ent.decaying() && ent.isOwn(PlayerID))
+		{
+			let capture = ent.capturePoints();
+			if (!capture)
+				continue;
+			let captureRatio = capture[PlayerID] / capture.reduce((a, b) => a + b);
+			if (captureRatio < 0.50)
+				continue;
+			let decayToGaia = true;
+			for (let i = 1; i < capture.length; ++i)
+			{
+				if (gameState.isPlayerAlly(i) || !capture[i])
+					continue;
+				decayToGaia = false;
+				break;
+			}
+			if (decayToGaia)
+				continue;
+			let ratioMax = 0.7 + randFloat(0, 0.1);
+			for (let evt of events.Attacked)
+			{
+				if (ent.id() != evt.target)
+					continue;
+				ratioMax = 0.85 + randFloat(0, 0.1);
+				break;
+			}
+			if (captureRatio > ratioMax)
+				continue;
+			ent.destroy();
+		}
+		this.decayingStructures.delete(entId);
 	}
 };
 
