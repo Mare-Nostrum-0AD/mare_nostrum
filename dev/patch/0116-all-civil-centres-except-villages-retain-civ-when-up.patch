@@ -1,0 +1,91 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Tue, 15 Jun 2021 22:40:23 -0700
+Subject: [PATCH] all civil centres except villages retain civ when upgrading
+
+all civil centres except villages train native units
+
+builders build native patron temples, monuments, wonders
+---
+ .../simulation/templates/mixins/builder.xml   | 20 +++++++++----------
+ .../template_structure_civic_civil_centre.xml |  2 +-
+ ...emplate_structure_civic_civil_centre_a.xml |  4 ++++
+ ...emplate_structure_civic_civil_centre_b.xml |  2 +-
+ 4 files changed, 16 insertions(+), 12 deletions(-)
+
+diff --git a/binaries/data/mods/public/simulation/templates/mixins/builder.xml b/binaries/data/mods/public/simulation/templates/mixins/builder.xml
+index 3745a3b59d..af8f20e58a 100644
+--- a/binaries/data/mods/public/simulation/templates/mixins/builder.xml
++++ b/binaries/data/mods/public/simulation/templates/mixins/builder.xml
+@@ -29,17 +29,17 @@
+       structures/wallset_palisade
+       structures/{civ}/wallset_siege
+       structures/{civ}/wallset_stone
+-			structures/{civ}/temple_patron_fertility
+-      structures/{civ}/temple_patron_war
+-      structures/{civ}/temple_patron_trade
+-      structures/{civ}/temple_patron_sea
+-      structures/{civ}/temple_patron_horse
+-			structures/{civ}/monument_01
+-			structures/{civ}/monument_02
+-			structures/{civ}/monument_03
+-			structures/{civ}/monument_04
++			structures/{native}/temple_patron_fertility
++      structures/{native}/temple_patron_war
++      structures/{native}/temple_patron_trade
++      structures/{native}/temple_patron_sea
++      structures/{native}/temple_patron_horse
++			structures/{native}/monument_01
++			structures/{native}/monument_02
++			structures/{native}/monument_03
++			structures/{native}/monument_04
+ 			structures/{civ}/govcentre
+-      structures/{civ}/wonder
++      structures/{native}/wonder
+     </Entities>
+   </Builder>
+   <Identity>
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre.xml b/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre.xml
+index 7eb841a4f6..7462db90c3 100644
+--- a/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre.xml
+@@ -188,7 +188,7 @@
+   <ProductionQueue>
+     <BatchTimeModifier>0.8</BatchTimeModifier>
+     <Entities datatype="tokens">
+-      units/{civ}/support_female_citizen
++      units/{native}/support_female_citizen
+     </Entities>
+     <Technologies datatype="tokens">
+       phase_town_{civ}
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_a.xml b/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_a.xml
+index 69b79254dc..952d25d615 100644
+--- a/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_a.xml
++++ b/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_a.xml
+@@ -18,6 +18,10 @@
+     <Tooltip>Build to acquire new tracts of territory. Train citizens.</Tooltip>
+     <VisibleClasses datatype="tokens">VillageCentre</VisibleClasses>
+   </Identity>
++  <ProductionQueue>
++    <Entities datatype="tokens">
++      units/{civ}/support_female_citizen
++    </Entities>
+   <Resistance>
+     <Entity>
+       <Damage>
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_b.xml b/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_b.xml
+index 17959f20ec..3ec14eaddf 100644
+--- a/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_b.xml
++++ b/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_b.xml
+@@ -12,7 +12,7 @@
+       <Min>400</Min>
+       <Max>5000</Max>
+     </Population>
+-    <Upgrade>structures/{civ}/city_centre</Upgrade>
++    <Upgrade>structures/{native}/city_centre</Upgrade>
+     <Downgrade>structures/{native}/civil_centre</Downgrade>
+   </City>
+   <GarrisonHolder>
+-- 
+2.25.1
+

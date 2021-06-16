@@ -29,17 +29,17 @@
       structures/wallset_palisade
       structures/{civ}/wallset_siege
       structures/{civ}/wallset_stone
-			structures/{civ}/temple_patron_fertility
-      structures/{civ}/temple_patron_war
-      structures/{civ}/temple_patron_trade
-      structures/{civ}/temple_patron_sea
-      structures/{civ}/temple_patron_horse
-			structures/{civ}/monument_01
-			structures/{civ}/monument_02
-			structures/{civ}/monument_03
-			structures/{civ}/monument_04
+			structures/{native}/temple_patron_fertility
+      structures/{native}/temple_patron_war
+      structures/{native}/temple_patron_trade
+      structures/{native}/temple_patron_sea
+      structures/{native}/temple_patron_horse
+			structures/{native}/monument_01
+			structures/{native}/monument_02
+			structures/{native}/monument_03
+			structures/{native}/monument_04
 			structures/{civ}/govcentre
-      structures/{civ}/wonder
+      structures/{native}/wonder
     </Entities>
   </Builder>
   <Identity>

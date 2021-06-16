@@ -18,6 +18,10 @@
     <Tooltip>Build to acquire new tracts of territory. Train citizens.</Tooltip>
     <VisibleClasses datatype="tokens">VillageCentre</VisibleClasses>
   </Identity>
+  <ProductionQueue>
+    <Entities datatype="tokens">
+      units/{civ}/support_female_citizen
+    </Entities>
   <Resistance>
     <Entity>
       <Damage>

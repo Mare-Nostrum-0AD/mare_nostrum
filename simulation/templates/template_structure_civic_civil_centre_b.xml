@@ -12,7 +12,7 @@
       <Min>400</Min>
       <Max>5000</Max>
     </Population>
-    <Upgrade>structures/{civ}/city_centre</Upgrade>
+    <Upgrade>structures/{native}/city_centre</Upgrade>
     <Downgrade>structures/{native}/civil_centre</Downgrade>
   </City>
   <GarrisonHolder>
