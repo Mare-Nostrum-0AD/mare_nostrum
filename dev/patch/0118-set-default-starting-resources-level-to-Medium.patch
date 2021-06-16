@@ -1,0 +1,85 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Tue, 15 Jun 2021 23:34:28 -0700
+Subject: [PATCH] set default starting resources level to Medium
+
+adjusted stone, metal levels in starting resources
+---
+ .../data/settings/starting_resources.json     | 24 +++++++++----------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
+
+diff --git a/binaries/data/mods/public/simulation/data/settings/starting_resources.json b/binaries/data/mods/public/simulation/data/settings/starting_resources.json
+index f6027b68ca..b54e3b4862 100644
+--- a/binaries/data/mods/public/simulation/data/settings/starting_resources.json
++++ b/binaries/data/mods/public/simulation/data/settings/starting_resources.json
+@@ -13,8 +13,7 @@
+ 				"metal": 0,
+ 				"wealth": 0,
+ 				"manpower": 150
+-			},
+-			"Default": true
++			}
+ 		},
+ 		{
+ 			"Title": "Very Low",
+@@ -22,9 +21,9 @@
+ 			"Resources": {
+ 				"food": 100,
+ 				"wood": 100,
+-				"stone": 50,
+-				"metal": 50,
+-				"wealth": 25,
++				"stone": 75,
++				"metal": 25,
++				"wealth": 20,
+ 				"manpower": 150
+ 			}
+ 		},
+@@ -34,8 +33,8 @@
+ 			"Resources": {
+ 				"food": 300,
+ 				"wood": 300,
+-				"stone": 150,
+-				"metal": 150,
++				"stone": 200,
++				"metal": 100,
+ 				"wealth": 75,
+ 				"manpower": 150
+ 			}
+@@ -46,11 +45,12 @@
+ 			"Resources": {
+ 				"food": 500,
+ 				"wood": 500,
+-				"stone": 250,
+-				"metal": 250,
++				"stone": 300,
++				"metal": 200,
+ 				"wealth": 125,
+ 				"manpower": 200
+-			}
++			},
++			"Default": true
+ 		},
+ 		{
+ 			"Title": "High",
+@@ -58,7 +58,7 @@
+ 			"Resources": {
+ 				"food": 1000,
+ 				"wood": 1000,
+-				"stone": 500,
++				"stone": 750,
+ 				"metal": 500,
+ 				"wealth": 250,
+ 				"manpower": 250
+@@ -70,7 +70,7 @@
+ 			"Resources": {
+ 				"food": 3000,
+ 				"wood": 3000,
+-				"stone": 1500,
++				"stone": 2500,
+ 				"metal": 1500,
+ 				"wealth": 750,
+ 				"manpower": 500
+-- 
+2.25.1
+
