@@ -62,7 +62,7 @@
     <wealth>30</wealth>
   </Loot>
   <Position>
-    <TurnRate>2</TurnRate>
+    <TurnRate>4</TurnRate>
   </Position>
   <Sound>
     <SoundGroups>
