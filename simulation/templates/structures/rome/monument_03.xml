@@ -8,11 +8,11 @@
     <Height>8.0</Height>
   </Footprint>
   <GarrisonHolder>
-    <Max>20</Max>
-    <BuffHeal>5</BuffHeal>
+    <Max>40</Max>
+    <BuffHeal>6</BuffHeal>
     <EjectHealth>0.1</EjectHealth>
     <EjectClassesOnDestroy datatype="tokens">Unit</EjectClassesOnDestroy>
-    <List datatype="tokens">Support+!Elephant</List>
+    <List datatype="tokens">Human</List>
     <LoadingRange>1</LoadingRange>
   </GarrisonHolder>
   <Health>
@@ -23,7 +23,7 @@
     <Civ>rome</Civ>
     <SpecificName>Thermae</SpecificName>
     <GenericName>Public Bath</GenericName>
-    <Tooltip>Special Roman building. Increases city growth rate. Decreases cost of units in nearby buildings.</Tooltip>
+    <Tooltip>Special Roman building. Increases city growth rate. Heals garrisoned units faster than a temple.</Tooltip>
     <Icon>structures/rome_thermae.png</Icon>
   </Identity>
   <Loot>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity parent="template_structure_resource_corral">
+  <Footprint>
+    <Square width="12.0" depth="21.0"/>
+  </Footprint>
+  <GarrisonHolder>
+    <Max>5</Max>
+    <EjectHealth>0.1</EjectHealth>
+    <EjectClassesOnDestroy datatype="tokens">Unit</EjectClassesOnDestroy>
+    <List datatype="tokens">Animal+Domestic</List>
+    <BuffHeal>1</BuffHeal>
+    <LoadingRange>2</LoadingRange>
+		<ValueModifiers>
+			<Wool>
+				<Paths datatype="tokens">ResourceTrickle/Rates/wealth</Paths>
+				<Classes datatype="tokens">Sheep</Classes>
+				<Add>10</Add>
+			</Wool>
+		</ValueModifiers>
+	</GarrisonHolder>
+  <Identity>
+    <Civ>gaul</Civ>
+    <SpecificName>Cagion</SpecificName>
+  </Identity>
+  <Obstruction>
+    <Static width="10.0" depth="19.0"/>
+  </Obstruction>
+  <VisualActor>
+    <Actor>structures/celts/plot_corral.xml</Actor>
+    <FoundationActor>structures/fndn_3x6.xml</FoundationActor>
+  </VisualActor>
+</Entity>

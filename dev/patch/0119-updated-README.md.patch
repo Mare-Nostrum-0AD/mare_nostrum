@@ -1,0 +1,147 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Wed, 16 Jun 2021 23:08:20 -0700
+Subject: [PATCH] updated README.md
+
+Gaulish corrals can now generate a trickle of wealth from sheep, just like Brythonic ones
+
+Roman thermae BufHeal increased to 6; change reflected in tooltip
+---
+ binaries/data/mods/public/README.md           | 21 ++++++++++++-------
+ .../templates/structures/gaul/corral.xml      | 15 +++++++++++++
+ .../templates/structures/rome/monument_03.xml |  8 +++----
+ 3 files changed, 33 insertions(+), 11 deletions(-)
+
+diff --git a/binaries/data/mods/public/README.md b/binaries/data/mods/public/README.md
+index 214de85b9f..6214ba03c7 100644
+--- a/binaries/data/mods/public/README.md
++++ b/binaries/data/mods/public/README.md
+@@ -6,18 +6,18 @@ Grow your nation from a small village of 100 to a vast empire holding sway over
+ Mare Nostrum portrays the civilizations of Eurasia and Africa during Classical Antiquity, circa 750 BC to 476 AD. In particular, it focuses on the societies that grew up along the shores of the Mediterranean Sea, which the Roman Empire would come to know as _Mare Nostrum_ ("Our Sea").
+ 
+ ## Basics of Gameplay
+-Mare Nostrum gives every civil center a "civic population." This is distinct from the number of units you control, which represent a labor force recruited from your civic population. Typically, you will start with a Village with a civic population of 100. Every civil center has a basic growth rate of 5 citizens every 10 seconds; however, you can augment this growth rate by building houses and other civic buildings. Once your Village reaches a population of 500, it upgrades (automatically, at no cost) to a Town, unlocking the Town Phase.
++Mare Nostrum gives every civil center a "civic population". This is distinct from the number of units you control, which represent a labor force recruited from your civic population. Typically, you will start with a Village with a civic population of 100. Every civil center has a basic growth rate of 5 citizens every 10 seconds; however, you can augment this growth rate by building houses and other civic buildings. Once your Village reaches a population of 500, it upgrades (automatically, at no cost) to a Town, unlocking the Town Phase.
+ 
+ Each civil center can ultimately pass through four levels: Village, Town (population 500), City (population 5,000), and Metropolis (population 25,000). Each subsequent upgrade, in addition to unlocking new phases, provides bonuses to units and buildings in the immediate vicinity of the civil center.
+ 
+ In the very early game, building civic buildings will be sufficient to grow your population. However, as each city's population grows, it becomes progressively more difficult to attract new citizens. This reflects the historical reality that ancient cities usually had abysmal death rates due to cramped living conditions and poor sanitation, and could only sustain their populations by attracting a steady stream of immigrants. Ultimately, you will need to attract more citizens to your civil centers by promoting trade. Typically, your city will grow by 2-3 citizens for every unit of goods that traders bring to its market.
+ 
+-In the City Phase, most factions can further augment their cities' growth rates by building Monuments – amenities such as theaters and bathhouses that attract more people to city life. This becomes almost a necessity to bring your City's population up to the 25,000 needed to become a Metropolis.
++In the City Phase, most factions can further augment their cities' growth rates by building Monuments – amenities such as theaters and bathhouses that attract more people to city life. These provide a massive boost both to the city's base growth rate and the trade growth rate. These becomes almost a necessity to bring your City's population up to the 25,000 needed to become a Metropolis.
+ 
+ ## New Resources
+ In addition to the four basic resources in Empires Ascendant, Mare Nostrum adds Wealth and Manpower.
+ 
+-Wealth is required to build temples, monuments, and wonders, as well as to train healers and hire mercenaries and champion units.
++Wealth is required to build temples, monuments, and wonders, as well as to train healers, mercenaries, and champion units.
+ It is primarily earned via trade, with supplemental sources of wealth including cash crops (i.e. vineyards, olive groves) and wares (currently produced at the blacksmith).
+ Occassionally, a map may include a silver or gold deposit you can mine (NOT IMPLEMENTED YET).
+ Wealth is relatively unimportant in the early game, but becomes increasingly important in the mid-to-late game.
+@@ -25,7 +25,7 @@ Wealth is relatively unimportant in the early game, but becomes increasingly imp
+ Manpower represents the pool of soldiers and laborers available for you to recruit from your civil centers. It is unique in that it cannot be bartered or traded to other players as tribute.
+ Every unit costs at least one unit of manpower, besides mercenaries. You typically start a match with at least 150 manpower.
+ Be careful, as a village only generates one unit of manpower every 30 seconds, so losing an army of 100+ in a failed rush can have disastrous consequences.
+-As your civil centers grow, so too does their manpower production rate; typically, a civil center's manpower production rate will increase by one for every 1,000 additional citizens.
++As your civil centers grow, so too do their manpower production rates; typically, a civil center's manpower production rate will increase by one for every 1,000 additional citizens.
+ Ultimately, manpower is meant to provide a decisive advantage in the late game to players who grew their cities faster.
+ 
+ In future releases, what is now known as the "Population Limit" will be renamed to the "Command Limit", to avoid confusion with the Civic Population.
+@@ -35,7 +35,7 @@ Mare Nostrum has a total of five phases to advance through: Village, Town, City,
+ 
+ The phase requirements are as follows:
+ 
+-	- Village Phase: default
++	- Village Phase: starting phase
+ 	- Town Phase: one Town (population 500)
+ 	- City Phase: one City (population 5,000)
+ 	- Hegemon Phase: one Metropolis (population 25,000)
+@@ -46,7 +46,7 @@ The phase requirements are as follows:
+ 	- Villages, the starting civil center, only cost 300 wood and 300 stone, but have half the armor of Empires Ascendant civil centers, and can only garrison 10 units.
+ 	- Villages also lack the ability to shoot arrows. Towns and above can shoot arrows, and have progressively higher garrison limits and health, but all have an arrow limit of 10.
+ 	- Military Colonies cost more than Villages, but start off with the same population as Towns, and with higher Resistance.
+-- Female Citizens have been replaced by a mixed-gender Citizen class, which more or less the same stats as female citizens.
++- Female Citizens have been replaced by a mixed-gender Citizen class, which have more or less the same stats as female citizens.
+ - Citizen Soldiers can no longer gather grain, fruit, or wood, but can still gather most other resources.
+ - Created a new AI, Delphi Bot, fine tuned to work with Mare Nostrum. Built from a fork of Petra Bot.
+ - Every faction gets a Government Center (an Assembly or Palace, available in either the City Phase or Hegemon Phase, respectively). Government Centers train heroes and allow you to choose different styles of government (i.e. Democracy vs. Tyranny) and implement policies such as taxation.
+@@ -64,7 +64,6 @@ The phase requirements are as follows:
+ - Every faction's merchant ships can transform into fire ships. Just like Iberian fire ships, they burn for a while before self-destructing, dealing damage to any nearby ships in the process.
+ - Siege rams are capturable. (This feature was created to compensate for the excessively strong rams of A23; I am considering removing it for A25, given that Empires Ascendant has already rebalanced their stats)
+ - Docks have been split into two structures: Shipyards and Ports. Shipyards train warships and fishermen, while Ports train merchant ships, fishermen, and land traders. Only ports work as markets, but both work as resource dropsites.
+-- Only one Market can be built per civil center (for this purpose, Ports are classified as Markets).
+ - Civil Centers eject garrisoned units when their health is reduced to 40%. This makes it easier to capture a civil center without destroying it.
+ - Civil Centers have names, which are assigned randomly at construction from a list of names for each faction. They can be renamed later. City names are held in json files under simulation/data/cities.
+ - In addition to "Random", the faction selection menu allows you to choose a faction randomly from a subset of available factions (i.e. Greeks, Barbarians). This feature is ported from the mod [Random Civ Selection Groups](https://github.com/hopeless-ponderer/random_civ_groups_0ad).
+@@ -72,6 +71,14 @@ The phase requirements are as follows:
+ - Three new map sizes: Mega I, Mega II, and Mega III. (Note: some maps will encounter errors rendering elevated terrain at these sizes, I'm working on fixing that)
+ - Every faction gets a supply wagon to act as a resource dropsite when they start in Nomad mode.
+ 
++## Installation
++To install the development version of this mod, clone this repository into your 0AD mod directory (on Linux and MacOS, it should be ~/.local/share/0ad/mods/). If you don't intend on contributing to this project, I recommend a shallow clone.
++```shell
++git clone --depth=1 https://github.com/Mare-Nostrum-0AD/mare_nostrum ~/.local/share/0ad/mods/mare_nostrum
++```
++
++Stable versions will be available on [mod.io](https://0ad.mod.io). They should be released shortly after new releases of 0AD: Empires Ascendant.
++
+ ## Contributing
+ Mare Nostrum is an open source project, and I invite anyone to contribute. I'd especially love some artists to join the team, as I have limited graphic design skills and no idea how to use Blender.
+ 
+diff --git a/binaries/data/mods/public/simulation/templates/structures/gaul/corral.xml b/binaries/data/mods/public/simulation/templates/structures/gaul/corral.xml
+index 8d06f07ef9..433ce55dff 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/gaul/corral.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/gaul/corral.xml
+@@ -3,6 +3,21 @@
+   <Footprint>
+     <Square width="12.0" depth="21.0"/>
+   </Footprint>
++  <GarrisonHolder>
++    <Max>5</Max>
++    <EjectHealth>0.1</EjectHealth>
++    <EjectClassesOnDestroy datatype="tokens">Unit</EjectClassesOnDestroy>
++    <List datatype="tokens">Animal+Domestic</List>
++    <BuffHeal>1</BuffHeal>
++    <LoadingRange>2</LoadingRange>
++		<ValueModifiers>
++			<Wool>
++				<Paths datatype="tokens">ResourceTrickle/Rates/wealth</Paths>
++				<Classes datatype="tokens">Sheep</Classes>
++				<Add>10</Add>
++			</Wool>
++		</ValueModifiers>
++	</GarrisonHolder>
+   <Identity>
+     <Civ>gaul</Civ>
+     <SpecificName>Cagion</SpecificName>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/rome/monument_03.xml b/binaries/data/mods/public/simulation/templates/structures/rome/monument_03.xml
+index 12bf725646..006801f255 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/rome/monument_03.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/rome/monument_03.xml
+@@ -8,11 +8,11 @@
+     <Height>8.0</Height>
+   </Footprint>
+   <GarrisonHolder>
+-    <Max>20</Max>
+-    <BuffHeal>5</BuffHeal>
++    <Max>40</Max>
++    <BuffHeal>6</BuffHeal>
+     <EjectHealth>0.1</EjectHealth>
+     <EjectClassesOnDestroy datatype="tokens">Unit</EjectClassesOnDestroy>
+-    <List datatype="tokens">Support+!Elephant</List>
++    <List datatype="tokens">Human</List>
+     <LoadingRange>1</LoadingRange>
+   </GarrisonHolder>
+   <Health>
+@@ -23,7 +23,7 @@
+     <Civ>rome</Civ>
+     <SpecificName>Thermae</SpecificName>
+     <GenericName>Public Bath</GenericName>
+-    <Tooltip>Special Roman building. Increases city growth rate. Decreases cost of units in nearby buildings.</Tooltip>
++    <Tooltip>Special Roman building. Increases city growth rate. Heals garrisoned units faster than a temple.</Tooltip>
+     <Icon>structures/rome_thermae.png</Icon>
+   </Identity>
+   <Loot>
+-- 
+2.25.1
+
