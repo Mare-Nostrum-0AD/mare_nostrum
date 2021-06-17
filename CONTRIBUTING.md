@@ -6,7 +6,7 @@ Mare Nostrum is free and open source software, made available under the GNU Gene
 By committing your code or artwork to this repository, you agree to make it available free of charge both to the creators of Mare Nostrum and to the public at large, so long as they provide proper attribution and release any derived works under the same or compatible licenses.
 
 ## Implementing Features and Bugfixes
-A list of unresolved bugs and features requests can be found on the [issues page](./issues) or in [TODO.md](./TODO.md). If you are looking at a feature request in issues, please make sure it has been approved by the repo owner before working on it.
+A list of unresolved bugs and features requests can be found on the [issues page](../../issues) or in [TODO.md](./TODO.md). If you are looking at a feature request in issues, please make sure it has been approved by the repo owner before working on it.
 
 When opening a pull request, please make sure the title refers to the relevant issue by number and includes a brief restatement of what if implements (i.e. "#42 Reduce killer bunny attack interval").
 

@@ -1,0 +1,25 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Wed, 16 Jun 2021 23:20:13 -0700
+Subject: [PATCH] fixed issues link in CONTRIBUTING.md
+
+---
+ binaries/data/mods/public/CONTRIBUTING.md | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/binaries/data/mods/public/CONTRIBUTING.md b/binaries/data/mods/public/CONTRIBUTING.md
+index fa5e3773c0..cee2142f26 100644
+--- a/binaries/data/mods/public/CONTRIBUTING.md
++++ b/binaries/data/mods/public/CONTRIBUTING.md
+@@ -6,7 +6,7 @@ Mare Nostrum is free and open source software, made available under the GNU Gene
+ By committing your code or artwork to this repository, you agree to make it available free of charge both to the creators of Mare Nostrum and to the public at large, so long as they provide proper attribution and release any derived works under the same or compatible licenses.
+ 
+ ## Implementing Features and Bugfixes
+-A list of unresolved bugs and features requests can be found on the [issues page](./issues) or in [TODO.md](./TODO.md). If you are looking at a feature request in issues, please make sure it has been approved by the repo owner before working on it.
++A list of unresolved bugs and features requests can be found on the [issues page](../../issues) or in [TODO.md](./TODO.md). If you are looking at a feature request in issues, please make sure it has been approved by the repo owner before working on it.
+ 
+ When opening a pull request, please make sure the title refers to the relevant issue by number and includes a brief restatement of what if implements (i.e. "#42 Reduce killer bunny attack interval").
+ 
+-- 
+2.25.1
+
