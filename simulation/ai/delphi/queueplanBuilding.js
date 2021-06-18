@@ -194,6 +194,8 @@ DELPHI.ConstructionPlan.prototype.findGoodPosition = function(gameState)
 		{
 			gameState.getOwnStructures().forEach(function(ent) {
 				let pos = ent.position();
+				if (!pos)
+					return;
 				let x = Math.round(pos[0] / cellSize);
 				let z = Math.round(pos[1] / cellSize);
 
@@ -449,7 +451,10 @@ DELPHI.ConstructionPlan.prototype.findDockPosition = function(gameState)
 				let owner = cc.owner();
 				if (owner != PlayerID && !gameState.isPlayerEnemy(owner))
 					continue;
-				let dist = API3.SquareVectorDistance(pos, cc.position());
+				let ccPos = cc.position();
+				if (!ccPos)
+					continue;
+				let dist = API3.SquareVectorDistance(pos, ccPos);
 				if (owner == PlayerID && (!ownDist || dist < ownDist))
 					ownDist = dist;
 				if (gameState.isPlayerEnemy(owner) && (!enemyDist || dist < enemyDist))

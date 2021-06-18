@@ -1,0 +1,38 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Thu, 17 Jun 2021 23:24:48 -0700
+Subject: [PATCH] a couple more checks for undefined position in
+ simulation/ai/delphi/queueplanBuilding.js
+
+---
+ .../mods/public/simulation/ai/delphi/queueplanBuilding.js  | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/binaries/data/mods/public/simulation/ai/delphi/queueplanBuilding.js b/binaries/data/mods/public/simulation/ai/delphi/queueplanBuilding.js
+index 63fdb304fd..a548bcb604 100644
+--- a/binaries/data/mods/public/simulation/ai/delphi/queueplanBuilding.js
++++ b/binaries/data/mods/public/simulation/ai/delphi/queueplanBuilding.js
+@@ -194,6 +194,8 @@ DELPHI.ConstructionPlan.prototype.findGoodPosition = function(gameState)
+ 		{
+ 			gameState.getOwnStructures().forEach(function(ent) {
+ 				let pos = ent.position();
++				if (!pos)
++					return;
+ 				let x = Math.round(pos[0] / cellSize);
+ 				let z = Math.round(pos[1] / cellSize);
+ 
+@@ -449,7 +451,10 @@ DELPHI.ConstructionPlan.prototype.findDockPosition = function(gameState)
+ 				let owner = cc.owner();
+ 				if (owner != PlayerID && !gameState.isPlayerEnemy(owner))
+ 					continue;
+-				let dist = API3.SquareVectorDistance(pos, cc.position());
++				let ccPos = cc.position();
++				if (!ccPos)
++					continue;
++				let dist = API3.SquareVectorDistance(pos, ccPos);
+ 				if (owner == PlayerID && (!ownDist || dist < ownDist))
+ 					ownDist = dist;
+ 				if (gameState.isPlayerEnemy(owner) && (!enemyDist || dist < enemyDist))
+-- 
+2.25.1
+
