@@ -995,6 +995,8 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
 		for (let ent of ents) {
 			let strength = Math.floor((defaultTileVal * 2) / ents.length);
 			let pos = ent.position();
+			if (!pos)
+				continue;
 			let posX = Math.floor(pos[0] / cellSize);
 			let posZ = Math.floor(pos[1] / cellSize);
 			placement.addInfluence(posX, posZ, structRadius * 2, strength);
@@ -1011,6 +1013,8 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
 	let friendlyCivCentres = gameState.getOwnEntitiesByClass('CivCentre', true).toEntityArray().concat(gameState.getAllyStructures().filter(API3.Filters.byClass('CivCentre')).toEntityArray());
 	let friendlyCivCentrePositions = friendlyCivCentres.map((cc) => {
 		let ccPos = cc.position();
+		if (!ccPos)
+			continue;
 		let ccPosX = Math.floor(ccPos[0] / cellSize);
 		let ccPosZ = Math.floor(ccPos[1] / cellSize);
 		return { 'x': ccPosX, 'z': ccPosZ };
@@ -1024,6 +1028,8 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
 	let enemyCivCentres = gameState.getEnemyStructures().filter(API3.Filters.byClass('CivCentre')).toEntityArray();
 	for (let cc of enemyCivCentres) {
 		let ccPos = cc.position();
+		if (!ccPos)
+			continue;
 		let ccPosX = Math.floor(ccPos[0] / cellSize);
 		let ccPosZ = Math.floor(ccPos[1] / cellSize);
 		placement.addInfluence(ccPosX, ccPosZ, mapWidthHalf, -defaultTileVal * 2);
@@ -1041,6 +1047,8 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
 			let sumZ = 0;
 			for (let unit of currUnits) {
 				let pos = unit.position();
+				if (!pos)
+					continue;
 				sumX += pos[0];
 				sumZ += pos[1];
 			}// end for unit of currUnits
