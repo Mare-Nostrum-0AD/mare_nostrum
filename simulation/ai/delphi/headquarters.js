@@ -1014,11 +1014,11 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
 	let friendlyCivCentrePositions = friendlyCivCentres.map((cc) => {
 		let ccPos = cc.position();
 		if (!ccPos)
-			continue;
+			return null;
 		let ccPosX = Math.floor(ccPos[0] / cellSize);
 		let ccPosZ = Math.floor(ccPos[1] / cellSize);
 		return { 'x': ccPosX, 'z': ccPosZ };
-	});
+	}).filter((pos) => pos);
 	for (let pos of friendlyCivCentrePositions) {
 		placement.addInfluence(pos.x, pos.z, mapWidthHalf * 2, defaultTileVal * 2);
 	}// end for pos of friendlyCivCentrePositions

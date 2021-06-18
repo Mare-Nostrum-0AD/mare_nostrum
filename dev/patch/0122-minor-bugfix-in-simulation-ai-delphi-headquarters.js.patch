@@ -1,0 +1,30 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Thu, 17 Jun 2021 18:27:22 -0700
+Subject: [PATCH] minor bugfix in simulation/ai/delphi/headquarters.js
+
+---
+ .../data/mods/public/simulation/ai/delphi/headquarters.js     | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
+index 99de6de6cb..53cf654d4a 100644
+--- a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
++++ b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
+@@ -1014,11 +1014,11 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
+ 	let friendlyCivCentrePositions = friendlyCivCentres.map((cc) => {
+ 		let ccPos = cc.position();
+ 		if (!ccPos)
+-			continue;
++			return null;
+ 		let ccPosX = Math.floor(ccPos[0] / cellSize);
+ 		let ccPosZ = Math.floor(ccPos[1] / cellSize);
+ 		return { 'x': ccPosX, 'z': ccPosZ };
+-	});
++	}).filter((pos) => pos);
+ 	for (let pos of friendlyCivCentrePositions) {
+ 		placement.addInfluence(pos.x, pos.z, mapWidthHalf * 2, defaultTileVal * 2);
+ 	}// end for pos of friendlyCivCentrePositions
+-- 
+2.25.1
+
