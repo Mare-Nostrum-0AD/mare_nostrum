@@ -13,7 +13,7 @@ function ChangeEntityTemplate(oldEnt, newTemplate)
 
 	Engine.ProfileStart("Transform");
 
-	Engine.PostMessage(oldEnt, MT_EntityRenamed, { "entity": oldEnt, "newentity": newEnt });
+	Engine.PostMessage(oldEnt, MT_EntityRenamePre, { "entity": oldEnt, "newentity": newEnt });
 
 	var cmpPosition = Engine.QueryInterface(oldEnt, IID_Position);
 	var cmpNewPosition = Engine.QueryInterface(newEnt, IID_Position);
@@ -126,6 +126,8 @@ function ChangeEntityTemplate(oldEnt, newTemplate)
 	}
 
 	TransferGarrisonedUnits(oldEnt, newEnt);
+
+	Engine.PostMessage(oldEnt, MT_EntityRenamed, { "entity": oldEnt, "newentity": newEnt });
 
 	// UnitAI generally needs other components to be properly initialised.
 	let cmpUnitAI = Engine.QueryInterface(oldEnt, IID_UnitAI);

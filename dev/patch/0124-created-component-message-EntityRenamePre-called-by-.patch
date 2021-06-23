@@ -1,0 +1,68 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Tue, 22 Jun 2021 20:19:35 -0700
+Subject: [PATCH] created component message EntityRenamePre, called by
+ ChangeEntityTemplate before transferring components; City component now uses
+ it to transfer city population, name
+
+this allows resource gatherers to automatically start gathering resources once they've built a resource dropsite
+---
+ binaries/data/mods/public/simulation/components/City.js      | 2 +-
+ .../mods/public/simulation/components/interfaces/Messages.js | 5 +++++
+ binaries/data/mods/public/simulation/helpers/Transform.js    | 4 +++-
+ 3 files changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/binaries/data/mods/public/simulation/components/City.js b/binaries/data/mods/public/simulation/components/City.js
+index 9918b97c13..0a37ce3f08 100644
+--- a/binaries/data/mods/public/simulation/components/City.js
++++ b/binaries/data/mods/public/simulation/components/City.js
+@@ -316,7 +316,7 @@ City.prototype.Downgrade = function()
+ 	return ChangeEntityTemplate(this.entity, downgradeTemplate);
+ };
+ 
+-City.prototype.OnEntityRenamed = function({ entity, newentity })
++City.prototype.OnEntityRenamePre = function({ entity, newentity })
+ {
+ 	const cmpOldOwnership = Engine.QueryInterface(entity, IID_Ownership);
+ 	const cmpOldCity = Engine.QueryInterface(entity, IID_City);
+diff --git a/binaries/data/mods/public/simulation/components/interfaces/Messages.js b/binaries/data/mods/public/simulation/components/interfaces/Messages.js
+index 6c876365b7..c6f8763a77 100644
+--- a/binaries/data/mods/public/simulation/components/interfaces/Messages.js
++++ b/binaries/data/mods/public/simulation/components/interfaces/Messages.js
+@@ -11,6 +11,11 @@
+  */
+ Engine.RegisterMessageType("EntityRenamed");
+ 
++// Message of the form { "entity": number, "newentity": number }
++// called by ChangeEntityTemplate after creating new entity, but before transferring entity components and posting EntityRenamed
++// should be used in cases where component needs to be transferred before other components (i.e. before changing ownership)
++Engine.RegisterMessageType("EntityRenamePre");
++
+ // Message of the form { "entities": number[], "owner": number }
+ // broadcasted when a new entity is created:
+ // - from Foundation component when building construction is done
+diff --git a/binaries/data/mods/public/simulation/helpers/Transform.js b/binaries/data/mods/public/simulation/helpers/Transform.js
+index 8f697782d2..7aafaed7c2 100644
+--- a/binaries/data/mods/public/simulation/helpers/Transform.js
++++ b/binaries/data/mods/public/simulation/helpers/Transform.js
+@@ -13,7 +13,7 @@ function ChangeEntityTemplate(oldEnt, newTemplate)
+ 
+ 	Engine.ProfileStart("Transform");
+ 
+-	Engine.PostMessage(oldEnt, MT_EntityRenamed, { "entity": oldEnt, "newentity": newEnt });
++	Engine.PostMessage(oldEnt, MT_EntityRenamePre, { "entity": oldEnt, "newentity": newEnt });
+ 
+ 	var cmpPosition = Engine.QueryInterface(oldEnt, IID_Position);
+ 	var cmpNewPosition = Engine.QueryInterface(newEnt, IID_Position);
+@@ -127,6 +127,8 @@ function ChangeEntityTemplate(oldEnt, newTemplate)
+ 
+ 	TransferGarrisonedUnits(oldEnt, newEnt);
+ 
++	Engine.PostMessage(oldEnt, MT_EntityRenamed, { "entity": oldEnt, "newentity": newEnt });
++
+ 	// UnitAI generally needs other components to be properly initialised.
+ 	let cmpUnitAI = Engine.QueryInterface(oldEnt, IID_UnitAI);
+ 	let cmpNewUnitAI = Engine.QueryInterface(newEnt, IID_UnitAI);
+-- 
+2.25.1
+

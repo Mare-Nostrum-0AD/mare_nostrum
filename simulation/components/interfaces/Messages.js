@@ -11,6 +11,11 @@
  */
 Engine.RegisterMessageType("EntityRenamed");
 
+// Message of the form { "entity": number, "newentity": number }
+// called by ChangeEntityTemplate after creating new entity, but before transferring entity components and posting EntityRenamed
+// should be used in cases where component needs to be transferred before other components (i.e. before changing ownership)
+Engine.RegisterMessageType("EntityRenamePre");
+
 // Message of the form { "entities": number[], "owner": number }
 // broadcasted when a new entity is created:
 // - from Foundation component when building construction is done

@@ -316,7 +316,7 @@ City.prototype.Downgrade = function()
 	return ChangeEntityTemplate(this.entity, downgradeTemplate);
 };
 
-City.prototype.OnEntityRenamed = function({ entity, newentity })
+City.prototype.OnEntityRenamePre = function({ entity, newentity })
 {
 	const cmpOldOwnership = Engine.QueryInterface(entity, IID_Ownership);
 	const cmpOldCity = Engine.QueryInterface(entity, IID_City);
