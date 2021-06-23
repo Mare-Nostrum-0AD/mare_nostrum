@@ -1,0 +1,34 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Tue, 22 Jun 2021 23:25:27 -0700
+Subject: [PATCH] added undefined position checks to Delphi defense manager
+
+---
+ .../data/mods/public/simulation/ai/delphi/defenseManager.js   | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/binaries/data/mods/public/simulation/ai/delphi/defenseManager.js b/binaries/data/mods/public/simulation/ai/delphi/defenseManager.js
+index f837a15358..eda2948c7e 100644
+--- a/binaries/data/mods/public/simulation/ai/delphi/defenseManager.js
++++ b/binaries/data/mods/public/simulation/ai/delphi/defenseManager.js
+@@ -662,7 +662,7 @@ DELPHI.DefenseManager.prototype.checkEvents = function(gameState, events)
+ 		}
+ 
+ 		// Try to garrison any attacked support unit if low health.
+-		if (target.hasClass("Support") && target.healthLevel() < this.Config.garrisonHealthLevel.medium &&
++		if (target.position() && target.hasClass("Support") && target.healthLevel() < this.Config.garrisonHealthLevel.medium &&
+ 			!target.getMetadata(PlayerID, "transport") && plan != -2 && plan != -3)
+ 		{
+ 			this.garrisonAttackedUnit(gameState, target);
+@@ -670,7 +670,7 @@ DELPHI.DefenseManager.prototype.checkEvents = function(gameState, events)
+ 		}
+ 
+ 		// Try to garrison any attacked stone thrower.
+-		if (target.hasClass("StoneThrower") &&
++		if (target.position() && target.hasClass("StoneThrower") &&
+ 			!target.getMetadata(PlayerID, "transport") && plan != -2 && plan != -3)
+ 		{
+ 			this.garrisonSiegeUnit(gameState, target);
+-- 
+2.25.1
+

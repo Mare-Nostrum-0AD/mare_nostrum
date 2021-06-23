@@ -662,7 +662,7 @@ DELPHI.DefenseManager.prototype.checkEvents = function(gameState, events)
 		}
 
 		// Try to garrison any attacked support unit if low health.
-		if (target.hasClass("Support") && target.healthLevel() < this.Config.garrisonHealthLevel.medium &&
+		if (target.position() && target.hasClass("Support") && target.healthLevel() < this.Config.garrisonHealthLevel.medium &&
 			!target.getMetadata(PlayerID, "transport") && plan != -2 && plan != -3)
 		{
 			this.garrisonAttackedUnit(gameState, target);
@@ -670,7 +670,7 @@ DELPHI.DefenseManager.prototype.checkEvents = function(gameState, events)
 		}
 
 		// Try to garrison any attacked stone thrower.
-		if (target.hasClass("StoneThrower") &&
+		if (target.position() && target.hasClass("StoneThrower") &&
 			!target.getMetadata(PlayerID, "transport") && plan != -2 && plan != -3)
 		{
 			this.garrisonSiegeUnit(gameState, target);
