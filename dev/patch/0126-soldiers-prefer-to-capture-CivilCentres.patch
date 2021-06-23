@@ -1,0 +1,44 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Wed, 23 Jun 2021 00:12:37 -0700
+Subject: [PATCH] soldiers prefer to capture CivilCentres
+
+champion maceman template fixed (error was in Attack/Melee)
+---
+ .../data/mods/public/simulation/templates/mixins/soldier.xml | 1 +
+ .../templates/template_unit_champion_infantry_maceman.xml    | 5 +++--
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/binaries/data/mods/public/simulation/templates/mixins/soldier.xml b/binaries/data/mods/public/simulation/templates/mixins/soldier.xml
+index 9fd0dfa7f1..bb3b048152 100644
+--- a/binaries/data/mods/public/simulation/templates/mixins/soldier.xml
++++ b/binaries/data/mods/public/simulation/templates/mixins/soldier.xml
+@@ -3,6 +3,7 @@
+ 	<Attack>
+ 		<Capture>
+ 			<AttackName>Capture</AttackName>
++      <PreferredClasses datatype="tokens">CivilCentre</PreferredClasses>
+       <RestrictedClasses datatype="tokens">Field Palisade Wall Elephant</RestrictedClasses>
+ 		</Capture>
+ 	</Attack>
+diff --git a/binaries/data/mods/public/simulation/templates/template_unit_champion_infantry_maceman.xml b/binaries/data/mods/public/simulation/templates/template_unit_champion_infantry_maceman.xml
+index d5cc2c3639..d4c3bc8b7f 100644
+--- a/binaries/data/mods/public/simulation/templates/template_unit_champion_infantry_maceman.xml
++++ b/binaries/data/mods/public/simulation/templates/template_unit_champion_infantry_maceman.xml
+@@ -4,10 +4,11 @@
+     <Melee>
+       <AttackName>Mace</AttackName>
+       <Damage>
+-        <Hack>0</Hack>
+-        <Pierce>0</Pierce>
+         <Crush>14</Crush>
+       </Damage>
++      <MaxRange>3</MaxRange>
++      <PrepareTime>500</PrepareTime>
++      <RepeatTime>1000</RepeatTime>
+       <PreferredClasses datatype="tokens">!Ship</PreferredClasses>
+       <RestrictedClasses datatype="tokens">Sturdy</RestrictedClasses>
+     </Melee>
+-- 
+2.25.1
+

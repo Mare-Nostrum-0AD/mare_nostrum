@@ -3,6 +3,7 @@
 	<Attack>
 		<Capture>
 			<AttackName>Capture</AttackName>
+      <PreferredClasses datatype="tokens">CivilCentre</PreferredClasses>
       <RestrictedClasses datatype="tokens">Field Palisade Wall Elephant</RestrictedClasses>
 		</Capture>
 	</Attack>
