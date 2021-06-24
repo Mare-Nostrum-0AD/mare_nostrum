@@ -44,12 +44,12 @@ m.Map.prototype.gamePosToMapPos = function(p)
 	return [Math.floor(p[0]/this.cellSize), Math.floor(p[1]/this.cellSize)];
 };
 
-m.Map.prototype.mapPosToGamePos = function(index)
+m.Map.prototype.mapIndexToGamePos = function(index)
 {
 	let posX = (index % this.width) * this.cellSize;
 	let posZ = Math.floor(index / this.width) * this.cellSize;
 	return [posX, posZ];
-};// end function m.Map.prototype.mapPosToGamePos
+};// end function m.Map.prototype.mapIndexToGamePos
 
 m.Map.prototype.point = function(p)
 {

@@ -1004,7 +1004,7 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
 	}// end for res of Resources.GetCodes()
 	// favor shorelines
 	for (let tile of this.shoreTiles) {
-		let pos = gameState.ai.accessibility.mapPosToGamePos(tile.index);
+		let pos = gameState.ai.accessibility.mapIndexToGamePos(tile.index);
 		let tilePosX = Math.floor(pos[0] / cellSize);
 		let tilePosZ = Math.floor(pos[1] / cellSize);
 		placement.addInfluence(tilePosX, tilePosZ, structRadius, Math.ceil((tile.waterValue * shoreCoeff) / cellSize));
@@ -1088,7 +1088,7 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
 			this.navalManager.setMinimalTransportShips(gameState, sea, 1);
 	}
 
-	return gameState.ai.accessibility.mapPosToGamePos(bestTile.idx);
+	return gameState.ai.accessibility.mapIndexToGamePos(bestTile.idx);
 };// end function DELPHI.HQ.prototype.findGenericCCLocation
 
 /**
@@ -1641,7 +1641,8 @@ DELPHI.HQ.prototype.checkDockPlacement = function(gameState, x, z, halfDepth, ha
 DELPHI.HQ.prototype.findCivicLocation = function(gameState, template)
 {
 	let placement = new API3.Map(gameState.sharedScript, "territory");
-	const isDock = template.buildPlacementType() == 'shore';
+	let obstructions = DELPHI.createObstructionMap(gameState, 0, template);
+	const isDock = template.buildPlacementType() === 'shore';
 	const civCentreRadiusRatio = 1.0;
 	const obstructionRatio = isDock ? 0.6 : 1.2;
 	const maxRetries = 100;// for finding dock position
@@ -1665,6 +1666,15 @@ DELPHI.HQ.prototype.findCivicLocation = function(gameState, template)
 	// distance from similar structures; try to spread out amongst civ centres
 	this.applyBuildRestrictions(placement, gameState, template);
 	let civCentres = gameState.getOwnEntitiesByClass('CivCentre', true).toEntityArray();
+	const validLandIndices = new Set(civCentres.map((cc) => DELPHI.getLandAccess(gameState, cc)));
+	// ensure a location on a non-valid land index is not chosen
+	for (let i in placement.map)
+	{
+		if (!placement.map[i])
+			continue;
+		let landIndex = gameState.ai.accessibility.getAccessValue(placement.mapIndexToGamePos(i));
+		placement.map[i] = validLandIndices.has(landIndex) ? placement.map[i] : 0;
+	}
 	if (civCentres.length < 1)
 		return false;
 	for (let civCentre of civCentres)
@@ -1679,7 +1689,6 @@ DELPHI.HQ.prototype.findCivicLocation = function(gameState, template)
 			continue;
 		placement.multiplyInfluence(civCentrePosX, civCentrePosZ, Math.floor((civCentreRadius * civCentreRadiusRatio) / cellSize), 2, 'linear');
 	}// end for civCentre
-	let obstructions = DELPHI.createObstructionMap(gameState, 0, template);
 	const radius = Math.ceil((template.obstructionRadius().max * obstructionRatio / obstructions.cellSize));
 	let validPositions = [];
 	for (let i = 0; i < maxRetries; i++)
