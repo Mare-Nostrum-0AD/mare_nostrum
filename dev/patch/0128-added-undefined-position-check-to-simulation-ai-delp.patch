@@ -1,0 +1,59 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Thu, 24 Jun 2021 23:39:11 -0700
+Subject: [PATCH] added undefined position check to
+ simulation/ai/delphi/defenseManager.js
+
+fixed ptolemaic city centre garrison flag
+
+fixed sounds for roman thermae
+---
+ .../public/art/actors/structures/ptolemies/city_centre.xml    | 2 +-
+ .../data/mods/public/simulation/ai/delphi/defenseManager.js   | 2 ++
+ .../simulation/templates/structures/rome/monument_03.xml      | 4 ++--
+ 3 files changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/binaries/data/mods/public/art/actors/structures/ptolemies/city_centre.xml b/binaries/data/mods/public/art/actors/structures/ptolemies/city_centre.xml
+index cb2061410d..c1aae78a63 100644
+--- a/binaries/data/mods/public/art/actors/structures/ptolemies/city_centre.xml
++++ b/binaries/data/mods/public/art/actors/structures/ptolemies/city_centre.xml
+@@ -27,7 +27,7 @@
+     <variant frequency="1" name="ungarrisoned"/>
+     <variant name="garrisoned">
+       <props>
+-        <prop actor="props/special/common/garrison_flag_ptolemies.xml" attachpoint="garrisoned"/>
++        <prop actor="props/special/common/garrison_flag_ptol.xml" attachpoint="garrisoned"/>
+       </props>
+     </variant>
+   </group>
+diff --git a/binaries/data/mods/public/simulation/ai/delphi/defenseManager.js b/binaries/data/mods/public/simulation/ai/delphi/defenseManager.js
+index eda2948c7e..eceed2c0ed 100644
+--- a/binaries/data/mods/public/simulation/ai/delphi/defenseManager.js
++++ b/binaries/data/mods/public/simulation/ai/delphi/defenseManager.js
+@@ -166,6 +166,8 @@ DELPHI.DefenseManager.prototype.isDangerous = function(gameState, entity)
+ 
+ 	for (let building of gameState.getOwnStructures().values())
+ 	{
++		if (!building.position())
++			continue;
+ 		if (building.foundationProgress() == 0 ||
+ 		    API3.SquareVectorDistance(building.position(), entity.position()) > dist2Min)
+ 			continue;
+diff --git a/binaries/data/mods/public/simulation/templates/structures/rome/monument_03.xml b/binaries/data/mods/public/simulation/templates/structures/rome/monument_03.xml
+index 006801f255..37a6447301 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/rome/monument_03.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/rome/monument_03.xml
+@@ -36,8 +36,8 @@
+   <ProductionQueue disable=""/>
+   <Sound>
+     <SoundGroups>
+-      <select>interface/select/building/sel_theater.xml</select>
+-      <constructed>interface/complete/building/complete_theatre.xml</constructed>
++      <select>interface/select/building/sel_greek_theater.xml</select>
++      <constructed>interface/complete/building/complete_greek_theater.xml</constructed>
+       <death>attack/destruction/building_collapse_large.xml</death>
+     </SoundGroups>
+   </Sound>
+-- 
+2.25.1
+

@@ -166,6 +166,8 @@ DELPHI.DefenseManager.prototype.isDangerous = function(gameState, entity)
 
 	for (let building of gameState.getOwnStructures().values())
 	{
+		if (!building.position())
+			continue;
 		if (building.foundationProgress() == 0 ||
 		    API3.SquareVectorDistance(building.position(), entity.position()) > dist2Min)
 			continue;
