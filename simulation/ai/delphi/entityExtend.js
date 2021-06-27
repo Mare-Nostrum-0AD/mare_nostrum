@@ -98,7 +98,10 @@ DELPHI.getLandAccess = function(gameState, ent)
 	let access = ent.getMetadata(PlayerID, "access");
 	if (!access)
 	{
-		access = gameState.ai.accessibility.getAccessValue(ent.position());
+		const entPos = ent.position();
+		if (!entPos)
+			return undefined;
+		access = gameState.ai.accessibility.getAccessValue(entPos);
 		// Docks are sometimes not as expected
 		if (access < 2 && ent.buildPlacementType() == "shore")
 		{
@@ -107,7 +110,6 @@ DELPHI.getLandAccess = function(gameState, ent)
 				halfDepth = +ent.get("Footprint/Square/@depth") / 2;
 			else if (ent.get("Footprint/Circle"))
 				halfDepth = +ent.get("Footprint/Circle/@radius");
-			let entPos = ent.position();
 			let cosa = Math.cos(ent.angle());
 			let sina = Math.sin(ent.angle());
 			for (let d = 3; d < halfDepth; d += 3)

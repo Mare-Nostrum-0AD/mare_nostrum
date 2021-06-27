@@ -22,9 +22,15 @@ TechnologyManager.prototype.Init = function()
 	// researched instantly.  This allows civ bonuses and more complicated technologies.
 	this.unresearchedAutoResearchTechs = new Set();
 	let allTechs = TechnologyTemplates.GetAll();
-	for (let key in allTechs)
-		if (allTechs[key].autoResearch || allTechs[key].top)
+	let replacedAutoTechs = new Set();
+	for (let [key, tech] of Object.keys(allTechs).map(k => [k, allTechs[k]]))
+	{
+		if (tech.autoResearch || tech.top)
 			this.unresearchedAutoResearchTechs.add(key);
+		if (tech.replaces)
+			tech.replaces.forEach(techName => replacedAutoTechs.add(techName));
+	}
+	replacedAutoTechs.forEach(techName => this.unresearchedAutoResearchTechs.has(techName) && this.unresearchedAutoResearchTechs.delete(techName));
 };
 
 TechnologyManager.prototype.OnUpdate = function()
@@ -273,6 +279,13 @@ TechnologyManager.prototype.ResearchTechnology = function(tech)
 			"phaseName": tech,
 			"phaseState": "completed"
 		});
+	}
+
+	if (template.soundComplete && template.autoResearch)
+	{
+		let cmpSoundManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_SoundManager);
+		if (cmpSoundManager)
+			cmpSoundManager.PlaySoundGroupForPlayer(template.soundComplete, playerID);
 	}
 };
 

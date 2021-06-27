@@ -5,11 +5,16 @@
 	},
 	"description": "Advance from a respectable city to a veritable metropolis, renowned far and wide for its influence.",
 	"cost": { "food": 0, "wood": 0, "stone": 0, "metal": 0 },
-	"requirements": { "entity": { "class": "MetroCentre", "number": 1 } },
+	"requirements": {
+		"all": [
+			{ "entity": { "class": "MetroCentre", "number": 1 } },
+			{ "civ": "athen" }
+		]
+	},
 	"autoResearch": true,
 	"requirementsTooltip": "Requires 1 Metropolis.",
 	"supersedes": "phase_city_athen",
-	"replaces": ["phase_hegemon"],
+	"replaces": ["phase_hegemon", "phase_hegemon_generic"],
 	"icon": "hegemon_phase.png",
 	"researchTime": 60,
 	"tooltip": "Advance to Hegemon Phase, which unlocks Wonders and Hero units. All units move 10% faster. All structures +3 garrisoned regeneration rate.",

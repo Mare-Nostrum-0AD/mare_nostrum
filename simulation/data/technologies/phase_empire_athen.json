@@ -5,11 +5,17 @@
 	},
 	"description": "Your power extends beyond a single great city, you now control vast territories and many peoples.",
 	"cost": { "food": 0, "wood": 0, "stone": 0, "metal": 0 },
-	"requirements": { "all": [{ "entity": {"class": "MetroCentre", "number": 3} }, { "entity": {"class": "Wonder", "number": 1} }] },
+	"requirements": {
+		"all": [
+			{ "entity": {"class": "MetroCentre", "number": 3} },
+			{ "entity": {"class": "Wonder", "number": 1} },
+			{ "civ": "athen" }
+		]
+	},
 	"autoResearch": true,
 	"requirementsTooltip": "Requires 3 Metropoli and a Wonder.",
 	"supersedes": "phase_hegemon_athen",
-	"replaces": ["phase_empire"],
+	"replaces": ["phase_empire", "phase_empire_generic"],
 	"icon": "empire_phase.png",
 	"researchTime": 60,
 	"tooltip": "Advance to Empire Phase, which unlocks a population cap bonus. All units move 20% faster. All structures +3 garrisoned regeneration rate.",

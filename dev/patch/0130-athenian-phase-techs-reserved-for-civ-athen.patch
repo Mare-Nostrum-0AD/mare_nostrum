@@ -1,0 +1,170 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sat, 26 Jun 2021 17:05:39 -0700
+Subject: [PATCH] athenian phase techs reserved for "civ": "athen"
+
+phase tech alerts displayed correctly, sound played
+---
+ .../session/chat/ChatMessageFormatSimulation.js |  5 +++--
+ .../simulation/components/TechnologyManager.js  | 17 +++++++++++++++--
+ .../data/technologies/phase_city_athen.json     |  9 +++++++--
+ .../data/technologies/phase_empire_athen.json   | 10 ++++++++--
+ .../data/technologies/phase_hegemon_athen.json  |  9 +++++++--
+ .../data/technologies/phase_town_athen.json     |  9 +++++++--
+ 6 files changed, 47 insertions(+), 12 deletions(-)
+
+diff --git a/binaries/data/mods/public/gui/session/chat/ChatMessageFormatSimulation.js b/binaries/data/mods/public/gui/session/chat/ChatMessageFormatSimulation.js
+index a5b0b4630b..665a2f700f 100644
+--- a/binaries/data/mods/public/gui/session/chat/ChatMessageFormatSimulation.js
++++ b/binaries/data/mods/public/gui/session/chat/ChatMessageFormatSimulation.js
+@@ -99,7 +99,8 @@ ChatMessageFormatSimulation.phase = class
+ 	parse(msg)
+ 	{
+ 		let notifyPhase = Engine.ConfigDB_GetValue("user", "gui.session.notifications.phase");
+-		if (notifyPhase == "none" || msg.player != g_ViewedPlayer && !g_IsObserver && !g_Players[msg.player].isMutualAlly[g_ViewedPlayer])
++		const phaseTemplate = GetTechnologyData(msg.phaseName, g_Players[msg.player].civ)
++		if (notifyPhase == "none" || phaseTemplate.silent || msg.player != g_ViewedPlayer && !g_IsObserver && !g_Players[msg.player].isMutualAlly[g_ViewedPlayer])
+ 			return "";
+ 
+ 		let message = "";
+@@ -116,7 +117,7 @@ ChatMessageFormatSimulation.phase = class
+ 		return {
+ 			"text": sprintf(message, {
+ 				"player": colorizePlayernameByID(msg.player),
+-				"phaseName": getEntityNames(GetTechnologyData(msg.phaseName, g_Players[msg.player].civ))
++				"phaseName": getEntityNames(phaseTemplate)
+ 			})
+ 		};
+ 	}
+diff --git a/binaries/data/mods/public/simulation/components/TechnologyManager.js b/binaries/data/mods/public/simulation/components/TechnologyManager.js
+index e0e2d61df6..f784ad9191 100644
+--- a/binaries/data/mods/public/simulation/components/TechnologyManager.js
++++ b/binaries/data/mods/public/simulation/components/TechnologyManager.js
+@@ -22,9 +22,15 @@ TechnologyManager.prototype.Init = function()
+ 	// researched instantly.  This allows civ bonuses and more complicated technologies.
+ 	this.unresearchedAutoResearchTechs = new Set();
+ 	let allTechs = TechnologyTemplates.GetAll();
+-	for (let key in allTechs)
+-		if (allTechs[key].autoResearch || allTechs[key].top)
++	let replacedAutoTechs = new Set();
++	for (let [key, tech] of Object.keys(allTechs).map(k => [k, allTechs[k]]))
++	{
++		if (tech.autoResearch || tech.top)
+ 			this.unresearchedAutoResearchTechs.add(key);
++		if (tech.replaces)
++			tech.replaces.forEach(techName => replacedAutoTechs.add(techName));
++	}
++	replacedAutoTechs.forEach(techName => this.unresearchedAutoResearchTechs.has(techName) && this.unresearchedAutoResearchTechs.delete(techName));
+ };
+ 
+ TechnologyManager.prototype.OnUpdate = function()
+@@ -274,6 +280,13 @@ TechnologyManager.prototype.ResearchTechnology = function(tech)
+ 			"phaseState": "completed"
+ 		});
+ 	}
++
++	if (template.soundComplete && template.autoResearch)
++	{
++		let cmpSoundManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_SoundManager);
++		if (cmpSoundManager)
++			cmpSoundManager.PlaySoundGroupForPlayer(template.soundComplete, playerID);
++	}
+ };
+ 
+ /**
+diff --git a/binaries/data/mods/public/simulation/data/technologies/phase_city_athen.json b/binaries/data/mods/public/simulation/data/technologies/phase_city_athen.json
+index e6d5a01b16..756d25d402 100644
+--- a/binaries/data/mods/public/simulation/data/technologies/phase_city_athen.json
++++ b/binaries/data/mods/public/simulation/data/technologies/phase_city_athen.json
+@@ -5,11 +5,16 @@
+ 	},
+ 	"description": "Advances from a bustling town to a veritable metropolis, full of the wonders of modern technology. This is the Athenian city phase, where metal gathering rates are boosted because of the 'Silver Owls' bonus.",
+ 	"cost": { "food": 0, "wood": 0, "stone": 0, "metal": 0 },
+-	"requirements": { "entity": { "class": "CityCentre", "number": 1 } },
++	"requirements": {
++		"all": [
++			{ "entity": { "class": "CityCentre", "number": 1 } },
++			{ "civ": "athen" }
++		]
++	},
+ 	"autoResearch": true,
+ 	"requirementsTooltip": "Requires 1 City Centre.",
+ 	"supersedes": "phase_town_athen",
+-	"replaces": ["phase_city"],
++	"replaces": ["phase_city", "phase_city_generic"],
+ 	"icon": "city_phase.png",
+ 	"researchTime": 60,
+ 	"tooltip": "Advance to City Phase, which unlocks more entities and technologies. Structures +9 capture points regeneration rate per garrisoned unit. Workers +10% metal gather rate.",
+diff --git a/binaries/data/mods/public/simulation/data/technologies/phase_empire_athen.json b/binaries/data/mods/public/simulation/data/technologies/phase_empire_athen.json
+index 1d1dab5cfa..6dc7577fe4 100644
+--- a/binaries/data/mods/public/simulation/data/technologies/phase_empire_athen.json
++++ b/binaries/data/mods/public/simulation/data/technologies/phase_empire_athen.json
+@@ -5,11 +5,17 @@
+ 	},
+ 	"description": "Your power extends beyond a single great city, you now control vast territories and many peoples.",
+ 	"cost": { "food": 0, "wood": 0, "stone": 0, "metal": 0 },
+-	"requirements": { "all": [{ "entity": {"class": "MetroCentre", "number": 3} }, { "entity": {"class": "Wonder", "number": 1} }] },
++	"requirements": {
++		"all": [
++			{ "entity": {"class": "MetroCentre", "number": 3} },
++			{ "entity": {"class": "Wonder", "number": 1} },
++			{ "civ": "athen" }
++		]
++	},
+ 	"autoResearch": true,
+ 	"requirementsTooltip": "Requires 3 Metropoli and a Wonder.",
+ 	"supersedes": "phase_hegemon_athen",
+-	"replaces": ["phase_empire"],
++	"replaces": ["phase_empire", "phase_empire_generic"],
+ 	"icon": "empire_phase.png",
+ 	"researchTime": 60,
+ 	"tooltip": "Advance to Empire Phase, which unlocks a population cap bonus. All units move 20% faster. All structures +3 garrisoned regeneration rate.",
+diff --git a/binaries/data/mods/public/simulation/data/technologies/phase_hegemon_athen.json b/binaries/data/mods/public/simulation/data/technologies/phase_hegemon_athen.json
+index a2149a8e21..8e072c181c 100644
+--- a/binaries/data/mods/public/simulation/data/technologies/phase_hegemon_athen.json
++++ b/binaries/data/mods/public/simulation/data/technologies/phase_hegemon_athen.json
+@@ -5,11 +5,16 @@
+ 	},
+ 	"description": "Advance from a respectable city to a veritable metropolis, renowned far and wide for its influence.",
+ 	"cost": { "food": 0, "wood": 0, "stone": 0, "metal": 0 },
+-	"requirements": { "entity": { "class": "MetroCentre", "number": 1 } },
++	"requirements": {
++		"all": [
++			{ "entity": { "class": "MetroCentre", "number": 1 } },
++			{ "civ": "athen" }
++		]
++	},
+ 	"autoResearch": true,
+ 	"requirementsTooltip": "Requires 1 Metropolis.",
+ 	"supersedes": "phase_city_athen",
+-	"replaces": ["phase_hegemon"],
++	"replaces": ["phase_hegemon", "phase_hegemon_generic"],
+ 	"icon": "hegemon_phase.png",
+ 	"researchTime": 60,
+ 	"tooltip": "Advance to Hegemon Phase, which unlocks Wonders and Hero units. All units move 10% faster. All structures +3 garrisoned regeneration rate.",
+diff --git a/binaries/data/mods/public/simulation/data/technologies/phase_town_athen.json b/binaries/data/mods/public/simulation/data/technologies/phase_town_athen.json
+index 1bcea692b5..5ad66c48a9 100644
+--- a/binaries/data/mods/public/simulation/data/technologies/phase_town_athen.json
++++ b/binaries/data/mods/public/simulation/data/technologies/phase_town_athen.json
+@@ -5,11 +5,16 @@
+ 	},
+ 	"description": "Advances from a small village to a bustling town, ready to expand rapidly. This is the Athenian town phase, where metal gathering rates are boosted because of the 'Silver Owls' bonus.",
+ 	"cost": { "food": 0, "wood": 0, "stone": 0, "metal": 0 },
+-	"requirements": { "entity": { "class": "TownCentre", "number": 1 } },
++	"requirements": {
++		"all": [
++			{ "entity": { "class": "TownCentre", "number": 1 } },
++			{ "civ": "athen" }
++		]
++	},
+ 	"autoResearch": true,
+ 	"requirementsTooltip": "Requires 1 Town Centre).",
+ 	"supersedes": "phase_village",
+-	"replaces": ["phase_town"],
++	"replaces": ["phase_town", "phase_town_generic"],
+ 	"icon": "town_phase.png",
+ 	"researchTime": 30,
+ 	"tooltip": "Advance to Town Phase, which unlocks more entities and technologies. Civic Centers +30% territory influence radius. Structures +7 capture points regeneration rate per garrisoned unit. Workers +10% metal gather rate.",
+-- 
+2.25.1
+
