@@ -1,0 +1,106 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sat, 26 Jun 2021 23:59:22 -0700
+Subject: [PATCH] fully implemented RangeOverlay for City.js
+
+---
+ binaries/data/mods/public/gui/hotkeys/spec/ingamegui.json   | 4 ++++
+ binaries/data/mods/public/gui/manual/intro.txt              | 1 +
+ binaries/data/mods/public/gui/options/options.json          | 6 ++++++
+ .../data/mods/public/gui/session/RangeOverlayManager.js     | 5 +++++
+ .../templates/template_structure_civic_civil_centre.xml     | 6 +++---
+ .../templates/template_structure_civic_civil_centre_a.xml   | 3 ---
+ 6 files changed, 19 insertions(+), 6 deletions(-)
+
+diff --git a/binaries/data/mods/public/gui/hotkeys/spec/ingamegui.json b/binaries/data/mods/public/gui/hotkeys/spec/ingamegui.json
+index b837181c85..22fc2ec937 100644
+--- a/binaries/data/mods/public/gui/hotkeys/spec/ingamegui.json
++++ b/binaries/data/mods/public/gui/hotkeys/spec/ingamegui.json
+@@ -115,6 +115,10 @@
+ 				"name": "Toggle heal ranges",
+ 				"desc": "Toggle display of heal range overlays of selected units."
+ 			},
++			"session.togglecityradius": {
++				"name": "Toggle city radius visualization",
++				"desc": "Toggle display of city radius overlays of selected civil centers."
++			},
+ 			"session.devcommands.toggle": {
+ 				"name": "Toggle dev overlay",
+ 				"desc": "Toggle developer commands panel."
+diff --git a/binaries/data/mods/public/gui/manual/intro.txt b/binaries/data/mods/public/gui/manual/intro.txt
+index 602310963c..5a2665df6c 100644
+--- a/binaries/data/mods/public/gui/manual/intro.txt
++++ b/binaries/data/mods/public/gui/manual/intro.txt
+@@ -126,6 +126,7 @@ You may change hotkeys in [font="sans-bold-14"]Options > Hotkeys[font="sans-14"]
+   hotkey.session.toggleattackrange – Toggle attack range visualizations of selected units and structures
+   hotkey.session.toggleaurasrange – Toggle aura range visualizations of selected units and structures
+   hotkey.session.togglehealrange – Toggle heal range visualizations of selected units
++  hotkey.session.togglecityradius – Toggle city radius visualizations on selected civil centers
+ 
+ [font="sans-bold-14"]Camera manipulation[font="sans-14"]
+   hotkey.camera.up – Pan screen up
+diff --git a/binaries/data/mods/public/gui/options/options.json b/binaries/data/mods/public/gui/options/options.json
+index 5c391a2fdb..971712adff 100644
+--- a/binaries/data/mods/public/gui/options/options.json
++++ b/binaries/data/mods/public/gui/options/options.json
+@@ -604,6 +604,12 @@
+ 				"tooltip": "Display the healing range of selected units. (It can also be toggled with the hotkey during a game).",
+ 				"config": "gui.session.healrange"
+ 			},
++			{
++				"type": "boolean",
++				"label": "City radius visualization",
++				"tooltip": "Display the city radius.",
++				"config": "gui.session.cityradius"
++			},
+ 			{
+ 				"type": "boolean",
+ 				"label": "Rank icon above status bar",
+diff --git a/binaries/data/mods/public/gui/session/RangeOverlayManager.js b/binaries/data/mods/public/gui/session/RangeOverlayManager.js
+index 9097202c7b..dea60211fd 100644
+--- a/binaries/data/mods/public/gui/session/RangeOverlayManager.js
++++ b/binaries/data/mods/public/gui/session/RangeOverlayManager.js
+@@ -76,5 +76,10 @@ RangeOverlayManager.prototype.Types = [
+ 		"component": "Heal",
+ 		"config": "gui.session.healrange",
+ 		"hotkey": "session.togglehealrange"
++	},
++	{
++		"component": "City",
++		"config": "gui.session.cityradius",
++		"hotkey": "session.togglecityradius"
+ 	}
+ ];
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre.xml b/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre.xml
+index 7462db90c3..fd0d378dd9 100644
+--- a/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre.xml
+@@ -24,9 +24,9 @@
+       </Projectile>
+       <PreferredClasses datatype="tokens">Human</PreferredClasses>
+       <RangeOverlay>
+-        <LineTexture>outline_border.png</LineTexture>
+-        <LineTextureMask>outline_border_mask.png</LineTextureMask>
+-        <LineThickness>0.175</LineThickness>
++				<LineTexture>overlay/dash.png</LineTexture>
++				<LineTextureMask>overlay/dash_mask.png</LineTextureMask>
++        <LineThickness>3.0</LineThickness>
+       </RangeOverlay>
+     </Ranged>
+   </Attack>
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_a.xml b/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_a.xml
+index c4e8f209a9..245a8815fa 100644
+--- a/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_a.xml
++++ b/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_a.xml
+@@ -1,8 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_civil_centre">
+-  <Auras datatype="tokens">
+-  	structures/village_radius
+-  </Auras>
+ 	<Attack disable="" />
+ 	<BuildingAI disable="" />
+   <City>
+-- 
+2.25.1
+

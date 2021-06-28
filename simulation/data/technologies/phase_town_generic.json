@@ -9,7 +9,12 @@
 	},
 	"description": "Advances from a small village to a bustling town, ready to expand rapidly.",
 	"cost": { "food": 0, "wood": 0, "stone": 0, "metal": 0 },
-	"requirements": { "entity": { "class": "TownCentre", "number": 1 } },
+	"requirements": {
+		"all": [
+			{ "entity": { "class": "TownCentre", "number": 1 } },
+			{ "notciv": "athen" }
+		]
+	},
 	"autoResearch": true,
 	"requirementsTooltip": "Requires 1 Town Centre).",
 	"supersedes": "phase_village",

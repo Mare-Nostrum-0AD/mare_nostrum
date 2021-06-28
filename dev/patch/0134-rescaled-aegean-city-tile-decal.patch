@@ -1,0 +1,25 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sun, 27 Jun 2021 08:16:05 -0700
+Subject: [PATCH] rescaled aegean city tile decal
+
+---
+ .../art/actors/props/structures/decals/city_tile_aegean_6x6.xml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/binaries/data/mods/public/art/actors/props/structures/decals/city_tile_aegean_6x6.xml b/binaries/data/mods/public/art/actors/props/structures/decals/city_tile_aegean_6x6.xml
+index 3d20401b9b..72196f971c 100644
+--- a/binaries/data/mods/public/art/actors/props/structures/decals/city_tile_aegean_6x6.xml
++++ b/binaries/data/mods/public/art/actors/props/structures/decals/city_tile_aegean_6x6.xml
+@@ -2,7 +2,7 @@
+ <actor version="1">
+   <group>
+     <variant name="decal_city_tile_aegean_6x6">
+-      <decal angle="0" depth="36" offsetx="0" offsetz="0" width="36"/>
++      <decal angle="0" depth="30" offsetx="0" offsetz="0" width="30"/>
+       <textures>
+         <texture file="props/decal_city_tile_aegean.png" name="baseTex"/>
+         <texture file="props/decal_city_tile_aegean_norm.png" name="normTex"/>
+-- 
+2.25.1
+

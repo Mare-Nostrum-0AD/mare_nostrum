@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Entity parent="template_structure_civic_civil_centre">
-  <Auras datatype="tokens">
-  	structures/village_radius
-  </Auras>
 	<Attack disable="" />
 	<BuildingAI disable="" />
   <City>

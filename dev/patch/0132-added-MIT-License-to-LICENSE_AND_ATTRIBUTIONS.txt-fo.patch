@@ -1,0 +1,193 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sun, 27 Jun 2021 00:39:18 -0700
+Subject: [PATCH] added MIT License to LICENSE_AND_ATTRIBUTIONS.txt for
+ azayrahmad's city building mod
+
+removed radius auras from cities, replaced with City RangeOverlay (using meander texture from azayrahmad's city building mod)
+---
+ .../mods/public/LICENSE_AND_ATTRIBUTIONS.txt  |  37 +++++++++++++++++-
+ .../textures/selection/overlay/meander.png    | Bin 0 -> 184 bytes
+ .../selection/overlay/meander_mask.png        | Bin 0 -> 185 bytes
+ .../mods/public/simulation/components/City.js |  10 ++---
+ .../template_structure_civic_civil_centre.xml |  11 ++++--
+ ...emplate_structure_civic_civil_centre_b.xml |   3 --
+ ...emplate_structure_civic_civil_centre_c.xml |   1 -
+ ...emplate_structure_civic_civil_centre_d.xml |   1 -
+ 8 files changed, 47 insertions(+), 16 deletions(-)
+ create mode 100644 binaries/data/mods/public/art/textures/selection/overlay/meander.png
+ create mode 100644 binaries/data/mods/public/art/textures/selection/overlay/meander_mask.png
+
+diff --git a/binaries/data/mods/public/LICENSE_AND_ATTRIBUTIONS.txt b/binaries/data/mods/public/LICENSE_AND_ATTRIBUTIONS.txt
+index eeeca99397..32a3c4dd3f 100644
+--- a/binaries/data/mods/public/LICENSE_AND_ATTRIBUTIONS.txt
++++ b/binaries/data/mods/public/LICENSE_AND_ATTRIBUTIONS.txt
+@@ -7,11 +7,11 @@ You are free to use, distribute, and create derivative works of the contents of
+ LICENSE
+ 
+ Code:
+-	All code in this repository is available under the terms of the GNU General Public License, Version 3.
++	All original code in this repository is available under the terms of the GNU General Public License, Version 3.
+ 	Source: https://www.gnu.org/licenses/gpl-3.0.en.html
+ 
+ Artwork:
+-	All artwork in this repository is available under the terms of the Creative Commons Attribution-ShareAlike 4.0 International Public License.
++	All original artwork in this repository is available under the terms of the Creative Commons Attribution-ShareAlike 4.0 International Public License.
+ 	Source: https://creativecommons.org/licenses/by-sa/4.0/legalcode
+ 
+ ATTRIBUTIONS
+@@ -21,3 +21,36 @@ Wikimedia Commons
+ 		- Utilized, in modified form, in art/textures/skins/props/decal_struct_mosaic_bathhouse_large.png
+ 		- Author: Asram at French Wikipedia
+ 		- Source: https://en.wikipedia.org/wiki/File:Sousse_neptune.jpg
++0AD City Building Mod (https://github.com/azayrahmad/0AD-City-Builder; published under the MIT License, see "Additional Licenses" below)
++	- "Meander" overlay texture
++		- Files (used without modification):
++			- art/textures/selection/overlay/meander.png
++			- art/textures/selection/overlay/meander_mask.png
++		- Author: azayrahmad (azayrahmad@gmail.com)
++		- Source: https://github.com/azayrahmad/0AD-City-Builder/tree/82eaa47830fb9bd006f8220a35098cd9ec786ce5/art/textures/selection/overlay
++
++==================================================
++Additional Licenses
++
++0AD City Building Mod:
++MIT License
++
++Copyright (c) 2019 azayrahmad
++
++Permission is hereby granted, free of charge, to any person obtaining a copy
++of this software and associated documentation files (the "Software"), to deal
++in the Software without restriction, including without limitation the rights
++to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++copies of the Software, and to permit persons to whom the Software is
++furnished to do so, subject to the following conditions:
++
++The above copyright notice and this permission notice shall be included in all
++copies or substantial portions of the Software.
++
++THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
++SOFTWARE.
+diff --git a/binaries/data/mods/public/art/textures/selection/overlay/meander.png b/binaries/data/mods/public/art/textures/selection/overlay/meander.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..d9259793d64f3b08ddb29a55f3a0d6fd0c79c76e
+GIT binary patch
+literal 184
+zcmeAS@N?(olHy`uVBq!ia0vp^0zj<5!3HFyJAa%3Qk(@Ik;M!Q+`=Ht$S`Y;1W+)`
+z)5S5wqx0>QgM1AJ9L~{?|Nk%AoAIbIQTV#_-dx2G8qzEbo=gmrcAPJ8ne^P<q4K|8
+zLBvw2NKO^q+rNARsy4i`^?%T(@BZLSt+nIK1+#ybHGR{!d3Dcq+JTRX-Uh!9Tz=Dh
+flf9DZcsqCd6?2Cbk)cn3wla9S`njxgN@xNA*<wPx
+
+literal 0
+HcmV?d00001
+
+diff --git a/binaries/data/mods/public/art/textures/selection/overlay/meander_mask.png b/binaries/data/mods/public/art/textures/selection/overlay/meander_mask.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..a27643b24ef7d47c0d1c7f4c9c3d4569821480eb
+GIT binary patch
+literal 185
+zcmeAS@N?(olHy`uVBq!ia0vp^0zj<5!3HFyJAa%3Qk(@Ik;M!Q+`=Ht$S`Y;1W+*B
+z)5S5wqx0>QgIos;IGp2;{rf-tZlVa=>PZ``vezyB)suT<Ekg$fgG!=TdZ`uHzC2qg
+znY`6LVT_(HBldGHlS|qBUAQJ9Ubu1d_opnEnXcZOE<B|^aYdE*UY0)oy)4%JHg9ci
+gR9^6Z@S}jy?W0V=_nEO$Kx-L1UHx3vIVCg!0HL=(sQ>@~
+
+literal 0
+HcmV?d00001
+
+diff --git a/binaries/data/mods/public/simulation/components/City.js b/binaries/data/mods/public/simulation/components/City.js
+index 0a37ce3f08..9ff079b9be 100644
+--- a/binaries/data/mods/public/simulation/components/City.js
++++ b/binaries/data/mods/public/simulation/components/City.js
+@@ -339,14 +339,12 @@ City.prototype.GetRangeOverlays = function()
+ 	if (!this.template.RangeOverlay)
+ 		return [];
+ 	
+-	let radius = this.GetRadius();
+-	let rangeOverlay = {
+-		"radius": radius,
++	return[{
++		"radius": this.GetRadius(),
+ 		"texture": this.template.RangeOverlay.LineTexture,
+ 		"textureMask": this.template.RangeOverlay.LineTextureMask,
+-		"thickness": +this.template.RangeOverlay.LineThickness,
+-	};
+-	return [rangeOverlay];
++		"thickness": +this.template.RangeOverlay.LineThickness
++	}];
+ };
+ 
+ City.prototype.CancelGrowthTimer = function()
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre.xml b/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre.xml
+index fd0d378dd9..052d97db18 100644
+--- a/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre.xml
+@@ -24,9 +24,9 @@
+       </Projectile>
+       <PreferredClasses datatype="tokens">Human</PreferredClasses>
+       <RangeOverlay>
+-				<LineTexture>overlay/dash.png</LineTexture>
+-				<LineTextureMask>overlay/dash_mask.png</LineTextureMask>
+-        <LineThickness>3.0</LineThickness>
++				<LineTexture>outline_border.png</LineTexture>
++				<LineTextureMask>outline_border_mask.png</LineTextureMask>
++        <LineThickness>0.175</LineThickness>
+       </RangeOverlay>
+     </Ranged>
+   </Attack>
+@@ -72,6 +72,11 @@
+       <Min>0</Min>
+     </Population>
+     <Radius>120</Radius>
++		<RangeOverlay>
++			<LineTexture>overlay/meander.png</LineTexture>
++			<LineTextureMask>overlay/meander_mask.png</LineTextureMask>
++			<LineThickness>1.0</LineThickness>
++		</RangeOverlay>
+ 		<ValueModifiers>
+ 			<PopulationDecay>
+ 				<!-- Increase the population decay rate per every 250 citizens, to make it increasingly more difficult to grow the population. -->
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_b.xml b/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_b.xml
+index 3ec14eaddf..60d7d5fc45 100644
+--- a/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_b.xml
++++ b/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_b.xml
+@@ -1,8 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_civil_centre">
+-  <Auras datatype="tokens">
+-  	structures/town_radius
+-  </Auras>
+   <Capturable>
+     <CapturePoints op="mul">2.0</CapturePoints>
+   </Capturable>
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_c.xml b/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_c.xml
+index 97c93c4537..a4c082f14b 100644
+--- a/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_c.xml
++++ b/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_c.xml
+@@ -1,7 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_civil_centre">
+   <Auras datatype="tokens">
+-  	structures/city_radius
+   	structures/city_industry
+   </Auras>
+   <Capturable>
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_d.xml b/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_d.xml
+index 6bac4201f4..bdd615bfec 100644
+--- a/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_d.xml
++++ b/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_d.xml
+@@ -1,7 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_civil_centre">
+   <Auras datatype="tokens">
+-  	structures/metro_radius
+   	structures/metro_industry
+   </Auras>
+   <Capturable>
+-- 
+2.25.1
+

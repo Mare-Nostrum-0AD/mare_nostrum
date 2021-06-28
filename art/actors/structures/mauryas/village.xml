@@ -11,7 +11,7 @@
         <prop actor="props/special/eyecandy/well_darkness.xml" attachpoint="center" minheight="0" maxheight="20"/>
         <prop actor="structures/mauryas/house.xml" attachpoint="top_left" minheight="0" maxheight="20"/>
         <prop actor="structures/mauryas/house.xml" attachpoint="top_right" minheight="0" maxheight="20"/>
-        <prop actor="props/structures/decals/dirt_7x7.xml" attachpoint="root"/>
+        <prop actor="props/structures/decals/city_tile_desert_6x6.xml" attachpoint="root"/>
       </props>
       <textures>
         <texture file="gaia/decal_farmland.png" name="baseTex"/>

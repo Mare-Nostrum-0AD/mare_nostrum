@@ -55,7 +55,7 @@ function sync_from_child() {
 	cd "${OAD_CHILD_DIR}"
 	IFS=$'\n\r'
 	for file in $(find . -type f | cut -c3- | grep -v -e '^\.git' -e '^dev/'); do
-		outfile="${OAD_PARENT_DIR}/${file}"
+		outfile="${OAD_MOD_DIR}/${file}"
 		outdir="$(dirname "${outfile}")"
 		[[ ! -d "${outdir}" ]] && mkdir -p "${outdir}"
 		cp -f "${file}" "${outfile}"

@@ -15,7 +15,7 @@
 	"autoResearch": true,
 	"requirementsTooltip": "Requires 3 Metropoli and a Wonder.",
 	"supersedes": "phase_hegemon_athen",
-	"replaces": ["phase_empire", "phase_empire_generic"],
+	"replaces": ["phase_empire"],
 	"icon": "empire_phase.png",
 	"researchTime": 60,
 	"tooltip": "Advance to Empire Phase, which unlocks a population cap bonus. All units move 20% faster. All structures +3 garrisoned regeneration rate.",

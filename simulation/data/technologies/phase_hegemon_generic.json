@@ -9,7 +9,12 @@
 	},
 	"description": "Advance from a respectable city to a veritable metropolis, renowned far and wide for its influence.",
 	"cost": { "food": 0, "wood": 0, "stone": 0, "metal": 0 },
-	"requirements": { "entity": { "class": "MetroCentre", "number": 1 } },
+	"requirements": {
+		"all": [
+			{ "entity": { "class": "MetroCentre", "number": 1 } },
+			{ "notciv": "athen" }
+		]
+	},
 	"autoResearch": true,
 	"requirementsTooltip": "Requires 1 Metropolis.",
 	"supersedes": "phase_city_generic",

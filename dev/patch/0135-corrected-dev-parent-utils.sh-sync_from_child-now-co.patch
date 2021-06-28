@@ -1,0 +1,26 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sun, 27 Jun 2021 08:22:23 -0700
+Subject: [PATCH] corrected dev/parent/utils.sh; sync_from_child now copies to
+ OAD_MOD_DIR instead of OAD_PARENT_DIR
+
+---
+ binaries/data/mods/public/dev/parent/utils.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/binaries/data/mods/public/dev/parent/utils.sh b/binaries/data/mods/public/dev/parent/utils.sh
+index 88875fbb92..f5bc7e774d 100644
+--- a/binaries/data/mods/public/dev/parent/utils.sh
++++ b/binaries/data/mods/public/dev/parent/utils.sh
+@@ -55,7 +55,7 @@ function sync_from_child() {
+ 	cd "${OAD_CHILD_DIR}"
+ 	IFS=$'\n\r'
+ 	for file in $(find . -type f | cut -c3- | grep -v -e '^\.git' -e '^dev/'); do
+-		outfile="${OAD_PARENT_DIR}/${file}"
++		outfile="${OAD_MOD_DIR}/${file}"
+ 		outdir="$(dirname "${outfile}")"
+ 		[[ ! -d "${outdir}" ]] && mkdir -p "${outdir}"
+ 		cp -f "${file}" "${outfile}"
+-- 
+2.25.1
+

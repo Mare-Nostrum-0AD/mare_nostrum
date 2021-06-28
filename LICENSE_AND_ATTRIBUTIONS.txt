@@ -7,11 +7,11 @@ You are free to use, distribute, and create derivative works of the contents of 
 LICENSE
 
 Code:
-	All code in this repository is available under the terms of the GNU General Public License, Version 3.
+	All original code in this repository is available under the terms of the GNU General Public License, Version 3.
 	Source: https://www.gnu.org/licenses/gpl-3.0.en.html
 
 Artwork:
-	All artwork in this repository is available under the terms of the Creative Commons Attribution-ShareAlike 4.0 International Public License.
+	All original artwork in this repository is available under the terms of the Creative Commons Attribution-ShareAlike 4.0 International Public License.
 	Source: https://creativecommons.org/licenses/by-sa/4.0/legalcode
 
 ATTRIBUTIONS
@@ -21,3 +21,36 @@ Wikimedia Commons
 		- Utilized, in modified form, in art/textures/skins/props/decal_struct_mosaic_bathhouse_large.png
 		- Author: Asram at French Wikipedia
 		- Source: https://en.wikipedia.org/wiki/File:Sousse_neptune.jpg
+0AD City Building Mod (https://github.com/azayrahmad/0AD-City-Builder; published under the MIT License, see "Additional Licenses" below)
+	- "Meander" overlay texture
+		- Files (used without modification):
+			- art/textures/selection/overlay/meander.png
+			- art/textures/selection/overlay/meander_mask.png
+		- Author: azayrahmad (azayrahmad@gmail.com)
+		- Source: https://github.com/azayrahmad/0AD-City-Builder/tree/82eaa47830fb9bd006f8220a35098cd9ec786ce5/art/textures/selection/overlay
+
+==================================================
+Additional Licenses
+
+0AD City Building Mod:
+MIT License
+
+Copyright (c) 2019 azayrahmad
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

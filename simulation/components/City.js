@@ -339,14 +339,12 @@ City.prototype.GetRangeOverlays = function()
 	if (!this.template.RangeOverlay)
 		return [];
 	
-	let radius = this.GetRadius();
-	let rangeOverlay = {
-		"radius": radius,
+	return[{
+		"radius": this.GetRadius(),
 		"texture": this.template.RangeOverlay.LineTexture,
 		"textureMask": this.template.RangeOverlay.LineTextureMask,
-		"thickness": +this.template.RangeOverlay.LineThickness,
-	};
-	return [rangeOverlay];
+		"thickness": +this.template.RangeOverlay.LineThickness
+	}];
 };
 
 City.prototype.CancelGrowthTimer = function()
