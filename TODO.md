@@ -13,7 +13,6 @@ Please feel free to contribute if you see anything you can do here. If there is 
 - Create gold, silver resource supplies
 - Make sure all civ centre actors have projectiles
 - Implement directional resistance, allowing weaker flank and rear armor
-- Ensure phase upgrade notifications are displayed correctly
 
 ## Secondary priorities
 - Create Maurya monument(s)

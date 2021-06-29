@@ -74,6 +74,7 @@ DELPHI.TrainingPlan.prototype.start = function(gameState)
 		this.metadata = metadata;
 	}
 
+	this.trainers = this.trainers.filter((t => t.position()));
 	if (this.trainers.length > 1)
 	{
 		let wantedIndex;

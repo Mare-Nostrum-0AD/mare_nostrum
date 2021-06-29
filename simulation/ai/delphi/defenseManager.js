@@ -361,6 +361,8 @@ DELPHI.DefenseManager.prototype.checkEnemyArmies = function(gameState)
 		let bases = gameState.updatingGlobalCollection("allCCs", API3.Filters.byClass("CivCentre"));
 		for (let base of bases.values())
 		{
+			if (!base.position())
+				continue;
 			if (!gameState.isEntityAlly(base))
 				continue;
 			let cooperation = this.GetCooperationLevel(base.owner());

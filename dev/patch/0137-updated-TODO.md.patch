@@ -1,0 +1,121 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Mon, 28 Jun 2021 23:29:52 -0700
+Subject: [PATCH] updated TODO.md
+
+various checks for undefined position in Delphi bot
+
+changed City radius range overlay line thickness to 0.5 from 1.0
+
+random map generator gets MIN_MAP_SIZE and MAX_MAP_SIZE from simulation/data/settings/map_sizes.json instead of using hard-coded values (used for scaleByMapSize
+---
+ binaries/data/mods/public/TODO.md                      |  1 -
+ binaries/data/mods/public/maps/random/rmgen/library.js | 10 +++++++++-
+ .../mods/public/simulation/ai/delphi/attackManager.js  |  2 +-
+ .../mods/public/simulation/ai/delphi/defenseManager.js |  2 ++
+ .../public/simulation/ai/delphi/queueplanTraining.js   |  1 +
+ .../template_structure_civic_civil_centre.xml          |  2 +-
+ 6 files changed, 14 insertions(+), 4 deletions(-)
+
+diff --git a/binaries/data/mods/public/TODO.md b/binaries/data/mods/public/TODO.md
+index cdb89599db..2fd1c33353 100644
+--- a/binaries/data/mods/public/TODO.md
++++ b/binaries/data/mods/public/TODO.md
+@@ -13,7 +13,6 @@ Please feel free to contribute if you see anything you can do here. If there is
+ - Create gold, silver resource supplies
+ - Make sure all civ centre actors have projectiles
+ - Implement directional resistance, allowing weaker flank and rear armor
+-- Ensure phase upgrade notifications are displayed correctly
+ 
+ ## Secondary priorities
+ - Create Maurya monument(s)
+diff --git a/binaries/data/mods/public/maps/random/rmgen/library.js b/binaries/data/mods/public/maps/random/rmgen/library.js
+index 721a9bb0a4..bfa06f4b7f 100644
+--- a/binaries/data/mods/public/maps/random/rmgen/library.js
++++ b/binaries/data/mods/public/maps/random/rmgen/library.js
+@@ -29,6 +29,11 @@ const MIN_HEIGHT = - SEA_LEVEL;
+ 
+ const MAX_HEIGHT = MAX_HEIGHT_RANGE - SEA_LEVEL;
+ 
++const [MIN_MAP_SIZE, MAX_MAP_SIZE] = (() => {
++	const mapSizes = Engine.ReadJSONFile("simulation/data/settings/map_sizes.json").Data.map(d => d.Tiles);
++	return [Math.min(...mapSizes), Math.max(...mapSizes)];
++})();
++
+ /**
+  * Default angle for buildings.
+  */
+@@ -38,6 +43,7 @@ const g_CivData = deepfreeze(loadCivFiles(false));
+ 
+ const g_ActorPrefix = "actor|";
+ 
++
+ /**
+  * Sets whether setHeight operates on the center of a tile or on the vertices.
+  */
+@@ -75,8 +81,10 @@ function tilesToFraction(t)
+ 	return t / g_MapSettings.Size;
+ }
+ 
+-function scaleByMapSize(min, max, minMapSize = 128, maxMapSize = 512)
++function scaleByMapSize(min, max, minMapSize = undefined, maxMapSize = undefined)
+ {
++	minMapSize = minMapSize || MIN_MAP_SIZE;
++	maxMapSize = maxMapSize || MAX_MAP_SIZE;
+ 	return min + (max - min) * (g_MapSettings.Size - minMapSize) / (maxMapSize - minMapSize);
+ }
+ 
+diff --git a/binaries/data/mods/public/simulation/ai/delphi/attackManager.js b/binaries/data/mods/public/simulation/ai/delphi/attackManager.js
+index f009d50ee1..29ca74bd3f 100644
+--- a/binaries/data/mods/public/simulation/ai/delphi/attackManager.js
++++ b/binaries/data/mods/public/simulation/ai/delphi/attackManager.js
+@@ -180,7 +180,7 @@ DELPHI.AttackManager.prototype.assignBombers = function(gameState)
+ 		let access = DELPHI.getLandAccess(gameState, ent);
+ 		for (let struct of gameState.getEnemyStructures().values())
+ 		{
+-			if (!ent.canAttackTarget(struct, DELPHI.allowCapture(gameState, ent, struct)))
++			if (!ent.position() || !ent.canAttackTarget(struct, DELPHI.allowCapture(gameState, ent, struct)))
+ 				continue;
+ 
+ 			let structPos = struct.position();
+diff --git a/binaries/data/mods/public/simulation/ai/delphi/defenseManager.js b/binaries/data/mods/public/simulation/ai/delphi/defenseManager.js
+index eceed2c0ed..8e519f0db8 100644
+--- a/binaries/data/mods/public/simulation/ai/delphi/defenseManager.js
++++ b/binaries/data/mods/public/simulation/ai/delphi/defenseManager.js
+@@ -361,6 +361,8 @@ DELPHI.DefenseManager.prototype.checkEnemyArmies = function(gameState)
+ 		let bases = gameState.updatingGlobalCollection("allCCs", API3.Filters.byClass("CivCentre"));
+ 		for (let base of bases.values())
+ 		{
++			if (!base.position())
++				continue;
+ 			if (!gameState.isEntityAlly(base))
+ 				continue;
+ 			let cooperation = this.GetCooperationLevel(base.owner());
+diff --git a/binaries/data/mods/public/simulation/ai/delphi/queueplanTraining.js b/binaries/data/mods/public/simulation/ai/delphi/queueplanTraining.js
+index a3ff3c1b3e..a9120821e2 100644
+--- a/binaries/data/mods/public/simulation/ai/delphi/queueplanTraining.js
++++ b/binaries/data/mods/public/simulation/ai/delphi/queueplanTraining.js
+@@ -74,6 +74,7 @@ DELPHI.TrainingPlan.prototype.start = function(gameState)
+ 		this.metadata = metadata;
+ 	}
+ 
++	this.trainers = this.trainers.filter((t => t.position()));
+ 	if (this.trainers.length > 1)
+ 	{
+ 		let wantedIndex;
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre.xml b/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre.xml
+index 052d97db18..8de99ca057 100644
+--- a/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre.xml
+@@ -75,7 +75,7 @@
+ 		<RangeOverlay>
+ 			<LineTexture>overlay/meander.png</LineTexture>
+ 			<LineTextureMask>overlay/meander_mask.png</LineTextureMask>
+-			<LineThickness>1.0</LineThickness>
++			<LineThickness>0.5</LineThickness>
+ 		</RangeOverlay>
+ 		<ValueModifiers>
+ 			<PopulationDecay>
+-- 
+2.25.1
+

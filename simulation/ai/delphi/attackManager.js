@@ -180,7 +180,7 @@ DELPHI.AttackManager.prototype.assignBombers = function(gameState)
 		let access = DELPHI.getLandAccess(gameState, ent);
 		for (let struct of gameState.getEnemyStructures().values())
 		{
-			if (!ent.canAttackTarget(struct, DELPHI.allowCapture(gameState, ent, struct)))
+			if (!ent.position() || !ent.canAttackTarget(struct, DELPHI.allowCapture(gameState, ent, struct)))
 				continue;
 
 			let structPos = struct.position();
