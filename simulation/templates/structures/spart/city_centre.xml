@@ -8,6 +8,6 @@
 		<SpecificName>Pōlis</SpecificName>
   </Identity>
   <VisualActor>
-    <Actor>structures/spartans/stoa.xml</Actor>
+    <Actor>structures/spartans/city_centre.xml</Actor>
   </VisualActor>
 </Entity>
