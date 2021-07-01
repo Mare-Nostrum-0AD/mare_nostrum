@@ -1,0 +1,118 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Wed, 30 Jun 2021 18:14:54 -0700
+Subject: [PATCH] Delphi bot headquarters.js:findGenericCCLocation starts off
+ allowing nearby locations, then gradually expands distance requirement as
+ more ccs are built
+
+expanded number of possible heading titles in post-game summary to 15 (fixes problem with displaying resources gathered)
+---
+ binaries/data/mods/public/gui/summary/summary.js      |  2 +-
+ binaries/data/mods/public/gui/summary/summary.xml     | 10 +++++-----
+ .../mods/public/simulation/ai/delphi/headquarters.js  | 11 +++++++----
+ 3 files changed, 13 insertions(+), 10 deletions(-)
+
+diff --git a/binaries/data/mods/public/gui/summary/summary.js b/binaries/data/mods/public/gui/summary/summary.js
+index db20e689d9..1742a857e3 100644
+--- a/binaries/data/mods/public/gui/summary/summary.js
++++ b/binaries/data/mods/public/gui/summary/summary.js
+@@ -2,7 +2,7 @@ const g_CivData = loadCivData(false, false);
+ 
+ var g_ScorePanelsData;
+ 
+-var g_MaxHeadingTitle = 9;
++var g_MaxHeadingTitle = 15;
+ var g_LongHeadingWidth = 250;
+ var g_PlayerBoxYSize = 40;
+ var g_PlayerBoxGap = 2;
+diff --git a/binaries/data/mods/public/gui/summary/summary.xml b/binaries/data/mods/public/gui/summary/summary.xml
+index 3c1e8488ef..abdcbb2da4 100644
+--- a/binaries/data/mods/public/gui/summary/summary.xml
++++ b/binaries/data/mods/public/gui/summary/summary.xml
+@@ -69,10 +69,10 @@
+ 				<object name="playerNameHeading" type="text" style="ModernLeftTopLabelText">
+ 					<translatableAttribute id="caption">Player name</translatableAttribute>
+ 				</object>
+-				<repeat var="x" count="9">
++				<repeat var="x" count="15">
+ 					<object name="titleHeading[x]" type="text" style="ModernTopLabelText"/>
+ 				</repeat>
+-				<repeat var="x" count="9">
++				<repeat var="x" count="15">
+ 					<object name="Heading[x]" type="text" style="ModernTopLabelText"/>
+ 				</repeat>
+ 			</object>
+@@ -86,14 +86,14 @@
+ 								<object name="playerOutcomet[i][n]" type="image" size="4 5 36 37"/>
+ 								<object name="playerNamet[i][n]" type="text" size="46 2 214 100%" style="ModernLeftLabelText"/>
+ 								<object name="civIcont[i][n]" type="image" size="214 5 246 37" />
+-								<repeat var="x" count="9">
++								<repeat var="x" count="15">
+ 									<object name="valueDataTeam[i][n][x]" type="text" style="ModernTopLabelText"/>
+ 								</repeat>
+ 							</object>
+ 						</repeat>
+ 					</object>
+ 					<object name="teamHeadingt[i]" type="text" style="ModernLeftTopLabelText"/>
+-					<repeat var="x" count="9">
++					<repeat var="x" count="15">
+ 						<object name="valueDataTeam[i][x]" type="text" style="ModernTopLabelText"/>
+ 					</repeat>
+ 				</object>
+@@ -105,7 +105,7 @@
+ 						<object name="playerOutcome[n]" type="image" size="4 5 36 37"/>
+ 						<object name="playerName[n]" type="text" size="46 2 214 100%" style="ModernLeftLabelText"/>
+ 						<object name="civIcon[n]" type="image" size="214 5 246 37"/>
+-						<repeat var="x" count="9">
++						<repeat var="x" count="15">
+ 							<object name="valueData[n][x]" type="text" style="ModernTopLabelText"/>
+ 						</repeat>
+ 					</object>
+diff --git a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
+index dd62bb2fc2..5acbd51ef8 100644
+--- a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
++++ b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
+@@ -978,6 +978,7 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
+ 	const cellSize = this.territoryMap.cellSize;
+ 	const defaultTileVal = 32;
+ 	const maxTileVal = 255;
++	const existingCCDistanceMultiplier = 1.5;// new ccs should be built further away from existing ccs based on how many we already have
+ 	const shoreCoeff = 1.5;
+ 	const structRadius = (() => {
+ 		const cityRadius = +template.get('City/Radius');
+@@ -989,6 +990,7 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
+ 	const friendlyPorts = gameState.getOwnEntitiesByClass('NavalMarket', true).toEntityArray().concat(gameState.getAllyStructures().filter(API3.Filters.byClass('NavalMarket')).toEntityArray());
+ 	const allowedWaterIndices = new Set(friendlyPorts.map(ent => gameState.ai.accessibility.getAccessValue(ent.position(), true)));
+ 	const allowedLandIndices = new Set(friendlyCivCentres.map(ent => gameState.ai.accessibility.getAccessValue(ent.position(), false)));
++	// conditional land indices are regions where we don't have a cc yet, but we have a port on an adjacent body of water
+ 	const conditionalLandIndices = new Set(this.shoreTiles.filter(tile => allowedWaterIndices.has(tile.water)).map(tile => tile.land));
+ 	// add influence around allowed shorelines
+ 	for (let tile of this.shoreTiles.filter(tile => allowedWaterIndices.has(tile.water))) {
+@@ -1000,19 +1002,20 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
+ 	placement.map = placement.map.map((val, i) => {
+ 		const land = gameState.ai.accessibility.getAccessValue(placement.mapIndexToGamePos(i), false)
+ 		if (val && (conditionalLandIndices.has(land) || allowedLandIndices.has(land)))
+-			return defaultTileVal * shoreCoeff;
+-		if (allowedLandIndices.has(land) || val && conditionalLandIndices.has(land))
++			return Math.min(defaultTileVal * shoreCoeff, placement.maxVal);
++		if (allowedLandIndices.has(land))
+ 			return defaultTileVal;
+ 		return 0;
+ 	});
+ 	let obstructions = DELPHI.createObstructionMap(gameState, 0, template);
+ 	const radius = Math.ceil((template.obstructionRadius().max / obstructions.cellSize));
++	const existingCCDistance = (mapWidth / 8) * Math.pow(existingCCDistanceMultiplier, friendlyCivCentres.length);
+ 	for (let [x, z] of friendlyCivCentres.map(ent => ent.position()).filter(pos => pos).map(pos => placement.gamePosToMapPos(pos))) {
+-		placement.addInfluence(x, z, mapWidthHalf, -defaultTileVal);
++		placement.addInfluence(x, z, existingCCDistance, -defaultTileVal);
+ 	}// end for pos of friendlyCivCentrePositions
+ 	const enemyCivCentres = gameState.getEnemyStructures().filter(API3.Filters.byClass('CivCentre')).toEntityArray();
+ 	for (let [x, z] of enemyCivCentres.map(ent => ent.position()).filter(pos => pos).map(pos => placement.gamePosToMapPos(pos))) {
+-		placement.addInfluence(x, z, mapWidthHalf / 2, -defaultTileVal);
++		placement.addInfluence(x, z, mapWidth / 8, -defaultTileVal);
+ 	}// end for cc of enemyCivCentres
+ 	// if first civ centre, prioritize locations near (but not on) perimeter of map
+ 	// also prioritize current unit positions
+-- 
+2.25.1
+

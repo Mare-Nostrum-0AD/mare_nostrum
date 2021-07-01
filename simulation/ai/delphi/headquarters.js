@@ -978,6 +978,7 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
 	const cellSize = this.territoryMap.cellSize;
 	const defaultTileVal = 32;
 	const maxTileVal = 255;
+	const existingCCDistanceMultiplier = 1.5;// new ccs should be built further away from existing ccs based on how many we already have
 	const shoreCoeff = 1.5;
 	const structRadius = (() => {
 		const cityRadius = +template.get('City/Radius');
@@ -989,6 +990,7 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
 	const friendlyPorts = gameState.getOwnEntitiesByClass('NavalMarket', true).toEntityArray().concat(gameState.getAllyStructures().filter(API3.Filters.byClass('NavalMarket')).toEntityArray());
 	const allowedWaterIndices = new Set(friendlyPorts.map(ent => gameState.ai.accessibility.getAccessValue(ent.position(), true)));
 	const allowedLandIndices = new Set(friendlyCivCentres.map(ent => gameState.ai.accessibility.getAccessValue(ent.position(), false)));
+	// conditional land indices are regions where we don't have a cc yet, but we have a port on an adjacent body of water
 	const conditionalLandIndices = new Set(this.shoreTiles.filter(tile => allowedWaterIndices.has(tile.water)).map(tile => tile.land));
 	// add influence around allowed shorelines
 	for (let tile of this.shoreTiles.filter(tile => allowedWaterIndices.has(tile.water))) {
@@ -1000,19 +1002,20 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
 	placement.map = placement.map.map((val, i) => {
 		const land = gameState.ai.accessibility.getAccessValue(placement.mapIndexToGamePos(i), false)
 		if (val && (conditionalLandIndices.has(land) || allowedLandIndices.has(land)))
-			return defaultTileVal * shoreCoeff;
-		if (allowedLandIndices.has(land) || val && conditionalLandIndices.has(land))
+			return Math.min(defaultTileVal * shoreCoeff, placement.maxVal);
+		if (allowedLandIndices.has(land))
 			return defaultTileVal;
 		return 0;
 	});
 	let obstructions = DELPHI.createObstructionMap(gameState, 0, template);
 	const radius = Math.ceil((template.obstructionRadius().max / obstructions.cellSize));
+	const existingCCDistance = (mapWidth / 8) * Math.pow(existingCCDistanceMultiplier, friendlyCivCentres.length);
 	for (let [x, z] of friendlyCivCentres.map(ent => ent.position()).filter(pos => pos).map(pos => placement.gamePosToMapPos(pos))) {
-		placement.addInfluence(x, z, mapWidthHalf, -defaultTileVal);
+		placement.addInfluence(x, z, existingCCDistance, -defaultTileVal);
 	}// end for pos of friendlyCivCentrePositions
 	const enemyCivCentres = gameState.getEnemyStructures().filter(API3.Filters.byClass('CivCentre')).toEntityArray();
 	for (let [x, z] of enemyCivCentres.map(ent => ent.position()).filter(pos => pos).map(pos => placement.gamePosToMapPos(pos))) {
-		placement.addInfluence(x, z, mapWidthHalf / 2, -defaultTileVal);
+		placement.addInfluence(x, z, mapWidth / 8, -defaultTileVal);
 	}// end for cc of enemyCivCentres
 	// if first civ centre, prioritize locations near (but not on) perimeter of map
 	// also prioritize current unit positions
