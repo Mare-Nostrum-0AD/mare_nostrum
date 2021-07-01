@@ -1,0 +1,66 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Wed, 30 Jun 2021 18:24:01 -0700
+Subject: [PATCH] updated ptol, sele military colony specific names + specific
+ names of greek colonist units
+
+---
+ .../simulation/templates/structures/ptol/military_colony.xml    | 1 -
+ .../simulation/templates/structures/sele/military_colony.xml    | 1 +
+ .../templates/units/ptol/support_citizen_hellenic.xml           | 2 +-
+ .../templates/units/sele/support_female_citizen_hellenic.xml    | 2 +-
+ 4 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/binaries/data/mods/public/simulation/templates/structures/ptol/military_colony.xml b/binaries/data/mods/public/simulation/templates/structures/ptol/military_colony.xml
+index 8c91c21c89..4daf47b943 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/ptol/military_colony.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/ptol/military_colony.xml
+@@ -6,7 +6,6 @@
+   </Footprint>
+   <Identity>
+     <Civ>ptol</Civ>
+-    <GenericName>Military Colony</GenericName>
+     <SpecificName>Klēroukhia</SpecificName>
+     <Tooltip>This is the Ptolemaic expansion building, similar to Civic Centers for other factions. It is weaker and carries a smaller territory influence, but is cheaper and built faster. Train settler-soldiers of various nationalities.</Tooltip>
+   </Identity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/sele/military_colony.xml b/binaries/data/mods/public/simulation/templates/structures/sele/military_colony.xml
+index 00a5e453bd..c36a66b3c1 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/sele/military_colony.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/sele/military_colony.xml
+@@ -6,6 +6,7 @@
+   </Footprint>
+   <Identity>
+     <Civ>sele</Civ>
++    <SpecificName>Katoikia</SpecificName>
+     <Tooltip>This is the Seleucid expansion building, similar to Civic Centers for other factions. It is weaker and carries a smaller territory influence, but is cheaper and built faster. Train settler-soldiers of various nationalities.</Tooltip>
+   </Identity>
+   <Obstruction>
+diff --git a/binaries/data/mods/public/simulation/templates/units/ptol/support_citizen_hellenic.xml b/binaries/data/mods/public/simulation/templates/units/ptol/support_citizen_hellenic.xml
+index f3f5137d2d..a97a24c3a2 100644
+--- a/binaries/data/mods/public/simulation/templates/units/ptol/support_citizen_hellenic.xml
++++ b/binaries/data/mods/public/simulation/templates/units/ptol/support_citizen_hellenic.xml
+@@ -2,7 +2,7 @@
+ <Entity parent="units/ptol/support_female_citizen">
+   <Identity>
+     <Lang>greek</Lang>
+-    <SpecificName>Younánis Polítēs</SpecificName>
++    <SpecificName>Klēroukhos</SpecificName>
+     <GenericName>Greek Colonist</GenericName>
+ 		<Icon>units/hele_support_{phenotype}_citizen.png</Icon>
+   </Identity>
+diff --git a/binaries/data/mods/public/simulation/templates/units/sele/support_female_citizen_hellenic.xml b/binaries/data/mods/public/simulation/templates/units/sele/support_female_citizen_hellenic.xml
+index 3bcf2c80aa..341aa33fe8 100644
+--- a/binaries/data/mods/public/simulation/templates/units/sele/support_female_citizen_hellenic.xml
++++ b/binaries/data/mods/public/simulation/templates/units/sele/support_female_citizen_hellenic.xml
+@@ -2,7 +2,7 @@
+ <Entity parent="units/sele/support_female_citizen">
+   <Identity>
+     <Lang>greek</Lang>
+-    <SpecificName>Younánes Polítēs</SpecificName>
++    <SpecificName>Katoikos</SpecificName>
+     <GenericName>Greek Colonist</GenericName>
+ 		<Icon>units/hele_support_{phenotype}_citizen.png</Icon>
+   </Identity>
+-- 
+2.25.1
+

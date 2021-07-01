@@ -2,7 +2,7 @@
 <Entity parent="units/ptol/support_female_citizen">
   <Identity>
     <Lang>greek</Lang>
-    <SpecificName>Younánis Polítēs</SpecificName>
+    <SpecificName>Klēroukhos</SpecificName>
     <GenericName>Greek Colonist</GenericName>
 		<Icon>units/hele_support_{phenotype}_citizen.png</Icon>
   </Identity>

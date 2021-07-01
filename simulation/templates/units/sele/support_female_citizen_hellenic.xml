@@ -2,7 +2,7 @@
 <Entity parent="units/sele/support_female_citizen">
   <Identity>
     <Lang>greek</Lang>
-    <SpecificName>Younánes Polítēs</SpecificName>
+    <SpecificName>Katoikos</SpecificName>
     <GenericName>Greek Colonist</GenericName>
 		<Icon>units/hele_support_{phenotype}_citizen.png</Icon>
   </Identity>
