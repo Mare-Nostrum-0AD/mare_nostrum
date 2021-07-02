@@ -39,5 +39,6 @@
   </TerritoryInfluence>
   <VisualActor>
     <Actor>props/structures/persians/alt_building_04.xml</Actor>
+    <FoundationActor>structures/fndn_8x5.xml</FoundationActor>
   </VisualActor>
 </Entity>

@@ -12,5 +12,6 @@
   </Obstruction>
   <VisualActor>
     <Actor>props/structures/persians/alt_building_03.xml</Actor>
+    <FoundationActor>structures/fndn_7x4.xml</FoundationActor>
   </VisualActor>
 </Entity>

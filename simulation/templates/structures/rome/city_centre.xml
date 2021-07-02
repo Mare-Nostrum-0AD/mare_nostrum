@@ -15,7 +15,7 @@
     <Static width="37.0" depth="37.0"/>
   </Obstruction>
   <VisualActor>
-    <Actor>structures/romans/civic_centre.xml</Actor>
+    <Actor>structures/romans/city_centre.xml</Actor>
     <FoundationActor>structures/fndn_8x8.xml</FoundationActor>
   </VisualActor>
 </Entity>

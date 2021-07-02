@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<actor version="1">
+  <castshadow/>
+  <group>
+    <variant>
+      <mesh>structural/rome_city_centre_struct_b.dae</mesh>
+      <textures>
+        <texture file="structural/rome_struct_3_b.png" name="baseTex"/>
+        <texture file="structural/rome_struct_3_b_norm.png" name="normTex"/>
+        <texture file="structural/rome_struct_3_b_spec.png" name="specTex"/>
+        <texture file="structural/ao/spart_civic_centre.png" name="aoTex"/>
+      </textures>
+    </variant>
+  </group>
+  <material>player_trans_ao_parallax_spec.xml</material>
+</actor>
