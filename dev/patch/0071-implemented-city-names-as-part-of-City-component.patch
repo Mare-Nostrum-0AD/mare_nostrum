@@ -423,7 +423,7 @@ index f560d64a80..27322b7968 100644
  {
  	// check if any ValueModifier scalars exist and have changed; if so, reapply value modifiers
 diff --git a/binaries/data/mods/public/simulation/components/GuiInterface.js b/binaries/data/mods/public/simulation/components/GuiInterface.js
-index 6fcaa24a20..fede05443a 100644
+index a19277e36a..cae05344d2 100644
 --- a/binaries/data/mods/public/simulation/components/GuiInterface.js
 +++ b/binaries/data/mods/public/simulation/components/GuiInterface.js
 @@ -299,7 +299,8 @@ GuiInterface.prototype.GetEntityState = function(player, ent)

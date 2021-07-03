@@ -166,7 +166,7 @@ City.prototype.SetPopulation = function(value, toTrack=true)
 		"to": this.population
 	});
 	let popChange = this.population - oldPopulation;
-	if (toTrack) {
+	if (toTrack && !this.isTransforming && !this.isTransformed) {
 		let cmpStatisticsTracker = QueryOwnerInterface(this.entity, IID_StatisticsTracker);
 		if (cmpStatisticsTracker)
 			cmpStatisticsTracker.IncreaseCivicPopulation(popChange);
@@ -323,12 +323,9 @@ City.prototype.OnEntityRenamePre = function({ entity, newentity })
 	const cmpNewCity = Engine.QueryInterface(newentity, IID_City);
 	if (!cmpOldCity || !cmpNewCity)
 		return;
-	const population = cmpOldCity.GetPopulation();
-	cmpOldCity.population = 0;
-	cmpNewCity.population = population;
-	const statisticsTracker = QueryPlayerIDInterface(cmpOldOwnership.GetOwner(), IID_StatisticsTracker);
-	if (statisticsTracker)
-		statisticsTracker.IncreaseCivicPopulation(-population);
+	cmpOldCity.isTransforming = true;
+	cmpNewCity.isTransformed = true;
+	cmpNewCity.population = cmpOldCity.GetPopulation();
 	const name = cmpOldCity.GetName();
 	if (name && name.length)
 		cmpNewCity.SetName(name);
@@ -494,19 +491,24 @@ City.prototype.OnOwnershipChanged = function({ from, to })
 	// switch ownership of city members
 	if (to && to !== INVALID_PLAYER)
 		this.GetCityMembers().map((ent) => Engine.QueryInterface(ent, IID_Ownership)).forEach((cmp) => cmp && cmp.SetOwner(to));
-	// transfer population in civic population tracker
-	let prevOwnerStatisticsTracker = QueryPlayerIDInterface(from, IID_StatisticsTracker);
-	if (prevOwnerStatisticsTracker)
-		prevOwnerStatisticsTracker.IncreaseCivicPopulation(-this.population);
-	let newOwnerStatisticsTracker = QueryPlayerIDInterface(to, IID_StatisticsTracker);
-	if (newOwnerStatisticsTracker)
-		newOwnerStatisticsTracker.IncreaseCivicPopulation(+this.population);
-	if (!Engine.QueryInterface(this.entity, IID_SkirmishReplacer) && (!this.GetName() || !this.GetName().length))
+	// transfer population in civic population tracker, if not an upgrade/downgrade
+	if (!this.isTransforming && !this.isTransformed)
+	{
+		let prevOwnerStatisticsTracker = QueryPlayerIDInterface(from, IID_StatisticsTracker);
+		if (prevOwnerStatisticsTracker)
+			prevOwnerStatisticsTracker.IncreaseCivicPopulation(-this.population);
+		let newOwnerStatisticsTracker = QueryPlayerIDInterface(to, IID_StatisticsTracker);
+		if (newOwnerStatisticsTracker)
+			newOwnerStatisticsTracker.IncreaseCivicPopulation(+this.population);
+	}
+	if (!this.isTransformed && !Engine.QueryInterface(this.entity, IID_SkirmishReplacer) && (!this.GetName() || !this.GetName().length))
 	{
 		const cmpCityNameManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_CityNameManager);
 		if (cmpCityNameManager)
 			this.SetName(cmpCityNameManager.ChooseCityName(this.entity));
 	}
+	if (this.isTransformed)
+		this.isTransformed = false;
 };
 
 City.prototype.OnDestroy = function(msg)
@@ -527,9 +529,13 @@ City.prototype.OnDestroy = function(msg)
 	if (cmpModifiersManager.HasAnyModifier(cityMemberModName, this.entity))
 		cmpModifiersManager.RemoveAllModifiers(cityMemberModName, this.entity);
 	this.CancelGrowthTimer();
-	let cmpStatisticsTracker = QueryOwnerInterface(this.entity, IID_StatisticsTracker);
-	if (cmpStatisticsTracker)
-		cmpStatisticsTracker.IncreaseCivicPopulation(-this.population);
+	// don't track city population if entity is upgrading/downgrading
+	if (!this.isTransforming)
+	{
+		let cmpStatisticsTracker = QueryOwnerInterface(this.entity, IID_StatisticsTracker);
+		if (cmpStatisticsTracker)
+			cmpStatisticsTracker.IncreaseCivicPopulation(-this.population);
+	}
 };
 
 City.prototype.OnInitGame = function()

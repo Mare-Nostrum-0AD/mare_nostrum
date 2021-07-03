@@ -134,7 +134,7 @@ index 64de0dfbf9..4a3e0e470f 100644
  CityMember.prototype.Serialize = null;
  
 diff --git a/binaries/data/mods/public/simulation/components/GuiInterface.js b/binaries/data/mods/public/simulation/components/GuiInterface.js
-index 9fc70b5e5f..6fcaa24a20 100644
+index a165082a6c..a19277e36a 100644
 --- a/binaries/data/mods/public/simulation/components/GuiInterface.js
 +++ b/binaries/data/mods/public/simulation/components/GuiInterface.js
 @@ -302,6 +302,14 @@ GuiInterface.prototype.GetEntityState = function(player, ent)

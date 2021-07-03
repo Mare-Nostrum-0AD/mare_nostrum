@@ -261,7 +261,7 @@ index 760b031552..b8ad14527a 100644
  			return true;
  		return cmpTechnologyManager.GetResearchedTechs().has(phase);
 diff --git a/binaries/data/mods/public/simulation/components/GuiInterface.js b/binaries/data/mods/public/simulation/components/GuiInterface.js
-index fede05443a..8a80157b65 100644
+index cae05344d2..1dbed76b47 100644
 --- a/binaries/data/mods/public/simulation/components/GuiInterface.js
 +++ b/binaries/data/mods/public/simulation/components/GuiInterface.js
 @@ -302,6 +302,21 @@ GuiInterface.prototype.GetEntityState = function(player, ent)

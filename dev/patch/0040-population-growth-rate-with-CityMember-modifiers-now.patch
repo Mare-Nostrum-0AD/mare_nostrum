@@ -649,7 +649,7 @@ index 6e1aaedf2f..15b3b57fec 100644
  	}
  };
 diff --git a/binaries/data/mods/public/simulation/components/GuiInterface.js b/binaries/data/mods/public/simulation/components/GuiInterface.js
-index 897ae13bbe..9fc70b5e5f 100644
+index c212c1d55a..a165082a6c 100644
 --- a/binaries/data/mods/public/simulation/components/GuiInterface.js
 +++ b/binaries/data/mods/public/simulation/components/GuiInterface.js
 @@ -292,10 +292,14 @@ GuiInterface.prototype.GetEntityState = function(player, ent)
