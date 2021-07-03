@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Entity>
+  <Footprint>
+    <Square width="28.0" depth="28.0"/>
+    <Height>8.0</Height>
+  </Footprint>
+  <Identity>
+    <Civ>gaul</Civ>
+  </Identity>
+  <Obstruction>
+    <Static width="25.0" depth="25.0"/>
+  </Obstruction>
+  <ProductionQueue>
+    <Entities datatype="tokens">
+      units/{civ}/infantry_spearman_b
+      units/{civ}/infantry_javelineer_b
+      units/{civ}/cavalry_javelineer_b
+    </Entities>
+  </ProductionQueue>
+</Entity>

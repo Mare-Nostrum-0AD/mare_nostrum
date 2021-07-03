@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Entity>
+  <Health>
+    <SpawnEntityOnDeath>decay|rubble/rubble_iber_cc</SpawnEntityOnDeath>
+  </Health>
+  <Identity>
+    <Civ>iber</Civ>
+  </Identity>
+  <ProductionQueue>
+    <Entities datatype="tokens">
+      units/{civ}/infantry_swordsman_b
+      units/{civ}/infantry_javelineer_b
+      units/{civ}/cavalry_javelineer_b
+    </Entities>
+  </ProductionQueue>
+</Entity>

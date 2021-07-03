@@ -1,0 +1,387 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sat, 3 Jul 2021 16:31:25 -0700
+Subject: [PATCH] created civil centre mixins
+
+---
+ .../mixins/civ/athen/civil_centre.xml         | 23 ++++++++++++++++++
+ .../mixins/civ/brit/civil_centre.xml          | 23 ++++++++++++++++++
+ .../mixins/civ/cart/civil_centre.xml          | 19 +++++++++++++++
+ .../mixins/civ/gaul/civil_centre.xml          | 20 ++++++++++++++++
+ .../mixins/civ/iber/civil_centre.xml          | 16 +++++++++++++
+ .../mixins/civ/kush/civil_centre.xml          | 23 ++++++++++++++++++
+ .../mixins/civ/mace/civil_centre.xml          | 16 +++++++++++++
+ .../mixins/civ/maur/civil_centre.xml          | 24 +++++++++++++++++++
+ .../mixins/civ/pers/civil_centre.xml          | 19 +++++++++++++++
+ .../mixins/civ/ptol/civil_centre.xml          | 20 ++++++++++++++++
+ .../mixins/civ/rome/civil_centre.xml          | 23 ++++++++++++++++++
+ .../mixins/civ/sele/civil_centre.xml          | 13 ++++++++++
+ .../mixins/civ/spart/civil_centre.xml         | 16 +++++++++++++
+ .../structures/athen/city_centre.xml          |  6 +----
+ 14 files changed, 256 insertions(+), 5 deletions(-)
+ create mode 100644 binaries/data/mods/public/simulation/templates/mixins/civ/athen/civil_centre.xml
+ create mode 100644 binaries/data/mods/public/simulation/templates/mixins/civ/brit/civil_centre.xml
+ create mode 100644 binaries/data/mods/public/simulation/templates/mixins/civ/cart/civil_centre.xml
+ create mode 100644 binaries/data/mods/public/simulation/templates/mixins/civ/gaul/civil_centre.xml
+ create mode 100644 binaries/data/mods/public/simulation/templates/mixins/civ/iber/civil_centre.xml
+ create mode 100644 binaries/data/mods/public/simulation/templates/mixins/civ/kush/civil_centre.xml
+ create mode 100644 binaries/data/mods/public/simulation/templates/mixins/civ/mace/civil_centre.xml
+ create mode 100644 binaries/data/mods/public/simulation/templates/mixins/civ/maur/civil_centre.xml
+ create mode 100644 binaries/data/mods/public/simulation/templates/mixins/civ/pers/civil_centre.xml
+ create mode 100644 binaries/data/mods/public/simulation/templates/mixins/civ/ptol/civil_centre.xml
+ create mode 100644 binaries/data/mods/public/simulation/templates/mixins/civ/rome/civil_centre.xml
+ create mode 100644 binaries/data/mods/public/simulation/templates/mixins/civ/sele/civil_centre.xml
+ create mode 100644 binaries/data/mods/public/simulation/templates/mixins/civ/spart/civil_centre.xml
+
+diff --git a/binaries/data/mods/public/simulation/templates/mixins/civ/athen/civil_centre.xml b/binaries/data/mods/public/simulation/templates/mixins/civ/athen/civil_centre.xml
+new file mode 100644
+index 0000000000..a76e53fdaa
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/templates/mixins/civ/athen/civil_centre.xml
+@@ -0,0 +1,23 @@
++<?xml version="1.0" encoding="utf-8" standalone="no"?>
++<Entity>
++  <Footprint>
++    <Square width="40.0" depth="40.0"/>
++    <Height>8.0</Height>
++  </Footprint>
++  <Health>
++    <SpawnEntityOnDeath>decay|rubble/rubble_hele_cc</SpawnEntityOnDeath>
++  </Health>
++  <Identity>
++    <Civ>athen</Civ>
++  </Identity>
++  <Obstruction>
++    <Static width="37.0" depth="37.0"/>
++  </Obstruction>
++  <ProductionQueue>
++    <Entities datatype="tokens">
++      units/{civ}/infantry_spearman_b
++      units/{civ}/infantry_slinger_b
++      units/{civ}/cavalry_javelineer_b
++    </Entities>
++  </ProductionQueue>
++</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/mixins/civ/brit/civil_centre.xml b/binaries/data/mods/public/simulation/templates/mixins/civ/brit/civil_centre.xml
+new file mode 100644
+index 0000000000..f980ebc756
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/templates/mixins/civ/brit/civil_centre.xml
+@@ -0,0 +1,23 @@
++<?xml version="1.0" encoding="utf-8" standalone="no"?>
++<Entity>
++  <Footprint replace="">
++    <Circle radius="15.0"/>
++    <Height>8.0</Height>
++  </Footprint>
++  <Health>
++    <SpawnEntityOnDeath>decay|rubble/rubble_brit_cc</SpawnEntityOnDeath>
++  </Health>
++  <Identity>
++    <Civ>brit</Civ>
++  </Identity>
++  <Obstruction>
++    <Static width="25.0" depth="25.0"/>
++  </Obstruction>
++  <ProductionQueue>
++    <Entities datatype="tokens">
++      units/{civ}/infantry_spearman_b
++      units/{civ}/infantry_slinger_b
++      units/{civ}/cavalry_javelineer_b
++    </Entities>
++  </ProductionQueue>
++</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/mixins/civ/cart/civil_centre.xml b/binaries/data/mods/public/simulation/templates/mixins/civ/cart/civil_centre.xml
+new file mode 100644
+index 0000000000..e0fdb056af
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/templates/mixins/civ/cart/civil_centre.xml
+@@ -0,0 +1,19 @@
++<?xml version="1.0" encoding="utf-8" standalone="no"?>
++<Entity>
++  <Health>
++    <SpawnEntityOnDeath>decay|rubble/rubble_kart_cc</SpawnEntityOnDeath>
++  </Health>
++  <Identity>
++    <Civ>cart</Civ>
++  </Identity>
++  <ProductionQueue>
++    <Entities datatype="tokens">
++			units/{civ}/infantry_spearman_b
++			units/{civ}/infantry_archer_b
++			units/{civ}/cavalry_javelineer_b
++		</Entities>
++    <Technologies datatype="tokens">
++    	colonization
++    </Technologies>
++  </ProductionQueue>
++</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/mixins/civ/gaul/civil_centre.xml b/binaries/data/mods/public/simulation/templates/mixins/civ/gaul/civil_centre.xml
+new file mode 100644
+index 0000000000..56b7c83fd6
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/templates/mixins/civ/gaul/civil_centre.xml
+@@ -0,0 +1,20 @@
++<?xml version="1.0" encoding="utf-8" standalone="no"?>
++<Entity>
++  <Footprint>
++    <Square width="28.0" depth="28.0"/>
++    <Height>8.0</Height>
++  </Footprint>
++  <Identity>
++    <Civ>gaul</Civ>
++  </Identity>
++  <Obstruction>
++    <Static width="25.0" depth="25.0"/>
++  </Obstruction>
++  <ProductionQueue>
++    <Entities datatype="tokens">
++      units/{civ}/infantry_spearman_b
++      units/{civ}/infantry_javelineer_b
++      units/{civ}/cavalry_javelineer_b
++    </Entities>
++  </ProductionQueue>
++</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/mixins/civ/iber/civil_centre.xml b/binaries/data/mods/public/simulation/templates/mixins/civ/iber/civil_centre.xml
+new file mode 100644
+index 0000000000..f1c9735411
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/templates/mixins/civ/iber/civil_centre.xml
+@@ -0,0 +1,16 @@
++<?xml version="1.0" encoding="utf-8" standalone="no"?>
++<Entity>
++  <Health>
++    <SpawnEntityOnDeath>decay|rubble/rubble_iber_cc</SpawnEntityOnDeath>
++  </Health>
++  <Identity>
++    <Civ>iber</Civ>
++  </Identity>
++  <ProductionQueue>
++    <Entities datatype="tokens">
++      units/{civ}/infantry_swordsman_b
++      units/{civ}/infantry_javelineer_b
++      units/{civ}/cavalry_javelineer_b
++    </Entities>
++  </ProductionQueue>
++</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/mixins/civ/kush/civil_centre.xml b/binaries/data/mods/public/simulation/templates/mixins/civ/kush/civil_centre.xml
+new file mode 100644
+index 0000000000..cde5770f3d
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/templates/mixins/civ/kush/civil_centre.xml
+@@ -0,0 +1,23 @@
++<?xml version="1.0" encoding="utf-8" standalone="no"?>
++<Entity>
++  <Footprint>
++    <Square width="32.0" depth="32"/>
++    <Height>10.0</Height>
++  </Footprint>
++  <Identity>
++    <Civ>kush</Civ>
++  </Identity>
++  <Obstruction>
++    <Static width="31.0" depth="31"/>
++  </Obstruction>
++  <ProductionQueue>
++    <Entities datatype="tokens">
++      units/{civ}/infantry_spearman_b
++      units/{civ}/infantry_archer_b
++      units/{civ}/cavalry_javelineer_b
++    </Entities>
++    <Technologies datatype="tokens">
++      architecture_kush
++    </Technologies>
++  </ProductionQueue>
++</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/mixins/civ/mace/civil_centre.xml b/binaries/data/mods/public/simulation/templates/mixins/civ/mace/civil_centre.xml
+new file mode 100644
+index 0000000000..87671676cc
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/templates/mixins/civ/mace/civil_centre.xml
+@@ -0,0 +1,16 @@
++<?xml version="1.0" encoding="utf-8" standalone="no"?>
++<Entity>
++  <Health>
++    <SpawnEntityOnDeath>decay|rubble/rubble_hele_cc</SpawnEntityOnDeath>
++  </Health>
++  <Identity>
++    <Civ>mace</Civ>
++  </Identity>
++  <ProductionQueue>
++    <Entities datatype="tokens">
++      units/{civ}/infantry_pikeman_b
++      units/{civ}/infantry_javelineer_b
++      units/{civ}/cavalry_spearman_b
++    </Entities>
++  </ProductionQueue>
++</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/mixins/civ/maur/civil_centre.xml b/binaries/data/mods/public/simulation/templates/mixins/civ/maur/civil_centre.xml
+new file mode 100644
+index 0000000000..7c98ff4bde
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/templates/mixins/civ/maur/civil_centre.xml
+@@ -0,0 +1,24 @@
++<?xml version="1.0" encoding="utf-8" standalone="no"?>
++<Entity>
++  <Footprint>
++    <Square width="40.0" depth="34.0"/>
++    <Height>8.0</Height>
++  </Footprint>
++  <Health>
++    <SpawnEntityOnDeath>decay|rubble/rubble_maur_cc</SpawnEntityOnDeath>
++  </Health>
++  <Identity>
++    <Civ>maur</Civ>
++  </Identity>
++  <Obstruction>
++    <Static width="36.0" depth="30.0"/>
++  </Obstruction>
++	<ProductionQueue>
++    <Entities datatype="tokens">
++			units/{civ}/infantry_spearman_b
++			units/{civ}/infantry_archer_b
++			units/{civ}/cavalry_javelineer_b
++			units/{civ}/support_elephant
++    </Entities>
++	</ProductionQueue>
++</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/mixins/civ/pers/civil_centre.xml b/binaries/data/mods/public/simulation/templates/mixins/civ/pers/civil_centre.xml
+new file mode 100644
+index 0000000000..e21e3c6369
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/templates/mixins/civ/pers/civil_centre.xml
+@@ -0,0 +1,19 @@
++<?xml version="1.0" encoding="utf-8" standalone="no"?>
++<Entity>
++  <Health>
++    <SpawnEntityOnDeath>decay|rubble/rubble_pers_cc</SpawnEntityOnDeath>
++  </Health>
++  <Identity>
++    <Civ>pers</Civ>
++  </Identity>
++   ProductionQueue>
++-   <Entities datatype="tokens">
++-     units/{civ}/infantry_spearman_b
++-     units/{civ}/infantry_archer_b
++-     units/{civ}/cavalry_javelineer_b
++-   </Entities>
++    <Technologies datatype="tokens">
++      architecture_pers
++    </Technologies>
++   /ProductionQueue>
++</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/mixins/civ/ptol/civil_centre.xml b/binaries/data/mods/public/simulation/templates/mixins/civ/ptol/civil_centre.xml
+new file mode 100644
+index 0000000000..cecfb70381
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/templates/mixins/civ/ptol/civil_centre.xml
+@@ -0,0 +1,20 @@
++<?xml version="1.0" encoding="utf-8" standalone="no"?>
++<Entity>
++  <Footprint>
++    <Square width="41" depth="33"/>
++    <Height>8.0</Height>
++  </Footprint>
++  <Identity>
++    <Civ>ptol</Civ>
++  </Identity>
++  <Obstruction>
++    <Static width="39" depth="31"/>
++  </Obstruction>
++  <ProductionQueue>
++    <Entities datatype="tokens">
++      units/{civ}/infantry_pikeman_b
++      units/{civ}/infantry_slinger_b
++      units/{civ}/cavalry_archer_b
++    </Entities>
++  </ProductionQueue>
++</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/mixins/civ/rome/civil_centre.xml b/binaries/data/mods/public/simulation/templates/mixins/civ/rome/civil_centre.xml
+new file mode 100644
+index 0000000000..b6b589479c
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/templates/mixins/civ/rome/civil_centre.xml
+@@ -0,0 +1,23 @@
++<?xml version="1.0" encoding="utf-8" standalone="no"?>
++<Entity>
++  <Footprint>
++    <Square width="40.0" depth="40.0"/>
++    <Height>8.0</Height>
++  </Footprint>
++  <Health>
++    <SpawnEntityOnDeath>decay|rubble/rubble_rome_cc</SpawnEntityOnDeath>
++  </Health>
++  <Identity>
++    <Civ>rome</Civ>
++  </Identity>
++  <Obstruction>
++    <Static width="37.0" depth="37.0"/>
++  </Obstruction>
++  <ProductionQueue>
++    <Entities datatype="tokens">
++      units/{civ}/infantry_swordsman_b
++      units/{civ}/infantry_javelineer_b
++      units/{civ}/cavalry_spearman_b
++    </Entities>
++  </ProductionQueue>
++</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/mixins/civ/sele/civil_centre.xml b/binaries/data/mods/public/simulation/templates/mixins/civ/sele/civil_centre.xml
+new file mode 100644
+index 0000000000..8298d0d380
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/templates/mixins/civ/sele/civil_centre.xml
+@@ -0,0 +1,13 @@
++<?xml version="1.0" encoding="utf-8" standalone="no"?>
++<Entity>
++  <Identity>
++    <Civ>sele</Civ>
++  </Identity>
++  <ProductionQueue>
++    <Entities datatype="tokens">
++      units/{civ}/infantry_spearman_b
++      units/{civ}/infantry_javelineer_b
++      units/{civ}/cavalry_javelineer_b
++    </Entities>
++  </ProductionQueue>
++</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/mixins/civ/spart/civil_centre.xml b/binaries/data/mods/public/simulation/templates/mixins/civ/spart/civil_centre.xml
+new file mode 100644
+index 0000000000..623f46b914
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/templates/mixins/civ/spart/civil_centre.xml
+@@ -0,0 +1,16 @@
++<?xml version="1.0" encoding="utf-8" standalone="no"?>
++<Entity>
++  <Health>
++    <SpawnEntityOnDeath>decay|rubble/rubble_hele_cc</SpawnEntityOnDeath>
++  </Health>
++  <Identity>
++    <Civ>spart</Civ>
++  </Identity>
++  <ProductionQueue>
++    <Entities datatype="tokens">
++      units/{civ}/infantry_spearman_b
++      units/{civ}/infantry_javelineer_b
++      units/{civ}/cavalry_javelineer_b
++    </Entities>
++  </ProductionQueue>
++</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/athen/city_centre.xml b/binaries/data/mods/public/simulation/templates/structures/athen/city_centre.xml
+index 08a1b1f2e8..33dfabc032 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/athen/city_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/athen/city_centre.xml
+@@ -1,10 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_c">
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_hele_cc</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/athen/civil_centre|template_structure_civic_civil_centre_c">
+   <Identity>
+-    <Civ>athen</Civ>
+ 		<SpecificName>Pōlis</SpecificName>
+   </Identity>
+   <VisualActor>
+-- 
+2.25.1
+

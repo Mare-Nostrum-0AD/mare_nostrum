@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Entity parent="template_structure_civic_civil_centre_c">
-  <Health>
-    <SpawnEntityOnDeath>decay|rubble/rubble_hele_cc</SpawnEntityOnDeath>
-  </Health>
+<Entity parent="civ/athen/civil_centre|template_structure_civic_civil_centre_c">
   <Identity>
-    <Civ>athen</Civ>
 		<SpecificName>Pōlis</SpecificName>
   </Identity>
   <VisualActor>

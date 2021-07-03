@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Entity>
+  <Footprint replace="">
+    <Circle radius="15.0"/>
+    <Height>8.0</Height>
+  </Footprint>
+  <Health>
+    <SpawnEntityOnDeath>decay|rubble/rubble_brit_cc</SpawnEntityOnDeath>
+  </Health>
+  <Identity>
+    <Civ>brit</Civ>
+  </Identity>
+  <Obstruction>
+    <Static width="25.0" depth="25.0"/>
+  </Obstruction>
+  <ProductionQueue>
+    <Entities datatype="tokens">
+      units/{civ}/infantry_spearman_b
+      units/{civ}/infantry_slinger_b
+      units/{civ}/cavalry_javelineer_b
+    </Entities>
+  </ProductionQueue>
+</Entity>

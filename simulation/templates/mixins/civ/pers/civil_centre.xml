@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Entity>
+  <Health>
+    <SpawnEntityOnDeath>decay|rubble/rubble_pers_cc</SpawnEntityOnDeath>
+  </Health>
+  <Identity>
+    <Civ>pers</Civ>
+  </Identity>
+   ProductionQueue>
+-   <Entities datatype="tokens">
+-     units/{civ}/infantry_spearman_b
+-     units/{civ}/infantry_archer_b
+-     units/{civ}/cavalry_javelineer_b
+-   </Entities>
+    <Technologies datatype="tokens">
+      architecture_pers
+    </Technologies>
+   /ProductionQueue>
+</Entity>

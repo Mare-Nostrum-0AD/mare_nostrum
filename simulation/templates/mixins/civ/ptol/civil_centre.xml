@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Entity>
+  <Footprint>
+    <Square width="41" depth="33"/>
+    <Height>8.0</Height>
+  </Footprint>
+  <Identity>
+    <Civ>ptol</Civ>
+  </Identity>
+  <Obstruction>
+    <Static width="39" depth="31"/>
+  </Obstruction>
+  <ProductionQueue>
+    <Entities datatype="tokens">
+      units/{civ}/infantry_pikeman_b
+      units/{civ}/infantry_slinger_b
+      units/{civ}/cavalry_archer_b
+    </Entities>
+  </ProductionQueue>
+</Entity>
