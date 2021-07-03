@@ -1,0 +1,35 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sat, 3 Jul 2021 15:50:41 -0700
+Subject: [PATCH] fixed build restrictions for ptol lighthouse (monument 2)
+
+---
+ .../simulation/templates/structures/ptol/monument_02.xml      | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/binaries/data/mods/public/simulation/templates/structures/ptol/monument_02.xml b/binaries/data/mods/public/simulation/templates/structures/ptol/monument_02.xml
+index 87f8efc56a..ec6f121eaa 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/ptol/monument_02.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/ptol/monument_02.xml
+@@ -1,9 +1,7 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <Entity parent="template_structure_civic_monument">
+   <BuildRestrictions>
+-    <Territory>own ally neutral</Territory>
+     <PlacementType>shore</PlacementType>
+-    <Category>Lighthouse</Category>
+   </BuildRestrictions>
+   <Cost>
+     <BuildTime>200</BuildTime>
+@@ -24,7 +22,7 @@
+     <Civ>ptol</Civ>
+     <GenericName>Lighthouse</GenericName>
+     <SpecificName>Pharos</SpecificName>
+-    <Tooltip>Build upon a shoreline in own, neutral, or allied territory. Very large vision range.</Tooltip>
++    <Tooltip>Special Ptolemaic monument. Greatly increases city growth rate. Very large vision range.</Tooltip>
+     <Classes datatype="tokens">CivSpecific</Classes>
+     <VisibleClasses datatype="tokens">Lighthouse</VisibleClasses>
+     <Icon>structures/lighthouse.png</Icon>
+-- 
+2.25.1
+
