@@ -1,0 +1,1319 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sat, 3 Jul 2021 17:05:38 -0700
+Subject: [PATCH] refactored civil center templates using mixins
+
+added citizen soldiers and basic cav units back to civil centers
+---
+ .../mixins/civ/pers/civil_centre.xml          | 14 ++++++-------
+ .../structures/athen/city_centre.xml          |  2 +-
+ .../structures/athen/civil_centre.xml         | 13 +-----------
+ .../structures/athen/metro_centre.xml         |  6 +-----
+ .../structures/athen/town_centre.xml          | 13 +-----------
+ .../templates/structures/brit/city_centre.xml | 13 +-----------
+ .../structures/brit/civil_centre.xml          | 15 +------------
+ .../structures/brit/metro_centre.xml          | 13 +-----------
+ .../templates/structures/brit/town_centre.xml | 15 +------------
+ .../templates/structures/cart/city_centre.xml | 11 +---------
+ .../structures/cart/civil_centre.xml          | 21 +------------------
+ .../structures/cart/metro_centre.xml          | 14 +------------
+ .../templates/structures/cart/town_centre.xml | 20 +-----------------
+ .../templates/structures/gaul/city_centre.xml | 10 +--------
+ .../structures/gaul/civil_centre.xml          | 16 +-------------
+ .../structures/gaul/metro_centre.xml          | 13 +-----------
+ .../templates/structures/gaul/town_centre.xml | 15 +------------
+ .../templates/structures/iber/city_centre.xml |  6 +-----
+ .../structures/iber/civil_centre.xml          | 16 +-------------
+ .../structures/iber/metro_centre.xml          |  6 +-----
+ .../templates/structures/iber/town_centre.xml | 15 +------------
+ .../templates/structures/kush/city_centre.xml | 10 +--------
+ .../structures/kush/civil_centre.xml          | 16 +-------------
+ .../structures/kush/metro_centre.xml          | 15 +------------
+ .../templates/structures/kush/town_centre.xml | 15 +------------
+ .../templates/structures/mace/city_centre.xml |  6 +-----
+ .../structures/mace/civil_centre.xml          | 14 +------------
+ .../structures/mace/metro_centre.xml          |  6 +-----
+ .../templates/structures/mace/town_centre.xml | 13 +-----------
+ .../templates/structures/maur/city_centre.xml | 18 +---------------
+ .../structures/maur/civil_centre.xml          | 21 +------------------
+ .../structures/maur/metro_centre.xml          | 18 +---------------
+ .../templates/structures/maur/town_centre.xml | 20 +-----------------
+ .../templates/structures/pers/city_centre.xml | 11 +---------
+ .../structures/pers/civil_centre.xml          | 21 +------------------
+ .../structures/pers/metro_centre.xml          | 11 +---------
+ .../templates/structures/pers/town_centre.xml | 20 +-----------------
+ .../templates/structures/ptol/city_centre.xml | 10 +--------
+ .../structures/ptol/civil_centre.xml          | 13 +-----------
+ .../structures/ptol/metro_centre.xml          | 10 +--------
+ .../templates/structures/ptol/town_centre.xml | 13 +-----------
+ .../templates/structures/rome/city_centre.xml | 13 +-----------
+ .../structures/rome/civil_centre.xml          | 13 +-----------
+ .../structures/rome/metro_centre.xml          | 13 +-----------
+ .../templates/structures/rome/town_centre.xml | 13 +-----------
+ .../templates/structures/sele/city_centre.xml |  3 +--
+ .../structures/sele/civil_centre.xml          | 13 +-----------
+ .../structures/sele/metro_centre.xml          |  3 +--
+ .../templates/structures/sele/town_centre.xml | 13 +-----------
+ .../structures/spart/city_centre.xml          |  6 +-----
+ .../structures/spart/civil_centre.xml         | 13 +-----------
+ .../structures/spart/metro_centre.xml         |  6 +-----
+ .../structures/spart/town_centre.xml          | 13 +-----------
+ ...emplate_structure_civic_civil_centre_a.xml |  1 +
+ 54 files changed, 60 insertions(+), 611 deletions(-)
+
+diff --git a/binaries/data/mods/public/simulation/templates/mixins/civ/pers/civil_centre.xml b/binaries/data/mods/public/simulation/templates/mixins/civ/pers/civil_centre.xml
+index e21e3c6369..2ef67b243b 100644
+--- a/binaries/data/mods/public/simulation/templates/mixins/civ/pers/civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/mixins/civ/pers/civil_centre.xml
+@@ -6,14 +6,14 @@
+   <Identity>
+     <Civ>pers</Civ>
+   </Identity>
+-   ProductionQueue>
+--   <Entities datatype="tokens">
+--     units/{civ}/infantry_spearman_b
+--     units/{civ}/infantry_archer_b
+--     units/{civ}/cavalry_javelineer_b
+--   </Entities>
++  <ProductionQueue>
++    <Entities datatype="tokens">
++			units/{civ}/infantry_spearman_b
++			units/{civ}/infantry_archer_b
++			units/{civ}/cavalry_javelineer_b
++   	</Entities>
+     <Technologies datatype="tokens">
+       architecture_pers
+     </Technologies>
+-   /ProductionQueue>
++  </ProductionQueue>
+ </Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/athen/city_centre.xml b/binaries/data/mods/public/simulation/templates/structures/athen/city_centre.xml
+index 33dfabc032..f6a1b88581 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/athen/city_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/athen/city_centre.xml
+@@ -1,5 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="civ/athen/civil_centre|template_structure_civic_civil_centre_c">
++<Entity parent="civ/athen/civil_centre|civ/athen/civil_centre|template_structure_civic_civil_centre_c">
+   <Identity>
+ 		<SpecificName>Pōlis</SpecificName>
+   </Identity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/athen/civil_centre.xml b/binaries/data/mods/public/simulation/templates/structures/athen/civil_centre.xml
+index 1dc938a4a4..86a44d9c45 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/athen/civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/athen/civil_centre.xml
+@@ -1,19 +1,8 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_a">
+-  <Footprint>
+-    <Square width="40.0" depth="40.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_rome_cc</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/athen/civil_centre|template_structure_civic_civil_centre_a">
+   <Identity>
+-    <Civ>athen</Civ>
+ 		<SpecificName>Xorióu</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="37.0" depth="37.0"/>
+-  </Obstruction>
+   <VisualActor>
+     <Actor>structures/athenians/village.xml</Actor>
+     <FoundationActor>structures/fndn_8x8.xml</FoundationActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/athen/metro_centre.xml b/binaries/data/mods/public/simulation/templates/structures/athen/metro_centre.xml
+index eb34c712e4..826c82f613 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/athen/metro_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/athen/metro_centre.xml
+@@ -1,10 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_d">
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_hele_cc</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/athen/civil_centre|template_structure_civic_civil_centre_d">
+   <Identity>
+-    <Civ>athen</Civ>
+   </Identity>
+   <VisualActor>
+ 		<Actor>structures/athenians/metro_centre.xml</Actor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/athen/town_centre.xml b/binaries/data/mods/public/simulation/templates/structures/athen/town_centre.xml
+index 88024c6ce4..897ddd5915 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/athen/town_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/athen/town_centre.xml
+@@ -1,19 +1,8 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_b">
+-  <Footprint>
+-    <Square width="40.0" depth="40.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_rome_cc</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/athen/civil_centre|template_structure_civic_civil_centre_b">
+   <Identity>
+-    <Civ>athen</Civ>
+ 		<SpecificName>Kōmopolis</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="37.0" depth="37.0"/>
+-  </Obstruction>
+   <VisualActor>
+     <Actor>structures/athenians/town.xml</Actor>
+     <FoundationActor>structures/fndn_8x8.xml</FoundationActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/brit/city_centre.xml b/binaries/data/mods/public/simulation/templates/structures/brit/city_centre.xml
+index 7528011590..d7a8f28642 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/brit/city_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/brit/city_centre.xml
+@@ -1,20 +1,9 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_c">
+-  <Footprint replace="">
+-    <Circle radius="15.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_brit_cc</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/brit/civil_centre|template_structure_civic_civil_centre_c">
+   <Identity>
+-    <Civ>brit</Civ>
+     <SpecificName>Caer</SpecificName>
+ 		<Classes datatype="tokens">-Sturdy</Classes>
+   </Identity>
+-  <Obstruction>
+-    <Static width="25.0" depth="25.0"/>
+-  </Obstruction>
+   <VisualActor>
+     <Actor>structures/britons/civic_centre.xml</Actor>
+     <FoundationActor>structures/fndn_6x6.xml</FoundationActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/brit/civil_centre.xml b/binaries/data/mods/public/simulation/templates/structures/brit/civil_centre.xml
+index 897bc6cda5..ea4aab345f 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/brit/civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/brit/civil_centre.xml
+@@ -1,18 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_a">
+-  <Footprint>
+-    <Square width="40.0" depth="40.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_rome_cc</SpawnEntityOnDeath>
+-  </Health>
+-  <Identity>
+-    <Civ>brit</Civ>
+-  </Identity>
+-  <Obstruction>
+-    <Static width="37.0" depth="37.0"/>
+-  </Obstruction>
++<Entity parent="civ/brit/civil_centre|template_structure_civic_civil_centre_a">
+   <VisualActor>
+     <Actor>structures/britons/village.xml</Actor>
+     <FoundationActor>structures/fndn_8x8.xml</FoundationActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/brit/metro_centre.xml b/binaries/data/mods/public/simulation/templates/structures/brit/metro_centre.xml
+index 714eb2db6f..a42d5d461b 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/brit/metro_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/brit/metro_centre.xml
+@@ -1,19 +1,8 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_d">
+-  <Footprint replace="">
+-    <Circle radius="15.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_brit_cc</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/brit/civil_centre|template_structure_civic_civil_centre_d">
+   <Identity>
+-    <Civ>brit</Civ>
+     <SpecificName>Tigernotreba</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="25.0" depth="25.0"/>
+-  </Obstruction>
+   <VisualActor>
+     <Actor>structures/britons/crannog.xml</Actor>
+     <FoundationActor>structures/fndn_8x8.xml</FoundationActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/brit/town_centre.xml b/binaries/data/mods/public/simulation/templates/structures/brit/town_centre.xml
+index 9c4c2d1ade..4cc252666c 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/brit/town_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/brit/town_centre.xml
+@@ -1,18 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_b">
+-  <Footprint>
+-    <Square width="40.0" depth="40.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_rome_cc</SpawnEntityOnDeath>
+-  </Health>
+-  <Identity>
+-    <Civ>brit</Civ>
+-  </Identity>
+-  <Obstruction>
+-    <Static width="37.0" depth="37.0"/>
+-  </Obstruction>
++<Entity parent="civ/brit/civil_centre|template_structure_civic_civil_centre_b">
+   <VisualActor>
+     <Actor>structures/britons/town.xml</Actor>
+     <FoundationActor>structures/fndn_8x8.xml</FoundationActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/cart/city_centre.xml b/binaries/data/mods/public/simulation/templates/structures/cart/city_centre.xml
+index 4f99c11a60..9c68adcf9e 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/cart/city_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/cart/city_centre.xml
+@@ -1,17 +1,8 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_c">
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_kart_cc</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/cart/civil_centre|template_structure_civic_civil_centre_c">
+   <Identity>
+-    <Civ>cart</Civ>
+     <SpecificName>Merkāz</SpecificName>
+   </Identity>
+-  <ProductionQueue>
+-    <Technologies datatype="tokens">
+-      colonization
+-    </Technologies>
+-  </ProductionQueue>
+   <VisualActor>
+     <Actor>structures/carthaginians/government_centre.xml</Actor>
+   </VisualActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/cart/civil_centre.xml b/binaries/data/mods/public/simulation/templates/structures/cart/civil_centre.xml
+index 50471b010c..ee592169e8 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/cart/civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/cart/civil_centre.xml
+@@ -1,24 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_a">
+-  <Footprint>
+-    <Square width="40.0" depth="40.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_rome_cc</SpawnEntityOnDeath>
+-  </Health>
+-  <Identity>
+-    <Civ>cart</Civ>
+-    <GenericName>Village</GenericName>
+-  </Identity>
+-  <Obstruction>
+-    <Static width="37.0" depth="37.0"/>
+-  </Obstruction>
+-  <ProductionQueue>
+-    <Technologies datatype="tokens">
+-      colonization
+-    </Technologies>
+-  </ProductionQueue>
++<Entity parent="civ/cart/civil_centre|template_structure_civic_civil_centre_a">
+   <VisualActor>
+     <Actor>structures/carthaginians/village.xml</Actor>
+     <FoundationActor>structures/fndn_8x8.xml</FoundationActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/cart/metro_centre.xml b/binaries/data/mods/public/simulation/templates/structures/cart/metro_centre.xml
+index d51a8f2780..960b4687a0 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/cart/metro_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/cart/metro_centre.xml
+@@ -1,17 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_d">
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_kart_cc</SpawnEntityOnDeath>
+-  </Health>
+-  <Identity>
+-    <Civ>cart</Civ>
+-    <SpecificName>Merkāz</SpecificName>
+-  </Identity>
+-  <ProductionQueue>
+-    <Technologies datatype="tokens">
+-      colonization
+-    </Technologies>
+-  </ProductionQueue>
++<Entity parent="civ/cart/civil_centre|template_structure_civic_civil_centre_d">
+   <VisualActor>
+     <Actor>structures/carthaginians/civil_centre.xml</Actor>
+   </VisualActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/cart/town_centre.xml b/binaries/data/mods/public/simulation/templates/structures/cart/town_centre.xml
+index 7a76e7412d..cc9ba94485 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/cart/town_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/cart/town_centre.xml
+@@ -1,23 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_b">
+-  <Footprint>
+-    <Square width="40.0" depth="40.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_rome_cc</SpawnEntityOnDeath>
+-  </Health>
+-  <Identity>
+-    <Civ>cart</Civ>
+-  </Identity>
+-  <Obstruction>
+-    <Static width="37.0" depth="37.0"/>
+-  </Obstruction>
+-  <ProductionQueue>
+-    <Technologies datatype="tokens">
+-      colonization
+-    </Technologies>
+-  </ProductionQueue>
++<Entity parent="civ/cart/civil_centre|template_structure_civic_civil_centre_b">
+   <VisualActor>
+     <Actor>structures/carthaginians/town.xml</Actor>
+     <FoundationActor>structures/fndn_8x8.xml</FoundationActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/gaul/city_centre.xml b/binaries/data/mods/public/simulation/templates/structures/gaul/city_centre.xml
+index 33c72c1a2a..a6424286b4 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/gaul/city_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/gaul/city_centre.xml
+@@ -1,17 +1,9 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_c">
+-  <Footprint>
+-    <Square width="28.0" depth="28.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
++<Entity parent="civ/gaul/civil_centre|template_structure_civic_civil_centre_c">
+   <Identity>
+-    <Civ>gaul</Civ>
+     <SpecificName>Caer</SpecificName>
+ 		<Classes datatype="tokens">-Sturdy</Classes>
+   </Identity>
+-  <Obstruction>
+-    <Static width="25.0" depth="25.0"/>
+-  </Obstruction>
+   <VisualActor>
+     <Actor>structures/gauls/civic_centre.xml</Actor>
+   </VisualActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/gaul/civil_centre.xml b/binaries/data/mods/public/simulation/templates/structures/gaul/civil_centre.xml
+index 28122c0050..7f3c8aba6c 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/gaul/civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/gaul/civil_centre.xml
+@@ -1,19 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_a">
+-  <Footprint>
+-    <Square width="40.0" depth="40.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_rome_cc</SpawnEntityOnDeath>
+-  </Health>
+-  <Identity>
+-    <Civ>gaul</Civ>
+-    <GenericName>Village</GenericName>
+-  </Identity>
+-  <Obstruction>
+-    <Static width="37.0" depth="37.0"/>
+-  </Obstruction>
++<Entity parent="civ/gaul/civil_centre|template_structure_civic_civil_centre_a">
+   <VisualActor>
+     <Actor>structures/gauls/village.xml</Actor>
+     <FoundationActor>structures/fndn_8x8.xml</FoundationActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/gaul/metro_centre.xml b/binaries/data/mods/public/simulation/templates/structures/gaul/metro_centre.xml
+index f1755bfb86..d5b70d64d7 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/gaul/metro_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/gaul/metro_centre.xml
+@@ -1,19 +1,8 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_d">
+-  <Footprint>
+-    <Square width="30.0" depth="30.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_gaul_cc</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/gaul/civil_centre|template_structure_civic_civil_centre_d">
+   <Identity>
+-    <Civ>gaul</Civ>
+     <SpecificName>Lissos</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="25.0" depth="25.0"/>
+-  </Obstruction>
+   <VisualActor>
+     <Actor>structures/gauls/fortress.xml</Actor>
+   </VisualActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/gaul/town_centre.xml b/binaries/data/mods/public/simulation/templates/structures/gaul/town_centre.xml
+index 0a3a546ed3..6b83c2df62 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/gaul/town_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/gaul/town_centre.xml
+@@ -1,18 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_b">
+-  <Footprint>
+-    <Square width="40.0" depth="40.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_rome_cc</SpawnEntityOnDeath>
+-  </Health>
+-  <Identity>
+-    <Civ>gaul</Civ>
+-  </Identity>
+-  <Obstruction>
+-    <Static width="37.0" depth="37.0"/>
+-  </Obstruction>
++<Entity parent="civ/gaul/civil_centre|template_structure_civic_civil_centre_b">
+   <VisualActor>
+     <Actor>structures/gauls/town.xml</Actor>
+     <FoundationActor>structures/fndn_8x8.xml</FoundationActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/iber/city_centre.xml b/binaries/data/mods/public/simulation/templates/structures/iber/city_centre.xml
+index 4495c9d528..1685582445 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/iber/city_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/iber/city_centre.xml
+@@ -1,10 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_c">
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_iber_cc</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/iber/civil_centre|template_structure_civic_civil_centre_c">
+   <Identity>
+-    <Civ>iber</Civ>
+     <SpecificName>Oppidum</SpecificName>
+   </Identity>
+   <VisualActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/iber/civil_centre.xml b/binaries/data/mods/public/simulation/templates/structures/iber/civil_centre.xml
+index ac54e7b765..06f222eeb9 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/iber/civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/iber/civil_centre.xml
+@@ -1,19 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_a">
+-  <Footprint>
+-    <Square width="40.0" depth="40.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_rome_cc</SpawnEntityOnDeath>
+-  </Health>
+-  <Identity>
+-    <Civ>iber</Civ>
+-    <GenericName>Village</GenericName>
+-  </Identity>
+-  <Obstruction>
+-    <Static width="37.0" depth="37.0"/>
+-  </Obstruction>
++<Entity parent="civ/iber/civil_centre|template_structure_civic_civil_centre_a">
+   <VisualActor>
+     <Actor>structures/iberians/village.xml</Actor>
+     <FoundationActor>structures/fndn_8x8.xml</FoundationActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/iber/metro_centre.xml b/binaries/data/mods/public/simulation/templates/structures/iber/metro_centre.xml
+index 85b89282dc..0dba68dc93 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/iber/metro_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/iber/metro_centre.xml
+@@ -1,10 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_d">
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_iber_cc</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/iber/civil_centre|template_structure_civic_civil_centre_d">
+   <Identity>
+-    <Civ>iber</Civ>
+     <SpecificName>Oppidum</SpecificName>
+   </Identity>
+   <VisualActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/iber/town_centre.xml b/binaries/data/mods/public/simulation/templates/structures/iber/town_centre.xml
+index 42e317dde1..663dfa2d35 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/iber/town_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/iber/town_centre.xml
+@@ -1,18 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_b">
+-  <Footprint>
+-    <Square width="40.0" depth="40.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_rome_cc</SpawnEntityOnDeath>
+-  </Health>
+-  <Identity>
+-    <Civ>iber</Civ>
+-  </Identity>
+-  <Obstruction>
+-    <Static width="37.0" depth="37.0"/>
+-  </Obstruction>
++<Entity parent="civ/iber/civil_centre|template_structure_civic_civil_centre_b">
+   <VisualActor>
+     <Actor>structures/iberians/town.xml</Actor>
+     <FoundationActor>structures/fndn_8x8.xml</FoundationActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/kush/city_centre.xml b/binaries/data/mods/public/simulation/templates/structures/kush/city_centre.xml
+index 6e59b6d772..11c9c92ce0 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/kush/city_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/kush/city_centre.xml
+@@ -1,16 +1,8 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_c">
+-  <Footprint>
+-    <Square width="32.0" depth="32"/>
+-    <Height>10.0</Height>
+-  </Footprint>
++<Entity parent="civ/kush/civil_centre|template_structure_civic_civil_centre_c">
+   <Identity>
+-    <Civ>kush</Civ>
+     <SpecificName>Pr-nsw</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="31.0" depth="31"/>
+-  </Obstruction>
+   <VisualActor>
+     <Actor>structures/kushites/civic_centre_kush.xml</Actor>
+   </VisualActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/kush/civil_centre.xml b/binaries/data/mods/public/simulation/templates/structures/kush/civil_centre.xml
+index f049fc9e5f..eae412fad9 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/kush/civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/kush/civil_centre.xml
+@@ -1,19 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_a">
+-  <Footprint>
+-    <Square width="40.0" depth="40.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_rome_cc</SpawnEntityOnDeath>
+-  </Health>
+-  <Identity>
+-    <Civ>kush</Civ>
+-    <GenericName>Village</GenericName>
+-  </Identity>
+-  <Obstruction>
+-    <Static width="37.0" depth="37.0"/>
+-  </Obstruction>
++<Entity parent="civ/kush/civil_centre|template_structure_civic_civil_centre_a">
+   <VisualActor>
+     <Actor>structures/kushites/village.xml</Actor>
+     <FoundationActor>structures/fndn_8x8.xml</FoundationActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/kush/metro_centre.xml b/binaries/data/mods/public/simulation/templates/structures/kush/metro_centre.xml
+index 9beefab616..e02dcb9c21 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/kush/metro_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/kush/metro_centre.xml
+@@ -1,21 +1,8 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_d">
+-  <Footprint>
+-    <Square width="32.0" depth="32"/>
+-    <Height>10.0</Height>
+-  </Footprint>
++<Entity parent="civ/kush/civil_centre|template_structure_civic_civil_centre_d">
+   <Identity>
+-    <Civ>kush</Civ>
+     <SpecificName>Pr-nsw</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="31.0" depth="31"/>
+-  </Obstruction>
+-  <ProductionQueue>
+-    <Technologies datatype="tokens">
+-      architecture_kush
+-    </Technologies>
+-  </ProductionQueue>
+   <VisualActor>
+     <Actor>structures/kushites/civic_centre_egyptian.xml</Actor>
+   </VisualActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/kush/town_centre.xml b/binaries/data/mods/public/simulation/templates/structures/kush/town_centre.xml
+index 894031f4e9..a6f115b4df 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/kush/town_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/kush/town_centre.xml
+@@ -1,18 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_b">
+-  <Footprint>
+-    <Square width="40.0" depth="40.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_rome_cc</SpawnEntityOnDeath>
+-  </Health>
+-  <Identity>
+-    <Civ>kush</Civ>
+-  </Identity>
+-  <Obstruction>
+-    <Static width="37.0" depth="37.0"/>
+-  </Obstruction>
++<Entity parent="civ/kush/civil_centre|template_structure_civic_civil_centre_b">
+   <VisualActor>
+     <Actor>structures/kushites/town.xml</Actor>
+     <FoundationActor>structures/fndn_8x8.xml</FoundationActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/mace/city_centre.xml b/binaries/data/mods/public/simulation/templates/structures/mace/city_centre.xml
+index 780c1e8a5d..54d093565f 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/mace/city_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/mace/city_centre.xml
+@@ -1,10 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_c">
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_hele_cc</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/mace/civil_centre|template_structure_civic_civil_centre_c">
+   <Identity>
+-    <Civ>mace</Civ>
+     <SpecificName>Pōlis</SpecificName>
+   </Identity>
+   <VisualActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/mace/civil_centre.xml b/binaries/data/mods/public/simulation/templates/structures/mace/civil_centre.xml
+index 3f5dc7e20a..5b575e6072 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/mace/civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/mace/civil_centre.xml
+@@ -1,20 +1,8 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_a">
+-  <Footprint>
+-    <Square width="40.0" depth="40.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_rome_cc</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/mace/civil_centre|template_structure_civic_civil_centre_a">
+   <Identity>
+-    <Civ>mace</Civ>
+-    <GenericName>Village</GenericName>
+ 		<SpecificName>Xorióu</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="37.0" depth="37.0"/>
+-  </Obstruction>
+   <VisualActor>
+     <Actor>structures/macedonians/village.xml</Actor>
+     <FoundationActor>structures/fndn_8x8.xml</FoundationActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/mace/metro_centre.xml b/binaries/data/mods/public/simulation/templates/structures/mace/metro_centre.xml
+index 52eca47924..97c0860176 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/mace/metro_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/mace/metro_centre.xml
+@@ -1,10 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_d">
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_hele_cc</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/mace/civil_centre|template_structure_civic_civil_centre_d">
+   <Identity>
+-    <Civ>mace</Civ>
+   </Identity>
+   <VisualActor>
+     <Actor>structures/macedonians/civic_centre.xml</Actor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/mace/town_centre.xml b/binaries/data/mods/public/simulation/templates/structures/mace/town_centre.xml
+index 5c92dc3d56..b0b72dc441 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/mace/town_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/mace/town_centre.xml
+@@ -1,19 +1,8 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_b">
+-  <Footprint>
+-    <Square width="40.0" depth="40.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_rome_cc</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/mace/civil_centre|template_structure_civic_civil_centre_b">
+   <Identity>
+-    <Civ>mace</Civ>
+ 		<SpecificName>Kōmopolis</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="37.0" depth="37.0"/>
+-  </Obstruction>
+   <VisualActor>
+     <Actor>structures/macedonians/town.xml</Actor>
+     <FoundationActor>structures/fndn_8x8.xml</FoundationActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/maur/city_centre.xml b/binaries/data/mods/public/simulation/templates/structures/maur/city_centre.xml
+index f575c865d9..273bc75392 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/maur/city_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/maur/city_centre.xml
+@@ -1,24 +1,8 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_c">
+-  <Footprint>
+-    <Square width="40.0" depth="34.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_maur_cc</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/maur/civil_centre|template_structure_civic_civil_centre_c">
+   <Identity>
+-    <Civ>maur</Civ>
+     <SpecificName>Rajadhanika</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="36.0" depth="30.0"/>
+-  </Obstruction>
+-  <ProductionQueue>
+-    <Entities datatype="tokens">
+-      units/{civ}/support_elephant
+-    </Entities>
+-  </ProductionQueue>
+   <VisualActor>
+     <Actor>structures/mauryas/civil_centre.xml</Actor>
+   </VisualActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/maur/civil_centre.xml b/binaries/data/mods/public/simulation/templates/structures/maur/civil_centre.xml
+index 065d51ccf4..8177c9217a 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/maur/civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/maur/civil_centre.xml
+@@ -1,24 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_a">
+-  <Footprint>
+-    <Square width="40.0" depth="40.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_rome_cc</SpawnEntityOnDeath>
+-  </Health>
+-  <Identity>
+-    <Civ>maur</Civ>
+-    <GenericName>Village</GenericName>
+-  </Identity>
+-  <Obstruction>
+-    <Static width="37.0" depth="37.0"/>
+-  </Obstruction>
+-  <ProductionQueue>
+-    <Entities datatype="tokens">
+-      units/{civ}/support_elephant
+-    </Entities>
+-  </ProductionQueue>
++<Entity parent="civ/maur/civil_centre|template_structure_civic_civil_centre_a">
+   <VisualActor>
+     <Actor>structures/mauryas/village.xml</Actor>
+     <FoundationActor>structures/fndn_8x8.xml</FoundationActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/maur/metro_centre.xml b/binaries/data/mods/public/simulation/templates/structures/maur/metro_centre.xml
+index b3c3ec07ac..a19b2ed4ea 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/maur/metro_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/maur/metro_centre.xml
+@@ -1,24 +1,8 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_d">
+-  <Footprint>
+-    <Square width="40.0" depth="34.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_maur_cc</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/maur/civil_centre|template_structure_civic_civil_centre_d">
+   <Identity>
+-    <Civ>maur</Civ>
+     <SpecificName>Rajadhanika</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="36.0" depth="30.0"/>
+-  </Obstruction>
+-  <ProductionQueue>
+-    <Entities datatype="tokens">
+-      units/{civ}/support_elephant
+-    </Entities>
+-  </ProductionQueue>
+   <VisualActor>
+     <Actor>structures/mauryas/civil_centre.xml</Actor>
+   </VisualActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/maur/town_centre.xml b/binaries/data/mods/public/simulation/templates/structures/maur/town_centre.xml
+index e752b3328d..df1bb47aff 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/maur/town_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/maur/town_centre.xml
+@@ -1,23 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_b">
+-  <Footprint>
+-    <Square width="40.0" depth="40.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_rome_cc</SpawnEntityOnDeath>
+-  </Health>
+-  <Identity>
+-    <Civ>maur</Civ>
+-  </Identity>
+-  <Obstruction>
+-    <Static width="37.0" depth="37.0"/>
+-  </Obstruction>
+-  <ProductionQueue>
+-    <Entities datatype="tokens">
+-      units/{civ}/support_elephant
+-    </Entities>
+-  </ProductionQueue>
++<Entity parent="civ/maur/civil_centre|template_structure_civic_civil_centre_b">
+   <VisualActor>
+     <Actor>structures/mauryas/town.xml</Actor>
+     <FoundationActor>structures/fndn_8x8.xml</FoundationActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/pers/city_centre.xml b/binaries/data/mods/public/simulation/templates/structures/pers/city_centre.xml
+index 7ea2440a6b..a4c15d4021 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/pers/city_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/pers/city_centre.xml
+@@ -1,18 +1,9 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_c">
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_pers_cc</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/pers/civil_centre|template_structure_civic_civil_centre_c">
+   <Identity>
+-    <Civ>pers</Civ>
+     <GenericName>Provincial Governor</GenericName>
+     <SpecificName>Xšaçapāvan</SpecificName>
+   </Identity>
+-  <ProductionQueue>
+-    <Technologies datatype="tokens">
+-      architecture_pers
+-    </Technologies>
+-  </ProductionQueue>
+   <VisualActor>
+     <Actor>structures/persians/civil_centre.xml</Actor>
+   </VisualActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/pers/civil_centre.xml b/binaries/data/mods/public/simulation/templates/structures/pers/civil_centre.xml
+index 507f551b2e..889902819c 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/pers/civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/pers/civil_centre.xml
+@@ -1,24 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_a">
+-  <Footprint>
+-    <Square width="40.0" depth="40.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_pers_cc</SpawnEntityOnDeath>
+-  </Health>
+-  <Identity>
+-    <Civ>pers</Civ>
+-    <SpecificName>Rusta</SpecificName>
+-  </Identity>
+-  <Obstruction>
+-    <Static width="37.0" depth="37.0"/>
+-  </Obstruction>
+-  <ProductionQueue>
+-    <Technologies datatype="tokens">
+-      architecture_pers
+-    </Technologies>
+-  </ProductionQueue>
++<Entity parent="civ/pers/civil_centre|template_structure_civic_civil_centre_a">
+   <VisualActor>
+     <Actor>structures/persians/village.xml</Actor>
+     <FoundationActor>structures/fndn_8x8.xml</FoundationActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/pers/metro_centre.xml b/binaries/data/mods/public/simulation/templates/structures/pers/metro_centre.xml
+index 1ddf0e44f5..fbe880699d 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/pers/metro_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/pers/metro_centre.xml
+@@ -1,17 +1,8 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_d">
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_pers_cc</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/pers/civil_centre|template_structure_civic_civil_centre_d">
+   <Identity>
+-    <Civ>pers</Civ>
+     <SpecificName>Xšaçapāvan</SpecificName>
+   </Identity>
+-  <ProductionQueue>
+-    <Technologies datatype="tokens">
+-      architecture_pers
+-    </Technologies>
+-  </ProductionQueue>
+   <VisualActor>
+     <Actor>structures/persians/palace.xml</Actor>
+   </VisualActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/pers/town_centre.xml b/binaries/data/mods/public/simulation/templates/structures/pers/town_centre.xml
+index 20feb36164..33ad287336 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/pers/town_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/pers/town_centre.xml
+@@ -1,23 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_b">
+-  <Footprint>
+-    <Square width="40.0" depth="40.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_rome_cc</SpawnEntityOnDeath>
+-  </Health>
+-  <Identity>
+-    <Civ>pers</Civ>
+-  </Identity>
+-  <Obstruction>
+-    <Static width="37.0" depth="37.0"/>
+-  </Obstruction>
+-  <ProductionQueue>
+-    <Technologies datatype="tokens">
+-      architecture_pers
+-    </Technologies>
+-  </ProductionQueue>
++<Entity parent="civ/pers/civil_centre|template_structure_civic_civil_centre_b">
+   <VisualActor>
+     <Actor>structures/persians/town.xml</Actor>
+     <FoundationActor>structures/fndn_8x8.xml</FoundationActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/ptol/city_centre.xml b/binaries/data/mods/public/simulation/templates/structures/ptol/city_centre.xml
+index d3fbca9d4a..418e33c8c9 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/ptol/city_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/ptol/city_centre.xml
+@@ -1,16 +1,8 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_c">
+-  <Footprint>
+-    <Square width="41" depth="33"/>
+-    <Height>8.0</Height>
+-  </Footprint>
++<Entity parent="civ/ptol/civil_centre|template_structure_civic_civil_centre_c">
+   <Identity>
+-    <Civ>ptol</Civ>
+ 		<SpecificName>Pōlis</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="39" depth="31"/>
+-  </Obstruction>
+   <VisualActor>
+     <Actor>structures/ptolemies/city_centre.xml</Actor>
+   </VisualActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/ptol/civil_centre.xml b/binaries/data/mods/public/simulation/templates/structures/ptol/civil_centre.xml
+index 43817d9530..ef90980880 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/ptol/civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/ptol/civil_centre.xml
+@@ -1,19 +1,8 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_a">
+-  <Footprint>
+-    <Square width="40.0" depth="40.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_rome_cc</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/ptol/civil_centre|template_structure_civic_civil_centre_a">
+   <Identity>
+-    <Civ>ptol</Civ>
+ 		<SpecificName>Xorióu</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="37.0" depth="37.0"/>
+-  </Obstruction>
+   <VisualActor>
+     <Actor>structures/ptolemies/village.xml</Actor>
+     <FoundationActor>structures/fndn_8x8.xml</FoundationActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/ptol/metro_centre.xml b/binaries/data/mods/public/simulation/templates/structures/ptol/metro_centre.xml
+index 31c8549e24..9ce8340b81 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/ptol/metro_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/ptol/metro_centre.xml
+@@ -1,15 +1,7 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_d">
+-  <Footprint>
+-    <Square width="41" depth="33"/>
+-    <Height>8.0</Height>
+-  </Footprint>
++<Entity parent="civ/ptol/civil_centre|template_structure_civic_civil_centre_d">
+   <Identity>
+-    <Civ>ptol</Civ>
+   </Identity>
+-  <Obstruction>
+-    <Static width="39" depth="31"/>
+-  </Obstruction>
+   <VisualActor>
+     <Actor>structures/ptolemies/civic_centre.xml</Actor>
+   </VisualActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/ptol/town_centre.xml b/binaries/data/mods/public/simulation/templates/structures/ptol/town_centre.xml
+index d38d3b8757..9e75a1228a 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/ptol/town_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/ptol/town_centre.xml
+@@ -1,19 +1,8 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_b">
+-  <Footprint>
+-    <Square width="40.0" depth="40.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_rome_cc</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/ptol/civil_centre|template_structure_civic_civil_centre_b">
+   <Identity>
+-    <Civ>ptol</Civ>
+ 		<SpecificName>Kōmopolis</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="37.0" depth="37.0"/>
+-  </Obstruction>
+   <VisualActor>
+     <Actor>structures/ptolemies/town.xml</Actor>
+     <FoundationActor>structures/fndn_8x8.xml</FoundationActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/rome/city_centre.xml b/binaries/data/mods/public/simulation/templates/structures/rome/city_centre.xml
+index 7be30cfe70..66eccdae7e 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/rome/city_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/rome/city_centre.xml
+@@ -1,19 +1,8 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_c">
+-  <Footprint>
+-    <Square width="40.0" depth="40.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_rome_cc</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/rome/civil_centre|template_structure_civic_civil_centre_c">
+   <Identity>
+-    <Civ>rome</Civ>
+     <SpecificName>Urbs</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="37.0" depth="37.0"/>
+-  </Obstruction>
+   <VisualActor>
+     <Actor>structures/romans/city_centre.xml</Actor>
+     <FoundationActor>structures/fndn_8x8.xml</FoundationActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/rome/civil_centre.xml b/binaries/data/mods/public/simulation/templates/structures/rome/civil_centre.xml
+index 34fedd0032..dd5ea8a9f0 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/rome/civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/rome/civil_centre.xml
+@@ -1,19 +1,8 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_a">
+-  <Footprint>
+-    <Square width="40.0" depth="40.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_rome_cc</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/rome/civil_centre|template_structure_civic_civil_centre_a">
+   <Identity>
+-    <Civ>rome</Civ>
+ 		<SpecificName>Vicus</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="37.0" depth="37.0"/>
+-  </Obstruction>
+   <VisualActor>
+     <Actor>structures/romans/village.xml</Actor>
+     <FoundationActor>structures/fndn_8x8.xml</FoundationActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/rome/metro_centre.xml b/binaries/data/mods/public/simulation/templates/structures/rome/metro_centre.xml
+index 3b3b3a9e3d..2faf8cb66f 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/rome/metro_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/rome/metro_centre.xml
+@@ -1,18 +1,7 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_d">
+-  <Footprint>
+-    <Square width="40.0" depth="40.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_rome_cc</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/rome/civil_centre|template_structure_civic_civil_centre_d">
+   <Identity>
+-    <Civ>rome</Civ>
+   </Identity>
+-  <Obstruction>
+-    <Static width="37.0" depth="37.0"/>
+-  </Obstruction>
+   <VisualActor>
+     <Actor>structures/romans/civic_centre.xml</Actor>
+     <FoundationActor>structures/fndn_9x9.xml</FoundationActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/rome/town_centre.xml b/binaries/data/mods/public/simulation/templates/structures/rome/town_centre.xml
+index 19193a4f55..7e14911e2c 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/rome/town_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/rome/town_centre.xml
+@@ -1,19 +1,8 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_b">
+-  <Footprint>
+-    <Square width="40.0" depth="40.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_rome_cc</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/rome/civil_centre|template_structure_civic_civil_centre_b">
+   <Identity>
+-    <Civ>rome</Civ>
+ 		<SpecificName>Municipium</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="37.0" depth="37.0"/>
+-  </Obstruction>
+   <VisualActor>
+     <Actor>structures/romans/town.xml</Actor>
+     <FoundationActor>structures/fndn_8x8.xml</FoundationActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/sele/city_centre.xml b/binaries/data/mods/public/simulation/templates/structures/sele/city_centre.xml
+index 893baad44f..c2f34222c4 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/sele/city_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/sele/city_centre.xml
+@@ -1,7 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_c">
++<Entity parent="civ/sele/civil_centre|template_structure_civic_civil_centre_c">
+   <Identity>
+-    <Civ>sele</Civ>
+ 		<SpecificName>Pōlis</SpecificName>
+   </Identity>
+   <VisualActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/sele/civil_centre.xml b/binaries/data/mods/public/simulation/templates/structures/sele/civil_centre.xml
+index 59833f45c6..26c80d84c0 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/sele/civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/sele/civil_centre.xml
+@@ -1,19 +1,8 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_a">
+-  <Footprint>
+-    <Square width="40.0" depth="40.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_rome_cc</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/sele/civil_centre|template_structure_civic_civil_centre_a">
+   <Identity>
+-    <Civ>sele</Civ>
+ 		<SpecificName>Xorióu</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="37.0" depth="37.0"/>
+-  </Obstruction>
+   <VisualActor>
+     <Actor>structures/seleucids/village.xml</Actor>
+     <FoundationActor>structures/fndn_8x8.xml</FoundationActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/sele/metro_centre.xml b/binaries/data/mods/public/simulation/templates/structures/sele/metro_centre.xml
+index 9129df34e4..5cd0a1c5da 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/sele/metro_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/sele/metro_centre.xml
+@@ -1,7 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_d">
++<Entity parent="civ/sele/civil_centre|template_structure_civic_civil_centre_d">
+   <Identity>
+-    <Civ>sele</Civ>
+   </Identity>
+   <VisualActor>
+     <Actor>structures/seleucids/civic_center_metropolitan.xml</Actor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/sele/town_centre.xml b/binaries/data/mods/public/simulation/templates/structures/sele/town_centre.xml
+index 16373b20a2..55a1d075b6 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/sele/town_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/sele/town_centre.xml
+@@ -1,19 +1,8 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_b">
+-  <Footprint>
+-    <Square width="40.0" depth="40.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_rome_cc</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/sele/civil_centre|template_structure_civic_civil_centre_b">
+   <Identity>
+-    <Civ>sele</Civ>
+ 		<SpecificName>Kōmopolis</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="37.0" depth="37.0"/>
+-  </Obstruction>
+   <VisualActor>
+     <Actor>structures/seleucids/town.xml</Actor>
+     <FoundationActor>structures/fndn_8x8.xml</FoundationActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/spart/city_centre.xml b/binaries/data/mods/public/simulation/templates/structures/spart/city_centre.xml
+index e36ac4ee84..eadd5e121d 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/spart/city_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/spart/city_centre.xml
+@@ -1,10 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_c">
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_hele_cc</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/spart/civil_centre|template_structure_civic_civil_centre_c">
+   <Identity>
+-    <Civ>spart</Civ>
+ 		<SpecificName>Pōlis</SpecificName>
+   </Identity>
+   <VisualActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/spart/civil_centre.xml b/binaries/data/mods/public/simulation/templates/structures/spart/civil_centre.xml
+index b3e428390c..4254f9fafd 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/spart/civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/spart/civil_centre.xml
+@@ -1,19 +1,8 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_a">
+-  <Footprint>
+-    <Square width="40.0" depth="40.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_rome_cc</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/spart/civil_centre|template_structure_civic_civil_centre_a">
+   <Identity>
+-    <Civ>spart</Civ>
+ 		<SpecificName>Xorióu</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="37.0" depth="37.0"/>
+-  </Obstruction>
+   <VisualActor>
+     <Actor>structures/spartans/village.xml</Actor>
+     <FoundationActor>structures/fndn_8x8.xml</FoundationActor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/spart/metro_centre.xml b/binaries/data/mods/public/simulation/templates/structures/spart/metro_centre.xml
+index 8cd12854cc..7a3a0673be 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/spart/metro_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/spart/metro_centre.xml
+@@ -1,10 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_d">
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_hele_cc</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/spart/civil_centre|template_structure_civic_civil_centre_d">
+   <Identity>
+-    <Civ>spart</Civ>
+   </Identity>
+   <VisualActor>
+     <Actor>structures/spartans/civic_center.xml</Actor>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/spart/town_centre.xml b/binaries/data/mods/public/simulation/templates/structures/spart/town_centre.xml
+index 024d717163..c8ebc0f19e 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/spart/town_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/spart/town_centre.xml
+@@ -1,19 +1,8 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<Entity parent="template_structure_civic_civil_centre_b">
+-  <Footprint>
+-    <Square width="40.0" depth="40.0"/>
+-    <Height>8.0</Height>
+-  </Footprint>
+-  <Health>
+-    <SpawnEntityOnDeath>decay|rubble/rubble_rome_cc</SpawnEntityOnDeath>
+-  </Health>
++<Entity parent="civ/spart/civil_centre|template_structure_civic_civil_centre_b">
+   <Identity>
+-    <Civ>spart</Civ>
+ 		<SpecificName>Kōmopolis</SpecificName>
+   </Identity>
+-  <Obstruction>
+-    <Static width="37.0" depth="37.0"/>
+-  </Obstruction>
+   <VisualActor>
+     <Actor>structures/spartans/town.xml</Actor>
+     <FoundationActor>structures/fndn_8x8.xml</FoundationActor>
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_a.xml b/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_a.xml
+index 245a8815fa..b060d0a8f8 100644
+--- a/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_a.xml
++++ b/binaries/data/mods/public/simulation/templates/template_structure_civic_civil_centre_a.xml
+@@ -17,6 +17,7 @@
+   </Identity>
+   <ProductionQueue>
+     <Entities datatype="tokens">
++      -units/{native}/support_female_citizen
+       units/{civ}/support_female_citizen
+     </Entities>
+ 	</ProductionQueue>
+-- 
+2.25.1
+

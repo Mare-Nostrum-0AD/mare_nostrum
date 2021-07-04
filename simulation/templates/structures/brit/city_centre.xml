@@ -1,20 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Entity parent="template_structure_civic_civil_centre_c">
-  <Footprint replace="">
-    <Circle radius="15.0"/>
-    <Height>8.0</Height>
-  </Footprint>
-  <Health>
-    <SpawnEntityOnDeath>decay|rubble/rubble_brit_cc</SpawnEntityOnDeath>
-  </Health>
+<Entity parent="civ/brit/civil_centre|template_structure_civic_civil_centre_c">
   <Identity>
-    <Civ>brit</Civ>
     <SpecificName>Caer</SpecificName>
 		<Classes datatype="tokens">-Sturdy</Classes>
   </Identity>
-  <Obstruction>
-    <Static width="25.0" depth="25.0"/>
-  </Obstruction>
   <VisualActor>
     <Actor>structures/britons/civic_centre.xml</Actor>
     <FoundationActor>structures/fndn_6x6.xml</FoundationActor>

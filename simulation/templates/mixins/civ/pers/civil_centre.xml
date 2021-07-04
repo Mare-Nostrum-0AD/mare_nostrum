@@ -6,14 +6,14 @@
   <Identity>
     <Civ>pers</Civ>
   </Identity>
-   ProductionQueue>
--   <Entities datatype="tokens">
--     units/{civ}/infantry_spearman_b
--     units/{civ}/infantry_archer_b
--     units/{civ}/cavalry_javelineer_b
--   </Entities>
+  <ProductionQueue>
+    <Entities datatype="tokens">
+			units/{civ}/infantry_spearman_b
+			units/{civ}/infantry_archer_b
+			units/{civ}/cavalry_javelineer_b
+   	</Entities>
     <Technologies datatype="tokens">
       architecture_pers
     </Technologies>
-   /ProductionQueue>
+  </ProductionQueue>
 </Entity>

@@ -1,20 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Entity parent="template_structure_civic_civil_centre_a">
-  <Footprint>
-    <Square width="40.0" depth="40.0"/>
-    <Height>8.0</Height>
-  </Footprint>
-  <Health>
-    <SpawnEntityOnDeath>decay|rubble/rubble_rome_cc</SpawnEntityOnDeath>
-  </Health>
+<Entity parent="civ/mace/civil_centre|template_structure_civic_civil_centre_a">
   <Identity>
-    <Civ>mace</Civ>
-    <GenericName>Village</GenericName>
 		<SpecificName>Xorióu</SpecificName>
   </Identity>
-  <Obstruction>
-    <Static width="37.0" depth="37.0"/>
-  </Obstruction>
   <VisualActor>
     <Actor>structures/macedonians/village.xml</Actor>
     <FoundationActor>structures/fndn_8x8.xml</FoundationActor>

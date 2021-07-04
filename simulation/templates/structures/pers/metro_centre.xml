@@ -1,17 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Entity parent="template_structure_civic_civil_centre_d">
-  <Health>
-    <SpawnEntityOnDeath>decay|rubble/rubble_pers_cc</SpawnEntityOnDeath>
-  </Health>
+<Entity parent="civ/pers/civil_centre|template_structure_civic_civil_centre_d">
   <Identity>
-    <Civ>pers</Civ>
     <SpecificName>Xšaçapāvan</SpecificName>
   </Identity>
-  <ProductionQueue>
-    <Technologies datatype="tokens">
-      architecture_pers
-    </Technologies>
-  </ProductionQueue>
   <VisualActor>
     <Actor>structures/persians/palace.xml</Actor>
   </VisualActor>

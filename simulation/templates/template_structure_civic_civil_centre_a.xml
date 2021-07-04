@@ -17,6 +17,7 @@
   </Identity>
   <ProductionQueue>
     <Entities datatype="tokens">
+      -units/{native}/support_female_citizen
       units/{civ}/support_female_citizen
     </Entities>
 	</ProductionQueue>
