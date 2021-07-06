@@ -213,7 +213,7 @@ TechnologyManager.prototype.OnGlobalOwnershipChanged = function(msg)
  *
  * @param {string} tech - The technology to mark as researched.
  */
-TechnologyManager.prototype.ResearchTechnology = function(tech)
+TechnologyManager.prototype.ResearchTechnology = function(tech, researcher=undefined)
 {
 	this.StoppedResearch(tech, false);
 
@@ -260,6 +260,62 @@ TechnologyManager.prototype.ResearchTechnology = function(tech)
 	let cmpPlayerEntityLimits = QueryPlayerIDInterface(playerID, IID_EntityLimits);
 	if (cmpPlayerEntityLimits)
 		cmpPlayerEntityLimits.UpdateLimitsFromTech(tech);
+
+	// Call triggers, if any
+	// triggers can call functions on one of three types of components:
+	// - entityComponent: component of the entity that researched the tech
+	// - playerComponent: component of the player that researched the tech
+	// - systemComponent: system (global) component
+	if (template.triggers)
+	{
+		for (let trigger of template.triggers)
+		{
+			let cmp = undefined;
+			if (trigger.entityComponent)
+				cmp = Engine.QueryInterface(researcher, global["IID_" + trigger.entityComponent]);
+			else if (trigger.playerComponent)
+				cmp = QueryOwnerInterface(this.entity, global["IID_" + trigger.playerComponent]);
+			else if (trigger.systemComponent)
+				cmp = Engine.QueryInterface(SYSTEM_ENTITY, global["IID_" + trigger.systemComponent]);
+
+			if (!cmp)
+			{
+				error("Could not find component for trigger");
+				continue;
+			}
+
+			if (!cmp[trigger.func])
+			{
+				error(sprintf("Could not find function %s for trigger component", trigger.func));
+				continue;
+			}
+
+			// allow escaping certain properties contained within double brackets {{  }}
+			// ex: "{{ researcher }}" => entity that researched the tech
+			const parseableProperties = {
+				"researcher": researcher,
+				"playerID": playerID
+			};
+			const parseProperties = (item) => {
+				if (typeof item === "string")
+				{
+					if (item.substring(0, 2) === "{{" && item.substring(item.length - 2) === "}}")
+					{
+						let propertyName = item.substring(2, item.length - 2).trim();
+						if (parseableProperties.hasOwnProperty(propertyName))
+							return parseableProperties[propertyName];
+					}
+				}
+				else if (Array.isArray(item))
+					return item.map(prop => parseProperties(prop));
+				else if (typeof item === "object")
+					return Object.fromEntries(Object.entries(item).map(([k, v]) => [k, parseProperties(v)]));
+				return item;
+			};
+			let triggerArgs = trigger.args ? parseProperties(trigger.args) : [];
+			cmp[trigger.func](...triggerArgs);
+		}
+	}
 
 	// Always send research finished message.
 	Engine.PostMessage(this.entity, MT_ResearchFinished, { "player": playerID, "tech": tech });

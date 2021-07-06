@@ -8,6 +8,7 @@
     <Lang>greek</Lang>
     <GenericName>Seleucus I</GenericName>
     <SpecificName>Seleukos A' Nikatōr</SpecificName>
+		<Classes datatype="tokens">SeleucusNikator</Classes>
     <Icon>units/sele_hero_seleucus.png</Icon>
   </Identity>
   <VisualActor>

@@ -1,0 +1,210 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sun, 4 Jul 2021 00:31:11 -0700
+Subject: [PATCH] implemented tech triggers in TechnologyManager.js
+
+created marriage_pact technology that triggers TechSpawnUnits in Trigger~tech_triggers.js, as an example
+---
+ .../simulation/components/ProductionQueue.js  |  2 +-
+ .../components/TechnologyManager.js           | 58 ++++++++++++++++++-
+ .../components/Trigger~tech_triggers.js       | 23 ++++++++
+ .../data/technologies/marriage_pact.json      | 40 +++++++++++++
+ .../structures/sele/civil_centre.xml          |  3 +
+ .../templates/units/sele/hero_seleucus_i.xml  |  1 +
+ 6 files changed, 125 insertions(+), 2 deletions(-)
+ create mode 100644 binaries/data/mods/public/simulation/components/Trigger~tech_triggers.js
+ create mode 100644 binaries/data/mods/public/simulation/data/technologies/marriage_pact.json
+
+diff --git a/binaries/data/mods/public/simulation/components/ProductionQueue.js b/binaries/data/mods/public/simulation/components/ProductionQueue.js
+index 0d1de95de9..a8370b3cb8 100644
+--- a/binaries/data/mods/public/simulation/components/ProductionQueue.js
++++ b/binaries/data/mods/public/simulation/components/ProductionQueue.js
+@@ -869,7 +869,7 @@ ProductionQueue.prototype.ProgressTimeout = function(data, lateness)
+ 		{
+ 			let cmpTechnologyManager = QueryOwnerInterface(this.entity, IID_TechnologyManager);
+ 			if (cmpTechnologyManager)
+-				cmpTechnologyManager.ResearchTechnology(item.technologyTemplate);
++				cmpTechnologyManager.ResearchTechnology(item.technologyTemplate, this.entity);
+ 			else
+ 				warn("Failed to stop researching " + item.technologyTemplate + ": No TechnologyManager available.");
+ 
+diff --git a/binaries/data/mods/public/simulation/components/TechnologyManager.js b/binaries/data/mods/public/simulation/components/TechnologyManager.js
+index 5472b140d1..0154609f68 100644
+--- a/binaries/data/mods/public/simulation/components/TechnologyManager.js
++++ b/binaries/data/mods/public/simulation/components/TechnologyManager.js
+@@ -213,7 +213,7 @@ TechnologyManager.prototype.OnGlobalOwnershipChanged = function(msg)
+  *
+  * @param {string} tech - The technology to mark as researched.
+  */
+-TechnologyManager.prototype.ResearchTechnology = function(tech)
++TechnologyManager.prototype.ResearchTechnology = function(tech, researcher=undefined)
+ {
+ 	this.StoppedResearch(tech, false);
+ 
+@@ -261,6 +261,62 @@ TechnologyManager.prototype.ResearchTechnology = function(tech)
+ 	if (cmpPlayerEntityLimits)
+ 		cmpPlayerEntityLimits.UpdateLimitsFromTech(tech);
+ 
++	// Call triggers, if any
++	// triggers can call functions on one of three types of components:
++	// - entityComponent: component of the entity that researched the tech
++	// - playerComponent: component of the player that researched the tech
++	// - systemComponent: system (global) component
++	if (template.triggers)
++	{
++		for (let trigger of template.triggers)
++		{
++			let cmp = undefined;
++			if (trigger.entityComponent)
++				cmp = Engine.QueryInterface(researcher, global["IID_" + trigger.entityComponent]);
++			else if (trigger.playerComponent)
++				cmp = QueryOwnerInterface(this.entity, global["IID_" + trigger.playerComponent]);
++			else if (trigger.systemComponent)
++				cmp = Engine.QueryInterface(SYSTEM_ENTITY, global["IID_" + trigger.systemComponent]);
++
++			if (!cmp)
++			{
++				error("Could not find component for trigger");
++				continue;
++			}
++
++			if (!cmp[trigger.func])
++			{
++				error(sprintf("Could not find function %s for trigger component", trigger.func));
++				continue;
++			}
++
++			// allow escaping certain properties contained within double brackets {{  }}
++			// ex: "{{ researcher }}" => entity that researched the tech
++			const parseableProperties = {
++				"researcher": researcher,
++				"playerID": playerID
++			};
++			const parseProperties = (item) => {
++				if (typeof item === "string")
++				{
++					if (item.substring(0, 2) === "{{" && item.substring(item.length - 2) === "}}")
++					{
++						let propertyName = item.substring(2, item.length - 2).trim();
++						if (parseableProperties.hasOwnProperty(propertyName))
++							return parseableProperties[propertyName];
++					}
++				}
++				else if (Array.isArray(item))
++					return item.map(prop => parseProperties(prop));
++				else if (typeof item === "object")
++					return Object.fromEntries(Object.entries(item).map(([k, v]) => [k, parseProperties(v)]));
++				return item;
++			};
++			let triggerArgs = trigger.args ? parseProperties(trigger.args) : [];
++			cmp[trigger.func](...triggerArgs);
++		}
++	}
++
+ 	// Always send research finished message.
+ 	Engine.PostMessage(this.entity, MT_ResearchFinished, { "player": playerID, "tech": tech });
+ 
+diff --git a/binaries/data/mods/public/simulation/components/Trigger~tech_triggers.js b/binaries/data/mods/public/simulation/components/Trigger~tech_triggers.js
+new file mode 100644
+index 0000000000..b8e905d33d
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/components/Trigger~tech_triggers.js
+@@ -0,0 +1,23 @@
++// Spawn units, retrying every second until all <count> units have been successfully spawned
++// @param researcher		Number		entity that researched the tech
++// @param player				Number		player id
++// @param unitTemplate	String		name of template of units to train
++// @param count					Number		number of entities to spawn
++// @return none
++Trigger.prototype.TechSpawnUnits = function({ researcher, player, unitTemplate, count })
++{
++	let cmpResearcherProductionQueue = Engine.QueryInterface(researcher, IID_ProductionQueue);
++	if (!cmpResearcherProductionQueue)
++		return;
++	let numRemaining = count - cmpResearcherProductionQueue.SpawnUnits({
++		player, unitTemplate, count
++	});
++	if (!numRemaining)
++		return;
++	let cmpTimer = Engine.QueryInterface(SYSTEM_ENTITY, IID_Timer);
++	if (cmpTimer)
++		cmpTimer.SetTimeout(SYSTEM_ENTITY, IID_Trigger, "TechSpawnUnits", 1000, {
++			researcher, player, unitTemplate,
++			"count": numRemaining
++		});
++};
+diff --git a/binaries/data/mods/public/simulation/data/technologies/marriage_pact.json b/binaries/data/mods/public/simulation/data/technologies/marriage_pact.json
+new file mode 100644
+index 0000000000..db81513ebe
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/data/technologies/marriage_pact.json
+@@ -0,0 +1,40 @@
++{
++	"genericName": "Marriage Pact",
++	"specificName": {
++		"sele": "Epigamia"
++	},
++	"description": "Form a marriage pact with the Maurya Empire. Receive a one-time gift of 20 War Elephants, in exchange for reduced territory push for Civil Centers.",
++	"cost": {
++		"metal": 600
++	},
++	"requirements": {
++		"all": [
++			{ "tech": "phase_city" },
++			{ "civ": "sele" },
++			{
++				"entity": {
++					"class": "SeleucusNikator",
++					"number": 1
++				}
++			}
++		]
++	},
++	"requirementsTooltip": "Unlocked in City Phase. Requires training the hero Seleucus I (Nikator).",
++	"icon": "sibylline_books.png",
++	"researchTime": 40,
++	"tooltip": "Receive a one-time gift of 20 Maurya War Elephants, in exchange for reduced territory push for Civil Centers.",
++	"modifications": [
++		{ "value": "TerritoryInfluence/Radius", "multiply": 0.7, "affects": "CivCentre" }
++	],
++	"triggers": [{
++		"systemComponent": "Trigger",
++		"func": "TechSpawnUnits",
++		"args": [{
++			"researcher": "{{ researcher }}",
++			"player": "{{ playerID }}",
++			"unitTemplate": "units/maur/champion_elephant",
++			"count": 20
++		}]
++	}],
++	"soundComplete": "interface/alarm/alarm_upgradearmory.xml"
++}
+diff --git a/binaries/data/mods/public/simulation/templates/structures/sele/civil_centre.xml b/binaries/data/mods/public/simulation/templates/structures/sele/civil_centre.xml
+index cc86d8cd67..6d94d2c88f 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/sele/civil_centre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/sele/civil_centre.xml
+@@ -13,6 +13,9 @@
+       units/{civ}/hero_antiochus_iii
+       units/{civ}/hero_antiochus_iv
+     </Entities>
++    <Technologies datatype="tokens">
++			marriage_pact
++    </Technologies>
+   </ProductionQueue>
+   <VisualActor>
+     <Actor>structures/seleucids/civic_center.xml</Actor>
+diff --git a/binaries/data/mods/public/simulation/templates/units/sele/hero_seleucus_i.xml b/binaries/data/mods/public/simulation/templates/units/sele/hero_seleucus_i.xml
+index 3ecf69fb1b..9b7a5deb5d 100644
+--- a/binaries/data/mods/public/simulation/templates/units/sele/hero_seleucus_i.xml
++++ b/binaries/data/mods/public/simulation/templates/units/sele/hero_seleucus_i.xml
+@@ -8,6 +8,7 @@
+     <Lang>greek</Lang>
+     <GenericName>Seleucus I</GenericName>
+     <SpecificName>Seleukos A' Nikatōr</SpecificName>
++		<Classes datatype="tokens">SeleucusNikator</Classes>
+     <Icon>units/sele_hero_seleucus.png</Icon>
+   </Identity>
+   <VisualActor>
+-- 
+2.25.1
+

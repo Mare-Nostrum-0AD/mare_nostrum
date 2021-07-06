@@ -872,7 +872,7 @@ ProductionQueue.prototype.ProgressTimeout = function(data, lateness)
 		{
 			let cmpTechnologyManager = QueryOwnerInterface(this.entity, IID_TechnologyManager);
 			if (cmpTechnologyManager)
-				cmpTechnologyManager.ResearchTechnology(item.technologyTemplate);
+				cmpTechnologyManager.ResearchTechnology(item.technologyTemplate, this.entity);
 			else
 				warn("Failed to stop researching " + item.technologyTemplate + ": No TechnologyManager available.");
 

@@ -1,0 +1,40 @@
+{
+	"genericName": "Marriage Pact",
+	"specificName": {
+		"sele": "Epigamia"
+	},
+	"description": "Form a marriage pact with the Maurya Empire. Receive a one-time gift of 20 War Elephants, in exchange for reduced territory push for Civil Centers.",
+	"cost": {
+		"metal": 600
+	},
+	"requirements": {
+		"all": [
+			{ "tech": "phase_city" },
+			{ "civ": "sele" },
+			{
+				"entity": {
+					"class": "SeleucusNikator",
+					"number": 1
+				}
+			}
+		]
+	},
+	"requirementsTooltip": "Unlocked in City Phase. Requires training the hero Seleucus I (Nikator).",
+	"icon": "sibylline_books.png",
+	"researchTime": 40,
+	"tooltip": "Receive a one-time gift of 20 Maurya War Elephants, in exchange for reduced territory push for Civil Centers.",
+	"modifications": [
+		{ "value": "TerritoryInfluence/Radius", "multiply": 0.7, "affects": "CivCentre" }
+	],
+	"triggers": [{
+		"systemComponent": "Trigger",
+		"func": "TechSpawnUnits",
+		"args": [{
+			"researcher": "{{ researcher }}",
+			"player": "{{ playerID }}",
+			"unitTemplate": "units/maur/champion_elephant",
+			"count": 20
+		}]
+	}],
+	"soundComplete": "interface/alarm/alarm_upgradearmory.xml"
+}
