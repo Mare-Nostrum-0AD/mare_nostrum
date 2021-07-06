@@ -4,11 +4,6 @@
     <GenericName>Assembly</GenericName>
     <VisibleClasses datatype="tokens">Assembly</VisibleClasses>
   </Identity>
-  <ProductionQueue>
-    <Technologies datatype="tokens">
-	  	pair_government_{civ}
-    </Technologies>
-  </ProductionQueue>
   <VisualActor>
     <FoundationActor>structures/fndn_5x5.xml</FoundationActor>
   </VisualActor>

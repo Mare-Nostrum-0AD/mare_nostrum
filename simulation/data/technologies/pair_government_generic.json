@@ -2,9 +2,19 @@
 	"genericName": "Democracy vs. Autocracy",
 	"specificName": {
 		"athen": "Dēmokratía vs. Turannía",
-		"spart": "Dēmokratía vs. Turannía",
-		"rome": "Res Publica vs. Dictatura"
+		"spart": "Dēmokratía vs. Turannía"
 	},
 	"top": "government_democracy_generic",
-	"bottom": "government_tyranny_generic"
+	"bottom": "government_tyranny_generic",
+	"requirements": {
+		"all": [
+			{ "tech": "phase_city" },
+			{
+				"any": [
+					{ "civ": "athen" },
+					{ "civ": "spart" }
+				]
+			}
+		]
+	}
 }

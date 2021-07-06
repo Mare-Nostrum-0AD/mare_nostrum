@@ -1,0 +1,106 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Mon, 5 Jul 2021 21:52:37 -0700
+Subject: [PATCH] added civ requirements to pair_government_generic (for athens
+ and spart only)
+
+---
+ .../technologies/pair_government_generic.json    | 16 +++++++++++++---
+ .../templates/structures/celt/govcentre.xml      |  3 ---
+ .../templates/structures/iber/govcentre.xml      |  9 ---------
+ .../template_structure_civic_govcentre.xml       |  1 +
+ ...mplate_structure_civic_govcentre_assembly.xml |  5 -----
+ 5 files changed, 14 insertions(+), 20 deletions(-)
+
+diff --git a/binaries/data/mods/public/simulation/data/technologies/pair_government_generic.json b/binaries/data/mods/public/simulation/data/technologies/pair_government_generic.json
+index 2b8029ae01..1bb6ab38b2 100644
+--- a/binaries/data/mods/public/simulation/data/technologies/pair_government_generic.json
++++ b/binaries/data/mods/public/simulation/data/technologies/pair_government_generic.json
+@@ -2,9 +2,19 @@
+ 	"genericName": "Democracy vs. Autocracy",
+ 	"specificName": {
+ 		"athen": "Dēmokratía vs. Turannía",
+-		"spart": "Dēmokratía vs. Turannía",
+-		"rome": "Res Publica vs. Dictatura"
++		"spart": "Dēmokratía vs. Turannía"
+ 	},
+ 	"top": "government_democracy_generic",
+-	"bottom": "government_tyranny_generic"
++	"bottom": "government_tyranny_generic",
++	"requirements": {
++		"all": [
++			{ "tech": "phase_city" },
++			{
++				"any": [
++					{ "civ": "athen" },
++					{ "civ": "spart" }
++				]
++			}
++		]
++	}
+ }
+diff --git a/binaries/data/mods/public/simulation/templates/structures/celt/govcentre.xml b/binaries/data/mods/public/simulation/templates/structures/celt/govcentre.xml
+index c37268eca5..5228fcccd4 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/celt/govcentre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/celt/govcentre.xml
+@@ -32,9 +32,6 @@
+     <Entities datatype="tokens">
+       units/{civ}/champion_infantry_trumpeter
+     </Entities>
+-    <Technologies datatype="tokens">
+-			-pair_government_{civ}
+-    </Technologies>
+   </ProductionQueue>
+   <Resistance>
+     <Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/structures/iber/govcentre.xml b/binaries/data/mods/public/simulation/templates/structures/iber/govcentre.xml
+index 238e79b27b..10b1d9929c 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/iber/govcentre.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/iber/govcentre.xml
+@@ -25,15 +25,6 @@
+   <Obstruction>
+     <Static width="25.0" depth="25.0"/>
+   </Obstruction>
+-  <ProductionQueue>
+-    <BatchTimeModifier>0.7</BatchTimeModifier>
+-    <Entities datatype="tokens">
+-      units/{civ}/champion_infantry_trumpeter
+-    </Entities>
+-    <Technologies datatype="tokens">
+-			-pair_government_{civ}
+-    </Technologies>
+-  </ProductionQueue>
+   <Resistance>
+     <Entity>
+       <Damage>
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_civic_govcentre.xml b/binaries/data/mods/public/simulation/templates/template_structure_civic_govcentre.xml
+index edfe87b36c..a436571be9 100644
+--- a/binaries/data/mods/public/simulation/templates/template_structure_civic_govcentre.xml
++++ b/binaries/data/mods/public/simulation/templates/template_structure_civic_govcentre.xml
+@@ -54,6 +54,7 @@
+     </Entities>
+     <Technologies datatype="tokens">
+ 	  	pair_taxation_{civ}
++	  	pair_government_{civ}
+ 			marriage_pact
+     </Technologies>
+   </ProductionQueue>
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_civic_govcentre_assembly.xml b/binaries/data/mods/public/simulation/templates/template_structure_civic_govcentre_assembly.xml
+index 2a015d9ff7..4300bad24b 100644
+--- a/binaries/data/mods/public/simulation/templates/template_structure_civic_govcentre_assembly.xml
++++ b/binaries/data/mods/public/simulation/templates/template_structure_civic_govcentre_assembly.xml
+@@ -4,11 +4,6 @@
+     <GenericName>Assembly</GenericName>
+     <VisibleClasses datatype="tokens">Assembly</VisibleClasses>
+   </Identity>
+-  <ProductionQueue>
+-    <Technologies datatype="tokens">
+-	  	pair_government_{civ}
+-    </Technologies>
+-  </ProductionQueue>
+   <VisualActor>
+     <FoundationActor>structures/fndn_5x5.xml</FoundationActor>
+   </VisualActor>
+-- 
+2.25.1
+

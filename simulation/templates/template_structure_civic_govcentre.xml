@@ -54,6 +54,7 @@
     </Entities>
     <Technologies datatype="tokens">
 	  	pair_taxation_{civ}
+	  	pair_government_{civ}
 			marriage_pact
     </Technologies>
   </ProductionQueue>
