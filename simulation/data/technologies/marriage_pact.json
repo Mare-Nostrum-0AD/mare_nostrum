@@ -5,12 +5,12 @@
 	},
 	"description": "Form a marriage pact with the Maurya Empire. Receive a one-time gift of 20 War Elephants, in exchange for reduced territory push for Civil Centers.",
 	"cost": {
-		"metal": 600
+		"wealth": 1000
 	},
 	"requirements": {
 		"all": [
-			{ "tech": "phase_city" },
 			{ "civ": "sele" },
+			{ "tech": "phase_empire" },
 			{
 				"entity": {
 					"class": "SeleucusNikator",
@@ -19,7 +19,7 @@
 			}
 		]
 	},
-	"requirementsTooltip": "Unlocked in City Phase. Requires training the hero Seleucus I (Nikator).",
+	"requirementsTooltip": "Unlocked in Empire Phase. Requires training the hero Seleucus I (Nikator).",
 	"icon": "sibylline_books.png",
 	"researchTime": 40,
 	"tooltip": "Receive a one-time gift of 20 Maurya War Elephants, in exchange for reduced territory push for Civil Centers.",

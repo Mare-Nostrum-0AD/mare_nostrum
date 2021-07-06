@@ -1,0 +1,54 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Mon, 5 Jul 2021 20:06:06 -0700
+Subject: [PATCH] made marriage pact tech available at palace instead of civil
+ center, changed tech requirement to phase_empire
+
+---
+ .../public/simulation/data/technologies/marriage_pact.json  | 6 +++---
+ .../templates/template_structure_civic_govcentre.xml        | 1 +
+ 2 files changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/binaries/data/mods/public/simulation/data/technologies/marriage_pact.json b/binaries/data/mods/public/simulation/data/technologies/marriage_pact.json
+index db81513ebe..ea2c6de92d 100644
+--- a/binaries/data/mods/public/simulation/data/technologies/marriage_pact.json
++++ b/binaries/data/mods/public/simulation/data/technologies/marriage_pact.json
+@@ -5,12 +5,12 @@
+ 	},
+ 	"description": "Form a marriage pact with the Maurya Empire. Receive a one-time gift of 20 War Elephants, in exchange for reduced territory push for Civil Centers.",
+ 	"cost": {
+-		"metal": 600
++		"wealth": 1000
+ 	},
+ 	"requirements": {
+ 		"all": [
+-			{ "tech": "phase_city" },
+ 			{ "civ": "sele" },
++			{ "tech": "phase_empire" },
+ 			{
+ 				"entity": {
+ 					"class": "SeleucusNikator",
+@@ -19,7 +19,7 @@
+ 			}
+ 		]
+ 	},
+-	"requirementsTooltip": "Unlocked in City Phase. Requires training the hero Seleucus I (Nikator).",
++	"requirementsTooltip": "Unlocked in Empire Phase. Requires training the hero Seleucus I (Nikator).",
+ 	"icon": "sibylline_books.png",
+ 	"researchTime": 40,
+ 	"tooltip": "Receive a one-time gift of 20 Maurya War Elephants, in exchange for reduced territory push for Civil Centers.",
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_civic_govcentre.xml b/binaries/data/mods/public/simulation/templates/template_structure_civic_govcentre.xml
+index 1a9c8af81a..edfe87b36c 100644
+--- a/binaries/data/mods/public/simulation/templates/template_structure_civic_govcentre.xml
++++ b/binaries/data/mods/public/simulation/templates/template_structure_civic_govcentre.xml
+@@ -54,6 +54,7 @@
+     </Entities>
+     <Technologies datatype="tokens">
+ 	  	pair_taxation_{civ}
++			marriage_pact
+     </Technologies>
+   </ProductionQueue>
+   <Sound>
+-- 
+2.25.1
+
