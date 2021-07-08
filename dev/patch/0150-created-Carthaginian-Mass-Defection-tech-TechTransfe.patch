@@ -1,0 +1,99 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Wed, 7 Jul 2021 22:10:44 -0700
+Subject: [PATCH] created Carthaginian "Mass Defection" tech +
+ TechTransferOwnershipEntities Trigger function
+
+---
+ .../components/Trigger~tech_triggers.js       | 28 ++++++++++++++++++
+ .../data/technologies/defection.json          | 29 +++++++++++++++++++
+ .../template_structure_civic_govcentre.xml    |  1 +
+ 3 files changed, 58 insertions(+)
+ create mode 100644 binaries/data/mods/public/simulation/data/technologies/defection.json
+
+diff --git a/binaries/data/mods/public/simulation/components/Trigger~tech_triggers.js b/binaries/data/mods/public/simulation/components/Trigger~tech_triggers.js
+index b8e905d33d..ac78015218 100644
+--- a/binaries/data/mods/public/simulation/components/Trigger~tech_triggers.js
++++ b/binaries/data/mods/public/simulation/components/Trigger~tech_triggers.js
+@@ -21,3 +21,31 @@ Trigger.prototype.TechSpawnUnits = function({ researcher, player, unitTemplate,
+ 			"count": numRemaining
+ 		});
+ };
++
++// transfer <ratio> percentage of entities of class <entityClass> to player <receivingPlayerID> from each player with diplomatic relationship <givingPlayersDiplo>, as long as the other player has <minEntities> of <entityClass>
++// @param receivingPlayerID			Number			ID of player who will received transferred entities.
++// @param givingPlayersDiplo			[String]		The diplomatic relationship the receiving player must have with each other player in order to receive their entities.
++// 													Possible values include: Ally, ExclusiveAlly, MutualAlly, ExclusiveMutualAlly, Enemy, Neutral.
++// @param entityClasses				[String]		Classes of entities that can be transferred.
++// @param ratio						Number			The percentage of each other player's entities to transfer to player <receivingPlayerID>. The exact entities will be chosen randomly.
++// 													Must be a decimal value between 0 and 1 (i.e. 0.3).
++// @param minEntities				Number			The minimum number of eligible entities each other player must have in order to lose them to the receiving player.
++Trigger.prototype.TechTransferOwnershipEntities = function({ receivingPlayerID, givingPlayersDiplo, entityClasses, ratio, minEntities })
++{
++	const cmpPlayerManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_PlayerManager);
++	if (!cmpPlayerManager)
++		return;
++	const cmpReceivingPlayer = Engine.QueryInterface(cmpPlayerManager.GetPlayerByID(receivingPlayerID), IID_Player);
++	const givingPlayers = cmpPlayerManager.GetAllPlayers().filter(id => id !== receivingPlayerID).filter(id => givingPlayersDiplo.some(diplo => cmpReceivingPlayer["Is" + diplo](id)));
++	if (!givingPlayers || !givingPlayers.length)
++		return;
++	const cmpRangeManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_RangeManager);
++	for (let id of givingPlayers)
++	{
++		const transferrableEntities = cmpRangeManager.GetEntitiesByPlayer(id).filter(ent => MatchesClassList(Engine.QueryInterface(ent, IID_Identity)?.GetClassesList(), entityClasses));
++		if (transferrableEntities.length < minEntities)
++			continue;
++		const entitiesToTransfer = shuffleArray(transferrableEntities).slice(0, transferrableEntities.length * ratio);
++		entitiesToTransfer.map(ent => Engine.QueryInterface(ent, IID_Ownership)).filter(cmp => cmp).forEach(cmpOwnership => cmpOwnership.SetOwner(receivingPlayerID));
++	}
++};
+diff --git a/binaries/data/mods/public/simulation/data/technologies/defection.json b/binaries/data/mods/public/simulation/data/technologies/defection.json
+new file mode 100644
+index 0000000000..e124692f04
+--- /dev/null
++++ b/binaries/data/mods/public/simulation/data/technologies/defection.json
+@@ -0,0 +1,29 @@
++{
++	"genericName": "Mass Defection",
++	"description": "You enemies' citizens are impressed by your empire's awesome power. One-third of their cities will defect to you, provided you give them a little tribute.",
++	"cost": {
++		"wealth": 1000
++	},
++	"requirements": {
++		"all": [
++			{ "civ": "cart" },
++			{ "tech": "phase_empire" }
++		]
++	},
++	"requirementsTooltip": "Unlocked in Empire Phase.",
++	"icon": "sibylline_books.png",
++	"researchTime": 40,
++	"tooltip": "Gain control over 1/3 of your enemies' civil centers (selected randomly).",
++	"triggers": [{
++		"systemComponent": "Trigger",
++		"func": "TechTransferOwnershipEntities",
++		"args": [{
++			"receivingPlayerID": "{{ playerID }}",
++			"givingPlayersDiplo": ["Enemy"],
++			"entityClasses": ["CivCentre"],
++			"ratio": 0.33,
++			"minEntities": 3
++		}]
++	}],
++	"soundComplete": "interface/complete/building/complete_wonder.xml"
++}
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_civic_govcentre.xml b/binaries/data/mods/public/simulation/templates/template_structure_civic_govcentre.xml
+index a436571be9..7ce7b8124c 100644
+--- a/binaries/data/mods/public/simulation/templates/template_structure_civic_govcentre.xml
++++ b/binaries/data/mods/public/simulation/templates/template_structure_civic_govcentre.xml
+@@ -56,6 +56,7 @@
+ 	  	pair_taxation_{civ}
+ 	  	pair_government_{civ}
+ 			marriage_pact
++			defection
+     </Technologies>
+   </ProductionQueue>
+   <Sound>
+-- 
+2.25.1
+

@@ -1,0 +1,29 @@
+{
+	"genericName": "Mass Defection",
+	"description": "You enemies' citizens are impressed by your empire's awesome power. One-third of their cities will defect to you, provided you give them a little tribute.",
+	"cost": {
+		"wealth": 1000
+	},
+	"requirements": {
+		"all": [
+			{ "civ": "cart" },
+			{ "tech": "phase_empire" }
+		]
+	},
+	"requirementsTooltip": "Unlocked in Empire Phase.",
+	"icon": "sibylline_books.png",
+	"researchTime": 40,
+	"tooltip": "Gain control over 1/3 of your enemies' civil centers (selected randomly).",
+	"triggers": [{
+		"systemComponent": "Trigger",
+		"func": "TechTransferOwnershipEntities",
+		"args": [{
+			"receivingPlayerID": "{{ playerID }}",
+			"givingPlayersDiplo": ["Enemy"],
+			"entityClasses": ["CivCentre"],
+			"ratio": 0.33,
+			"minEntities": 3
+		}]
+	}],
+	"soundComplete": "interface/complete/building/complete_wonder.xml"
+}
