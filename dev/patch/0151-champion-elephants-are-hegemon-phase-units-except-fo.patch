@@ -1,0 +1,136 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Fri, 9 Jul 2021 23:23:00 -0700
+Subject: [PATCH] champion elephants are hegemon phase units (except for
+ Mauryas, who can train them in city phase)
+
+non-ram siege units are hegemon phase units (except for Macedonians, who can build them in the city phase)
+---
+ .../public/simulation/templates/structures/cart/fortress.xml | 5 -----
+ .../template_structure_military_elephant_stable.xml          | 2 +-
+ .../simulation/templates/template_unit_champion_elephant.xml | 1 +
+ .../mods/public/simulation/templates/template_unit_siege.xml | 2 +-
+ .../public/simulation/templates/template_unit_siege_ram.xml  | 1 +
+ .../templates/units/mace/siege_lithobolos_packed.xml         | 1 +
+ .../templates/units/mace/siege_oxybeles_packed.xml           | 1 +
+ .../public/simulation/templates/units/mace/siege_tower.xml   | 1 +
+ .../simulation/templates/units/maur/champion_elephant.xml    | 1 +
+ 9 files changed, 8 insertions(+), 7 deletions(-)
+
+diff --git a/binaries/data/mods/public/simulation/templates/structures/cart/fortress.xml b/binaries/data/mods/public/simulation/templates/structures/cart/fortress.xml
+index 84043aa315..e2fb1fe67a 100644
+--- a/binaries/data/mods/public/simulation/templates/structures/cart/fortress.xml
++++ b/binaries/data/mods/public/simulation/templates/structures/cart/fortress.xml
+@@ -12,11 +12,6 @@
+   <Obstruction>
+     <Static width="26.0" depth="28.0"/>
+   </Obstruction>
+-  <ProductionQueue>
+-    <Entities datatype="tokens">
+-      units/{civ}/champion_elephant
+-    </Entities>
+-  </ProductionQueue>
+   <VisualActor>
+     <FoundationActor>structures/carthaginians/fndn_fortress.xml</FoundationActor>
+     <Actor>structures/carthaginians/fortress.xml</Actor>
+diff --git a/binaries/data/mods/public/simulation/templates/template_structure_military_elephant_stable.xml b/binaries/data/mods/public/simulation/templates/template_structure_military_elephant_stable.xml
+index 553e41d3a3..ab9b6505df 100644
+--- a/binaries/data/mods/public/simulation/templates/template_structure_military_elephant_stable.xml
++++ b/binaries/data/mods/public/simulation/templates/template_structure_military_elephant_stable.xml
+@@ -27,7 +27,7 @@
+     <SelectionGroupName>template_structure_military_elephant_stable</SelectionGroupName>
+     <Tooltip>Train Elephants and research Elephant technologies.</Tooltip>
+     <VisibleClasses datatype="tokens">City ElephantStable</VisibleClasses>
+-    <RequiredTechnology>phase_city</RequiredTechnology>
++    <RequiredTechnology>phase_hegemon</RequiredTechnology>
+     <Icon>structures/stable_elephant.png</Icon>
+   </Identity>
+   <Loot>
+diff --git a/binaries/data/mods/public/simulation/templates/template_unit_champion_elephant.xml b/binaries/data/mods/public/simulation/templates/template_unit_champion_elephant.xml
+index c01b418b23..01cae6715f 100644
+--- a/binaries/data/mods/public/simulation/templates/template_unit_champion_elephant.xml
++++ b/binaries/data/mods/public/simulation/templates/template_unit_champion_elephant.xml
+@@ -23,6 +23,7 @@
+   <Identity>
+     <GenericName>War Elephant</GenericName>
+     <VisibleClasses datatype="tokens">Elephant</VisibleClasses>
++    <RequiredTechnology>phase_hegemon</RequiredTechnology>
+   </Identity>
+   <Loot>
+     <xp>300</xp>
+diff --git a/binaries/data/mods/public/simulation/templates/template_unit_siege.xml b/binaries/data/mods/public/simulation/templates/template_unit_siege.xml
+index 4c9b4d13d6..c6a5bc32e0 100644
+--- a/binaries/data/mods/public/simulation/templates/template_unit_siege.xml
++++ b/binaries/data/mods/public/simulation/templates/template_unit_siege.xml
+@@ -20,7 +20,7 @@
+     <Classes datatype="tokens">-Organic</Classes>
+     <VisibleClasses datatype="tokens">Siege</VisibleClasses>
+     <GenericName>Siege</GenericName>
+-    <RequiredTechnology>phase_city</RequiredTechnology>
++    <RequiredTechnology>phase_hegemon</RequiredTechnology>
+   </Identity>
+   <Position>
+     <Anchor>pitch-roll</Anchor>
+diff --git a/binaries/data/mods/public/simulation/templates/template_unit_siege_ram.xml b/binaries/data/mods/public/simulation/templates/template_unit_siege_ram.xml
+index f2731ccda8..72749c64e3 100644
+--- a/binaries/data/mods/public/simulation/templates/template_unit_siege_ram.xml
++++ b/binaries/data/mods/public/simulation/templates/template_unit_siege_ram.xml
+@@ -44,6 +44,7 @@
+     <VisibleClasses datatype="tokens">Melee Ram</VisibleClasses>
+     <GenericName>Battering Ram</GenericName>
+     <Tooltip>Cannot attack Fields or Organic Units.</Tooltip>
++    <RequiredTechnology>phase_city</RequiredTechnology>
+   </Identity>
+   <Loot>
+     <xp>200</xp>
+diff --git a/binaries/data/mods/public/simulation/templates/units/mace/siege_lithobolos_packed.xml b/binaries/data/mods/public/simulation/templates/units/mace/siege_lithobolos_packed.xml
+index f990ccb3c0..53f9efc938 100644
+--- a/binaries/data/mods/public/simulation/templates/units/mace/siege_lithobolos_packed.xml
++++ b/binaries/data/mods/public/simulation/templates/units/mace/siege_lithobolos_packed.xml
+@@ -4,6 +4,7 @@
+     <Civ>mace</Civ>
+     <SpecificName>Lithobólos</SpecificName>
+     <Icon>units/hele_siege_lithobolos_packed.png</Icon>
++		<RequiredTechnology>phase_city</RequiredTechnology>
+   </Identity>
+   <Pack>
+     <Entity>units/mace/siege_lithobolos_unpacked</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/units/mace/siege_oxybeles_packed.xml b/binaries/data/mods/public/simulation/templates/units/mace/siege_oxybeles_packed.xml
+index a3fc36ea01..ebd6b9fdcc 100644
+--- a/binaries/data/mods/public/simulation/templates/units/mace/siege_oxybeles_packed.xml
++++ b/binaries/data/mods/public/simulation/templates/units/mace/siege_oxybeles_packed.xml
+@@ -4,6 +4,7 @@
+     <Civ>mace</Civ>
+     <SpecificName>Oxybelḗs</SpecificName>
+     <Icon>units/hele_siege_oxybeles_packed.png</Icon>
++		<RequiredTechnology>phase_city</RequiredTechnology>
+   </Identity>
+   <Pack>
+     <Entity>units/mace/siege_oxybeles_unpacked</Entity>
+diff --git a/binaries/data/mods/public/simulation/templates/units/mace/siege_tower.xml b/binaries/data/mods/public/simulation/templates/units/mace/siege_tower.xml
+index 04f1a520c8..0522bb358d 100644
+--- a/binaries/data/mods/public/simulation/templates/units/mace/siege_tower.xml
++++ b/binaries/data/mods/public/simulation/templates/units/mace/siege_tower.xml
+@@ -4,6 +4,7 @@
+     <Civ>mace</Civ>
+     <SpecificName>Helépolis</SpecificName>
+     <Icon>units/hele_siege_tower.png</Icon>
++		<RequiredTechnology>phase_city</RequiredTechnology>
+   </Identity>
+   <VisualActor>
+     <Actor>structures/hellenes/siege_tower.xml</Actor>
+diff --git a/binaries/data/mods/public/simulation/templates/units/maur/champion_elephant.xml b/binaries/data/mods/public/simulation/templates/units/maur/champion_elephant.xml
+index ecbdc5a9c8..6658d91f0e 100644
+--- a/binaries/data/mods/public/simulation/templates/units/maur/champion_elephant.xml
++++ b/binaries/data/mods/public/simulation/templates/units/maur/champion_elephant.xml
+@@ -6,6 +6,7 @@
+     <SpecificName>Gajendra</SpecificName>
+     <Classes datatype="tokens">IndianElephant</Classes>
+     <Icon>units/maur_champion_elephant.png</Icon>
++    <RequiredTechnology>phase_city</RequiredTechnology>
+   </Identity>
+   <VisualActor>
+     <Actor>units/mauryas/elephantry_c_m.xml</Actor>
+-- 
+2.25.1
+

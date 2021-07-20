@@ -23,6 +23,7 @@
   <Identity>
     <GenericName>War Elephant</GenericName>
     <VisibleClasses datatype="tokens">Elephant</VisibleClasses>
+    <RequiredTechnology>phase_hegemon</RequiredTechnology>
   </Identity>
   <Loot>
     <xp>300</xp>

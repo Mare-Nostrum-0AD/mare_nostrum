@@ -215,3 +215,16 @@ function fmtNum(num)
 	}
 	return [outputIntegerCharsReversed.reverse().join(''), remainder].filter(n => n).join('.');
 }
+
+function pickRandomWeighted(weightedItems)
+{
+	const weightsTotal = weightedItems.reduce((sum, [_, weight]) => sum + weight, 0);
+	let randomValue = weightsTotal * Math.random();
+	for (let [item, weight] of weightedItems)
+	{
+		randomValue -= weight;
+		if (randomValue < 0)
+			return item;
+	}
+	return weightedItems[weightedItems.length - 1][0];
+}

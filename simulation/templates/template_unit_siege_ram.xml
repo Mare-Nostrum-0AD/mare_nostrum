@@ -44,6 +44,7 @@
     <VisibleClasses datatype="tokens">Melee Ram</VisibleClasses>
     <GenericName>Battering Ram</GenericName>
     <Tooltip>Cannot attack Fields or Organic Units.</Tooltip>
+    <RequiredTechnology>phase_city</RequiredTechnology>
   </Identity>
   <Loot>
     <xp>200</xp>

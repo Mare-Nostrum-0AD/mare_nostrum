@@ -1,0 +1,474 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Mon, 19 Jul 2021 18:02:35 -0700
+Subject: [PATCH] rewrote Delphi:tradeManager.js to assign traders to multiple
+ trade routes, weighted toward more profitable ones; this is meant to ensure
+ multiple cities can grow and get the player to the Empire Phase
+
+---
+ .../data/mods/public/globalscripts/utility.js |  13 +
+ .../simulation/ai/common-api/filters.js       |   5 +
+ .../simulation/ai/delphi/tradeManager.js      | 305 +++++++++++-------
+ 3 files changed, 198 insertions(+), 125 deletions(-)
+
+diff --git a/binaries/data/mods/public/globalscripts/utility.js b/binaries/data/mods/public/globalscripts/utility.js
+index 4103d3fc37..8b26e4eaa2 100644
+--- a/binaries/data/mods/public/globalscripts/utility.js
++++ b/binaries/data/mods/public/globalscripts/utility.js
+@@ -215,3 +215,16 @@ function fmtNum(num)
+ 	}
+ 	return [outputIntegerCharsReversed.reverse().join(''), remainder].filter(n => n).join('.');
+ }
++
++function pickRandomWeighted(weightedItems)
++{
++	const weightsTotal = weightedItems.reduce((sum, [_, weight]) => sum + weight, 0);
++	let randomValue = weightsTotal * Math.random();
++	for (let [item, weight] of weightedItems)
++	{
++		randomValue -= weight;
++		if (randomValue < 0)
++			return item;
++	}
++	return weightedItems[weightedItems.length - 1][0];
++}
+diff --git a/binaries/data/mods/public/simulation/ai/common-api/filters.js b/binaries/data/mods/public/simulation/ai/common-api/filters.js
+index 4520cc5b1c..6b382bd6c2 100644
+--- a/binaries/data/mods/public/simulation/ai/common-api/filters.js
++++ b/binaries/data/mods/public/simulation/ai/common-api/filters.js
+@@ -17,6 +17,11 @@ m.Filters = {
+ 		"dynamicProperties": []
+ 	}),
+ 
++	"byComponent": component => ({
++		"func": ent => ent.get(component),
++		"dynamicProperties": []
++	}),
++
+ 	"byMetadata": (player, key, value) => ({
+ 		"func": ent => ent.getMetadata(player, key) == value,
+ 		"dynamicProperties": ['metadata.' + key]
+diff --git a/binaries/data/mods/public/simulation/ai/delphi/tradeManager.js b/binaries/data/mods/public/simulation/ai/delphi/tradeManager.js
+index 87338c4bd2..598f17d874 100644
+--- a/binaries/data/mods/public/simulation/ai/delphi/tradeManager.js
++++ b/binaries/data/mods/public/simulation/ai/delphi/tradeManager.js
+@@ -5,6 +5,7 @@ DELPHI.TradeManager = function(Config)
+ {
+ 	this.Config = Config;
+ 	this.tradeRoute = undefined;
++	this.tradeRoutes = [];
+ 	this.potentialTradeRoute = undefined;
+ 	this.routeProspection = false;
+ 	this.traderRatio = this.Config.Economy.traderRatio;
+@@ -18,9 +19,9 @@ DELPHI.TradeManager.prototype.init = function(gameState)
+ 	this.minimalGain = gameState.ai.HQ.navalMap ? 3 : 5;
+ };
+ 
+-DELPHI.TradeManager.prototype.hasTradeRoute = function()
++DELPHI.TradeManager.prototype.hasTradeRoutes = function()
+ {
+-	return this.tradeRoute !== undefined;
++	return this.tradeRoutes && this.tradeRoutes.length;
+ };
+ 
+ DELPHI.TradeManager.prototype.assignTrader = function(ent)
+@@ -31,71 +32,52 @@ DELPHI.TradeManager.prototype.assignTrader = function(ent)
+ 
+ DELPHI.TradeManager.prototype.trainMoreTraders = function(gameState, queues)
+ {
+-	if (!this.hasTradeRoute() || queues.trader.hasQueuedUnits())
++	if (!this.hasTradeRoutes() || queues.trader.hasQueuedUnits())
+ 		return;
+ 
+-	let targetNumTraders = gameState.getPopulationMax() * this.traderRatio;
++	const targetNumTraders = gameState.getPopulationMax() * this.traderRatio;
+ 	let numTraders = this.traders.length;
+-	let numSeaTraders = this.traders.filter(API3.Filters.byClass("Ship")).length;
+-	let numLandTraders = numTraders - numSeaTraders;
+ 	// add traders already in training
+-	gameState.getOwnTrainingFacilities().forEach(function(ent) {
++	gameState.getOwnTrainingFacilities().forEach((ent) => {
+ 		for (let item of ent.trainingQueue())
+ 		{
+-			if (!item.metadata || !item.metadata.role || item.metadata.role != "trader")
+-				continue;
+-			numTraders += item.count;
+-			if (item.metadata.sea !== undefined)
+-				numSeaTraders += item.count;
+-			else
+-				numLandTraders += item.count;
++			if (item.metadata && item.metadata.role === "trader")
++				numTraders += item.count;
+ 		}
+ 	});
+-	if (numTraders >= targetNumTraders &&
+-		(!this.tradeRoute.sea && numLandTraders >= Math.floor(targetNumTraders/2) ||
+-		  this.tradeRoute.sea && numSeaTraders >= Math.floor(targetNumTraders/2)))
++	if (numTraders >= targetNumTraders)
+ 		return;
+ 
++	const route = pickRandomWeighted(this.tradeRoutes.map(route => [route, route.gain]));
+ 	let template;
+-	let metadata = { "role": "trader" };
+-	if (this.tradeRoute.sea)
++	const metadata = {
++		"role": "trader",
++		"route": this.serializeRoute(route)
++	};
++	if (route.seaAccess)
+ 	{
+-		// if we have some merchand ships assigned to transport, try first to reassign them
+-		// May-be, there were produced at an early stage when no other ship were available
++		// if we have some merchant ships assigned to transport, try first to reassign them
++		// Maybe, there were produced at an early stage when no other ship were available
+ 		// and the naval manager will train now more appropriate ships.
+-		let already = false;
+-		let shipToSwitch;
+-		gameState.ai.HQ.navalManager.seaTransportShips[this.tradeRoute.sea].forEach(function(ship) {
+-			if (already || !ship.hasClass("Trader"))
+-				return;
+-			if (ship.getMetadata(PlayerID, "role") == "switchToTrader")
+-			{
+-				already = true;
+-				return;
+-			}
+-			shipToSwitch = ship;
++		const seaTransportShips = gameState.ai.HQ.navalManager.seaTransportShips[route.seaAccess].toEntityArray() || [];
++		const shipToSwitch = seaTransportShips.find(ship => ship.getMetadata(PlayerID, "role") === "switchToTrader") || seaTransportShips.find((ship) => {
++			if (!ship.hasClass("Trader"))
++				return false;
++			return !ship.getMetadata(PlayerID, "transporter");
+ 		});
+-		if (already)
+-			return;
+ 		if (shipToSwitch)
+ 		{
+-			if (shipToSwitch.getMetadata(PlayerID, "transporter") === undefined)
+-				shipToSwitch.setMetadata(PlayerID, "role", "trader");
+-			else
+-				shipToSwitch.setMetadata(PlayerID, "role", "switchToTrader");
++			shipToSwitch.setMetadata(PlayerID, "role", !shipToSwitch.getMetadata(PlayerID, "transporter") ? "trader" : "switchToTrader");
+ 			return;
+ 		}
+ 
+ 		template = gameState.applyCiv("units/{civ}/ship_merchant");
+-		metadata.sea = this.tradeRoute.sea;
++		metadata.sea = route.seaAccess;
+ 	}
+ 	else
+ 	{
+ 		template = gameState.applyCiv("units/{civ}/support_trader");
+-		if (!this.tradeRoute.source.hasClass("Naval"))
+-			metadata.base = this.tradeRoute.source.getMetadata(PlayerID, "base");
+-		else
+-			metadata.base = this.tradeRoute.target.getMetadata(PlayerID, "base");
++		metadata.base = route.markets[0].getMetadata(PlayerID, "base");
+ 	}
+ 
+ 	if (!gameState.getTemplate(template))
+@@ -108,52 +90,30 @@ DELPHI.TradeManager.prototype.trainMoreTraders = function(gameState, queues)
+ 	queues.trader.addPlan(new DELPHI.TrainingPlan(gameState, template, metadata, 1, 1));
+ };
+ 
+-DELPHI.TradeManager.prototype.updateTrader = function(gameState, ent)
++DELPHI.TradeManager.prototype.updateTrader = function(gameState, trader)
+ {
+-	if (ent.hasClass("Ship") && gameState.ai.playedTurn % 5 == 0 &&
+-	    !ent.unitAIState().startsWith("INDIVIDUAL.COLLECTTREASURE") &&
+-	    DELPHI.gatherTreasure(gameState, ent, true))
++	// this function only deals with unassigned traders; re-assigning working traders happens in assignTradeRoutes
++	if (!trader.position() || !trader.isIdle() || trader.getMetadata(PlayerID, "transport"))
+ 		return;
+-
+-	if (!this.hasTradeRoute() || !ent.isIdle() || !ent.position())
+-		return;
+-	if (ent.getMetadata(PlayerID, "transport") !== undefined)
+-		return;
+-
+-	// TODO if the trader is idle and has workOrders, restore them to avoid losing the current gain
+-
+-	Engine.ProfileStart("Trade Manager");
+-	let access = ent.hasClass("Ship") ? DELPHI.getSeaAccess(gameState, ent) : DELPHI.getLandAccess(gameState, ent);
+-	let route = this.checkRoutes(gameState, access);
+-	if (!route)
+-	{
+-		// TODO try to garrison land trader inside merchant ship when only sea routes available
+-		if (this.Config.debug > 0)
+-			API3.warn(" no available route for " + ent.genericName() + " " + ent.id());
+-		Engine.ProfileStop();
+-		return;
+-	}
+-
+-	let nearerSource = true;
+-	if (API3.SquareVectorDistance(route.target.position(), ent.position()) < API3.SquareVectorDistance(route.source.position(), ent.position()))
+-		nearerSource = false;
+-
+-	if (!ent.hasClass("Ship") && route.land != access)
++	const presentRouteSerialized = trader.getMetadata(PlayerID, "route");
++	const presentRoute = presentRouteSerialized ? this.deserializeRoute(gameState, presentRouteSerialized) : undefined;
++	if (presentRoute && presentRoute.markets.every(market => market && market.position()))
+ 	{
+-		if (nearerSource)
+-			gameState.ai.HQ.navalManager.requireTransport(gameState, ent, access, route.land, route.source.position());
+-		else
+-			gameState.ai.HQ.navalManager.requireTransport(gameState, ent, access, route.land, route.target.position());
+-		Engine.ProfileStop();
++		this.assignRouteToTrader(gameState, trader, presentRoute);
+ 		return;
+ 	}
+-
+-	if (nearerSource)
+-		ent.tradeRoute(route.target, route.source);
+-	else
+-		ent.tradeRoute(route.source, route.target);
+-	ent.setMetadata(PlayerID, "route", this.routeEntToId(route));
+-	Engine.ProfileStop();
++	// if no previously assigned route, or previously assigned route is unavailable, assign a new one
++	const traderSeaAccess = trader.hasClass("Ship") ? DELPHI.getSeaAccess(gameState, trader) : undefined;
++	const traderLandAccess = !traderSeaAccess ? DELPHI.getLandAccess(gameState, trader) : undefined;
++	const eligibleRoutes = this.tradeRoutes.filter(({ seaAccess, landAccess }) => {
++		if (seaAccess && seaAccess === traderSeaAccess)
++			return true;
++		if (landAccess && traderLandAccess)
++			return true;
++		return false;
++	});
++	const route = pickRandomWeighted(eligibleRoutes.map(route => [route, route.gain]));
++	this.assignRouteToTrader(gameState, trader, route);
+ };
+ 
+ DELPHI.TradeManager.prototype.setTradingGoods = function(gameState)
+@@ -412,6 +372,61 @@ DELPHI.TradeManager.prototype.activateProspection = function(gameState)
+ 	gameState.ai.HQ.buildManager.setBuildable(gameState.applyCiv("structures/{civ}/port"));
+ };
+ 
++DELPHI.TradeManager.prototype.updateRoutes = function(gameState)
++{
++	this.tradeRoutes = [];
++	// If we cannot trade, do not bother checking routes.
++	if (!Resources.GetTradableCodes().length)
++		return;
++
++	const mapSize = gameState.sharedScript.mapSize;
++	const traderTemplatesGains = gameState.getTraderTemplatesGains();
++	const ownMarkets = gameState.updatingCollection("OwnMarkets", API3.Filters.byComponent("Market"), gameState.getOwnStructures());
++	const exclusiveAllyMarkets = gameState.updatingCollection("diplo-ExclusiveAllyMarkets", API3.Filters.byComponent("Market"), gameState.getExclusiveAllyEntities());
++	if (!ownMarkets.length || ownMarkets.length + exclusiveAllyMarkets.length < 2)	// wait until we have at least one of our own markets and two friendly markets total
++		return;
++
++	const ownMarketEntities = ownMarkets.toEntityArray().filter(ent => ent.position());
++	const friendlyMarketEntities = new Set(ownMarketEntities.concat(exclusiveAllyMarkets.toEntityArray().filter(ent => ent.position())));
++	for (let market of ownMarketEntities)
++	{
++		friendlyMarketEntities.delete(market);
++		for (let otherMarket of friendlyMarketEntities.keys())
++		{
++			let route = {
++				"markets": [market, otherMarket],
++				"id": sprintf("%d:%d", ...[market, otherMarket].map(ent => ent.id()).sort())
++			};
++			const marketPos = market.position();
++			const otherMarketPos = otherMarket.position();
++			const vectorDistance = API3.SquareVectorDistance(marketPos, otherMarketPos);
++			if (market.hasClass("Naval") && otherMarket.hasClass("Naval"))
++			{
++				const marketSeaAccess = DELPHI.getSeaAccess(gameState, market);
++				const otherMarketSeaAccess = DELPHI.getSeaAccess(gameState, otherMarket);
++				if (marketSeaAccess !== 1 && marketSeaAccess === otherMarketSeaAccess)
++				{
++					route.seaAccess = marketSeaAccess;
++					route.gain = Math.round(traderTemplatesGains.navalGainMultiplier * TradeGain(vectorDistance, mapSize));
++				}
++			}
++			if (!route.seaAccess)
++			{
++				const marketLandAccess = DELPHI.getLandAccess(gameState, market);
++				const otherMarketLandAccess = DELPHI.getLandAccess(gameState, otherMarket);
++				if (marketLandAccess === otherMarketLandAccess && !DELPHI.isLineInsideEnemyTerritory(gameState, marketPos, otherMarketPos, 100))
++				{
++					route.landAccess = marketLandAccess;
++					route.gain = Math.round(traderTemplatesGains.landGainMultiplier * TradeGain(vectorDistance, mapSize));
++				}
++			}
++			if (route.seaAccess || route.landAccess)
++				this.tradeRoutes.push(route);
++		}
++	}
++	this.tradeRoutes = this.tradeRoutes.sort((a, b) => a.gain < b.gain);
++};// end DELPHI.TradeManager.prototype.updateRoutes
++
+ /**
+  * fills the best trade route in this.tradeRoute and the best potential route in this.potentialTradeRoute
+  * If an index is given, it returns the best route with this index or the best land route if index is a land index
+@@ -647,23 +662,81 @@ DELPHI.TradeManager.prototype.isNewMarketWorth = function(expectedGain)
+ 	return true;
+ };
+ 
++DELPHI.TradeManager.prototype.assignRouteToTrader = function(gameState, trader, route)
++{
++	const traderPos = trader.position();
++	const [ nearerMarket, furtherMarket ] = route.markets.sort(
++		(marketA, marketB) => API3.SquareVectorDistance(traderPos, marketA.position()) < API3.SquareVectorDistance(traderPos, marketB.position())
++	);
++	if (!trader.hasClass("Ship"))
++	{
++		const traderLandAccess = DELPHI.getLandAccess(gameState, trader);
++		if (route.landAccess !== traderLandAccess)
++		{
++			gameState.ai.HQ.navalManager.requireTransport(gameState, trader, traderLandAccess, route.landAccess, nearerMarket.position());
++			return;
++		}
++	}
++	trader.tradeRoute(nearerMarket, furtherMarket);
++	trader.setMetadata(PlayerID, "route", this.serializeRoute(route));
++	this.traders.updateEnt(trader);
++};
++
++DELPHI.TradeManager.prototype.assignTradeRoutes = function(gameState)
++{
++	const traders = this.traders.filter((trader) => trader.position() && !trader.unitAIState().startsWith("INDIVIDUAL.COLLECTTREASURE") && !trader.getMetadata(PlayerID, "transporter"));
++	const tradeRoutes = this.tradeRoutes;
++	const gainsTotal = tradeRoutes.reduce((sum, { gain }) => sum + gain, 0);
++	const tradersPerGain = traders.length / gainsTotal;
++	const tradeRoutesByID = Object.fromEntries(tradeRoutes.map(route => [ route.id, route ]));
++	const tradeRouteDesiredTraders = Object.fromEntries(tradeRoutes.map(({ id, gain }) => [ id, Math.round(gain * tradersPerGain) + 1 ]));
++	traders.forEach((trader) => {
++		const presentRoute = trader.getMetadata(PlayerID, "route");
++		if (presentRoute)
++		{
++			if (tradeRouteDesiredTraders[presentRoute.id])
++			{
++				tradeRouteDesiredTraders[presentRoute.id]--;
++				return;
++			}
++		}
++		const traderSeaAccess = trader.hasClass("Ship") ? DELPHI.getSeaAccess(gameState, trader) : undefined;
++		const traderLandAccess = !traderSeaAccess ? DELPHI.getLandAccess(gameState, trader) : undefined;
++		const eligibleRoutes = tradeRoutes.filter(({ id, seaAccess, landAccess }) => {
++			if (!tradeRouteDesiredTraders[id])
++				return false;
++			if (traderSeaAccess && seaAccess === traderSeaAccess)
++				return true;
++			if (traderLandAccess && landAccess)
++				return true;
++			return false;
++		}).sort((routeA, routeB) => {
++			if (routeA.landAccess && routeA.landAccess !== traderLandAccess && routeB.landAccess === traderLandAccess)
++					return true;
++			return tradeRouteDesiredTraders[routeA.id] < tradeRouteDesiredTraders[routeB.id];
++		});
++		if (!eligibleRoutes.length)
++			return;
++		const newRoute = eligibleRoutes[0];
++		tradeRouteDesiredTraders[newRoute.id]--;
++		this.assignRouteToTrader(gameState, trader, newRoute);
++	});// end for trader of traders
++};
++
+ DELPHI.TradeManager.prototype.update = function(gameState, events, queues)
+ {
+ 	if (gameState.ai.HQ.canBarter && Resources.GetBarterableCodes().length)
+ 		this.performBarter(gameState);
+ 
+-	if (this.Config.difficulty <= 1)
+-		return;
+-
+ 	if (this.checkEvents(gameState, events))  // true if one market was built or destroyed
+ 	{
+-		this.traders.forEach(ent => { this.checkTrader(gameState, ent); });
+-		this.checkRoutes(gameState);
++		this.updateRoutes(gameState);
++		this.assignTradeRoutes(gameState);
+ 	}
+ 
+-	if (this.tradeRoute)
++	if (this.tradeRoutes && this.tradeRoutes.length)
+ 	{
+-		this.traders.forEach(ent => { this.updateTrader(gameState, ent); });
++		this.traders.forEach(ent => this.updateTrader(gameState, ent));
+ 		if (gameState.ai.playedTurn % 3 == 0)
+ 			this.trainMoreTraders(gameState, queues);
+ 		if (gameState.ai.playedTurn % 20 == 0 && this.traders.length >= 2)
+@@ -673,51 +746,33 @@ DELPHI.TradeManager.prototype.update = function(gameState, events, queues)
+ 	}
+ };
+ 
+-DELPHI.TradeManager.prototype.routeEntToId = function(route)
++DELPHI.TradeManager.prototype.serializeRoute = function(route)
+ {
+ 	if (!route)
+ 		return undefined;
+ 
+-	let ret = {};
+-	for (let key in route)
+-	{
+-		if (key == "source" || key == "target")
+-		{
+-			if (!route[key])
+-				return undefined;
+-			ret[key] = route[key].id();
+-		}
+-		else
+-			ret[key] = route[key];
+-	}
+-	return ret;
++	return {
++		...route,
++		"markets": route.markets.map(ent => ent.id())
++	};
+ };
+ 
+-DELPHI.TradeManager.prototype.routeIdToEnt = function(gameState, route)
++DELPHI.TradeManager.prototype.deserializeRoute = function(gameState, route)
+ {
+ 	if (!route)
+ 		return undefined;
+ 
+-	let ret = {};
+-	for (let key in route)
+-	{
+-		if (key == "source" || key == "target")
+-		{
+-			ret[key] = gameState.getEntityById(route[key]);
+-			if (!ret[key])
+-				return undefined;
+-		}
+-		else
+-			ret[key] = route[key];
+-	}
+-	return ret;
++	return {
++		...route,
++		"markets": route.markets.map(id => gameState.getEntityById(id))
++	};
+ };
+ 
+ DELPHI.TradeManager.prototype.Serialize = function()
+ {
+ 	return {
+-		"tradeRoute": this.routeEntToId(this.tradeRoute),
+-		"potentialTradeRoute": this.routeEntToId(this.potentialTradeRoute),
++		"tradeRoutes": this.tradeRoutes.map(route => this.serializeRoute(route)),
++		"potentialTradeRoute": this.serializeRoute(this.potentialTradeRoute),
+ 		"routeProspection": this.routeProspection,
+ 		"traderRatio": this.traderRatio,
+ 		"warnedAllies": this.warnedAllies
+@@ -726,11 +781,11 @@ DELPHI.TradeManager.prototype.Serialize = function()
+ 
+ DELPHI.TradeManager.prototype.Deserialize = function(gameState, data)
+ {
+-	for (let key in data)
++	for (let [key, value] of Object.entries(data))
+ 	{
+-		if (key == "tradeRoute" || key == "potentialTradeRoute")
+-			this[key] = this.routeIdToEnt(gameState, data[key]);
++		if (key == "tradeRoutes")
++			this[key] = value.map(route => this.deserializeRoute(gameState, route));
+ 		else
+-			this[key] = data[key];
++			this[key] = value;
+ 	}
+ };
+-- 
+2.25.1
+
