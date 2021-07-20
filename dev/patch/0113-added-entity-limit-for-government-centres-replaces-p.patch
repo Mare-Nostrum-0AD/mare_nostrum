@@ -11,7 +11,7 @@ check for non-existent attack position in DELPHI.AttackPlan.prototype.update
  2 files changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/binaries/data/mods/public/simulation/ai/delphi/attackPlan.js b/binaries/data/mods/public/simulation/ai/delphi/attackPlan.js
-index ff0bba5003..7492f7d2c8 100644
+index 41c371797c..5a6ff8ff55 100644
 --- a/binaries/data/mods/public/simulation/ai/delphi/attackPlan.js
 +++ b/binaries/data/mods/public/simulation/ai/delphi/attackPlan.js
 @@ -1275,6 +1275,13 @@ DELPHI.AttackPlan.prototype.update = function(gameState, events)

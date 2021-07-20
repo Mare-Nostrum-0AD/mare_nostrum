@@ -370,7 +370,7 @@ DELPHI.AttackPlan.prototype.addSiegeUnits = function(gameState)
 		return false;
 
 	let civ = gameState.getPlayerCiv();
-	let classes = [[ "Siege", "Melee"], ["Siege", "Ranged"]];
+	const classes = [["Siege+Melee"], ["Siege+Ranged"]];
 	let hasTrainer = [false, false, false];
 	for (let ent of gameState.getOwnTrainingFacilities().values())
 	{
@@ -627,7 +627,7 @@ DELPHI.AttackPlan.prototype.trainMoreUnits = function(gameState)
 	{
 		// find the actual queue we want
 		let queue = this.queue;
-		if (MatchesClassList(firstOrder[3].classes, ["Siege"]))
+		if (firstOrder[4] == "Siege")
 			queue = this.queueSiege;
 		else if (firstOrder[3].classes.indexOf("Hero") != -1)
 			queue = this.queueSiege;

@@ -49,10 +49,10 @@ index 021c7deae7..fc27a7b5f1 100644
   * Useful for simulating consecutive AI matches.
   */
 diff --git a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
-index 53cf654d4a..a388ec7e1e 100644
+index 9c22abb4ee..a436aa94e8 100644
 --- a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
 +++ b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
-@@ -1004,7 +1004,7 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
+@@ -1003,7 +1003,7 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
  	}// end for res of Resources.GetCodes()
  	// favor shorelines
  	for (let tile of this.shoreTiles) {
@@ -61,7 +61,7 @@ index 53cf654d4a..a388ec7e1e 100644
  		let tilePosX = Math.floor(pos[0] / cellSize);
  		let tilePosZ = Math.floor(pos[1] / cellSize);
  		placement.addInfluence(tilePosX, tilePosZ, structRadius, Math.ceil((tile.waterValue * shoreCoeff) / cellSize));
-@@ -1088,7 +1088,7 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
+@@ -1087,7 +1087,7 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
  			this.navalManager.setMinimalTransportShips(gameState, sea, 1);
  	}
  
@@ -70,7 +70,7 @@ index 53cf654d4a..a388ec7e1e 100644
  };// end function DELPHI.HQ.prototype.findGenericCCLocation
  
  /**
-@@ -1641,7 +1641,8 @@ DELPHI.HQ.prototype.checkDockPlacement = function(gameState, x, z, halfDepth, ha
+@@ -1640,7 +1640,8 @@ DELPHI.HQ.prototype.checkDockPlacement = function(gameState, x, z, halfDepth, ha
  DELPHI.HQ.prototype.findCivicLocation = function(gameState, template)
  {
  	let placement = new API3.Map(gameState.sharedScript, "territory");
@@ -80,7 +80,7 @@ index 53cf654d4a..a388ec7e1e 100644
  	const civCentreRadiusRatio = 1.0;
  	const obstructionRatio = isDock ? 0.6 : 1.2;
  	const maxRetries = 100;// for finding dock position
-@@ -1665,6 +1666,15 @@ DELPHI.HQ.prototype.findCivicLocation = function(gameState, template)
+@@ -1664,6 +1665,15 @@ DELPHI.HQ.prototype.findCivicLocation = function(gameState, template)
  	// distance from similar structures; try to spread out amongst civ centres
  	this.applyBuildRestrictions(placement, gameState, template);
  	let civCentres = gameState.getOwnEntitiesByClass('CivCentre', true).toEntityArray();
@@ -96,7 +96,7 @@ index 53cf654d4a..a388ec7e1e 100644
  	if (civCentres.length < 1)
  		return false;
  	for (let civCentre of civCentres)
-@@ -1679,7 +1689,6 @@ DELPHI.HQ.prototype.findCivicLocation = function(gameState, template)
+@@ -1678,7 +1688,6 @@ DELPHI.HQ.prototype.findCivicLocation = function(gameState, template)
  			continue;
  		placement.multiplyInfluence(civCentrePosX, civCentrePosZ, Math.floor((civCentreRadius * civCentreRadiusRatio) / cellSize), 2, 'linear');
  	}// end for civCentre

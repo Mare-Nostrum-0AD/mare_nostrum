@@ -9,17 +9,16 @@ created marriage_pact technology that triggers TechSpawnUnits in Trigger~tech_tr
  .../components/TechnologyManager.js           | 58 ++++++++++++++++++-
  .../components/Trigger~tech_triggers.js       | 23 ++++++++
  .../data/technologies/marriage_pact.json      | 40 +++++++++++++
- .../structures/sele/civil_centre.xml          |  3 +
- .../templates/units/sele/hero_seleucus_i.xml  |  1 +
- 6 files changed, 125 insertions(+), 2 deletions(-)
+ .../templates/units/sele/hero_03.xml          |  1 +
+ 5 files changed, 122 insertions(+), 2 deletions(-)
  create mode 100644 binaries/data/mods/public/simulation/components/Trigger~tech_triggers.js
  create mode 100644 binaries/data/mods/public/simulation/data/technologies/marriage_pact.json
 
 diff --git a/binaries/data/mods/public/simulation/components/ProductionQueue.js b/binaries/data/mods/public/simulation/components/ProductionQueue.js
-index 0d1de95de9..a8370b3cb8 100644
+index 3a97fc85e6..6b908711dd 100644
 --- a/binaries/data/mods/public/simulation/components/ProductionQueue.js
 +++ b/binaries/data/mods/public/simulation/components/ProductionQueue.js
-@@ -869,7 +869,7 @@ ProductionQueue.prototype.ProgressTimeout = function(data, lateness)
+@@ -874,7 +874,7 @@ ProductionQueue.prototype.ProgressTimeout = function(data, lateness)
  		{
  			let cmpTechnologyManager = QueryOwnerInterface(this.entity, IID_TechnologyManager);
  			if (cmpTechnologyManager)
@@ -29,7 +28,7 @@ index 0d1de95de9..a8370b3cb8 100644
  				warn("Failed to stop researching " + item.technologyTemplate + ": No TechnologyManager available.");
  
 diff --git a/binaries/data/mods/public/simulation/components/TechnologyManager.js b/binaries/data/mods/public/simulation/components/TechnologyManager.js
-index 5472b140d1..0154609f68 100644
+index a1e6471bf7..408bfa00fb 100644
 --- a/binaries/data/mods/public/simulation/components/TechnologyManager.js
 +++ b/binaries/data/mods/public/simulation/components/TechnologyManager.js
 @@ -213,7 +213,7 @@ TechnologyManager.prototype.OnGlobalOwnershipChanged = function(msg)
@@ -179,24 +178,10 @@ index 0000000000..db81513ebe
 +	}],
 +	"soundComplete": "interface/alarm/alarm_upgradearmory.xml"
 +}
-diff --git a/binaries/data/mods/public/simulation/templates/structures/sele/civil_centre.xml b/binaries/data/mods/public/simulation/templates/structures/sele/civil_centre.xml
-index cc86d8cd67..6d94d2c88f 100644
---- a/binaries/data/mods/public/simulation/templates/structures/sele/civil_centre.xml
-+++ b/binaries/data/mods/public/simulation/templates/structures/sele/civil_centre.xml
-@@ -13,6 +13,9 @@
-       units/{civ}/hero_antiochus_iii
-       units/{civ}/hero_antiochus_iv
-     </Entities>
-+    <Technologies datatype="tokens">
-+			marriage_pact
-+    </Technologies>
-   </ProductionQueue>
-   <VisualActor>
-     <Actor>structures/seleucids/civic_center.xml</Actor>
-diff --git a/binaries/data/mods/public/simulation/templates/units/sele/hero_seleucus_i.xml b/binaries/data/mods/public/simulation/templates/units/sele/hero_seleucus_i.xml
+diff --git a/binaries/data/mods/public/simulation/templates/units/sele/hero_03.xml b/binaries/data/mods/public/simulation/templates/units/sele/hero_03.xml
 index 3ecf69fb1b..9b7a5deb5d 100644
---- a/binaries/data/mods/public/simulation/templates/units/sele/hero_seleucus_i.xml
-+++ b/binaries/data/mods/public/simulation/templates/units/sele/hero_seleucus_i.xml
+--- a/binaries/data/mods/public/simulation/templates/units/sele/hero_03.xml
++++ b/binaries/data/mods/public/simulation/templates/units/sele/hero_03.xml
 @@ -8,6 +8,7 @@
      <Lang>greek</Lang>
      <GenericName>Seleucus I</GenericName>

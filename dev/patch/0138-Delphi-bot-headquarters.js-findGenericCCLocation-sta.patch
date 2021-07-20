@@ -69,10 +69,10 @@ index 3c1e8488ef..abdcbb2da4 100644
  						</repeat>
  					</object>
 diff --git a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
-index dd62bb2fc2..5acbd51ef8 100644
+index 16a81f3584..ab1a2e98f1 100644
 --- a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
 +++ b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
-@@ -978,6 +978,7 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
+@@ -977,6 +977,7 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
  	const cellSize = this.territoryMap.cellSize;
  	const defaultTileVal = 32;
  	const maxTileVal = 255;
@@ -80,7 +80,7 @@ index dd62bb2fc2..5acbd51ef8 100644
  	const shoreCoeff = 1.5;
  	const structRadius = (() => {
  		const cityRadius = +template.get('City/Radius');
-@@ -989,6 +990,7 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
+@@ -988,6 +989,7 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
  	const friendlyPorts = gameState.getOwnEntitiesByClass('NavalMarket', true).toEntityArray().concat(gameState.getAllyStructures().filter(API3.Filters.byClass('NavalMarket')).toEntityArray());
  	const allowedWaterIndices = new Set(friendlyPorts.map(ent => gameState.ai.accessibility.getAccessValue(ent.position(), true)));
  	const allowedLandIndices = new Set(friendlyCivCentres.map(ent => gameState.ai.accessibility.getAccessValue(ent.position(), false)));
@@ -88,7 +88,7 @@ index dd62bb2fc2..5acbd51ef8 100644
  	const conditionalLandIndices = new Set(this.shoreTiles.filter(tile => allowedWaterIndices.has(tile.water)).map(tile => tile.land));
  	// add influence around allowed shorelines
  	for (let tile of this.shoreTiles.filter(tile => allowedWaterIndices.has(tile.water))) {
-@@ -1000,19 +1002,20 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
+@@ -999,19 +1001,20 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
  	placement.map = placement.map.map((val, i) => {
  		const land = gameState.ai.accessibility.getAccessValue(placement.mapIndexToGamePos(i), false)
  		if (val && (conditionalLandIndices.has(land) || allowedLandIndices.has(land)))

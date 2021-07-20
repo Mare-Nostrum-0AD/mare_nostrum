@@ -99,10 +99,10 @@ index d07b5d4a7c..78f77dce77 100644
  CityMember.prototype.Init = function()
  {
 diff --git a/binaries/data/mods/public/simulation/components/ProductionQueue.js b/binaries/data/mods/public/simulation/components/ProductionQueue.js
-index bc95180199..51598c4742 100644
+index 881ccaa29a..3a97fc85e6 100644
 --- a/binaries/data/mods/public/simulation/components/ProductionQueue.js
 +++ b/binaries/data/mods/public/simulation/components/ProductionQueue.js
-@@ -674,7 +674,7 @@ ProductionQueue.prototype.SpawnUnits = function(item)
+@@ -676,7 +676,7 @@ ProductionQueue.prototype.SpawnUnits = function(item)
  	{
  		item.entityCache = [];
  		for (let i = 0; i < item.count; ++i)

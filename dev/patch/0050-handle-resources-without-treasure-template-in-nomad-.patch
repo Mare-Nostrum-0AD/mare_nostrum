@@ -30,7 +30,7 @@ index 38d12f50e2..cbe90758d0 100644
  			let count = Math.max(0, Math.ceil(
  				(ccCost[resourceType] - (g_MapSettings.StartingResources || 0)) /
 diff --git a/binaries/data/mods/public/simulation/components/ProductionQueue.js b/binaries/data/mods/public/simulation/components/ProductionQueue.js
-index 3f89c5c7a4..5f6c7c7cb0 100644
+index c0943993ec..481bbbf696 100644
 --- a/binaries/data/mods/public/simulation/components/ProductionQueue.js
 +++ b/binaries/data/mods/public/simulation/components/ProductionQueue.js
 @@ -410,7 +410,9 @@ ProductionQueue.prototype.AddItem = function(templateName, type, count, metadata
