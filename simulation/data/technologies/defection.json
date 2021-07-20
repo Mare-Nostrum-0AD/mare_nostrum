@@ -12,8 +12,8 @@
 	},
 	"requirementsTooltip": "Unlocked in Empire Phase.",
 	"icon": "sibylline_books.png",
-	"researchTime": 40,
-	"tooltip": "Gain control over 1/3 of your enemies' civil centers (selected randomly).",
+	"researchTime": 60,
+	"tooltip": "Gain control over 1/2 of your enemies' civil centers (selected randomly).",
 	"triggers": [{
 		"systemComponent": "Trigger",
 		"func": "TechTransferOwnershipEntities",
@@ -21,8 +21,8 @@
 			"receivingPlayerID": "{{ playerID }}",
 			"givingPlayersDiplo": ["Enemy"],
 			"entityClasses": ["CivCentre"],
-			"ratio": 0.33,
-			"minEntities": 3
+			"ratio": 0.5,
+			"minEntities": 2
 		}]
 	}],
 	"soundComplete": "interface/complete/building/complete_wonder.xml"

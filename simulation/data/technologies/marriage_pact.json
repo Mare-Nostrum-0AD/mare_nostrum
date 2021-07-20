@@ -21,7 +21,7 @@
 	},
 	"requirementsTooltip": "Unlocked in Empire Phase. Requires training the hero Seleucus I (Nikator).",
 	"icon": "sibylline_books.png",
-	"researchTime": 40,
+	"researchTime": 60,
 	"tooltip": "Receive a one-time gift of 20 Maurya War Elephants, in exchange for reduced territory push for Civil Centers.",
 	"modifications": [
 		{ "value": "TerritoryInfluence/Radius", "multiply": 0.7, "affects": "CivCentre" }
