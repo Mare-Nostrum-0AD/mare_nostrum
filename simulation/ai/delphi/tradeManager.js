@@ -112,6 +112,8 @@ DELPHI.TradeManager.prototype.updateTrader = function(gameState, trader)
 			return true;
 		return false;
 	});
+	if (!eligibleRoutes || !eligibleRoutes.length)
+		return;
 	const route = pickRandomWeighted(eligibleRoutes.map(route => [route, route.gain]));
 	this.assignRouteToTrader(gameState, trader, route);
 };

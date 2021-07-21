@@ -1,0 +1,55 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Tue, 20 Jul 2021 23:13:01 -0700
+Subject: [PATCH] tweaks, bugfixes to Delphi:tradeManager.js and
+ Delphi:transportPlan.js,
+
+pickRandomWeighted checks for undefined, empty arrays
+---
+ binaries/data/mods/public/globalscripts/utility.js              | 2 ++
+ binaries/data/mods/public/simulation/ai/delphi/tradeManager.js  | 2 ++
+ binaries/data/mods/public/simulation/ai/delphi/transportPlan.js | 2 +-
+ 3 files changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/binaries/data/mods/public/globalscripts/utility.js b/binaries/data/mods/public/globalscripts/utility.js
+index 8b26e4eaa2..36b94babf2 100644
+--- a/binaries/data/mods/public/globalscripts/utility.js
++++ b/binaries/data/mods/public/globalscripts/utility.js
+@@ -218,6 +218,8 @@ function fmtNum(num)
+ 
+ function pickRandomWeighted(weightedItems)
+ {
++	if (!weightedItems || !weightedItems.length)
++		return undefined;
+ 	const weightsTotal = weightedItems.reduce((sum, [_, weight]) => sum + weight, 0);
+ 	let randomValue = weightsTotal * Math.random();
+ 	for (let [item, weight] of weightedItems)
+diff --git a/binaries/data/mods/public/simulation/ai/delphi/tradeManager.js b/binaries/data/mods/public/simulation/ai/delphi/tradeManager.js
+index 598f17d874..fce269cb28 100644
+--- a/binaries/data/mods/public/simulation/ai/delphi/tradeManager.js
++++ b/binaries/data/mods/public/simulation/ai/delphi/tradeManager.js
+@@ -112,6 +112,8 @@ DELPHI.TradeManager.prototype.updateTrader = function(gameState, trader)
+ 			return true;
+ 		return false;
+ 	});
++	if (!eligibleRoutes || !eligibleRoutes.length)
++		return;
+ 	const route = pickRandomWeighted(eligibleRoutes.map(route => [route, route.gain]));
+ 	this.assignRouteToTrader(gameState, trader, route);
+ };
+diff --git a/binaries/data/mods/public/simulation/ai/delphi/transportPlan.js b/binaries/data/mods/public/simulation/ai/delphi/transportPlan.js
+index 9877aceacc..7f6f1933a5 100644
+--- a/binaries/data/mods/public/simulation/ai/delphi/transportPlan.js
++++ b/binaries/data/mods/public/simulation/ai/delphi/transportPlan.js
+@@ -339,7 +339,7 @@ DELPHI.TransportPlan.prototype.onBoarding = function(gameState)
+ 					{
+ 						let oldPos = ent.getMetadata(PlayerID, "posGarrison");
+ 						let newPos = ent.position();
+-						if (oldPos[0] == newPos[0] && oldPos[1] == newPos[1])
++						if (oldPos && newPos && oldPos[0] === newPos[0] && oldPos[1] === newPos[1])
+ 							retry = true;
+ 						ent.setMetadata(PlayerID, "posGarrison", newPos);
+ 						ent.setMetadata(PlayerID, "timeGarrison", time);
+-- 
+2.25.1
+

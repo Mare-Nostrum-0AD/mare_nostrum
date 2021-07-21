@@ -218,6 +218,8 @@ function fmtNum(num)
 
 function pickRandomWeighted(weightedItems)
 {
+	if (!weightedItems || !weightedItems.length)
+		return undefined;
 	const weightsTotal = weightedItems.reduce((sum, [_, weight]) => sum + weight, 0);
 	let randomValue = weightsTotal * Math.random();
 	for (let [item, weight] of weightedItems)

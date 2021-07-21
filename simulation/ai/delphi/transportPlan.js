@@ -339,7 +339,7 @@ DELPHI.TransportPlan.prototype.onBoarding = function(gameState)
 					{
 						let oldPos = ent.getMetadata(PlayerID, "posGarrison");
 						let newPos = ent.position();
-						if (oldPos[0] == newPos[0] && oldPos[1] == newPos[1])
+						if (oldPos && newPos && oldPos[0] === newPos[0] && oldPos[1] === newPos[1])
 							retry = true;
 						ent.setMetadata(PlayerID, "posGarrison", newPos);
 						ent.setMetadata(PlayerID, "timeGarrison", time);
