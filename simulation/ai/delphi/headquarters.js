@@ -977,7 +977,7 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
 	const cellSize = this.territoryMap.cellSize;
 	const defaultTileVal = 32;
 	const maxTileVal = 255;
-	const existingCCDistanceMultiplier = 1.5;// new ccs should be built further away from existing ccs based on how many we already have
+	const existingCCDistanceMultiplier = 1.2;// new ccs should be built further away from existing ccs based on how many we already have
 	const shoreCoeff = 1.5;
 	const structRadius = (() => {
 		const cityRadius = +template.get('City/Radius');
@@ -1052,7 +1052,7 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
 		if (!ents || !ents.length)
 			continue;
 		let strengthMultiplier = 1 + (1 / ents.length);
-		for (let [x, z] of ents.map(ent => ent.position()).filter(pos => pos).map(pos => gameState.ai.accessibility.gamePosToMapPos(pos))) {
+		for (let [x, z] of ents.map(ent => ent.position()).filter(pos => pos).map(pos => placement.gamePosToMapPos(pos))) {
 			placement.multiplyInfluence(x, z, structRadius * 2, strengthMultiplier);
 		}// end for ent of ents
 	}// end for res of Resources.GetCodes()
@@ -1062,11 +1062,14 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
 		if (!tile.val)
 			break;
 		tileChoices.push(tile);
-		placement.map[tile.idx] = 0;
+		placement.addInfluence(...placement.mapIndexToMapPos(tile.idx), 100, -maxTileVal, 'constant');
 	}// end for i = 0; i < maxChoices; i++
-	if (tileChoices.length < 1)
+	if (!tileChoices.length)
+	{
+		Engine.ProfileStop();
 		return false
-	let bestTile = pickRandom(tileChoices);
+	}
+	let bestTile = pickRandomWeighted(tileChoices.map(tile => [tile, tile.val]));
 	Engine.ProfileStop();
 
 	// Define a minimal number of wanted ships in the seas reaching this new base

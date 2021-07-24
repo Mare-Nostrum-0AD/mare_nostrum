@@ -46,8 +46,15 @@ m.Map.prototype.gamePosToMapPos = function(p)
 
 m.Map.prototype.mapIndexToGamePos = function(index)
 {
-	let posX = (index % this.width) * this.cellSize;
-	let posZ = Math.floor(index / this.width) * this.cellSize;
+	const posX = (index % this.width) * this.cellSize;
+	const posZ = Math.floor(index / this.width) * this.cellSize;
+	return [posX, posZ];
+};// end function m.Map.prototype.mapIndexToGamePos
+
+m.Map.prototype.mapIndexToMapPos = function(index)
+{
+	const posX = index % this.width;
+	const posZ = Math.floor(index / this.width);
 	return [posX, posZ];
 };// end function m.Map.prototype.mapIndexToGamePos
 

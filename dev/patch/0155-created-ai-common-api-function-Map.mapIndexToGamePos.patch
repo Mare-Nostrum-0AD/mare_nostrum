@@ -1,0 +1,76 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sat, 24 Jul 2021 13:43:38 -0700
+Subject: [PATCH] created ai common-api function Map.mapIndexToGamePos
+
+Delphi:headquarters.js:findGenericCCLocation uses a smaller cc distance multiplier (1.2 instead of 1.5), chooses randomly from a series of possible positions located at least 100 meters apart
+---
+ .../public/simulation/ai/common-api/map-module.js   | 11 +++++++++--
+ .../public/simulation/ai/delphi/headquarters.js     | 13 ++++++++-----
+ 2 files changed, 17 insertions(+), 7 deletions(-)
+
+diff --git a/binaries/data/mods/public/simulation/ai/common-api/map-module.js b/binaries/data/mods/public/simulation/ai/common-api/map-module.js
+index 07ef3787be..4e08f59f59 100644
+--- a/binaries/data/mods/public/simulation/ai/common-api/map-module.js
++++ b/binaries/data/mods/public/simulation/ai/common-api/map-module.js
+@@ -46,8 +46,15 @@ m.Map.prototype.gamePosToMapPos = function(p)
+ 
+ m.Map.prototype.mapIndexToGamePos = function(index)
+ {
+-	let posX = (index % this.width) * this.cellSize;
+-	let posZ = Math.floor(index / this.width) * this.cellSize;
++	const posX = (index % this.width) * this.cellSize;
++	const posZ = Math.floor(index / this.width) * this.cellSize;
++	return [posX, posZ];
++};// end function m.Map.prototype.mapIndexToGamePos
++
++m.Map.prototype.mapIndexToMapPos = function(index)
++{
++	const posX = index % this.width;
++	const posZ = Math.floor(index / this.width);
+ 	return [posX, posZ];
+ };// end function m.Map.prototype.mapIndexToGamePos
+ 
+diff --git a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
+index ab1a2e98f1..63d2e07279 100644
+--- a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
++++ b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
+@@ -977,7 +977,7 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
+ 	const cellSize = this.territoryMap.cellSize;
+ 	const defaultTileVal = 32;
+ 	const maxTileVal = 255;
+-	const existingCCDistanceMultiplier = 1.5;// new ccs should be built further away from existing ccs based on how many we already have
++	const existingCCDistanceMultiplier = 1.2;// new ccs should be built further away from existing ccs based on how many we already have
+ 	const shoreCoeff = 1.5;
+ 	const structRadius = (() => {
+ 		const cityRadius = +template.get('City/Radius');
+@@ -1052,7 +1052,7 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
+ 		if (!ents || !ents.length)
+ 			continue;
+ 		let strengthMultiplier = 1 + (1 / ents.length);
+-		for (let [x, z] of ents.map(ent => ent.position()).filter(pos => pos).map(pos => gameState.ai.accessibility.gamePosToMapPos(pos))) {
++		for (let [x, z] of ents.map(ent => ent.position()).filter(pos => pos).map(pos => placement.gamePosToMapPos(pos))) {
+ 			placement.multiplyInfluence(x, z, structRadius * 2, strengthMultiplier);
+ 		}// end for ent of ents
+ 	}// end for res of Resources.GetCodes()
+@@ -1062,11 +1062,14 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
+ 		if (!tile.val)
+ 			break;
+ 		tileChoices.push(tile);
+-		placement.map[tile.idx] = 0;
++		placement.addInfluence(...placement.mapIndexToMapPos(tile.idx), 100, -maxTileVal, 'constant');
+ 	}// end for i = 0; i < maxChoices; i++
+-	if (tileChoices.length < 1)
++	if (!tileChoices.length)
++	{
++		Engine.ProfileStop();
+ 		return false
+-	let bestTile = pickRandom(tileChoices);
++	}
++	let bestTile = pickRandomWeighted(tileChoices.map(tile => [tile, tile.val]));
+ 	Engine.ProfileStop();
+ 
+ 	// Define a minimal number of wanted ships in the seas reaching this new base
+-- 
+2.25.1
+
