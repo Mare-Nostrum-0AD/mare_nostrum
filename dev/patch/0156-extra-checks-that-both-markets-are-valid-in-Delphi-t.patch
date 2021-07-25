@@ -1,0 +1,49 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sat, 24 Jul 2021 17:04:08 -0700
+Subject: [PATCH] extra checks that both markets are valid in
+ Delphi:tradeManager.js:updateTrader
+
+Delphi:tradeManager.js:assignRouteToTrader assigns route metadata before assigning sea transport
+---
+ .../mods/public/simulation/ai/delphi/tradeManager.js   | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/binaries/data/mods/public/simulation/ai/delphi/tradeManager.js b/binaries/data/mods/public/simulation/ai/delphi/tradeManager.js
+index fce269cb28..a1135fa8a6 100644
+--- a/binaries/data/mods/public/simulation/ai/delphi/tradeManager.js
++++ b/binaries/data/mods/public/simulation/ai/delphi/tradeManager.js
+@@ -97,7 +97,11 @@ DELPHI.TradeManager.prototype.updateTrader = function(gameState, trader)
+ 		return;
+ 	const presentRouteSerialized = trader.getMetadata(PlayerID, "route");
+ 	const presentRoute = presentRouteSerialized ? this.deserializeRoute(gameState, presentRouteSerialized) : undefined;
+-	if (presentRoute && presentRoute.markets.every(market => market && market.position()))
++	if (presentRoute &&
++		presentRoute.markets.every(market => {
++			return market && market.position() && (market.owner() === PlayerID || gameState.isPlayerAlly(market.owner()));
++		}) &&
++		presentRoute.markets.some(market => market.owner() === PlayerID))
+ 	{
+ 		this.assignRouteToTrader(gameState, trader, presentRoute);
+ 		return;
+@@ -670,6 +674,8 @@ DELPHI.TradeManager.prototype.assignRouteToTrader = function(gameState, trader,
+ 	const [ nearerMarket, furtherMarket ] = route.markets.sort(
+ 		(marketA, marketB) => API3.SquareVectorDistance(traderPos, marketA.position()) < API3.SquareVectorDistance(traderPos, marketB.position())
+ 	);
++	trader.setMetadata(PlayerID, "route", this.serializeRoute(route));
++	this.traders.updateEnt(trader);
+ 	if (!trader.hasClass("Ship"))
+ 	{
+ 		const traderLandAccess = DELPHI.getLandAccess(gameState, trader);
+@@ -680,8 +686,6 @@ DELPHI.TradeManager.prototype.assignRouteToTrader = function(gameState, trader,
+ 		}
+ 	}
+ 	trader.tradeRoute(nearerMarket, furtherMarket);
+-	trader.setMetadata(PlayerID, "route", this.serializeRoute(route));
+-	this.traders.updateEnt(trader);
+ };
+ 
+ DELPHI.TradeManager.prototype.assignTradeRoutes = function(gameState)
+-- 
+2.25.1
+

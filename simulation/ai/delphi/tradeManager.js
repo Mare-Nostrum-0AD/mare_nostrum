@@ -97,7 +97,11 @@ DELPHI.TradeManager.prototype.updateTrader = function(gameState, trader)
 		return;
 	const presentRouteSerialized = trader.getMetadata(PlayerID, "route");
 	const presentRoute = presentRouteSerialized ? this.deserializeRoute(gameState, presentRouteSerialized) : undefined;
-	if (presentRoute && presentRoute.markets.every(market => market && market.position()))
+	if (presentRoute &&
+		presentRoute.markets.every(market => {
+			return market && market.position() && (market.owner() === PlayerID || gameState.isPlayerAlly(market.owner()));
+		}) &&
+		presentRoute.markets.some(market => market.owner() === PlayerID))
 	{
 		this.assignRouteToTrader(gameState, trader, presentRoute);
 		return;
@@ -670,6 +674,8 @@ DELPHI.TradeManager.prototype.assignRouteToTrader = function(gameState, trader, 
 	const [ nearerMarket, furtherMarket ] = route.markets.sort(
 		(marketA, marketB) => API3.SquareVectorDistance(traderPos, marketA.position()) < API3.SquareVectorDistance(traderPos, marketB.position())
 	);
+	trader.setMetadata(PlayerID, "route", this.serializeRoute(route));
+	this.traders.updateEnt(trader);
 	if (!trader.hasClass("Ship"))
 	{
 		const traderLandAccess = DELPHI.getLandAccess(gameState, trader);
@@ -680,8 +686,6 @@ DELPHI.TradeManager.prototype.assignRouteToTrader = function(gameState, trader, 
 		}
 	}
 	trader.tradeRoute(nearerMarket, furtherMarket);
-	trader.setMetadata(PlayerID, "route", this.serializeRoute(route));
-	this.traders.updateEnt(trader);
 };
 
 DELPHI.TradeManager.prototype.assignTradeRoutes = function(gameState)
