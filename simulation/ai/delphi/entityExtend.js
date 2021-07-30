@@ -362,7 +362,7 @@ DELPHI.isNotWorthBuilding = function(gameState, ent)
 /**
  * Check if the straight line between the two positions crosses an enemy territory
  */
-DELPHI.isLineInsideEnemyTerritory = function(gameState, pos1, pos2, step=70)
+DELPHI.isLineInsideEnemyTerritory = function(gameState, pos1, pos2, step=70, allowedEnemyPoints=0)
 {
 	let n = Math.floor(Math.sqrt(API3.SquareVectorDistance(pos1, pos2))/step) + 1;
 	let stepx = (pos2[0] - pos1[0]) / n;
@@ -372,7 +372,11 @@ DELPHI.isLineInsideEnemyTerritory = function(gameState, pos1, pos2, step=70)
 		let pos = [pos1[0]+i*stepx, pos1[1]+i*stepy];
 		let owner = gameState.ai.HQ.territoryMap.getOwner(pos);
 		if (owner && gameState.isPlayerEnemy(owner))
-			return true;
+		{
+			if (!allowedEnemyPoints)
+				return true;
+			--allowedEnemyPoints;
+		}
 	}
 	return false;
 };

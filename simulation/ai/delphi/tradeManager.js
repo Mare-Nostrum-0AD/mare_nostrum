@@ -420,7 +420,7 @@ DELPHI.TradeManager.prototype.updateRoutes = function(gameState)
 			{
 				const marketLandAccess = DELPHI.getLandAccess(gameState, market);
 				const otherMarketLandAccess = DELPHI.getLandAccess(gameState, otherMarket);
-				if (marketLandAccess === otherMarketLandAccess && !DELPHI.isLineInsideEnemyTerritory(gameState, marketPos, otherMarketPos, 100))
+				if (marketLandAccess === otherMarketLandAccess && !DELPHI.isLineInsideEnemyTerritory(gameState, marketPos, otherMarketPos, 50, 3))
 				{
 					route.landAccess = marketLandAccess;
 					route.gain = Math.round(traderTemplatesGains.landGainMultiplier * TradeGain(vectorDistance, mapSize));

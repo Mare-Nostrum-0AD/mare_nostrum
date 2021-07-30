@@ -1,0 +1,298 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Mon, 26 Jul 2021 00:19:19 -0700
+Subject: [PATCH] created Delphi:headquarters.js:applyDefensiveRestrictions to
+ avoid enemy defensive structures when placing buildings
+
+improved Delphi:headquarters.js:applyBuildRestrictions
+---
+ .../simulation/ai/common-api/map-module.js    |   1 +
+ .../simulation/ai/delphi/headquarters.js      | 146 ++++++++++++------
+ 2 files changed, 103 insertions(+), 44 deletions(-)
+
+diff --git a/binaries/data/mods/public/simulation/ai/common-api/map-module.js b/binaries/data/mods/public/simulation/ai/common-api/map-module.js
+index 4e08f59f59..726c36dcee 100644
+--- a/binaries/data/mods/public/simulation/ai/common-api/map-module.js
++++ b/binaries/data/mods/public/simulation/ai/common-api/map-module.js
+@@ -27,6 +27,7 @@ m.Map = function Map(sharedScript, type, originalMap, actualCopy)
+ 		this.map = new Uint8Array(this.length);
+ 		for (let i = 0; i < this.length; ++i)
+ 			this.map[i] = originalMap[i];
++		this.maxVal = originalMap.maxVal;
+ 	}
+ 	else if (originalMap)
+ 		this.map = originalMap;
+diff --git a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
+index 63d2e07279..bf352b0cb6 100644
+--- a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
++++ b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
+@@ -970,8 +970,8 @@ DELPHI.HQ.prototype.pickMostNeededResources = function(gameState, allowedResourc
+ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
+ {
+ 	Engine.ProfileStart('findGenericCCLocation');
+-	let placement = new API3.Map(gameState.sharedScript, "territory");
+-	const maxChoices = 10;// number of possible positions to choose from
++	const placement = new API3.Map(gameState.sharedScript, "territory");
++	const maxChoices = 16;// number of possible positions to choose from
+ 	const mapWidth = this.territoryMap.width;
+ 	const mapWidthHalf = Math.floor(mapWidth / 2);
+ 	const cellSize = this.territoryMap.cellSize;
+@@ -1046,9 +1046,9 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
+ 				placement.map[i] = 0;
+ 		}// end for i in placement.map
+ 	}// end if friendlyCivCentres.length < 1
+-	// favor resource supplies
++	// favor natural resource supplies (ones owned by gaia)
+ 	for (let res of Resources.GetCodes()) {
+-		let ents = gameState.getResourceSupplies(res).toEntityArray();
++		let ents = gameState.getResourceSupplies(res).toEntityArray().filter(ent => !ent.owner());
+ 		if (!ents || !ents.length)
+ 			continue;
+ 		let strengthMultiplier = 1 + (1 / ents.length);
+@@ -1056,20 +1056,42 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
+ 			placement.multiplyInfluence(x, z, structRadius * 2, strengthMultiplier);
+ 		}// end for ent of ents
+ 	}// end for res of Resources.GetCodes()
++	this.applyBuildRestrictions(placement, gameState, template);
++	this.applyDefensiveRestrictions(placement, gameState);
++	placement.dumpIm(sprintf("placement_p%02d_%s_%08d.png", PlayerID, template.templateName(), gameState.ai.playedTurn), Math.max(...placement.map) || placement.maxVal);
+ 	let tileChoices = [];
+-	for (let i = 0; i < maxChoices; i++) {
+-		let tile = placement.findBestTile(radius, obstructions);
+-		if (!tile.val)
+-			break;
+-		tileChoices.push(tile);
+-		placement.addInfluence(...placement.mapIndexToMapPos(tile.idx), 100, -maxTileVal, 'constant');
+-	}// end for i = 0; i < maxChoices; i++
++	// if not the first cc, make sure there is an unbroken line to another cc (no enemy territory in between)
++	if (friendlyCivCentres && friendlyCivCentres.length)
++	{
++		const ccPlacement = new API3.Map(gameState.sharedScript, "territory", placement, true);
++		for (let i = 0; i < maxChoices; i++) {
++			const tile = ccPlacement.findBestTile(radius, obstructions);
++			if (!tile.val)
++				break;
++			ccPlacement.addInfluence(...ccPlacement.mapIndexToMapPos(tile.idx), 100, -maxTileVal, 'constant');
++			const tilePos = ccPlacement.mapIndexToGamePos(tile.idx);
++			if (friendlyCivCentres.some(cc => !DELPHI.isLineInsideEnemyTerritory(gameState, cc.position(), tilePos, 100)))
++				tileChoices.push(tile);
++		}// end for i = 0; i < maxChoices; i++
++	}
++	// if no tile found yet, try again without checking for unbroken line
++	if (!tileChoices.length)
++	{
++		for (let i = 0; i < maxChoices; i++) {
++			const tile = placement.findBestTile(radius, obstructions);
++			if (!tile.val)
++				break;
++			placement.addInfluence(...placement.mapIndexToMapPos(tile.idx), 100, -maxTileVal, 'constant');
++			tileChoices.push(tile);
++		}// end for i = 0; i < maxChoices; i++
++	}
++	// no valid position found; give up
+ 	if (!tileChoices.length)
+ 	{
+ 		Engine.ProfileStop();
+ 		return false
+ 	}
+-	let bestTile = pickRandomWeighted(tileChoices.map(tile => [tile, tile.val]));
++	const bestTile = pickRandomWeighted(tileChoices.map(tile => [tile, tile.val]));
+ 	Engine.ProfileStop();
+ 
+ 	// Define a minimal number of wanted ships in the seas reaching this new base
+@@ -1439,51 +1461,82 @@ DELPHI.HQ.prototype.findStrategicCCLocation = function(gameState, template)
+ DELPHI.HQ.prototype.applyBuildRestrictions = function(placement, gameState, template)
+ {
+ 	// distance from similar structures; try to spread out amongst civ centres
++	const buildRestrictionsPlacement = new API3.Map(gameState.sharedScript, "territory");
++	buildRestrictionsPlacement.setMaxVal(1);
+ 	const cellSize = this.territoryMap.cellSize; // size of each tile
+-	const avoidPenalty = -32;
++	const avoidPenalty = -1;
+ 	// account for BuildRestrictions distances
+-	let distancesInclusive = template.get('BuildRestrictions/DistancesInclusive');
++	const distancesExclusive = template.get('BuildRestrictions/DistancesExclusive');
++	const distancesInclusive = template.get('BuildRestrictions/DistancesInclusive');
++	if (!distancesExclusive && !distancesInclusive)
++		return;
++	const hasMaxDistances = (distancesExclusive && Object.keys(distancesExclusive).some(k => distancesExclusive[k].MaxDistance)) ||
++		(distancesInclusive && Object.keys(distancesInclusive).every(k => distancesInclusive[k].MaxDistance));
++	if (!hasMaxDistances)
++		for (let i in buildRestrictionsPlacement.map)
++			buildRestrictionsPlacement.map[i] = 1;
+ 	if (distancesInclusive)
+ 	{
+ 		for (let d in distancesInclusive)
+ 		{
+-			let dist = distancesInclusive[d];
++			const dist = distancesInclusive[d];
+ 			if (!dist.MaxDistance)
+ 				continue;
+-			let maxDist = Math.floor(Number(dist.MaxDistance));
+-			let distClass = dist.FromClass;
+-			let classStructs = gameState.getOwnStructures().filter(API3.Filters.byClass(distClass)).toEntityArray();
++			const maxDist = Math.floor(+dist.MaxDistance);
++			const distClass = dist.FromClass;
++			const classStructs = gameState.getOwnStructures().filter(API3.Filters.byClass(distClass)).toEntityArray();
+ 			for (let ent of classStructs)
+ 			{
+-				let entPos = ent.position();
++				const entPos = ent.position();
+ 				if (!entPos)
+ 					continue;
+-				placement.addInfluence(Math.floor(entPos[0] / cellSize), Math.floor(entPos[1] / cellSize), Math.ceil(maxDist / cellSize), -avoidPenalty);
++				buildRestrictionsPlacement.addInfluence(Math.floor(entPos[0] / cellSize), Math.floor(entPos[1] / cellSize), Math.ceil(maxDist / cellSize), -avoidPenalty, 'constant');
+ 			}// end for ent
+ 		}
+ 	}
+-	let distancesExclusive = template.get('BuildRestrictions/DistancesExclusive');
+ 	if (distancesExclusive)
+ 	{
+ 		for (let d in distancesExclusive)
+ 		{
+-			let dist = distancesExclusive[d];
++			const dist = distancesExclusive[d];
+ 			if (!dist.MinDistance)
+ 				continue;
+-			let minDist = Math.floor(Number(dist.MinDistance));
+-			let distClass = dist.FromClass;
+-			let classStructs = gameState.getOwnStructures().filter(API3.Filters.byClass(distClass)).toEntityArray();
++			const minDist = Math.floor(+dist.MinDistance);
++			const distClass = dist.FromClass;
++			const classStructs = gameState.getOwnStructures().filter(API3.Filters.byClass(distClass)).toEntityArray();
+ 			for (let ent of classStructs)
+ 			{
+-				let entPos = ent.position();
++				const entPos = ent.position();
+ 				if (!entPos)
+ 					continue;
+-				placement.addInfluence(Math.floor(entPos[0] / cellSize), Math.floor(entPos[1] / cellSize), Math.ceil(minDist / cellSize), avoidPenalty);
++				buildRestrictionsPlacement.addInfluence(Math.floor(entPos[0] / cellSize), Math.floor(entPos[1] / cellSize), Math.ceil(minDist / cellSize), avoidPenalty, 'constant');
+ 			}// end for ent
+ 		}// end for dist
+ 	}
++	for (let i in placement.map)
++		placement.map[i] = placement.map[i] * buildRestrictionsPlacement.map[i];
++	buildRestrictionsPlacement.dumpIm(sprintf("buildres_p%02d_%s_%08d.png", PlayerID, template.templateName(), gameState.ai.playedTurn), Math.max(...buildRestrictionsPlacement.map) || buildRestrictionsPlacement.maxVal);
+ };//end DELPHI.HQ.prototype.applyBuildRestrictions
+ 
++DELPHI.HQ.prototype.applyDefensiveRestrictions = function(placement, gameState)
++{
++	const enemyDefenses = gameState.updatingCollection("diplo-EnemyDefensiveStructures", API3.Filters.hasDefensiveFire(), gameState.getEnemyStructures());
++	const restrictionsPlacement = new API3.Map(gameState.sharedScript, "territory");
++	restrictionsPlacement.setMaxVal(1);
++	const distanceCoeff = 1.2;// avoid positions a little beyond the defensive structure's firing range, just to be safe
++	for (let i in restrictionsPlacement.map)
++		restrictionsPlacement.map[i] = 1;
++	enemyDefenses.forEach(defense => {
++		const defensePos = defense.position();
++		if (!defensePos)
++			return;
++		const avoidRange = Math.round((defense.attackRange("Ranged")?.max || 0) * distanceCoeff / restrictionsPlacement.cellSize);
++		restrictionsPlacement.addInfluence(...restrictionsPlacement.gamePosToMapPos(defensePos), avoidRange, -1, 'constant');
++	});
++	for (let i in placement.map)
++		placement.map[i] = placement.map[i] * restrictionsPlacement.map[i];
++};
++
+ /**
+  * find the nearest base to a given tile
+  * @param tileIndex (int) index of a tile in a territory map
+@@ -1635,11 +1688,12 @@ DELPHI.HQ.prototype.checkDockPlacement = function(gameState, x, z, halfDepth, ha
+ 
+ DELPHI.HQ.prototype.findCivicLocation = function(gameState, template)
+ {
+-	let placement = new API3.Map(gameState.sharedScript, "territory");
+-	let obstructions = DELPHI.createObstructionMap(gameState, 0, template);
++	const placement = new API3.Map(gameState.sharedScript, "territory");
++	const obstructions = DELPHI.createObstructionMap(gameState, 0, template);
+ 	const isDock = template.buildPlacementType() === 'shore';
+ 	const civCentreRadiusRatio = 1.0;
+ 	const obstructionRatio = isDock ? 0.6 : 1.2;
++	const initMapValue = 8;
+ 	const maxRetries = 100;// for finding dock position
+ 	const maxValidPositions = 5;
+ 	const cellSize = this.territoryMap.cellSize; // size of each tile
+@@ -1659,33 +1713,36 @@ DELPHI.HQ.prototype.findCivicLocation = function(gameState, template)
+ 		halfWidth = halfSize;
+ 	}
+ 	// distance from similar structures; try to spread out amongst civ centres
++	for (let i in placement.map)
++		placement.map[i] = initMapValue;
+ 	this.applyBuildRestrictions(placement, gameState, template);
+-	let civCentres = gameState.getOwnEntitiesByClass('CivCentre', true).toEntityArray();
++	this.applyDefensiveRestrictions(placement, gameState);
++	const civCentres = gameState.getOwnEntitiesByClass('CivCentre', true).toEntityArray();
+ 	const validLandIndices = new Set(civCentres.filter((cc) => cc.position()).map((cc) => DELPHI.getLandAccess(gameState, cc)));
+ 	// ensure a location on a non-valid land index is not chosen
+ 	for (let i in placement.map)
+ 	{
+ 		if (!placement.map[i])
+ 			continue;
+-		let landIndex = gameState.ai.accessibility.getAccessValue(placement.mapIndexToGamePos(i));
++		const landIndex = gameState.ai.accessibility.getAccessValue(placement.mapIndexToGamePos(i));
+ 		placement.map[i] = validLandIndices.has(landIndex) ? placement.map[i] : 0;
+ 	}
+ 	if (civCentres.length < 1)
+ 		return false;
+ 	for (let civCentre of civCentres)
+ 	{
+-		let civCentrePos = civCentre.position();
++		const civCentrePos = civCentre.position();
+ 		if (!civCentrePos)
+ 			continue;
+-		let civCentrePosX = Math.floor(civCentrePos[0] / cellSize);
+-		let civCentrePosZ = Math.floor(civCentrePos[1] / cellSize);
+-		let civCentreRadius = Math.floor(+civCentre.get('City/Radius'));
++		const civCentrePosX = Math.floor(civCentrePos[0] / cellSize);
++		const civCentrePosZ = Math.floor(civCentrePos[1] / cellSize);
++		const civCentreRadius = Math.floor(+civCentre.get('City/Radius'));
+ 		if (!civCentreRadius)
+ 			continue;
+-		placement.multiplyInfluence(civCentrePosX, civCentrePosZ, Math.floor((civCentreRadius * civCentreRadiusRatio) / cellSize), 2, 'linear');
++		placement.multiplyInfluence(civCentrePosX, civCentrePosZ, Math.floor((civCentreRadius * civCentreRadiusRatio) / cellSize) * 1.2, 2, 'linear');
+ 	}// end for civCentre
+ 	// ports should be built on either a body of water on which we already have a port, or on the largest body of water if no ports built yet
+-	if (template.hasClass("NavalMarket"))
++	if (template.hasClass("Naval"))
+ 	{
+ 		const preferredWaterRegions = new Set(gameState.getOwnEntitiesByClass('NavalMarket', true).toEntityArray().map(ent => gameState.ai.accessibility.getAccessValue(ent.position(), true)));
+ 		if (preferredWaterRegions.size)
+@@ -1697,26 +1754,27 @@ DELPHI.HQ.prototype.findCivicLocation = function(gameState, template)
+ 			});
+ 	}
+ 	const radius = Math.ceil((template.obstructionRadius().max * obstructionRatio / obstructions.cellSize));
+-	let validPositions = [];
++	placement.dumpIm(sprintf("placement_p%02d_%s_%08d.png", PlayerID, template.templateName(), gameState.ai.playedTurn), Math.max(...placement.map) || placement.maxVal);
++	const validPositions = [];
+ 	for (let i = 0; i < maxRetries; i++)
+ 	{
+ 		let structTile = placement.findBestTile(radius, obstructions);
+ 		// found no best tile
+ 		if (!structTile.val)
+ 			break;
+-		let structIndex = structTile.idx;
+-		let structPosX = (structIndex % obstructions.width) * obstructions.cellSize;
+-		let structPosZ = (Math.floor(structIndex / obstructions.width)) * obstructions.cellSize;
++		const structIndex = structTile.idx;
++		const structPosX = (structIndex % obstructions.width) * obstructions.cellSize;
++		const structPosZ = (Math.floor(structIndex / obstructions.width)) * obstructions.cellSize;
+ 		// find nearest base
+-		let baseID = this.findNearestBase(structIndex, obstructions);
+-		let position = {'x': structPosX, 'z': structPosZ, 'angle': 3*Math.PI/4, 'base': baseID};
++		const baseID = this.findNearestBase(structIndex, obstructions);
++		const position = {'x': structPosX, 'z': structPosZ, 'angle': 3*Math.PI/4, 'base': baseID};
+ 		if (isDock) {
+ 			let angle = this.getDockAngle(gameState, structPosX, structPosZ, halfSize);
+ 			if (angle == false) {
+ 				obstructions.set(structIndex, 0);
+ 				continue;
+ 			}
+-			let ret = this.checkDockPlacement(gameState, structPosX, structPosZ, halfDepth, halfWidth, angle);
++			const ret = this.checkDockPlacement(gameState, structPosX, structPosZ, halfDepth, halfWidth, angle);
+ 			if (!ret || !this.landRegions[ret.land]) {
+ 				obstructions.set(structIndex, 0);
+ 				continue;
+-- 
+2.25.1
+

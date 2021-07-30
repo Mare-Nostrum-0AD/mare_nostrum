@@ -470,7 +470,7 @@ DELPHI.BaseManager.prototype.checkResourceLevels = function(gameState, queues)
 				{
 					// No good dropsite, try to build a new base if no base already planned,
 					// and if not possible, be less strict on dropsite quality.
-					if ((!gameState.ai.HQ.canExpand || !gameState.ai.HQ.buildNewBase(gameState, queues, type)) &&
+					if (!gameState.ai.HQ.canExpand &&
 					    newDP.quality > Math.min(25, 50*0.15/ratio) &&
 					    gameState.ai.HQ.canBuild(gameState, newDP.templateName))
 						queues.dropsites.addPlan(new DELPHI.ConstructionPlan(gameState, newDP.templateName, { "base": this.ID, "type": type }, newDP.pos));

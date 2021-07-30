@@ -1,0 +1,314 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Thu, 29 Jul 2021 19:07:23 -0700
+Subject: [PATCH] revamped Delphi base manager to place new CCs at increasingly
+ less frequent intervals
+
+fixed shore tile ranking for placing ports
+
+revamped findGenericCCLocation
+---
+ .../simulation/ai/delphi/baseManager.js       |   2 +-
+ .../simulation/ai/delphi/headquarters.js      | 139 +++++++++++-------
+ 2 files changed, 83 insertions(+), 58 deletions(-)
+
+diff --git a/binaries/data/mods/public/simulation/ai/delphi/baseManager.js b/binaries/data/mods/public/simulation/ai/delphi/baseManager.js
+index cf467c6c66..fdd16978d9 100644
+--- a/binaries/data/mods/public/simulation/ai/delphi/baseManager.js
++++ b/binaries/data/mods/public/simulation/ai/delphi/baseManager.js
+@@ -470,7 +470,7 @@ DELPHI.BaseManager.prototype.checkResourceLevels = function(gameState, queues)
+ 				{
+ 					// No good dropsite, try to build a new base if no base already planned,
+ 					// and if not possible, be less strict on dropsite quality.
+-					if ((!gameState.ai.HQ.canExpand || !gameState.ai.HQ.buildNewBase(gameState, queues, type)) &&
++					if (!gameState.ai.HQ.canExpand &&
+ 					    newDP.quality > Math.min(25, 50*0.15/ratio) &&
+ 					    gameState.ai.HQ.canBuild(gameState, newDP.templateName))
+ 						queues.dropsites.addPlan(new DELPHI.ConstructionPlan(gameState, newDP.templateName, { "base": this.ID, "type": type }, newDP.pos));
+diff --git a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
+index addb1e8bf3..2b7e93223e 100644
+--- a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
++++ b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
+@@ -59,6 +59,11 @@ DELPHI.HQ.prototype.init = function(gameState, queues)
+ 	// create borderMap: flag cells on the border of the map
+ 	// then this map will be completed with our frontier in updateTerritories
+ 	this.borderMap = DELPHI.createBorderMap(gameState);
++	// settings for base expansion
++	this.lastBaseTurn = 0;
++	this.baseExpansionWait = randIntInclusive(3, 6);
++	if (this.Config.personality.aggressive)
++		this.baseExpansionWait--;
+ 	// list of allowed regions
+ 	this.landRegions = {};
+ 	this.waterValues = {};
+@@ -66,8 +71,8 @@ DELPHI.HQ.prototype.init = function(gameState, queues)
+ 	this.shoreTilesBySeaRegion = {};
+ 	this.shoreTilesByLandRegion = {};
+ 	this.shoreTiles = (() => {
+-		const tiles = [];
+-		for (let i in this.territoryMap.map) {
++		const tiles = {};
++		for (const i in this.territoryMap.map) {
+ 			const [x, z] = this.territoryMap.mapIndexToGamePos(i);
+ 			const waterVal = gameState.ai.accessibility.getAccessValue([x, z], true);
+ 			const landVal = gameState.ai.accessibility.getAccessValue([x, z], false);
+@@ -79,7 +84,7 @@ DELPHI.HQ.prototype.init = function(gameState, queues)
+ 					'land': landVal,
+ 					'water': waterVal
+ 				};
+-				tiles.push(tile);
++				tiles[i] = tile;
+ 				if (this.shoreTilesBySeaRegion[waterVal])
+ 					this.shoreTilesBySeaRegion[waterVal].push(tile);
+ 				else
+@@ -94,7 +99,8 @@ DELPHI.HQ.prototype.init = function(gameState, queues)
+ 					this.waterValues[waterVal] = 1;
+ 			}
+ 		}// end for i in gameState.ai.accessibility.map
+-		tiles.forEach(tile => { tile.waterValue = this.waterValues[tile.water]; });
++		for (const tile of Object.values(tiles))
++			tile.waterValue = this.waterValues[tile.water];
+ 		return tiles;
+ 	})();
+ 	this.shorePlacementMapCache = {};
+@@ -992,18 +998,19 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
+ 	const maxTileVal = 255;
+ 	const existingCCDistanceMultiplier = 1.2;// new ccs should be built further away from existing ccs based on how many we already have
+ 	const shoreCoeff = 1.0;
+-	const shoreDistCoeff = 0.8;
++	const shoreDistCoeff = 0.7;
+ 	const structRadiusMeters = +template.get('City/Radius') || 128;
+ 	const structRadius = Math.floor(structRadiusMeters / cellSize);
+ 	placement.setMaxVal(maxTileVal);
+ 	// get friendly CivCentres, ports; only allow new ccs on land on which an existing cc is built or on the shore of a water body on which a port is already built
+-	const friendlyCivCentres = gameState.getOwnEntitiesByClass('CivCentre', true).toEntityArray().concat(gameState.getAllyStructures().filter(API3.Filters.byClass('CivCentre')).toEntityArray());
++	const ownCivCentres = gameState.getOwnEntitiesByClass('CivCentre', true).toEntityArray();
++	const friendlyCivCentres = ownCivCentres.concat(gameState.getAllyStructures().filter(API3.Filters.byClass('CivCentre')).toEntityArray());
+ 	const friendlyPorts = gameState.getOwnEntitiesByClass('NavalMarket', true).toEntityArray().concat(gameState.getAllyStructures().filter(API3.Filters.byClass('NavalMarket')).toEntityArray());
+ 	// if first civ centre, prioritize locations near (but not on) perimeter of map
+ 	// also prioritize current unit positions
+-	if (!friendlyCivCentres.length) {
+-		let currUnits = gameState.getOwnUnits().toEntityArray();
+-		let avgPos = (() => {
++	if (!ownCivCentres.length) {
++		const currUnits = gameState.getOwnUnits().toEntityArray();
++		const avgPos = (() => {
+ 			let sumX = 0;
+ 			let sumZ = 0;
+ 			for (let unit of currUnits) {
+@@ -1038,11 +1045,11 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
+ 				Math.min(Math.round(placement.map[i] * shoreMultiplier), placement.maxVal) :
+ 				placement.map[i];
+ 		}
+-	} else {// end if friendlyCivCentres.length < 1
++	} else {// end if ownCivCentres.length < 1
+ 		const allowedWaterIndices = new Set(friendlyPorts.map(ent => gameState.ai.accessibility.getAccessValue(ent.position(), true)));
+ 		const allowedLandIndices = new Set(friendlyCivCentres.map(ent => gameState.ai.accessibility.getAccessValue(ent.position(), false)));
+ 		// conditional land indices are regions where we don't have a cc yet, but we have a port on an adjacent body of water
+-		const conditionalLandIndices = new Set(this.shoreTiles.filter(tile => allowedWaterIndices.has(tile.water) && !allowedLandIndices.has(tile.land)).map(tile => tile.land));
++		const conditionalLandIndices = new Set(Object.values(this.shoreTiles).filter(tile => allowedWaterIndices.has(tile.water) && !allowedLandIndices.has(tile.land)).map(tile => tile.land));
+ 		// enable building on valid land access indices
+ 		placement.map = placement.map.map((val, i) => {
+ 			const land = gameState.ai.accessibility.getAccessValue(placement.mapIndexToGamePos(i), false)
+@@ -1075,30 +1082,37 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
+ 				Math.min(Math.round(defaultTileVal * shoreConditionalMultiplier), placement.maxVal) :
+ 				placement.map[i];
+ 		}
+-		const existingCCDistance = (mapWidth / 8) * Math.pow(existingCCDistanceMultiplier, friendlyCivCentres.length);
+-		// try to place away from existing CCs, with the distance increasing based on the number of CCs we and our allies have
+-		for (let [x, z] of friendlyCivCentres.map(ent => ent.position()).filter(pos => pos).map(pos => placement.gamePosToMapPos(pos))) {
+-			placement.addInfluence(x, z, existingCCDistance, -defaultTileVal);
+-		}// end for pos of friendlyCivCentrePositions
+ 	}
++	const desirabilityPlacement = new API3.Map(gameState.sharedScript, "territory");
++	const existingCCDistance = (mapWidth / 8) * Math.pow(existingCCDistanceMultiplier, friendlyCivCentres.length);
++	// try to place away from existing CCs, with the distance increasing based on the number of CCs we and our allies have
++	for (let [x, z] of friendlyCivCentres.map(ent => ent.position()).filter(pos => pos).map(pos => placement.gamePosToMapPos(pos))) {
++		desirabilityPlacement.addInfluence(x, z, existingCCDistance * 2, Math.round(defaultTileVal * 2 / friendlyCivCentres.length));
++	}// end for pos of friendlyCivCentrePositions
++	for (let [x, z] of friendlyCivCentres.map(ent => ent.position()).filter(pos => pos).map(pos => placement.gamePosToMapPos(pos))) {
++		desirabilityPlacement.addInfluence(x, z, existingCCDistance, Math.round(-defaultTileVal * 4 / friendlyCivCentres.length));
++	}// end for pos of friendlyCivCentrePositions
+ 	const enemyCivCentres = gameState.getEnemyStructures().filter(API3.Filters.byClass('CivCentre')).toEntityArray();
+ 	for (let [x, z] of enemyCivCentres.map(ent => ent.position()).filter(pos => pos).map(pos => placement.gamePosToMapPos(pos))) {
+-		placement.addInfluence(x, z, mapWidth / 8, -defaultTileVal);
++		desirabilityPlacement.addInfluence(x, z, mapWidth / 6, -defaultTileVal);
+ 	}// end for cc of enemyCivCentres
+ 	// favor natural resource supplies (ones owned by gaia)
+ 	for (let res of Resources.GetCodes()) {
+-		let ents = gameState.getResourceSupplies(res).toEntityArray().filter(ent => !ent.owner());
++		const ents = gameState.getResourceSupplies(res).toEntityArray().filter(ent => !ent.owner());
+ 		if (!ents || !ents.length)
+ 			continue;
+-		let strengthMultiplier = 1 + (1 / ents.length);
++		const resourceValue = 4 * defaultTileVal / ents.length;
++		if (resourceValue < 1)
++			continue;
+ 		for (let [x, z] of ents.map(ent => ent.position()).filter(pos => pos).map(pos => placement.gamePosToMapPos(pos))) {
+-			placement.multiplyInfluence(x, z, structRadius * 2, strengthMultiplier);
++			desirabilityPlacement.addInfluence(x, z, structRadius * 2, resourceValue);
+ 		}// end for ent of ents
+ 	}// end for res of Resources.GetCodes()
++	placement.map = placement.map.map((val, i) => Math.min(val && desirabilityPlacement.map[i] ? val + desirabilityPlacement.map[i] : 0, placement.maxVal));
+ 	this.applyBuildRestrictions(placement, gameState, template);
+ 	this.applyDefensiveRestrictions(placement, gameState);
+ 	placement.dumpIm(sprintf("placement_p%02d_%s_%08d.png", PlayerID, template.templateName(), gameState.ai.playedTurn), Math.max(...placement.map) || placement.maxVal);
+-	let tileChoices = [];
++	const tileChoices = [];
+ 	// if not the first cc, make sure there is an unbroken line to another cc (no enemy territory in between)
+ 	const avoidRange = Math.floor(100 / placement.cellSize);
+ 	if (friendlyCivCentres && friendlyCivCentres.length)
+@@ -1606,7 +1620,7 @@ DELPHI.HQ.prototype.getShorePlacementMap = function(gameState, distance, seaRegi
+ 	// API3.warnf("Max water value: %s; Water value normalization: %s",
+ 	//		String(maxWaterValue), String(waterValueNormalization));
+ 	if (!seaRegions)
+-		seaRegions = new Set(this.shoreTiles.filter(tile => landRegions.has(tile.land)).map(tile => tile.water));
++		seaRegions = new Set(Object.values(this.shoreTiles).filter(tile => landRegions.has(tile.land)).map(tile => tile.water));
+ 	// API3.warnf("Sea regions: [%s]", [...seaRegions.keys()].map(k => String(k)).join(", "));
+ 	// if (landRegions)
+ 	// 	API3.warnf("Land regions: [%s]", [...landRegions.keys()].map(k => String(k)).join(", "));
+@@ -1817,7 +1831,7 @@ DELPHI.HQ.prototype.findCivicLocation = function(gameState, template)
+ 	const civCentres = gameState.getOwnEntitiesByClass('CivCentre', true).toEntityArray();
+ 	if (!civCentres.length)
+ 		return false;
+-	for (let civCentre of civCentres)
++	for (const civCentre of civCentres)
+ 	{
+ 		const civCentrePos = civCentre.position();
+ 		if (!civCentrePos)
+@@ -1828,35 +1842,45 @@ DELPHI.HQ.prototype.findCivicLocation = function(gameState, template)
+ 		const civCentreMapPos = civCentrePos.map(coord => Math.floor(coord / placement.cellSize));
+ 		placement.addInfluence(...civCentreMapPos, Math.floor((civCentreRadius * civCentreRadiusRatio) / cellSize), initMapValue);
+ 	}// end for civCentre
+-	this.applyBuildRestrictions(placement, gameState, template);
+-	this.applyDefensiveRestrictions(placement, gameState);
++	// ports should be built on either a body of water on which we already have a port, or on the largest body of water if no ports built yet
++	if (template.hasClass("Naval"))
++	{
++		const maxWaterValue = Math.max(...Object.values(this.waterValues));
++		const waterValueNormalization = maxWaterValue > placement.maxVal ? placement.maxVal / (maxWaterValue * 2.5) : 0.5;
++		const preferredWaterRegions = new Set(gameState.getOwnEntitiesByClass('NavalMarket', true).toEntityArray().map(ent => DELPHI.getSeaAccess(gameState, ent)));
++		for (const i in placement.map)
++		{
++			if (!placement.map[i])
++				continue;
++			const seaRegion = gameState.ai.accessibility.getAccessValue(placement.mapIndexToGamePos(i), true);
++			if (seaRegion < 2)
++			{
++				placement.map[i] = 0;
++				continue;
++			}
++			placement.map[i] = Math.ceil(this.waterValues[seaRegion] * waterValueNormalization);
++			if (preferredWaterRegions.has(seaRegion))
++				placement.map[i] *= 2;
++			placement.map[i] = Math.min(placement.map[i], placement.maxVal);
++		}
++	}
+ 	// ensure a location on a non-valid land index is not chosen
+-	const validLandIndices = new Set(civCentres.filter((cc) => cc.position()).map((cc) => DELPHI.getLandAccess(gameState, cc)));
+-	for (let i in placement.map)
++	const validLandRegions = new Set(civCentres.filter((cc) => cc.position()).map((cc) => DELPHI.getLandAccess(gameState, cc)));
++	for (const i in placement.map)
+ 	{
+ 		if (!placement.map[i])
+ 			continue;
+-		const landIndex = gameState.ai.accessibility.getAccessValue(placement.mapIndexToGamePos(i));
+-		placement.map[i] = validLandIndices.has(landIndex) ? placement.map[i] : 0;
++		const landRegion = gameState.ai.accessibility.getAccessValue(placement.mapIndexToGamePos(i));
++		placement.map[i] = validLandRegions.has(landRegion) ? placement.map[i] : 0;
+ 	}
+-	// ports should be built on either a body of water on which we already have a port, or on the largest body of water if no ports built yet
+-	if (template.hasClass("Naval"))
+-	{
+-		const preferredWaterRegions = new Set(gameState.getOwnEntitiesByClass('NavalMarket', true).toEntityArray().map(ent => gameState.ai.accessibility.getAccessValue(ent.position(), true)));
+-		if (preferredWaterRegions.size)
+-			placement.map = placement.map.map((val, i) => val && preferredWaterRegions.has(gameState.ai.accessibility.getAccessValue(placement.mapIndexToGamePos(i), true)) ? Math.min(val + (placement.maxVal / 2), placement.maxVal) : val / 2);
+-		else
+-			placement.map = placement.map.map((val, i) => {
+-				const waterRegion = gameState.ai.accessibility.getAccessValue(placement.mapIndexToGamePos(i), true);
+-				return val && this.waterValues[waterRegion] ? Math.min(this.waterValues[waterRegion], placement.maxVal) : 0;
+-			});
+-	}
+-	const radius = Math.ceil((template.obstructionRadius().max * obstructionRatio / obstructions.cellSize));
++	this.applyBuildRestrictions(placement, gameState, template);
++	this.applyDefensiveRestrictions(placement, gameState);
+ 	placement.dumpIm(sprintf("placement_p%02d_%s_%08d.png", PlayerID, template.templateName(), gameState.ai.playedTurn), Math.max(...placement.map) || placement.maxVal);
++	const radius = Math.ceil((template.obstructionRadius().max * obstructionRatio / obstructions.cellSize));
+ 	const validPositions = [];
+ 	for (let i = 0; i < maxRetries; i++)
+ 	{
+-		let structTile = placement.findBestTile(radius, obstructions);
++		const structTile = placement.findBestTile(radius, obstructions);
+ 		// found no best tile
+ 		if (!structTile.val)
+ 			break;
+@@ -1867,7 +1891,7 @@ DELPHI.HQ.prototype.findCivicLocation = function(gameState, template)
+ 		const baseID = this.findNearestBase(structIndex, obstructions);
+ 		const position = {'x': structPosX, 'z': structPosZ, 'angle': 3*Math.PI/4, 'base': baseID};
+ 		if (isDock) {
+-			let angle = this.getDockAngle(gameState, structPosX, structPosZ, halfSize);
++			const angle = this.getDockAngle(gameState, structPosX, structPosZ, halfSize);
+ 			if (angle == false) {
+ 				obstructions.set(structIndex, 0);
+ 				continue;
+@@ -2036,16 +2060,13 @@ DELPHI.HQ.prototype.findDefensiveLocation = function(gameState, template)
+ 
+ DELPHI.HQ.prototype.buildTemple = function(gameState, queues)
+ {
+-	let numCivCentres = gameState.getOwnStructures().filter(API3.Filters.byClass('CivCentre')).filter(API3.Filters.isBuilt()).length;
++	const numCivCentres = gameState.getOwnStructures().filter(API3.Filters.byClass('CivCentre')).filter(API3.Filters.isBuilt()).length;
+ 	// at least one market (which have the same queue) should be build before any temple
+ 	// number of temples should ideally equal number of CivCentres
+ 	if (queues.economicBuilding.hasQueuedUnits() ||
+ 		gameState.getOwnEntitiesByClass("Temple", true).length >= numCivCentres ||
+ 		!gameState.getOwnEntitiesByClass("Market", true).hasEntities())
+ 		return;
+-	// Try to build a temple earlier if in regicide to recruit healer guards
+-	if (this.currentPhase < 3 && !gameState.getVictoryConditions().has("regicide"))
+-		return;
+ 
+ 	let templateName = "structures/{civ}/temple";
+ 	if (this.canBuild(gameState, "structures/{civ}/temple_vesta"))
+@@ -2372,19 +2393,22 @@ DELPHI.HQ.prototype.checkBaseExpansion = function(gameState, queues)
+ 		this.buildNewBase(gameState, queues);
+ 		return;
+ 	}
+-	// If we've already planned to phase up, wait a bit before trying to expand
+-	if (this.phasing)
+-		return;
+-	// Finally expand if we have lots of units (threshold depending on the aggressivity value)
+-	let activeBases = this.numActiveBases();
+-	let numUnits = gameState.getOwnUnits().length;
+-	let numvar = 10 * (1 - this.Config.personality.aggressive);
+-	if (numUnits > activeBases * (65 + numvar + (10 + numvar)*(activeBases-1)) || this.saveResources && numUnits > 50)
++	const ccEnts = gameState.updatingGlobalCollection("allCCs", API3.Filters.byClass("CivCentre")).toEntityArray();
++	if (ccEnts.length < 2)
+ 	{
+ 		if (this.Config.debug > 2)
+-			API3.warn("try to build a new base because of population " + numUnits + " for " + activeBases + " CCs");
++			API3.warn("building new base because we have less than two");
+ 		this.buildNewBase(gameState, queues);
++		return;
+ 	}
++	// only proceed if we have reached the expected turn to build a new base
++	const expectedNewBaseTurn = this.lastBaseTurn + Math.pow(this.baseExpansionWait + ccEnts.length, 3);
++	if (gameState.ai.playedTurn < expectedNewBaseTurn)
++		return;
++	if (this.Config.debug > 2)
++		API3.warnf("building new base because we have exceeded expected new base turn (current turn: %d; current no. CCs: %d)",
++			gameState.ai.playedTurn, ccEnts.length);
++	this.buildNewBase(gameState, queues);
+ };
+ 
+ DELPHI.HQ.prototype.buildNewBase = function(gameState, queues, resource)
+@@ -2394,6 +2418,7 @@ DELPHI.HQ.prototype.buildNewBase = function(gameState, queues, resource)
+ 	if (gameState.getOwnFoundations().filter(API3.Filters.byClass("CivCentre")).hasEntities() || queues.civilCentre.hasQueuedUnits())
+ 		return false;
+ 
++	this.lastBaseTurn = gameState.ai.playedTurn;
+ 	let template;
+ 	// We require at least one of this civ civCentre as they may allow specific units or techs
+ 	let hasOwnCC = false;
+-- 
+2.25.1
+
