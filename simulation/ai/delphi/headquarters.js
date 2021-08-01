@@ -60,8 +60,8 @@ DELPHI.HQ.prototype.init = function(gameState, queues)
 	// then this map will be completed with our frontier in updateTerritories
 	this.borderMap = DELPHI.createBorderMap(gameState);
 	// settings for base expansion
-	this.lastBaseTurn = 0;
-	this.baseExpansionWait = randIntInclusive(3, 6);
+	this.lastBaseTime = 0;
+	this.baseExpansionWait = randIntInclusive(4, 7);
 	if (this.Config.personality.aggressive)
 		this.baseExpansionWait--;
 	// list of allowed regions
@@ -1026,16 +1026,17 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
 		})();
 		placement.addInfluence(avgPos[0], avgPos[1], Math.floor(mapWidthHalf / 2), defaultTileVal * 2, 'constant');
 		const accessVal = gameState.ai.accessibility.getAccessValue([avgPos[0] * cellSize, avgPos[1] * cellSize]);
-		for (let i in placement.map) {
+		for (const i in placement.map) {
 			const tileAccessVal = gameState.ai.accessibility.getAccessValue([(i % mapWidth) * cellSize, Math.floor(i / mapWidth) * cellSize]);
 			if (tileAccessVal !== accessVal)
 				placement.map[i] = 0;
 		}// end for i in placement.map
 		// favor shorelines
 		const shoreMapBasic = this.getShorePlacementMap(gameState, structRadiusMeters * shoreDistCoeff, undefined, new Set([accessVal]));
-		shoreMapBasic.dumpIm(sprintf("shoreMapBasic_p%02d_%s_%08d.png", PlayerID, template.templateName(), gameState.ai.playedTurn), Math.max(...shoreMapBasic.map) || shoreMapBasic.maxVal);
+		if (this.Config.debug > 1)
+			shoreMapBasic.dumpIm(sprintf("shoreMapBasic_p%02d_%s_%08d.png", PlayerID, template.templateName(), gameState.ai.playedTurn), Math.max(...shoreMapBasic.map) || shoreMapBasic.maxVal);
 		const shoreMapBasicValueCache = {};
-		for (let i in placement.map)
+		for (const i in placement.map)
 		{
 			const shoreVal = shoreMapBasic.map[i];
 			const shoreMultiplier = shoreMapBasicValueCache[shoreVal] || (1 + (shoreCoeff * shoreVal / shoreMapBasic.maxVal));
@@ -1060,12 +1061,15 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
 		// shore of land regions where we already have CCs
 		const shoreMapBasic = this.getShorePlacementMap(gameState, structRadiusMeters * shoreDistCoeff, undefined, allowedLandIndices);
 		const shoreMapConditional = this.getShorePlacementMap(gameState, structRadiusMeters * shoreDistCoeff, allowedWaterIndices, conditionalLandIndices);
-		shoreMapBasic.dumpIm(sprintf("shoreMapBasic_p%02d_%s_%08d.png", PlayerID, template.templateName(), gameState.ai.playedTurn), Math.max(...shoreMapBasic.map) || shoreMapBasic.maxVal);
-		shoreMapConditional.dumpIm(sprintf("shoreMapConditional_p%02d_%s_%08d.png", PlayerID, template.templateName(), gameState.ai.playedTurn), Math.max(...shoreMapConditional.map) || shoreMapConditional.maxVal);
+		if (this.Config.debug > 1)
+		{
+			shoreMapBasic.dumpIm(sprintf("shoreMapBasic_p%02d_%s_%08d.png", PlayerID, template.templateName(), gameState.ai.playedTurn), Math.max(...shoreMapBasic.map) || shoreMapBasic.maxVal);
+			shoreMapConditional.dumpIm(sprintf("shoreMapConditional_p%02d_%s_%08d.png", PlayerID, template.templateName(), gameState.ai.playedTurn), Math.max(...shoreMapConditional.map) || shoreMapConditional.maxVal);
+		}
 		const shoreMapBasicValueCache = {};
 		const shoreMapConditionalValueCache = {};
 		// add influence around allowed shorelines
-		for (let i in placement.map)
+		for (const i in placement.map)
 		{
 			const shoreBasicVal = shoreMapBasic.map[i];
 			const shoreBasicMultiplier = shoreMapBasicValueCache[shoreBasicVal] || (1 + (shoreCoeff * shoreBasicVal / shoreMapBasic.maxVal));
@@ -1104,14 +1108,15 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
 		const resourceValue = 4 * defaultTileVal / ents.length;
 		if (resourceValue < 1)
 			continue;
-		for (let [x, z] of ents.map(ent => ent.position()).filter(pos => pos).map(pos => placement.gamePosToMapPos(pos))) {
+		for (const [x, z] of ents.map(ent => ent.position()).filter(pos => pos).map(pos => placement.gamePosToMapPos(pos))) {
 			desirabilityPlacement.addInfluence(x, z, structRadius * 2, resourceValue);
 		}// end for ent of ents
 	}// end for res of Resources.GetCodes()
 	placement.map = placement.map.map((val, i) => Math.min(val && desirabilityPlacement.map[i] ? val + desirabilityPlacement.map[i] : 0, placement.maxVal));
 	this.applyBuildRestrictions(placement, gameState, template);
 	this.applyDefensiveRestrictions(placement, gameState);
-	placement.dumpIm(sprintf("placement_p%02d_%s_%08d.png", PlayerID, template.templateName(), gameState.ai.playedTurn), Math.max(...placement.map) || placement.maxVal);
+	if (this.Config.debug > 1)
+		placement.dumpIm(sprintf("placement_p%02d_%s_%08d.png", PlayerID, template.templateName(), gameState.ai.playedTurn), Math.max(...placement.map) || placement.maxVal);
 	const tileChoices = [];
 	// if not the first cc, make sure there is an unbroken line to another cc (no enemy territory in between)
 	const avoidRange = Math.floor(100 / placement.cellSize);
@@ -1149,12 +1154,12 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
 	Engine.ProfileStop();
 
 	// Define a minimal number of wanted ships in the seas reaching this new base
-	let indexIdx = gameState.ai.accessibility.landPassMap[bestTile.idx];
-	for (let base of this.baseManagers)
+	const indexIdx = gameState.ai.accessibility.landPassMap[bestTile.idx];
+	for (const base of this.baseManagers)
 	{
 		if (!base || !base.anchor || base.accessIndex == indexIdx)
 			continue;
-		let sea = this.getSeaBetweenIndices(gameState, base.accessIndex, indexIdx);
+		const sea = this.getSeaBetweenIndices(gameState, base.accessIndex, indexIdx);
 		if (sea !== undefined)
 			this.navalManager.setMinimalTransportShips(gameState, sea, 1);
 	}
@@ -1527,11 +1532,11 @@ DELPHI.HQ.prototype.applyBuildRestrictions = function(placement, gameState, temp
 	const hasMaxDistances = (distancesExclusive && Object.keys(distancesExclusive).some(k => distancesExclusive[k].MaxDistance)) ||
 		(distancesInclusive && Object.keys(distancesInclusive).every(k => distancesInclusive[k].MaxDistance));
 	if (!hasMaxDistances)
-		for (let i in buildRestrictionsPlacement.map)
+		for (const i in buildRestrictionsPlacement.map)
 			buildRestrictionsPlacement.map[i] = 1;
 	if (distancesInclusive)
 	{
-		for (let d in distancesInclusive)
+		for (const d in distancesInclusive)
 		{
 			const dist = distancesInclusive[d];
 			if (!dist.MaxDistance)
@@ -1539,7 +1544,7 @@ DELPHI.HQ.prototype.applyBuildRestrictions = function(placement, gameState, temp
 			const maxDist = Math.floor(+dist.MaxDistance);
 			const distClass = dist.FromClass;
 			const classStructs = gameState.getOwnStructures().filter(API3.Filters.byClass(distClass)).toEntityArray();
-			for (let ent of classStructs)
+			for (const ent of classStructs)
 			{
 				const entPos = ent.position();
 				if (!entPos)
@@ -1550,7 +1555,7 @@ DELPHI.HQ.prototype.applyBuildRestrictions = function(placement, gameState, temp
 	}
 	if (distancesExclusive)
 	{
-		for (let d in distancesExclusive)
+		for (const d in distancesExclusive)
 		{
 			const dist = distancesExclusive[d];
 			if (!dist.MinDistance)
@@ -1558,7 +1563,7 @@ DELPHI.HQ.prototype.applyBuildRestrictions = function(placement, gameState, temp
 			const minDist = Math.floor(+dist.MinDistance);
 			const distClass = dist.FromClass;
 			const classStructs = gameState.getOwnStructures().filter(API3.Filters.byClass(distClass)).toEntityArray();
-			for (let ent of classStructs)
+			for (const ent of classStructs)
 			{
 				const entPos = ent.position();
 				if (!entPos)
@@ -1567,9 +1572,10 @@ DELPHI.HQ.prototype.applyBuildRestrictions = function(placement, gameState, temp
 			}// end for ent
 		}// end for dist
 	}
-	for (let i in placement.map)
+	for (const i in placement.map)
 		placement.map[i] = placement.map[i] * buildRestrictionsPlacement.map[i];
-	buildRestrictionsPlacement.dumpIm(sprintf("buildres_p%02d_%s_%08d.png", PlayerID, template.templateName(), gameState.ai.playedTurn), Math.max(...buildRestrictionsPlacement.map) || buildRestrictionsPlacement.maxVal);
+	if (this.Config.debug > 1)
+		buildRestrictionsPlacement.dumpIm(sprintf("buildres_p%02d_%s_%08d.png", PlayerID, template.templateName(), gameState.ai.playedTurn), Math.max(...buildRestrictionsPlacement.map) || buildRestrictionsPlacement.maxVal);
 };//end DELPHI.HQ.prototype.applyBuildRestrictions
 
 DELPHI.HQ.prototype.applyDefensiveRestrictions = function(placement, gameState)
@@ -1610,11 +1616,11 @@ DELPHI.HQ.prototype.getShorePlacementMap = function(gameState, distance, seaRegi
 	);
 	if (this.shorePlacementMapCache[mapID])
 		return new API3.Map(gameState.sharedScript, "territory", this.shorePlacementMapCache[mapID], true);
-	const shorePlacementMaster = new API3.Map(gameState.sharedScript, "territory");
-	const mapDistance = Math.floor(distance / shorePlacementMaster.cellSize);
+	const shorePlacement = new API3.Map(gameState.sharedScript, "territory");
+	const mapDistance = Math.floor(distance / shorePlacement.cellSize);
 	const maxWaterValue = Math.max(...Object.values(this.waterValues));
-	const waterValueNormalization = maxWaterValue > shorePlacementMaster.maxVal ?
-		shorePlacementMaster.maxVal / maxWaterValue :
+	const waterValueNormalization = maxWaterValue > shorePlacement.maxVal ?
+		shorePlacement.maxVal / maxWaterValue :
 		1.0;
 	const stride = 1;
 	// API3.warnf("Max water value: %s; Water value normalization: %s",
@@ -1624,32 +1630,25 @@ DELPHI.HQ.prototype.getShorePlacementMap = function(gameState, distance, seaRegi
 	// API3.warnf("Sea regions: [%s]", [...seaRegions.keys()].map(k => String(k)).join(", "));
 	// if (landRegions)
 	// 	API3.warnf("Land regions: [%s]", [...landRegions.keys()].map(k => String(k)).join(", "));
-	const shoreMaps = {};
-	for (let seaRegion of seaRegions.keys())
+	const seaRegionsSorted = [...seaRegions.keys()].sort((a, b) => this.waterValues[a] > this.waterValues[b]);
+	for (const seaRegion of seaRegionsSorted)
 	{
-		const shorePlacement = new API3.Map(gameState.sharedScript, "territory");
-		shorePlacement.setMaxVal(1);
+		const maxVal = Math.floor(this.waterValues[seaRegion] * waterValueNormalization);
+		if (!maxVal)
+			continue;
+		shorePlacement.setMaxVal(maxVal);
 		const validTiles = (landRegions ?
 			this.shoreTilesBySeaRegion[seaRegion].filter(tile => landRegions.has(tile.land)) :
 			this.shoreTilesBySeaRegion[seaRegion]).filter((_, i) => !(i % stride));
-		// API3.warnf("No. valid shore tiles: %d", validTiles.length);
-		for (let tile of validTiles)
+		// API3.warnf("No. valid shore tiles for sea region %d: %d", seaRegion, validTiles.length);
+		for (const tile of validTiles)
 		{
 			// API3.warnf("Tile Pos: [%d, %d]; Radius: %d", tile.x, tile.x, mapDistance);
-			shorePlacement.addInfluence(...[tile.x, tile.z].map(v => Math.floor(v / shorePlacement.cellSize)), mapDistance, 1, 'constant');
+			shorePlacement.addInfluence(...shorePlacement.gamePosToMapPos([tile.x, tile.z]), mapDistance, maxVal, 'constant');
 		}
-		// API3.warnf("No. highlighted tiles: %d", shorePlacement.map.filter(val => val).length);
-		shoreMaps[seaRegion] = shorePlacement;
 	}
-	for (let i in shorePlacementMaster.map)
-	{
-		const tileValues = Object.entries(shoreMaps).map(([seaRegion, placement]) =>
-			Math.round(placement.map[i] * (this.waterValues[seaRegion] || 0) * waterValueNormalization));
-		// API3.warnf("Tile values at %d: [%s]", i, tileValues.map(val => String(val)).join(", "));
-		shorePlacementMaster.map[i] = Math.max(...tileValues);
-	}
-	this.shorePlacementMapCache[mapID] = shorePlacementMaster.map;
-	return new API3.Map(gameState.sharedScript, "territory", shorePlacementMaster.map, true);
+	this.shorePlacementMapCache[mapID] = shorePlacement.map;
+	return new API3.Map(gameState.sharedScript, "territory", shorePlacement.map, true);
 };
 
 /**
@@ -1860,7 +1859,7 @@ DELPHI.HQ.prototype.findCivicLocation = function(gameState, template)
 			}
 			placement.map[i] = Math.ceil(this.waterValues[seaRegion] * waterValueNormalization);
 			if (preferredWaterRegions.has(seaRegion))
-				placement.map[i] *= 2;
+				placement.map[i] <<= 1;
 			placement.map[i] = Math.min(placement.map[i], placement.maxVal);
 		}
 	}
@@ -1875,7 +1874,8 @@ DELPHI.HQ.prototype.findCivicLocation = function(gameState, template)
 	}
 	this.applyBuildRestrictions(placement, gameState, template);
 	this.applyDefensiveRestrictions(placement, gameState);
-	placement.dumpIm(sprintf("placement_p%02d_%s_%08d.png", PlayerID, template.templateName(), gameState.ai.playedTurn), Math.max(...placement.map) || placement.maxVal);
+	if (this.Config.debug > 1)
+		placement.dumpIm(sprintf("placement_p%02d_%s_%08d.png", PlayerID, template.templateName(), gameState.ai.playedTurn), Math.max(...placement.map) || placement.maxVal);
 	const radius = Math.ceil((template.obstructionRadius().max * obstructionRatio / obstructions.cellSize));
 	const validPositions = [];
 	for (let i = 0; i < maxRetries; i++)
@@ -2402,12 +2402,12 @@ DELPHI.HQ.prototype.checkBaseExpansion = function(gameState, queues)
 		return;
 	}
 	// only proceed if we have reached the expected turn to build a new base
-	const expectedNewBaseTurn = this.lastBaseTurn + Math.pow(this.baseExpansionWait + ccEnts.length, 3);
-	if (gameState.ai.playedTurn < expectedNewBaseTurn)
+	const expectedNewBaseTime = this.lastBaseTime + Math.pow(this.baseExpansionWait + ccEnts.length, 3);
+	if (gameState.ai.elapsedTime < expectedNewBaseTime)
 		return;
 	if (this.Config.debug > 2)
-		API3.warnf("building new base because we have exceeded expected new base turn (current turn: %d; current no. CCs: %d)",
-			gameState.ai.playedTurn, ccEnts.length);
+		API3.warnf("building new base because we have exceeded expected new base time (current elapsed time: %d; current no. CCs: %d)",
+			gameState.ai.elapsedTime, ccEnts.length);
 	this.buildNewBase(gameState, queues);
 };
 
@@ -2418,7 +2418,10 @@ DELPHI.HQ.prototype.buildNewBase = function(gameState, queues, resource)
 	if (gameState.getOwnFoundations().filter(API3.Filters.byClass("CivCentre")).hasEntities() || queues.civilCentre.hasQueuedUnits())
 		return false;
 
-	this.lastBaseTurn = gameState.ai.playedTurn;
+	this.lastBaseTime = gameState.ai.elapsedTime;
+	this.baseExpansionWait = randIntInclusive(4, 7);
+	if (this.Config.personality.aggressive)
+		this.baseExpansionWait--;
 	let template;
 	// We require at least one of this civ civCentre as they may allow specific units or techs
 	let hasOwnCC = false;

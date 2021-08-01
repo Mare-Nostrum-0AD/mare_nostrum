@@ -142,7 +142,6 @@ DELPHI.TradeManager.prototype.setTradingGoods = function(gameState)
 	}// end for res in wantedRates
 	wantedRates = actualWantedRates;
 	let remaining = 100;
-	let targetNum = gameState.getPopulationMax() * this.traderRatio;
 	for (let res of resTradeCodes)
 	{
 		if (res == "food")
@@ -394,12 +393,23 @@ DELPHI.TradeManager.prototype.updateRoutes = function(gameState)
 
 	const ownMarketEntities = ownMarkets.toEntityArray().filter(ent => ent.position());
 	const friendlyMarketEntities = new Set(ownMarketEntities.concat(exclusiveAllyMarkets.toEntityArray().filter(ent => ent.position())));
-	for (let market of ownMarketEntities)
+	// for API3.findPath (finding safe waypoints)
+	const enemyDefenses = gameState.updatingCollection("diplo-EnemyDefensiveStructures", API3.Filters.hasDefensiveFire(), gameState.getEnemyStructures());
+	const obstructions = new API3.Map(gameState.sharedScript, "territory");
+	obstructions.setMaxVal(1);
+	enemyDefenses.forEach(defense => {
+		const defensePos = defense.position();
+		if (!defensePos)
+			return;
+		const avoidRange = Math.round((defense.attackRange("Ranged")?.max || 0) * 1.5 / obstructions.cellSize);
+		obstructions.addInfluence(...obstructions.gamePosToMapPos(defensePos), avoidRange, 1, 'constant');
+	});
+	for (const market of ownMarketEntities)
 	{
 		friendlyMarketEntities.delete(market);
-		for (let otherMarket of friendlyMarketEntities.keys())
+		for (const otherMarket of friendlyMarketEntities.keys())
 		{
-			let route = {
+			const route = {
 				"markets": [market, otherMarket],
 				"id": sprintf("%d:%d", ...[market, otherMarket].map(ent => ent.id()).sort())
 			};
@@ -420,14 +430,54 @@ DELPHI.TradeManager.prototype.updateRoutes = function(gameState)
 			{
 				const marketLandAccess = DELPHI.getLandAccess(gameState, market);
 				const otherMarketLandAccess = DELPHI.getLandAccess(gameState, otherMarket);
-				if (marketLandAccess === otherMarketLandAccess && !DELPHI.isLineInsideEnemyTerritory(gameState, marketPos, otherMarketPos, 50, 3))
+				if (marketLandAccess === otherMarketLandAccess && !DELPHI.isLineInsideEnemyTerritory(gameState, marketPos, otherMarketPos, 50, 5))
 				{
 					route.landAccess = marketLandAccess;
 					route.gain = Math.round(traderTemplatesGains.landGainMultiplier * TradeGain(vectorDistance, mapSize));
 				}
 			}
 			if (route.seaAccess || route.landAccess)
+			{
 				this.tradeRoutes.push(route);
+				// provide waypoints if part of route would otherwise cross enemy territory
+				if (DELPHI.isLineInsideEnemyTerritory(gameState, ...route.markets.map(ent => ent.position())))
+				{
+					const access = route.seaAccess || route.landAccess;
+					const accessMap = new API3.Map(gameState.sharedScript, "passability", route.seaAccess ?
+						gameState.ai.accessibility.navalPassMap : gameState.ai.accessibility.landPassMap);
+					const validator = (x, z) => {
+						const [obsX, obsZ] = obstructions.gamePosToMapPos([x, z]);
+						if (obsX < 0 || obsX >= obstructions.width || obsZ < 0 || obsZ >= obstructions.height)
+							return [false, 0];
+						return [
+							accessMap.point([x, z]) === access && !obstructions.point([x, z]),
+							0
+						];
+					};
+					const marketPositions = route.markets.map(ent => ent.position());
+					const [waypoints] = API3.findPath(validator, ...marketPositions, vectorDistance * 3, 32);
+					if (waypoints)
+						route.waypoints = waypoints.filter((_, i) => !(i % 2));
+					if (this.Config.debug > 1)
+					{
+						if (!waypoints)
+							API3.warnf("No waypoints found for route %s", route.id);
+						else {
+							API3.warnf("Route %s waypoints: %s", route.id, formatObject(waypoints));
+							if (this.Config.debug > 2)
+							{
+								const visualizer = new API3.Map(gameState.sharedScript, "passability", accessMap.map, true);
+								visualizer.setMaxVal(Math.max(...Object.keys(gameState.ai.HQ.waterValues)) * 3);
+								for (const { x, z } of waypoints) {
+									const [mapX, mapZ] = visualizer.gamePosToMapPos([x, z]);
+									visualizer.addInfluence(mapX, mapZ, 2, visualizer.maxVal, 'constant');
+								}
+								visualizer.dumpIm(sprintf("waypoints_p%02d_%s_%08d.png", PlayerID, route.id, gameState.ai.playedTurn));
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 	this.tradeRoutes = this.tradeRoutes.sort((a, b) => a.gain < b.gain);
@@ -685,7 +735,10 @@ DELPHI.TradeManager.prototype.assignRouteToTrader = function(gameState, trader, 
 			return;
 		}
 	}
-	trader.tradeRoute(nearerMarket, furtherMarket);
+	let waypoints;
+	if (route.waypoints)
+		waypoints = nearerMarket === route.markets[1] ? route.waypoints.slice().reverse() : route.waypoints;
+	trader.tradeRoute(nearerMarket, furtherMarket, waypoints);
 };
 
 DELPHI.TradeManager.prototype.assignTradeRoutes = function(gameState)
@@ -743,7 +796,7 @@ DELPHI.TradeManager.prototype.update = function(gameState, events, queues)
 	if (this.tradeRoutes && this.tradeRoutes.length)
 	{
 		this.traders.forEach(ent => this.updateTrader(gameState, ent));
-		if (gameState.ai.playedTurn % 3 == 0)
+		if (gameState.ai.playedTurn % 3 === 0)
 			this.trainMoreTraders(gameState, queues);
 		if (gameState.ai.playedTurn % 20 == 0 && this.traders.length >= 2)
 			gameState.ai.HQ.researchManager.researchTradeBonus(gameState, queues);

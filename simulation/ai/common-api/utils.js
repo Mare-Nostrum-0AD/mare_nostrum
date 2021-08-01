@@ -83,6 +83,60 @@ m.getMapPoints = function(i, map1, map2)
 	return ret;
 };
 
+// a "lazy pathfinder" implementing the A* pathfinding algorithm
+// generates an array of points from game position <start> to game position <dest> at <stride> distance from each other
+// each point is validated using <validator>, which takes the x and z coordinates as its two arguments
+// returns undefined if cannot find a path less than or equal to <maxDist> in length
+// @return		[{"x": Number, "z": Number}...]		an array of game points, which can be used as route data for setup-trade-route, for example
+m.findPath = function(validator, start, dest, maxDist, stride=8)
+{
+	const pq = new PriorityQueue();
+	const visited = new NSet(2);
+	const endDistSq = Math.pow(stride, 2);
+	const distDiag = Math.pow(Math.pow(stride, 2) * 2, 0.5);
+	const offsets = [
+		[-stride, -stride, distDiag], [0, -stride, stride], [stride, -stride, distDiag],
+		[-stride, 0, stride], [stride, 0, stride],
+		[-stride, stride, distDiag], [0, stride, stride], [stride, stride, distDiag]];
+	let currentNode = { "position": start, "dist": 0 };
+	for (; currentNode; currentNode = pq.pop())
+	{
+		const { position, dist } = currentNode;
+		const [x, z] = position;
+		if (visited.has(x, z))
+			continue;
+		visited.add(x, z);
+		if (m.SquareVectorDistance(position, dest) <= endDistSq)
+			break;
+		if (dist >= maxDist)
+			continue;
+		for (const [offsetX, offsetZ, offsetDist] of offsets)
+		{
+			const nextPos = [x + offsetX, z + offsetZ];
+			const [isValid, bias] = validator(...nextPos);
+			if (!isValid)
+				continue;
+			const nextNode = {
+				"position": nextPos,
+				"dist": dist + offsetDist,
+				"prev": currentNode
+			};
+			const heuristic = m.SquareVectorDistance(nextPos, dest) + Math.pow(nextNode.dist, 2) - bias;
+			pq.push(nextNode, heuristic);
+		}
+	}
+	if (!currentNode)
+		return [undefined, -1];
+	const { dist } = currentNode;
+	const points = [];
+	for (; currentNode.prev; currentNode = currentNode.prev)
+		points.unshift({
+			"x": currentNode.position[0],
+			"z": currentNode.position[1]
+		});
+	return [points, dist];
+};
+
 return m;
 
 }(API3);

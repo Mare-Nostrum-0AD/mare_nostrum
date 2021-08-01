@@ -998,7 +998,7 @@ DELPHI.AttackPlan.prototype.rushTargetFinder = function(gameState, playerEnemy)
 	if (!buildings.length)
 		return targets;
 
-	this.position = this.unitCollection.getCentrePosition();
+	this.position = this.unitCollection.getCentrePosition(gameState);
 	if (!this.position)
 		this.position = this.rallyPoint;
 
@@ -1274,7 +1274,7 @@ DELPHI.AttackPlan.prototype.update = function(gameState, events)
 
 	Engine.ProfileStart("Update Attack");
 
-	this.position = this.unitCollection.getCentrePosition();
+	this.position = this.unitCollection.getCentrePosition(gameState);
 	
 	if (!this.position)
 	{

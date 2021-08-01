@@ -79,7 +79,7 @@ DELPHI.createObstructionMap = function(gameState, accessIndex, template)
 		}
 	}
 
-	// contrain using BuildRestrictions/Distances*
+	// constrain using BuildRestrictions/Distances*
 	let map = new API3.Map(gameState.sharedScript, "passability", obstructionTiles);
 	map.setMaxVal(255);
 	const penalty = -255;

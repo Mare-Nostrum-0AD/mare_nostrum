@@ -230,3 +230,13 @@ function pickRandomWeighted(weightedItems)
 	}
 	return weightedItems[weightedItems.length - 1][0];
 }
+
+function formatObject(obj)
+{
+	if (typeof obj === "object") {
+		if (Array.isArray(obj))
+			return "[" + obj.map(v => formatObject(v)).join(", ") + "]";
+		return "{" + Object.entries(obj).map(([k, v]) => k + ": " + formatObject(v)).join(", ") + "}";
+	}
+	return obj.toString();
+}
