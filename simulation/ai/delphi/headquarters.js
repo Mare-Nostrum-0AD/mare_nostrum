@@ -1120,7 +1120,7 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
 			desirabilityPlacement.addInfluence(x, z, structRadius * 2, resourceValue);
 		}// end for ent of ents
 	}// end for res of Resources.GetCodes()
-	placement.map = placement.map.map((val, i) => Math.min(val && desirabilityPlacement.map[i] ? val + desirabilityPlacement.map[i] : 0, placement.maxVal));
+	placement.map = placement.map.map((val, i) => Math.min(val ? val + desirabilityPlacement.map[i] : 0, placement.maxVal));
 	this.applyBuildRestrictions(placement, gameState, template);
 	this.applyDefensiveRestrictions(placement, gameState);
 	if (this.Config.debug > 1)

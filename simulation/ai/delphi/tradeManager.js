@@ -24,6 +24,11 @@ DELPHI.TradeManager.prototype.hasTradeRoutes = function()
 	return this.tradeRoutes && this.tradeRoutes.length;
 };
 
+DELPHI.TradeManager.prototype.getTargetNumTraders = function(gameState)
+{
+	return gameState.getPopulationMax() * this.traderRatio;
+};
+
 DELPHI.TradeManager.prototype.assignTrader = function(ent)
 {
 	ent.setMetadata(PlayerID, "role", "trader");
@@ -35,7 +40,7 @@ DELPHI.TradeManager.prototype.trainMoreTraders = function(gameState, queues)
 	if (!this.hasTradeRoutes() || queues.trader.hasQueuedUnits())
 		return;
 
-	const targetNumTraders = gameState.getPopulationMax() * this.traderRatio;
+	const targetNumTraders = this.getTargetNumTraders(gameState);
 	let numTraders = this.traders.length;
 	// add traders already in training
 	gameState.getOwnTrainingFacilities().forEach((ent) => {
@@ -304,42 +309,41 @@ DELPHI.TradeManager.prototype.performBarter = function(gameState)
 DELPHI.TradeManager.prototype.checkEvents = function(gameState, events)
 {
 	// check if one market from a traderoute is renamed, change the route accordingly
-	for (let evt of events.EntityRenamed)
+	for (const evt of events.EntityRenamed)
 	{
-		let ent = gameState.getEntityById(evt.newentity);
-		if (!ent || !ent.hasClass("Trade"))
+		const ent = gameState.getEntityById(evt.newentity);
+		if (!ent || !ent.hasClass("Trade") || ent.foundationProgress() !== undefined)
 			continue;
-		for (let trader of this.traders.values())
+		for (const trader of this.traders.values())
 		{
-			let route = trader.getMetadata(PlayerID, "route");
+			const route = trader.getMetadata(PlayerID, "route");
 			if (!route)
 				continue;
-			if (route.source == evt.entity)
-				route.source = evt.newentity;
-			else if (route.target == evt.entity)
-				route.target = evt.newentity;
+			if (route.markets[0] === evt.entity)
+				route.markets[0] = evt.newentity;
+			else if (route.markets[1] === evt.entity)
+				route.markets[1] = evt.newentity;
 			else
 				continue;
 			trader.setMetadata(PlayerID, "route", route);
 		}
 	}
 
-	// if one market (or market-foundation) is destroyed, we should look for a better route
-	for (let evt of events.Destroy)
+	// if one market (or market-foundation) is destroyed, we should look for better routes
+	for (const evt of events.Destroy)
 	{
 		if (!evt.entityObj)
 			continue;
-		let ent = evt.entityObj;
-		if (!ent || !ent.hasClass("Trade") || !gameState.isPlayerAlly(ent.owner()))
+		const ent = evt.entityObj;
+		if (!ent || ent.foundationProgress() !== undefined || !ent.hasClass("Trade") || !gameState.isPlayerAlly(ent.owner()))
 			continue;
-		this.activateProspection(gameState);
 		return true;
 	}
 
 	// same thing if one market is built
-	for (let evt of events.Create)
+	for (const evt of events.Create)
 	{
-		let ent = gameState.getEntityById(evt.entity);
+		const ent = gameState.getEntityById(evt.entity);
 		if (!ent || ent.foundationProgress() !== undefined || !ent.hasClass("Trade") ||
 		    !gameState.isPlayerAlly(ent.owner()))
 			continue;
@@ -349,7 +353,7 @@ DELPHI.TradeManager.prototype.checkEvents = function(gameState, events)
 
 
 	// and same thing for captured markets
-	for (let evt of events.OwnershipChanged)
+	for (const evt of events.OwnershipChanged)
 	{
 		if (!gameState.isPlayerAlly(evt.from) && !gameState.isPlayerAlly(evt.to))
 			continue;
@@ -439,9 +443,9 @@ DELPHI.TradeManager.prototype.updateRoutes = function(gameState)
 			if (route.seaAccess || route.landAccess)
 			{
 				this.tradeRoutes.push(route);
-				// provide waypoints if part of route would otherwise cross enemy territory
-				if (DELPHI.isLineInsideEnemyTerritory(gameState, ...route.markets.map(ent => ent.position())))
-				{
+				// // provide waypoints if part of route would otherwise cross enemy territory
+				// if (DELPHI.isLineInsideEnemyTerritory(gameState, ...route.markets.map(ent => ent.position())))
+				// {
 					const access = route.seaAccess || route.landAccess;
 					const accessMap = new API3.Map(gameState.sharedScript, "passability", route.seaAccess ?
 						gameState.ai.accessibility.navalPassMap : gameState.ai.accessibility.landPassMap);
@@ -455,15 +459,15 @@ DELPHI.TradeManager.prototype.updateRoutes = function(gameState)
 						];
 					};
 					const marketPositions = route.markets.map(ent => ent.position());
-					const [waypoints] = API3.findPath(validator, ...marketPositions, vectorDistance * 3, 32);
+					const [waypoints] = API3.findPath(validator, ...marketPositions, vectorDistance * 3, 16);
 					if (waypoints)
-						route.waypoints = waypoints.filter((_, i) => !(i % 2));
+						route.waypoints = waypoints.slice(0, waypoints.length - 1).filter((_, i) => i % 3 === 1);
 					if (this.Config.debug > 1)
 					{
 						if (!waypoints)
 							API3.warnf("No waypoints found for route %s", route.id);
 						else {
-							API3.warnf("Route %s waypoints: %s", route.id, formatObject(waypoints));
+							API3.warnf("Route %s waypoints: %s", route.id, uneval(waypoints));
 							if (this.Config.debug > 2)
 							{
 								const visualizer = new API3.Map(gameState.sharedScript, "passability", accessMap.map, true);
@@ -476,11 +480,11 @@ DELPHI.TradeManager.prototype.updateRoutes = function(gameState)
 							}
 						}
 					}
-				}
+				// }
 			}
 		}
 	}
-	this.tradeRoutes = this.tradeRoutes.sort((a, b) => a.gain < b.gain);
+	this.tradeRoutes.sort((a, b) => a.gain < b.gain);
 };// end DELPHI.TradeManager.prototype.updateRoutes
 
 /**
@@ -721,8 +725,8 @@ DELPHI.TradeManager.prototype.isNewMarketWorth = function(expectedGain)
 DELPHI.TradeManager.prototype.assignRouteToTrader = function(gameState, trader, route)
 {
 	const traderPos = trader.position();
-	const [ nearerMarket, furtherMarket ] = route.markets.sort(
-		(marketA, marketB) => API3.SquareVectorDistance(traderPos, marketA.position()) < API3.SquareVectorDistance(traderPos, marketB.position())
+	const [ nearerMarket, furtherMarket ] = route.markets.slice().sort(
+		(marketA, marketB) => API3.SquareVectorDistance(traderPos, marketA.position()) > API3.SquareVectorDistance(traderPos, marketB.position())
 	);
 	trader.setMetadata(PlayerID, "route", this.serializeRoute(route));
 	this.traders.updateEnt(trader);
@@ -735,16 +739,16 @@ DELPHI.TradeManager.prototype.assignRouteToTrader = function(gameState, trader, 
 			return;
 		}
 	}
-	let waypoints;
-	if (route.waypoints)
+	let waypoints = undefined;
+	if (route.waypoints && route.waypoints.length)
 		waypoints = nearerMarket === route.markets[1] ? route.waypoints.slice().reverse() : route.waypoints;
-	trader.tradeRoute(nearerMarket, furtherMarket, waypoints);
+	trader.tradeRoute(furtherMarket, nearerMarket, waypoints);
 };
 
 DELPHI.TradeManager.prototype.assignTradeRoutes = function(gameState)
 {
 	const traders = this.traders.filter((trader) => trader.position() && !trader.unitAIState().startsWith("INDIVIDUAL.COLLECTTREASURE") && !trader.getMetadata(PlayerID, "transporter"));
-	const tradeRoutes = this.tradeRoutes;
+	const tradeRoutes = this.tradeRoutes.slice();
 	const gainsTotal = tradeRoutes.reduce((sum, { gain }) => sum + gain, 0);
 	const tradersPerGain = traders.length / gainsTotal;
 	const tradeRoutesByID = Object.fromEntries(tradeRoutes.map(route => [ route.id, route ]));
@@ -782,6 +786,75 @@ DELPHI.TradeManager.prototype.assignTradeRoutes = function(gameState)
 	});// end for trader of traders
 };
 
+DELPHI.TradeManager.prototype.cullTraders = function(gameState)
+{
+	const traders = this.traders.filter((trader) => trader.position() && trader.getMetadata(PlayerID, "route") && !trader.unitAIState().startsWith("INDIVIDUAL.COLLECTTREASURE") && !trader.getMetadata(PlayerID, "transporter")).toEntityArray();
+	if (!traders || !traders.length)
+		return;
+	const tradeRoutes = this.tradeRoutes;
+	const gainsTotal = tradeRoutes.reduce((sum, { gain }) => sum + gain, 0);
+	// all land regions are mapped to zero
+	const gainsPerRegion = tradeRoutes.reduce((counts, { landAccess, seaAccess, gain }) => {
+		if (landAccess)
+		{
+			if (counts[0])
+				counts[0] += gain;
+			else
+				counts[0] = gain;
+		}
+		if (seaAccess)
+		{
+			if (counts[seaAccess])
+				counts[seaAccess] += gain;
+			else
+				counts[seaAccess] = gain;
+		}
+		return counts;
+	}, {});
+	const percentGainsPerRegion = Object.fromEntries(Object.entries(gainsPerRegion).map(([region, gains]) => [region, gains / gainsTotal]));
+	const tradersPerRegion = traders.map(ent => ent.getMetadata(PlayerID, "route")).filter(v => v).reduce((counts, { seaAccess, landAccess }) => {
+		if (landAccess)
+		{
+			if (counts[0])
+				counts[0]++;
+			else
+				counts[0] = 1;
+		}
+		if (seaAccess)
+		{
+			if (counts[seaAccess])
+				counts[seaAccess]++;
+			else
+				counts[seaAccess] = 1;
+		}
+		return counts;
+	}, {});
+	const percentTradersPerRegion = Object.fromEntries(Object.entries(tradersPerRegion).map(([region, count]) => [region, count / traders.length]));
+	if (this.Config.debug > 1)
+	{
+		API3.warnf("Percent gains per region: %s", uneval(percentGainsPerRegion));
+		API3.warnf("Percent traders per region: %s", uneval(percentTradersPerRegion));
+	}
+	for (const region in percentTradersPerRegion)
+	{
+		if (percentTradersPerRegion[region] < percentGainsPerRegion[region] + 0.2)
+			continue;
+		const regionFilter = region ?
+			(trader) => trader.hasClass("Ship") && +trader.getMetadata(PlayerID, "route").seaAccess === +region :
+			(trader) => !trader.hasClass("Ship");
+		const cullableTraders = traders.filter(regionFilter).sort((a, b) => {
+			const gainA = a.getMetadata(PlayerID, "route").gain;
+			const gainB = b.getMetadata(PlayerID, "route").gain;
+			return +gainA > +gainB;
+		});
+		const percentDisparity = percentTradersPerRegion[region] - percentGainsPerRegion[region];
+		const tradersToCull = cullableTraders.slice(0, Math.floor(cullableTraders.length * percentDisparity));
+		if (this.Config.debug > 1)
+			API3.warnf("Culling %d traders in region %d (out of %d total)", tradersToCull.length, +region, cullableTraders.length);
+		tradersToCull.forEach(trader => trader.destroy());
+	}
+};
+
 DELPHI.TradeManager.prototype.update = function(gameState, events, queues)
 {
 	if (gameState.ai.HQ.canBarter && Resources.GetBarterableCodes().length)
@@ -790,6 +863,8 @@ DELPHI.TradeManager.prototype.update = function(gameState, events, queues)
 	if (this.checkEvents(gameState, events))  // true if one market was built or destroyed
 	{
 		this.updateRoutes(gameState);
+		if (this.traders.length >= this.getTargetNumTraders(gameState) * 0.9)
+			this.cullTraders(gameState);
 		this.assignTradeRoutes(gameState);
 	}
 
