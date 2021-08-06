@@ -163,6 +163,11 @@ DELPHI.Config = function(difficulty, behavior)
 
 DELPHI.Config.prototype.setConfig = function(gameState)
 {
+	if (!this.postInitComplete && this.postInit)
+		this.postInit(gameState);
+
+	this.postInitComplete = true;
+
 	if (this.difficulty > 0)
 	{
 		// Setup personality traits according to the user choice:

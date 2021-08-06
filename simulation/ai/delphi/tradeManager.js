@@ -797,10 +797,10 @@ DELPHI.TradeManager.prototype.cullTraders = function(gameState)
 	const gainsPerRegion = tradeRoutes.reduce((counts, { landAccess, seaAccess, gain }) => {
 		if (landAccess)
 		{
-			if (counts[0])
-				counts[0] += gain;
+			if (counts['land'])
+				counts['land'] += gain;
 			else
-				counts[0] = gain;
+				counts['land'] = gain;
 		}
 		if (seaAccess)
 		{
@@ -815,10 +815,10 @@ DELPHI.TradeManager.prototype.cullTraders = function(gameState)
 	const tradersPerRegion = traders.map(ent => ent.getMetadata(PlayerID, "route")).filter(v => v).reduce((counts, { seaAccess, landAccess }) => {
 		if (landAccess)
 		{
-			if (counts[0])
-				counts[0]++;
+			if (counts['land'])
+				counts['land']++;
 			else
-				counts[0] = 1;
+				counts['land'] = 1;
 		}
 		if (seaAccess)
 		{
@@ -839,9 +839,9 @@ DELPHI.TradeManager.prototype.cullTraders = function(gameState)
 	{
 		if (percentTradersPerRegion[region] < percentGainsPerRegion[region] + 0.2)
 			continue;
-		const regionFilter = region ?
-			(trader) => trader.hasClass("Ship") && +trader.getMetadata(PlayerID, "route").seaAccess === +region :
-			(trader) => !trader.hasClass("Ship");
+		const regionFilter = region === 'land' ?
+			(trader) => !trader.hasClass("Ship") :
+			(trader) => trader.hasClass("Ship") && +trader.getMetadata(PlayerID, "route").seaAccess === +region;
 		const cullableTraders = traders.filter(regionFilter).sort((a, b) => {
 			const gainA = a.getMetadata(PlayerID, "route").gain;
 			const gainB = b.getMetadata(PlayerID, "route").gain;
@@ -850,7 +850,7 @@ DELPHI.TradeManager.prototype.cullTraders = function(gameState)
 		const percentDisparity = percentTradersPerRegion[region] - percentGainsPerRegion[region];
 		const tradersToCull = cullableTraders.slice(0, Math.floor(cullableTraders.length * percentDisparity));
 		if (this.Config.debug > 1)
-			API3.warnf("Culling %d traders in region %d (out of %d total)", tradersToCull.length, +region, cullableTraders.length);
+			API3.warnf("Culling %d traders in region %s (out of %d total)", tradersToCull.length, region, cullableTraders.length);
 		tradersToCull.forEach(trader => trader.destroy());
 	}
 };
