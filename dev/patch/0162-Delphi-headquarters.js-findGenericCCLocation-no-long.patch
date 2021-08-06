@@ -16,7 +16,7 @@ Delphi trade manager destroys traders when there are too many traders in their l
  2 files changed, 108 insertions(+), 33 deletions(-)
 
 diff --git a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
-index fcb36e5116..b6ca75d60b 100644
+index b38a78ffe0..0d5d6e1a43 100644
 --- a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
 +++ b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
 @@ -1120,7 +1120,7 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)

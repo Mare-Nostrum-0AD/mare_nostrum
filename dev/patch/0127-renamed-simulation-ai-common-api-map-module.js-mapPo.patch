@@ -49,7 +49,7 @@ index 021c7deae7..fc27a7b5f1 100644
   * Useful for simulating consecutive AI matches.
   */
 diff --git a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
-index 9c22abb4ee..a436aa94e8 100644
+index a34bf7de28..6472d30cbe 100644
 --- a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
 +++ b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
 @@ -1003,7 +1003,7 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)

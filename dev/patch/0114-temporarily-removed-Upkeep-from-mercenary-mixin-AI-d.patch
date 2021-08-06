@@ -44,7 +44,7 @@ Delphi bot can build monuments, government centers
  rename binaries/data/mods/public/simulation/templates/{template_structure_special_monument_theater.xml => template_structure_civic_monument_theater.xml} (90%)
 
 diff --git a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
-index 2c831d7c8c..2c00b8121d 100644
+index 13bdeacb73..802c9629dc 100644
 --- a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
 +++ b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
 @@ -1396,8 +1396,28 @@ DELPHI.HQ.prototype.applyBuildRestrictions = function(placement, gameState, temp

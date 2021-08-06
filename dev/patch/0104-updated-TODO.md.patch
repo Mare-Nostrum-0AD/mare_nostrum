@@ -26,10 +26,10 @@ index 6713a735d0..ca34f6f4c4 100644
  - Create unique structure artwork for special temples.
  - Create builder/engineer unit to build structures of city level and higher
 diff --git a/binaries/data/mods/public/simulation/components/Foundation.js b/binaries/data/mods/public/simulation/components/Foundation.js
-index 66632addd4..f9f0b299ed 100644
+index f567b0120b..e62b31eece 100644
 --- a/binaries/data/mods/public/simulation/components/Foundation.js
 +++ b/binaries/data/mods/public/simulation/components/Foundation.js
-@@ -422,6 +422,10 @@ Foundation.prototype.OnEntityRenamed = function(msg)
+@@ -441,6 +441,10 @@ Foundation.prototype.OnEntityRenamed = function(msg)
  	let cmpFoundationNew = Engine.QueryInterface(msg.newentity, IID_Foundation);
  	if (cmpFoundationNew)
  		cmpFoundationNew.AddBuilders(this.GetBuilders());

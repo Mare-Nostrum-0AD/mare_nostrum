@@ -9,7 +9,7 @@ Subject: [PATCH] check for undefined entity positions in
  1 file changed, 8 insertions(+)
 
 diff --git a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
-index 9b02bf4073..dbf2b7baef 100644
+index a6f1911750..708ba57c97 100644
 --- a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
 +++ b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
 @@ -994,6 +994,8 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)

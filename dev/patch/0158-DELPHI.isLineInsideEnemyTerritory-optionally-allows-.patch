@@ -51,7 +51,7 @@ index 472412d1e1..6d7ac42c43 100644
  	return false;
  };
 diff --git a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
-index bf352b0cb6..addb1e8bf3 100644
+index 037dc7bdc8..4c0db2c137 100644
 --- a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
 +++ b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
 @@ -61,32 +61,43 @@ DELPHI.HQ.prototype.init = function(gameState, queues)

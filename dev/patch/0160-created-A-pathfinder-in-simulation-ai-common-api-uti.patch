@@ -313,7 +313,7 @@ index 5a6ff8ff55..918e13191d 100644
  	if (!this.position)
  	{
 diff --git a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
-index 2b7e93223e..8b51e0f69c 100644
+index fb55e3e196..d9f20f3337 100644
 --- a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
 +++ b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
 @@ -60,8 +60,8 @@ DELPHI.HQ.prototype.init = function(gameState, queues)

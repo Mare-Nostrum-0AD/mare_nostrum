@@ -8,7 +8,7 @@ Subject: [PATCH] minor bugfix in simulation/ai/delphi/headquarters.js
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
-index dbf2b7baef..9c22abb4ee 100644
+index 708ba57c97..a34bf7de28 100644
 --- a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
 +++ b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
 @@ -1013,11 +1013,11 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)

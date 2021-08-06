@@ -23,7 +23,7 @@ index 4e08f59f59..726c36dcee 100644
  	else if (originalMap)
  		this.map = originalMap;
 diff --git a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
-index 63d2e07279..bf352b0cb6 100644
+index e85ed03c54..037dc7bdc8 100644
 --- a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
 +++ b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
 @@ -970,8 +970,8 @@ DELPHI.HQ.prototype.pickMostNeededResources = function(gameState, allowedResourc

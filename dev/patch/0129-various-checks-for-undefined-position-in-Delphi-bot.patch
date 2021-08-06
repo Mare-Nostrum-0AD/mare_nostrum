@@ -36,7 +36,7 @@ index 7e7679c0ce..472412d1e1 100644
  			let sina = Math.sin(ent.angle());
  			for (let d = 3; d < halfDepth; d += 3)
 diff --git a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
-index a436aa94e8..7a0b1f4045 100644
+index 6472d30cbe..98af9088e7 100644
 --- a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
 +++ b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
 @@ -61,29 +61,29 @@ DELPHI.HQ.prototype.init = function(gameState, queues)

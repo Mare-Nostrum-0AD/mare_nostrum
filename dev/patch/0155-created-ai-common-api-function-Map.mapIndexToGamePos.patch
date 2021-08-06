@@ -32,7 +32,7 @@ index 07ef3787be..4e08f59f59 100644
  };// end function m.Map.prototype.mapIndexToGamePos
  
 diff --git a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
-index ab1a2e98f1..63d2e07279 100644
+index ddab836d6c..e85ed03c54 100644
 --- a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
 +++ b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
 @@ -977,7 +977,7 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)

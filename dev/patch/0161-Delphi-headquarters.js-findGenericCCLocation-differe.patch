@@ -10,7 +10,7 @@ Subject: [PATCH] Delphi:headquarters.js:findGenericCCLocation differentiates
  1 file changed, 59 insertions(+), 51 deletions(-)
 
 diff --git a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
-index 8b51e0f69c..fcb36e5116 100644
+index d9f20f3337..b38a78ffe0 100644
 --- a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
 +++ b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
 @@ -987,6 +987,8 @@ DELPHI.HQ.prototype.pickMostNeededResources = function(gameState, allowedResourc

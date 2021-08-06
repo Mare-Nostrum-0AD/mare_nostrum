@@ -26,7 +26,7 @@ index cf467c6c66..fdd16978d9 100644
  					    gameState.ai.HQ.canBuild(gameState, newDP.templateName))
  						queues.dropsites.addPlan(new DELPHI.ConstructionPlan(gameState, newDP.templateName, { "base": this.ID, "type": type }, newDP.pos));
 diff --git a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
-index addb1e8bf3..2b7e93223e 100644
+index 4c0db2c137..fb55e3e196 100644
 --- a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
 +++ b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
 @@ -59,6 +59,11 @@ DELPHI.HQ.prototype.init = function(gameState, queues)

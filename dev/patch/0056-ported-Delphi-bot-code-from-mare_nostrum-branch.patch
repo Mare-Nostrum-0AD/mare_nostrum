@@ -3203,7 +3203,7 @@ index a1333a9f05..3e182e2be3 100644
  	for (let key in data)
  		this[key] = data[key];
 diff --git a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
-index 88c4851eb6..2c831d7c8c 100644
+index 63f89740cf..13bdeacb73 100644
 --- a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
 +++ b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
 @@ -11,7 +11,7 @@

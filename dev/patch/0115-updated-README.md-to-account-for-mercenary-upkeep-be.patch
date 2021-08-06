@@ -27,7 +27,7 @@ index 49e50770a0..214de85b9f 100644
  - Siege towers can now capture walls and other structures. Their capture attack strength, as well as their firepower, can be increased by garrisoning more troops inside. At the same time, the strength of their ranged attack has been reduced. This is intended to bring them closer to their historical role as devices for capturing fortifications.
  - Certain structures have been classed as "Sturdy", including Stone Walls, Forts, City Centers, and Metropolis Centers. Sturdy structures cannot be damaged by organic units, only siege engines.
 diff --git a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
-index 2c00b8121d..9b02bf4073 100644
+index 802c9629dc..a6f1911750 100644
 --- a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
 +++ b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
 @@ -523,6 +523,46 @@ DELPHI.HQ.prototype.checkEvents = function(gameState, events)

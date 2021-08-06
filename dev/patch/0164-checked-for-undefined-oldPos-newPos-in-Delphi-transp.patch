@@ -1,0 +1,41 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Thu, 5 Aug 2021 19:40:25 -0700
+Subject: [PATCH] checked for undefined oldPos, newPos in Delphi
+ transportPlan.js
+
+---
+ .../mods/public/simulation/ai/delphi/transportPlan.js  | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/binaries/data/mods/public/simulation/ai/delphi/transportPlan.js b/binaries/data/mods/public/simulation/ai/delphi/transportPlan.js
+index 7f6f1933a5..79368f0e2d 100644
+--- a/binaries/data/mods/public/simulation/ai/delphi/transportPlan.js
++++ b/binaries/data/mods/public/simulation/ai/delphi/transportPlan.js
+@@ -337,8 +337,8 @@ DELPHI.TransportPlan.prototype.onBoarding = function(gameState)
+ 				{
+ 					if (time - ship.getMetadata(PlayerID, "timeGarrison") > 2)
+ 					{
+-						let oldPos = ent.getMetadata(PlayerID, "posGarrison");
+-						let newPos = ent.position();
++						const oldPos = ent.getMetadata(PlayerID, "posGarrison");
++						const newPos = ent.position();
+ 						if (oldPos && newPos && oldPos[0] === newPos[0] && oldPos[1] === newPos[1])
+ 							retry = true;
+ 						ent.setMetadata(PlayerID, "posGarrison", newPos);
+@@ -374,9 +374,9 @@ DELPHI.TransportPlan.prototype.onBoarding = function(gameState)
+ 
+ 			if (time - ent.getMetadata(PlayerID, "timeGarrison") > 2)
+ 			{
+-				let oldPos = ent.getMetadata(PlayerID, "posGarrison");
+-				let newPos = ent.position();
+-				if (oldPos[0] == newPos[0] && oldPos[1] == newPos[1])
++				const oldPos = ent.getMetadata(PlayerID, "posGarrison");
++				const newPos = ent.position();
++				if (oldPos && newPos && oldPos[0] == newPos[0] && oldPos[1] == newPos[1])
+ 				{
+ 					if (distShip < this.boardingRange)	// looks like we are blocked ... try to go out of this trap
+ 					{
+-- 
+2.25.1
+

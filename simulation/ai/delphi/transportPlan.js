@@ -337,8 +337,8 @@ DELPHI.TransportPlan.prototype.onBoarding = function(gameState)
 				{
 					if (time - ship.getMetadata(PlayerID, "timeGarrison") > 2)
 					{
-						let oldPos = ent.getMetadata(PlayerID, "posGarrison");
-						let newPos = ent.position();
+						const oldPos = ent.getMetadata(PlayerID, "posGarrison");
+						const newPos = ent.position();
 						if (oldPos && newPos && oldPos[0] === newPos[0] && oldPos[1] === newPos[1])
 							retry = true;
 						ent.setMetadata(PlayerID, "posGarrison", newPos);
@@ -374,9 +374,9 @@ DELPHI.TransportPlan.prototype.onBoarding = function(gameState)
 
 			if (time - ent.getMetadata(PlayerID, "timeGarrison") > 2)
 			{
-				let oldPos = ent.getMetadata(PlayerID, "posGarrison");
-				let newPos = ent.position();
-				if (oldPos[0] == newPos[0] && oldPos[1] == newPos[1])
+				const oldPos = ent.getMetadata(PlayerID, "posGarrison");
+				const newPos = ent.position();
+				if (oldPos && newPos && oldPos[0] == newPos[0] && oldPos[1] == newPos[1])
 				{
 					if (distShip < this.boardingRange)	// looks like we are blocked ... try to go out of this trap
 					{

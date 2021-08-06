@@ -69,7 +69,7 @@ index 3c1e8488ef..abdcbb2da4 100644
  						</repeat>
  					</object>
 diff --git a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
-index 16a81f3584..ab1a2e98f1 100644
+index 7022834f5a..ddab836d6c 100644
 --- a/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
 +++ b/binaries/data/mods/public/simulation/ai/delphi/headquarters.js
 @@ -977,6 +977,7 @@ DELPHI.HQ.prototype.findGenericCCLocation = function(gameState, template)
