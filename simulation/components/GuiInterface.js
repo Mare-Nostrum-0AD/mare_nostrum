@@ -27,6 +27,7 @@ GuiInterface.prototype.Init = function()
 	this.placementWallEntities = undefined;
 	this.placementWallLastAngle = 0;
 	this.notifications = [];
+	this.popupRequests = [];
 	this.renamedEntities = [];
 	this.miragedEntities = [];
 	this.timeNotificationID = 1;
@@ -875,6 +876,18 @@ GuiInterface.prototype.GetNotifications = function()
 	let n = this.notifications;
 	this.notifications = [];
 	return n;
+};
+
+GuiInterface.prototype.PushPopupRequest = function(request)
+{
+	this.popupRequests.push(request);
+};
+
+GuiInterface.prototype.GetPopupRequests = function()
+{
+	const requests = this.popupRequests;
+	this.popupRequests = [];
+	return requests;
 };
 
 GuiInterface.prototype.GetAvailableFormations = function(player, wantedPlayer)
@@ -2134,6 +2147,7 @@ let exposedFunctions = {
 	"GetIncomingAttacks": 1,
 	"GetNeededResources": 1,
 	"GetNotifications": 1,
+	"GetPopupRequests": 1,
 	"GetTimeNotifications": 1,
 
 	"GetAvailableFormations": 1,

@@ -1,0 +1,24 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sat, 7 Aug 2021 00:38:23 -0700
+Subject: [PATCH] added preview image to README.md
+
+---
+ binaries/data/mods/public/README.md | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/binaries/data/mods/public/README.md b/binaries/data/mods/public/README.md
+index fb5e0b80f9..7425a96ef6 100644
+--- a/binaries/data/mods/public/README.md
++++ b/binaries/data/mods/public/README.md
+@@ -1,5 +1,7 @@
+ # Script Popup Choices for 0 A.D.
+ 
++![Example](https://github.com/Mare-Nostrum-0AD/popup_choices/blob/main/.github/preview.png?raw=true)
++
+ This little mod allows you to create popup choices in scenario scripts. Each popup choice menu can have up to three buttons, with each one optionally triggering a script function.
+ 
+ Popup choices are called via the GuiInterface component, with the function "PushPopupRequest". PushPopupRequest takes a single argument, consisting of the following fields:
+-- 
+2.25.1
+

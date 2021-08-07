@@ -920,6 +920,23 @@ var g_Commands = {
 		cmpCity.SetName(cmd.data.name);
 	},
 
+	"execute-component-function": function(player, cmd, data)
+	{
+		const { iid, func, args } = cmd;
+		if (!cmd.entities || !iid || !func || !args)
+		{
+			error("Invalid command to execute component function (requires entities, iid, func, and args): " + uneval(cmd));
+			return;
+		}
+		const components = cmd.entities.map(ent => Engine.QueryInterface(ent, iid));
+		for (const cmp of components)
+		{
+			if (cmp && cmp[func])
+				cmp[func](...args);
+			else
+				warn(sprintf("Could not find function \"%s\" for component with iid %d", func, iid));
+		}
+	},
 };
 
 /**

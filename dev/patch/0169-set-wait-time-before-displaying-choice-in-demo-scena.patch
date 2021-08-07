@@ -1,0 +1,96 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: hopeless-ponderer <hopelessponderer1123@gmail.com>
+Date: Sat, 7 Aug 2021 14:35:29 -0700
+Subject: [PATCH] set wait time before displaying choice in demo scenario to
+ 500 ms (1/2 a second)
+
+---
+ .../scenarios/demo_popup_choices_triggers.js  | 50 ++++++++++---------
+ 1 file changed, 26 insertions(+), 24 deletions(-)
+
+diff --git a/binaries/data/mods/public/maps/scenarios/demo_popup_choices_triggers.js b/binaries/data/mods/public/maps/scenarios/demo_popup_choices_triggers.js
+index 65df1f7990..e23648208e 100644
+--- a/binaries/data/mods/public/maps/scenarios/demo_popup_choices_triggers.js
++++ b/binaries/data/mods/public/maps/scenarios/demo_popup_choices_triggers.js
+@@ -1,8 +1,11 @@
+ const scenarioVictoryTimeMinutes = 90;
+ 
+-const scenarioIntro = 
++const scenarioIntroAthen = 
+ `The Carthaginians are invading your colony. Defeat them or survive for ${scenarioVictoryTimeMinutes} minutes in order to win.`;
+ 
++const scenarioIntroCart = 
++`You have found a Greek colony infringing on your territory. Defeat them within ${scenarioVictoryTimeMinutes} minutes in order to win.`;
++
+ const scenarioBriefing = 
+ `The Sicilian Wars, or Greco-Punic Wars, were a series of conflicts fought
+ between ancient Carthage and the Greek city-states led by Syracuse, Sicily over
+@@ -28,7 +31,9 @@ No Carthaginian records of the war exist today because when the city was
+ destroyed in 146 BC by the Romans, the books from Carthage's library were
+ distributed among the nearby African tribes. None remain on the topic of
+ Carthaginian history. As a result, most of what we know about the Sicilian Wars
+-comes from Greek historians.`;
++comes from Greek historians.
++
++Source: https://en.wikipedia.org/wiki/Sicilian_Wars`;
+ 
+ Trigger.prototype.DisplayScenarioBriefing = function(playerID)
+ {
+@@ -45,27 +50,24 @@ Trigger.prototype.DisplayScenarioBriefing = function(playerID)
+ Trigger.prototype.DisplayScenarioIntro = function()
+ {
+ 	const cmpGuiInterface = Engine.QueryInterface(SYSTEM_ENTITY, IID_GuiInterface);
+-	const cmpPlayerManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_PlayerManager);
+-	const humanPlayers = cmpPlayerManager.GetNonGaiaPlayers().filter(id => !QueryPlayerIDInterface(id).IsAI());
+-	for (const playerID of humanPlayers)
+-	{
+-		cmpGuiInterface.PushPopupRequest({
+-			"players":		[playerID],
+-			"title": 		"Introduction",
+-			"text":			scenarioIntro,
+-			"width":		500,
+-			"height":		200,
+-			"choices":		[
+-				["Ok", null],
+-				["Read More", {
+-					"entities":	[SYSTEM_ENTITY],
+-					"iid":		IID_Trigger,
+-					"func":		"DisplayScenarioBriefing",
+-					"args":		[playerID]
+-				}]
+-			]
+-		});
+-	}
++	const getPopupSettings = (playerID, text) => ({
++		"players":		[playerID],
++		"title": 		"Introduction",
++		"text":			text,
++		"width":		500,
++		"height":		200,
++		"choices":		[
++			["Ok", null],
++			["Read More", {
++				"entities":	[SYSTEM_ENTITY],
++				"iid":		IID_Trigger,
++				"func":		"DisplayScenarioBriefing",
++				"args":		[playerID]
++			}]
++		]
++	});
++	cmpGuiInterface.PushPopupRequest(getPopupSettings(1, scenarioIntroAthen));
++	cmpGuiInterface.PushPopupRequest(getPopupSettings(2, scenarioIntroCart));
+ };
+ 
+ Trigger.prototype.ChoiceFreeUnits = function(playerID, unitClasses)
+@@ -111,7 +113,7 @@ Trigger.prototype.RequestChoiceFreeUnits = function()
+ Trigger.prototype.SetupScenario = function()
+ {
+ 	const cmpTimer = Engine.QueryInterface(SYSTEM_ENTITY, IID_Timer);
+-	cmpTimer.SetTimeout(SYSTEM_ENTITY, IID_Trigger, "RequestChoiceFreeUnits", 2000);
++	cmpTimer.SetTimeout(SYSTEM_ENTITY, IID_Trigger, "RequestChoiceFreeUnits", 500);
+ };
+ 
+ {
+-- 
+2.25.1
+
